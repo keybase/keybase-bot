@@ -1,0 +1,22 @@
+{
+  "name": "keybase-chat-bot",
+  "version": "1.0.0",
+  "description": "some initial messing around with keybase chat API",
+  "main": "index.js",
+  "repository": "git@github.com:keybase/keybase-chat-bot.git",
+  "author": "Chris Coyne <ccoyne77@gmail.com>",
+  "license": "BSD-3-Clause",
+  "scripts": {
+    "build": "WEBPACK_ENV=build node_modules/.bin/webpack",
+    "dev": "WEBPACK_ENV=dev   node_modules/.bin/webpack --progress --colors --watch",
+    "test": "node ./test/test.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.8",
+    "babel-preset-es2015": "^6.18.0",
+    "webpack": "^1.13.3"
+  }
+}
