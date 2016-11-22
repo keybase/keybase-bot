@@ -1,7 +1,5 @@
 // @flow
+import * as keybaseStatus from "./keybase-status.js"
+import {Bot} from "./bot.js"
 
-import * as bs from "./bullshit.js"
-
-export function roar () {
-  return "Well, that worked ok! smell=" + bs.smell();
-};
+export {Bot}
