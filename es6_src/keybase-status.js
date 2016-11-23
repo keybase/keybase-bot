@@ -1,5 +1,7 @@
 // @flow
-import {exec} from 'child_process'
+import type {CbError, CbAny} from './types.js'
+import type {CbDeviceUsernamePair} from './types.js'
+import {execToJson} from './exec-to-json.js'
 
 // ----------------------------------------------------------------------------
 // calls back with a JSON object describing the user's
@@ -7,22 +9,12 @@ import {exec} from 'child_process'
 // may be of interest
 // ----------------------------------------------------------------------------
 
-function getKeybaseNativeStatusJson (cb : (?Error, any) => void) : void {
+function getKeybaseNativeStatusJson (cb: CbAny) : void {
 
-  let err : ?Error = null
-  let status : any = null
-
-  exec("keybase status -j", (err, stdout) => {
-    if (err === null) {
-      try {
-        status = JSON.parse(stdout)
-      }
-      catch (e) {
-        err = e
-      }
-    }
+  execToJson({command:'keybase status -j'}, (err, status) => {
     cb(err, status);
   })
+
 }
 
 // ----------------------------------------------------------------------------
@@ -30,10 +22,7 @@ function getKeybaseNativeStatusJson (cb : (?Error, any) => void) : void {
 // unlocked.
 // ----------------------------------------------------------------------------
 
-//type UserDeviceMaybe =
-type UsernameAndDevicenameCallback = (err : ?Error, udm : ?{username: string, devicename: string}) => void
-
-function getKeybaseUsernameAndDevicename (cb : UsernameAndDevicenameCallback) {
+function getKeybaseUsernameAndDevicename (cb : CbDeviceUsernamePair) {
 
   getKeybaseNativeStatusJson((err,status) => {
     if (status && status.Username && status.Device && status.Device.name) {
@@ -47,4 +36,3 @@ function getKeybaseUsernameAndDevicename (cb : UsernameAndDevicenameCallback) {
 }
 
 export {getKeybaseNativeStatusJson, getKeybaseUsernameAndDevicename}
-export type {UsernameAndDevicenameCallback}

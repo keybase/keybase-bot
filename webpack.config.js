@@ -1,5 +1,8 @@
+var DashboardPlugin = require('webpack-dashboard/plugin')
+
 module.exports = {
     target: 'node',
+    plugins: [new DashboardPlugin()],
     entry: './es6_src/entry.js',
     output: {
         path:           __dirname,

@@ -7,7 +7,7 @@
 		var a = typeof exports === 'object' ? factory(require("child_process")) : factory(root["child_process"]);
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(this, function(__WEBPACK_EXTERNAL_MODULE_2__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_3__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -65,7 +65,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var keybaseStatus = _interopRequireWildcard(_keybaseStatus);
 
-	var _bot = __webpack_require__(3);
+	var _bot = __webpack_require__(4);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -75,14 +75,14 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 	exports.getKeybaseUsernameAndDevicename = exports.getKeybaseNativeStatusJson = undefined;
 
-	var _child_process = __webpack_require__(2);
+	var _execToJson = __webpack_require__(2);
 
 	// ----------------------------------------------------------------------------
 	// calls back with a JSON object describing the user's
@@ -92,17 +92,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function getKeybaseNativeStatusJson(cb) {
 
-	  var err = null;
-	  var status = null;
-
-	  (0, _child_process.exec)("keybase status -j", function (err, stdout) {
-	    if (err === null) {
-	      try {
-	        status = JSON.parse(stdout);
-	      } catch (e) {
-	        err = e;
-	      }
-	    }
+	  (0, _execToJson.execToJson)({ command: 'keybase status -j' }, function (err, status) {
 	    cb(err, status);
 	  });
 	}
@@ -111,8 +101,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	// calls back with just {username, devicename}, if fully logged in and
 	// unlocked.
 	// ----------------------------------------------------------------------------
-
-	//type UserDeviceMaybe =
 
 	function getKeybaseUsernameAndDevicename(cb) {
 
@@ -131,12 +119,46 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.execToJson = undefined;
+
+	var _child_process = __webpack_require__(3);
+
+	// takes a string to run on the command line that is expecting
+	// JSON in stdout. calls back with an error if output doesn't
+	// parse as JSON or there's an error in execution
+
+	function execToJson(params, cb) {
+
+	  var out = null;
+
+	  (0, _child_process.exec)(params.command, function (err, stdout) {
+	    if (err === null) {
+	      try {
+	        out = JSON.parse(stdout);
+	      } catch (e) {
+	        err = e;
+	      }
+	    }
+	    cb(err, out);
+	  });
+	}
+	exports.execToJson = execToJson;
+
+/***/ },
+/* 3 */
 /***/ function(module, exports) {
 
 	module.exports = require("child_process");
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -150,6 +172,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _keybaseStatus = __webpack_require__(1);
 
+	var _chatApi = __webpack_require__(5);
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	// ============================================================================
@@ -161,9 +185,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Bot() {
 	    _classCallCheck(this, Bot);
 
-	    this.username = null;
+	    this.dPair = null;
 	    this.initialized = false;
 	  }
+
 	  // --------------------------------------------------------------------------
 
 	  _createClass(Bot, [{
@@ -171,19 +196,135 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function init(cb) {
 	      var _this = this;
 
-	      (0, _keybaseStatus.getKeybaseUsernameAndDevicename)(function (err, res) {
-	        if (res) {
-	          _this.username = res.username;
-	          console.log("intialized " + _this.username + " (device=" + res.devicename + ")");
+	      (0, _keybaseStatus.getKeybaseUsernameAndDevicename)(function (err, currentDPair) {
+	        if (currentDPair) {
+	          _this.dPair = currentDPair;
+	          console.log("intialized " + currentDPair.username + " (device=" + currentDPair.devicename + ")");
 	        }
 	        _this.initialized = true;
 	        cb(err);
+	      });
+	    }
+
+	    // --------------------------------------------------------------------------
+
+	  }, {
+	    key: "chatList",
+	    value: function chatList(cb) {
+	      this._safelyRunApiCommand({ method: "list", options: {} }, function (err, res) {
+	        return cb(err, res);
+	      });
+	    }
+
+	    // --------------------------------------------------------------------------
+
+	  }, {
+	    key: "chatSend",
+	    value: function chatSend(arg, cb) {
+	      var channel = arg.channel,
+	          message = arg.message;
+
+	      this._safelyRunApiCommand({ method: "send", options: { channel: channel, message: message } }, function (err, res) {
+	        return cb(err, res);
+	      });
+	    }
+
+	    // --------------------------------------------------------------------------
+	    //  - make sure inited ok
+	    //  - make sure user is still the same user since init
+	    // --------------------------------------------------------------------------
+
+	  }, {
+	    key: "_checkUserAndInit",
+	    value: function _checkUserAndInit(cb) {
+	      var _this2 = this;
+
+	      console.log('+ checking user and init');
+	      (0, _keybaseStatus.getKeybaseUsernameAndDevicename)(function (err, currentDPair) {
+	        if (!err && (!_this2.initialized || !currentDPair || !_this2.dPair || currentDPair.username != _this2.dPair.username)) {
+	          err = new Error("Uh-oh, username has changed or we never initialized correctly.");
+	        }
+	        var ok = (err === null).toString();
+	        console.log("- checking user and init (ok=" + ok + ")");
+	        return cb(err);
+	      });
+	    }
+
+	    // --------------------------------------------------------------------------
+
+	  }, {
+	    key: "_safelyRunApiCommand",
+	    value: function _safelyRunApiCommand(arg, cb) {
+	      this._checkUserAndInit(function (err) {
+	        if (!err) {
+	          (0, _chatApi.runApiCommand)(arg, function (err, res) {
+	            return cb(err, res);
+	          });
+	        } else {
+	          return cb(err);
+	        }
 	      });
 	    }
 	  }]);
 
 	  return Bot;
 	}();
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.runApiCommand = undefined;
+
+	var _execToJson = __webpack_require__(2);
+
+	var _constants = __webpack_require__(6);
+
+	// ----------------------------------------------------------------------------
+	// calls back with a JSON object describing the user's
+	// status with Keybase. For example, status.Username and status.Device.name
+	// may be of interest
+	// ----------------------------------------------------------------------------
+
+	function runApiCommand(arg, cb) {
+	  //
+	  // TODO: once confirmed working, we should switch this
+	  // to streaming stdin correctly instead of `exec`
+	  var input = {
+	    method: arg.method,
+	    params: {
+	      version: _constants.CHAT_API_VERSION,
+	      options: arg.options
+	    }
+	  };
+
+	  // TODO: as stated above, not the appropriate technique; will come bcak to
+	  var input_str = '"' + JSON.stringify(input).replace(/(["'$`\\])/g, '\\$1') + '"';
+
+	  (0, _execToJson.execToJson)({ command: 'echo ' + input_str + ' | keybase chat api' }, function (err, res) {
+	    cb(err, res);
+	  });
+	}
+
+	exports.runApiCommand = runApiCommand;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var CHAT_API_VERSION = 1;
+
+	exports.CHAT_API_VERSION = CHAT_API_VERSION;
 
 /***/ }
 /******/ ])
