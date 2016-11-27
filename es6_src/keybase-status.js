@@ -11,7 +11,7 @@ import {execToJson} from './exec-to-json.js'
 
 function getKeybaseNativeStatusJson (cb: CbAny) : void {
 
-  execToJson({command:'keybase status -j'}, (err, status) => {
+  execToJson({command:'keybase', args:['status', '-j']}, (err, status) => {
     cb(err, status);
   })
 

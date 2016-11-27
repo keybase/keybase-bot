@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("child_process"));
+		module.exports = factory(require("child_process"), require("fs"));
 	else if(typeof define === 'function' && define.amd)
-		define(["child_process"], factory);
+		define(["child_process", "fs"], factory);
 	else {
-		var a = typeof exports === 'object' ? factory(require("child_process")) : factory(root["child_process"]);
+		var a = typeof exports === 'object' ? factory(require("child_process"), require("fs")) : factory(root["child_process"], root["fs"]);
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(this, function(__WEBPACK_EXTERNAL_MODULE_3__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_4__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -65,7 +65,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var keybaseStatus = _interopRequireWildcard(_keybaseStatus);
 
-	var _bot = __webpack_require__(4);
+	var _bot = __webpack_require__(5);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -92,7 +92,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function getKeybaseNativeStatusJson(cb) {
 
-	  (0, _execToJson.execToJson)({ command: 'keybase status -j' }, function (err, status) {
+	  (0, _execToJson.execToJson)({ command: 'keybase', args: ['status', '-j'] }, function (err, status) {
 	    cb(err, status);
 	  });
 	}
@@ -130,16 +130,35 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _child_process = __webpack_require__(3);
 
+	var _fs = __webpack_require__(4);
+
 	// takes a string to run on the command line that is expecting
 	// JSON in stdout. calls back with an error if output doesn't
 	// parse as JSON or there's an error in execution
+	//
+	// if passed a Buffer in stdinBuffer, pipes that into the program
 
 	function execToJson(params, cb) {
 
 	  var out = null;
+	  var err = null;
+	  var outBuffers = [];
+	  var child = (0, _child_process.spawn)(params.command, params.args || []);
 
-	  (0, _child_process.exec)(params.command, function (err, stdout) {
-	    if (err === null) {
+	  if (params.stdinBuffer) {
+	    child.stdin.write(params.stdinBuffer);
+	    child.stdin.end();
+	  }
+
+	  child.stdout.on('data', function (chunk) {
+	    outBuffers.push(chunk);
+	  });
+
+	  child.on('close', function (code) {
+	    if (code) {
+	      err = new Error('exited with code ' + code);
+	    } else {
+	      var stdout = Buffer.concat(outBuffers).toString('utf-8');
 	      try {
 	        out = JSON.parse(stdout);
 	      } catch (e) {
@@ -149,6 +168,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    cb(err, out);
 	  });
 	}
+
 	exports.execToJson = execToJson;
 
 /***/ },
@@ -159,6 +179,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
+/***/ function(module, exports) {
+
+	module.exports = require("fs");
+
+/***/ },
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -172,7 +198,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _keybaseStatus = __webpack_require__(1);
 
-	var _chatApi = __webpack_require__(5);
+	var _chatApi = __webpack_require__(6);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -271,7 +297,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -283,7 +309,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _execToJson = __webpack_require__(2);
 
-	var _constants = __webpack_require__(6);
+	var _constants = __webpack_require__(7);
 
 	// ----------------------------------------------------------------------------
 	// calls back with a JSON object describing the user's
@@ -292,9 +318,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	// ----------------------------------------------------------------------------
 
 	function runApiCommand(arg, cb) {
-	  //
-	  // TODO: once confirmed working, we should switch this
-	  // to streaming stdin correctly instead of `exec`
 	  var input = {
 	    method: arg.method,
 	    params: {
@@ -303,10 +326,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  };
 
-	  // TODO: as stated above, not the appropriate technique; will come bcak to
-	  var input_str = '"' + JSON.stringify(input).replace(/(["'$`\\])/g, '\\$1') + '"';
-
-	  (0, _execToJson.execToJson)({ command: 'echo ' + input_str + ' | keybase chat api' }, function (err, res) {
+	  (0, _execToJson.execToJson)({ command: 'keybase', args: ['chat', 'api'], stdinBuffer: new Buffer(JSON.stringify(input), 'utf-8') }, function (err, res) {
 	    cb(err, res);
 	  });
 	}
@@ -314,7 +334,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.runApiCommand = runApiCommand;
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	"use strict";

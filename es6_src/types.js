@@ -22,7 +22,7 @@ type ChatChannel = {name: string, public: boolean, topic_type: string}
 type ChatMessage = {body: string}
 
 type CbError = (err: ?Error) => void
-type CbAny   = (err : ?Error, res : any) => void
+type CbAny   = (err: ?Error, res : any) => void
 type CbDeviceUsernamePair = (err : ?Error, res : ?DeviceUsernamePair) => void
 
 export type {DeviceUsernamePair, ChatChannel, ChatMessage}

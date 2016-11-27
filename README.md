@@ -18,5 +18,5 @@ reason: it would be nice to have a bot that does things with your own chat messa
 
 TODO:
 ======
-
- - change stdin method on API calls...quick hacked something with echo and a regexp; need to use proper process.createChildProcess
+  - reading and replying to messages
+  - attachments

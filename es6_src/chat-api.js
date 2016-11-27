@@ -12,10 +12,6 @@ type ApiCommandArg = {method: string, options: Object}
 // ----------------------------------------------------------------------------
 
 function runApiCommand(arg: ApiCommandArg, cb: CbError) : void {
-  //
-  // TODO: once confirmed working, we should switch this
-  // to streaming stdin correctly instead of `exec`
-  //
   let input:Object = {
     method: arg.method,
     params: {
@@ -24,10 +20,7 @@ function runApiCommand(arg: ApiCommandArg, cb: CbError) : void {
     }
   }
 
-  // TODO: as stated above, not the appropriate technique; will come bcak to
-  let input_str = '"'+ JSON.stringify(input).replace(/(["'$`\\])/g,'\\$1') + '"';
-
-  execToJson({command: `echo ${input_str} | keybase chat api`}, (err, res) => {
+  execToJson({command: 'keybase', args: ['chat', 'api'], stdinBuffer: new Buffer(JSON.stringify(input),'utf-8')}, (err, res) => {
     cb(err, res)
   })
 }

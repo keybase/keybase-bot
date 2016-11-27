@@ -12,12 +12,12 @@ bot.init(() => {
   })
 
   let channel = {
-    name: "chris,mikem",
+    name: "chris,enyoc",
     public: false,
     topic_type: "chat"
   }
 
-  let message = {body: `Hi Mike. The time is ${new Date().toString()}`}
+  let message = {body: `Automated Message. The time is ${new Date().toString()}`}
 
   bot.chatSend({channel, message},(err, list) => {
     console.log("hot damn")
