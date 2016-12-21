@@ -1,6 +1,5 @@
 // @flow
 import {spawn} from 'child_process'
-import {createReadStream} from 'fs'
 import type {CbAny} from './types'
 
 // takes a string to run on the command line that is expecting
@@ -9,39 +8,42 @@ import type {CbAny} from './types'
 //
 // if passed a Buffer in stdinBuffer, pipes that into the program
 
-function execToJson(params: {command: string, args?: Array<string>, stdinBuffer?: Buffer}, cb: CbAny) : void {
-
+function execToJson (params: {command: string, args?: Array<string>, stdinBuffer?: Buffer}, cb: CbAny) : void {
+  const stdinBuffer = params.stdinBuffer
   let out:any = null
+  let startTime:number = Date.now()
   let err:?Error = null
   let outBuffers:Array<Buffer> = []
   let child = spawn(params.command, params.args || [])
 
-  if (params.stdinBuffer) {
-    child.stdin.write(params.stdinBuffer)
+  if (stdinBuffer) {
+    console.log(stdinBuffer.toString('utf8'))
+    child.stdin.write(stdinBuffer)
     child.stdin.end()
   }
 
   child.stdout.on('data', (chunk) => {
-    outBuffers.push(chunk);
-  });
+    outBuffers.push(chunk)
+  })
 
   child.on('close', (code) => {
     if (code) {
       err = new Error(`exited with code ${code}`)
-    }
-    else {
-      let stdout:string = Buffer.concat(outBuffers).toString('utf-8')
+    } else {
+      let stdout:string = Buffer.concat(outBuffers).toString('utf8')
       try {
         out = JSON.parse(stdout)
-      }
-      catch (e) {
+      } catch (e) {
         err = e
       }
     }
-    cb(err, out);
-  })
 
+    // if (stdinBuffer) {
+    //   console.log(`...(${Date.now() - startTime}ms)` + stdinBuffer.toString('utf8'))
+    // }
+
+    cb(err, out)
+  })
 }
 
 export {execToJson}
-

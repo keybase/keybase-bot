@@ -19,11 +19,15 @@
 
 type DeviceUsernamePair = {username: string, devicename: string}
 type ChatChannel = {name: string, public: boolean, topic_type: string}
-type ChatMessage = {body: string}
+type ChatSendMessage = {body: string}
+type ChatReadMessage = any
 
 type CbError = (err: ?Error) => void
-type CbAny   = (err: ?Error, res : any) => void
+type CbAny = (err: ?Error, res : any) => void
 type CbDeviceUsernamePair = (err : ?Error, res : ?DeviceUsernamePair) => void
 
-export type {DeviceUsernamePair, ChatChannel, ChatMessage}
+type MessagesHandler = (arg: {messages: Array<ChatReadMessage>, channel: ChatChannel}) => void
+
+export type {DeviceUsernamePair, ChatChannel, ChatSendMessage, ChatReadMessage}
+export type {MessagesHandler}
 export type {CbAny, CbError, CbDeviceUsernamePair}

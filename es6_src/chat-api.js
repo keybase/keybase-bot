@@ -1,7 +1,7 @@
 // @flow
 import {execToJson} from './exec-to-json'
 import {CHAT_API_VERSION} from './constants.js'
-import type {CbAny, CbError} from './types'
+import type {CbError} from './types'
 
 type ApiCommandArg = {method: string, options: Object}
 
@@ -11,16 +11,28 @@ type ApiCommandArg = {method: string, options: Object}
 // may be of interest
 // ----------------------------------------------------------------------------
 
-function runApiCommand(arg: ApiCommandArg, cb: CbError) : void {
+function runApiCommand (arg: ApiCommandArg, cb: CbError) : void {
   let input:Object = {
     method: arg.method,
     params: {
       version: CHAT_API_VERSION,
-      options: arg.options
-    }
+      options: arg.options,
+    },
   }
 
-  execToJson({command: 'keybase', args: ['chat', 'api'], stdinBuffer: new Buffer(JSON.stringify(input),'utf-8')}, (err, res) => {
+  execToJson({command: 'keybase', args: ['chat', 'api'], stdinBuffer: new Buffer(JSON.stringify(input), 'utf8')}, (err: ?Error, o: any) => {
+    let res: any = null
+    if (!err) {
+      if (o && o.result) {
+        res = o.result
+      } else if (o && o.error) {
+        const oError = o.error
+        err = new Error(oError.message || oError.toString())
+      } else {
+        err = new Error(`Unknown error parsing result - no "result" field`)
+      }
+    }
+
     cb(err, res)
   })
 }

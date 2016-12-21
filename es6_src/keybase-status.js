@@ -1,5 +1,5 @@
 // @flow
-import type {CbError, CbAny} from './types.js'
+import type {CbAny} from './types.js'
 import type {CbDeviceUsernamePair} from './types.js'
 import {execToJson} from './exec-to-json.js'
 
@@ -10,11 +10,9 @@ import {execToJson} from './exec-to-json.js'
 // ----------------------------------------------------------------------------
 
 function getKeybaseNativeStatusJson (cb: CbAny) : void {
-
-  execToJson({command:'keybase', args:['status', '-j']}, (err, status) => {
-    cb(err, status);
+  execToJson({command: 'keybase', args: ['status', '-j']}, (err, status) => {
+    cb(err, status)
   })
-
 }
 
 // ----------------------------------------------------------------------------
@@ -23,16 +21,16 @@ function getKeybaseNativeStatusJson (cb: CbAny) : void {
 // ----------------------------------------------------------------------------
 
 function getKeybaseUsernameAndDevicename (cb : CbDeviceUsernamePair) {
-
-  getKeybaseNativeStatusJson((err,status) => {
+  getKeybaseNativeStatusJson((err, status) => {
     if (status && status.Username && status.Device && status.Device.name) {
-      return cb(null, {username:status.Username, devicename: status.Device.name})
-    }
-    else {
-      let err = new Error("failed to get username + device name")
+      return cb(null, {username: status.Username, devicename: status.Device.name})
+    } else {
+      if (!err) {
+        err = new Error('failed to get username + device name')
+      }
       return cb(err, null)
     }
-  });
+  })
 }
 
 export {getKeybaseNativeStatusJson, getKeybaseUsernameAndDevicename}
