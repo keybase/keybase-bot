@@ -23,7 +23,7 @@ var keybaseChatBot = require('keybase-chat-bot')
 
 var bot = new keybaseChatBot.Bot()
 
-bot.init(function (err) {
+bot.init({verbose: false}, function (err) {
   if !(err) {
 
     var channel = {
@@ -51,9 +51,11 @@ bot.init(function (err) {
 
 Anywhere we deal with callbacks functions (`cb`), expect them to pass `err` or, if appropriate, `err, result`.
 
-#### `bot.init(cb)`
+#### `bot.init(options, cb)`
 
 As shown above, this must be run to initialize a bot before using it. It checks to make sure you're properly logged into Keybase and gets basic info about your session. Afterwards, feel free to check bot.myInfo() to see or check who you're logged in as.
+
+`options` is a dictionary expecting `verbose`, which says whether the bot should log much of what it's doing.
 
 #### `bot.myInfo()`
 
@@ -166,9 +168,9 @@ This function may take a few seconds to recognize new messages, as the current i
 
 
 ## TODO:
-  - attachment handling
+  - attachment handling (posting/getting)
+  - `verbose` option in init is mostly meaningless now. need to finish that
   - support for chatList options (other dev channels)
-  - `messages` and `conversations` come back as null right now if a conversation or inbox is empty, instead of an empty array. I added a workaround, wondering if this should survive or be fixed in the API
 
 ### Contributions
 

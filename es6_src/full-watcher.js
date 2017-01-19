@@ -45,6 +45,9 @@ class FullWatcher {
     if (!index) {
       index = 0
     }
+    if (index === conversations.length) {
+      return cb(null)
+    }
     console.log(`CHECKING ${index}, ${conversations[index].channel} for new messages`)
     this._checkForNewMessagesInOneConversation(conversations[index], (err, res) => {
       if (index + 1 === conversations.length) {
@@ -58,7 +61,7 @@ class FullWatcher {
   // --------------------------------------------------------------------------
 
   _checkForNewMessagesInAllConversations (cb: CbError) : void {
-    this._bot.chatList((err, res) => {
+    this._bot.chatList(null, (err, res) => {
       if (err) {
         console.log(err)
       } else {

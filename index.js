@@ -78,8 +78,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _templateObject = _taggedTemplateLiteral(['\n        ======\n        Initialized ', '! This chat module is a work in progress. Please do not use.\n        ======\n      '], ['\n        ======\n        Initialized ', '! This chat module is a work in progress. Please do not use.\n        ======\n      ']);
-
 	var _keybaseStatus = __webpack_require__(2);
 
 	var _chatApi = __webpack_require__(5);
@@ -92,8 +90,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _gasPreserver = __webpack_require__(10);
 
-	function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	// ============================================================================
@@ -105,6 +101,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Bot() {
 	    _classCallCheck(this, Bot);
 
+	    this._verbose = false;
 	    this._dPair = null;
 	    this._initialized = false;
 	    this._channelWatchers = new Map();
@@ -116,18 +113,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  _createClass(Bot, [{
 	    key: 'init',
-	    value: function init(cb) {
+	    value: function init(options, cb) {
 	      var _this = this;
 
+	      if (options && typeof options.verbose !== 'undefined') {
+	        this._verbose = options.verbose;
+	      }
 	      (0, _keybaseStatus.getKeybaseUsernameAndDevicename)(function (err, currentDPair) {
 	        if (currentDPair) {
 	          _this._dPair = currentDPair;
-	          console.log('intialized ' + currentDPair.username + ' (device=' + currentDPair.devicename + ')');
+	          _this._log('intialized ' + currentDPair.username + ' (device=' + currentDPair.devicename + ')');
 	        }
 	        _this._initialized = true;
-	        var successStr = err ? 'WITH ERROR' : 'successfully';
-	        console.log(_templateObject, successStr);
-
 	        cb(err);
 	      });
 	    }
@@ -136,7 +133,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  }, {
 	    key: 'chatList',
-	    value: function chatList(cb) {
+	    value: function chatList(options, cb) {
+	      if (options) {
+	        throw new Error('options (arg1) for chatList not yet supported. Please pass null.');
+	      }
 	      this._safelyRunApiCommand({ method: 'list', options: {} }, function (err, res) {
 	        return cb(err, res);
 	      });
@@ -201,7 +201,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'watchChannelForNewMessages',
 	    value: function watchChannelForNewMessages(options) {
-	      // TODO: once I have real new message info from patrick drop this "starting now" idea.
 	      var channel = options.channel,
 	          onMessages = options.onMessages;
 
@@ -218,7 +217,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'watchAllChannelsForNewMessages',
 	    value: function watchAllChannelsForNewMessages(options) {
-	      // TODO: once I have real new message info from patrick drop this "starting now" idea.
 	      var onMessages = options.onMessages;
 
 	      if (this._fullWatcher) {
@@ -236,6 +234,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    //  - make sure user is still the same user since init
 	    // --------------------------------------------------------------------------
 
+	  }, {
+	    key: '_log',
+	    value: function _log(msg) {
+	      if (this._verbose) {
+	        console.log(msg);
+	      }
+	    }
 	  }, {
 	    key: '_checkUserAndInit',
 	    value: function _checkUserAndInit(cb) {
@@ -348,7 +353,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var child = (0, _child_process.spawn)(params.command, params.args || []);
 
 	  if (stdinBuffer) {
-	    console.log(stdinBuffer.toString('utf8'));
+	    //console.log(stdinBuffer.toString('utf8'))
 	    child.stdin.write(stdinBuffer);
 	    child.stdin.end();
 	  }
@@ -467,8 +472,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // --------------------------------------------------------------------------
 
-	  // --------------------------------------------------------------------------
-
 	  function ChannelWatcher(arg) {
 	    _classCallCheck(this, ChannelWatcher);
 
@@ -477,9 +480,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this._channel = arg.channel;
 	    this._highestId = -1;
 	    this._loopCount = 0;
-	    this._treatOldMessagesAsNew = !!arg.treatOldMessagesAsNew;
 	    this._watchLoop();
 	  }
+
+	  // --------------------------------------------------------------------------
 
 	  // --------------------------------------------------------------------------
 
@@ -627,6 +631,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (!index) {
 	        index = 0;
 	      }
+	      if (index === conversations.length) {
+	        return cb(null);
+	      }
 	      console.log('CHECKING ' + index + ', ' + conversations[index].channel + ' for new messages');
 	      this._checkForNewMessagesInOneConversation(conversations[index], function (err, res) {
 	        if (index + 1 === conversations.length) {
@@ -644,7 +651,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function _checkForNewMessagesInAllConversations(cb) {
 	      var _this3 = this;
 
-	      this._bot.chatList(function (err, res) {
+	      this._bot.chatList(null, function (err, res) {
 	        if (err) {
 	          console.log(err);
 	        } else {
@@ -750,7 +757,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	      this._currentWait = Math.max(_tweakables2.default.MIN_CHANNEL_WATCH_LOOP, this._currentWait);
 	      this._currentWait = Math.min(_tweakables2.default.MAX_CHANNEL_WATCH_LOOP, this._currentWait);
-	      console.log('...speed=' + speed + ', gas=' + gas + ', timeLeft=' + timeLeft + ', currentWait=' + this._currentWait + ', history=' + this._lastPassedGas.length);
+	      console.log('...speed=' + speed.toFixed(2) + ', gas=' + gas + ', timeLeft=' + timeLeft + ', currentWait=' + this._currentWait + ', history=' + this._lastPassedGas.length);
 	      return this._currentWait;
 	    }
 

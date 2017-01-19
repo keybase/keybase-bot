@@ -37,7 +37,7 @@ class GasPreserver {
     }
     this._currentWait = Math.max(tweakables.MIN_CHANNEL_WATCH_LOOP, this._currentWait)
     this._currentWait = Math.min(tweakables.MAX_CHANNEL_WATCH_LOOP, this._currentWait)
-    console.log(`...speed=${speed}, gas=${gas}, timeLeft=${timeLeft}, currentWait=${this._currentWait}, history=${this._lastPassedGas.length}`)
+    console.log(`...speed=${speed.toFixed(2)}, gas=${gas}, timeLeft=${timeLeft}, currentWait=${this._currentWait}, history=${this._lastPassedGas.length}`)
     return this._currentWait
   }
 

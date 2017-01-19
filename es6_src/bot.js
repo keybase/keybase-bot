@@ -19,10 +19,12 @@ class Bot {
   _channelWatchers: Map<string, ChannelWatcher>;
   _fullWatcher: ?FullWatcher;
   _gasPreserver: GasPreserver;
+  _verbose: boolean;
 
   // --------------------------------------------------------------------------
 
   constructor () {
+    this._verbose = false
     this._dPair = null
     this._initialized = false
     this._channelWatchers = new Map()
@@ -32,19 +34,16 @@ class Bot {
 
   // --------------------------------------------------------------------------
 
-  init (cb: CbError): void {
+  init (options: any, cb: CbError): void {
+    if (options && typeof options.verbose !== 'undefined') {
+      this._verbose = options.verbose
+    }
     getKeybaseUsernameAndDevicename((err, currentDPair) => {
       if (currentDPair) {
         this._dPair = currentDPair
-        console.log(`intialized ${currentDPair.username} (device=${currentDPair.devicename})`)
+        this._log(`intialized ${currentDPair.username} (device=${currentDPair.devicename})`)
       }
       this._initialized = true
-      let successStr = err ? 'WITH ERROR' : 'successfully'
-      console.log `
-        ======
-        Initialized ${successStr}! This chat module is a work in progress. Please do not use.
-        ======
-      `
       cb(err)
     })
   }
@@ -133,6 +132,12 @@ class Bot {
   //  - make sure inited ok
   //  - make sure user is still the same user since init
   // --------------------------------------------------------------------------
+
+  _log (msg: string): void {
+    if (this._verbose) {
+      console.log(msg)
+    }
+  }
 
   _checkUserAndInit (cb: CbError): void {
     // console.log('+ checking user and init')

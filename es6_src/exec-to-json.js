@@ -17,7 +17,7 @@ function execToJson (params: {command: string, args?: Array<string>, stdinBuffer
   let child = spawn(params.command, params.args || [])
 
   if (stdinBuffer) {
-    console.log(stdinBuffer.toString('utf8'))
+    //console.log(stdinBuffer.toString('utf8'))
     child.stdin.write(stdinBuffer)
     child.stdin.end()
   }
