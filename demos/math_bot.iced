@@ -45,4 +45,4 @@ bot.init (err) ->
               console.log err
 
     console.log 'Beginning watch for new messages. Tell anyone to send a message to #{bot.myInfo().username} starting with /math'
-    bot.watchForNewMessages {onMessages}
+    bot.watchAllChannelsForNewMessages {onMessages}

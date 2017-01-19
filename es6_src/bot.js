@@ -45,14 +45,16 @@ class Bot {
         Initialized ${successStr}! This chat module is a work in progress. Please do not use.
         ======
       `
-
       cb(err)
     })
   }
 
   // --------------------------------------------------------------------------
 
-  chatList (cb: CbAny): void {
+  chatList (options: any, cb: CbAny): void {
+    if (options) {
+      throw new Error('options (arg1) for chatList not yet supported. Please pass null.')
+    }
     this._safelyRunApiCommand({method: 'list', options: {}}, (err, res) => {
       return cb(err, res)
     })
@@ -103,8 +105,7 @@ class Bot {
 
   // --------------------------------------------------------------------------
 
-  watchChannelForNewMessagesStartingNow (options: {channel: ChatChannel, onMessages: MessagesHandler}) {
-    // TODO: once I have real new message info from patrick drop this "starting now" idea.
+  watchChannelForNewMessages (options: {channel: ChatChannel, onMessages: MessagesHandler}) {
     let {channel, onMessages} = options
     let key = chatChannelToKey(channel)
     if (this._channelWatchers.has(key)) {
@@ -116,8 +117,7 @@ class Bot {
 
   // --------------------------------------------------------------------------
 
-  watchForNewMessages (options: {onMessages: MessagesHandler}) {
-    // TODO: once I have real new message info from patrick drop this "starting now" idea.
+  watchAllChannelsForNewMessages (options: {onMessages: MessagesHandler}) {
     let {onMessages} = options
     if (this._fullWatcher) {
       throw new Error(`already watching watching; can't have 2 message watchers}`)

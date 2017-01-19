@@ -199,8 +199,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // --------------------------------------------------------------------------
 
 	  }, {
-	    key: 'watchChannelForNewMessagesStartingNow',
-	    value: function watchChannelForNewMessagesStartingNow(options) {
+	    key: 'watchChannelForNewMessages',
+	    value: function watchChannelForNewMessages(options) {
 	      // TODO: once I have real new message info from patrick drop this "starting now" idea.
 	      var channel = options.channel,
 	          onMessages = options.onMessages;
@@ -216,8 +216,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // --------------------------------------------------------------------------
 
 	  }, {
-	    key: 'watchForNewMessages',
-	    value: function watchForNewMessages(options) {
+	    key: 'watchAllChannelsForNewMessages',
+	    value: function watchAllChannelsForNewMessages(options) {
 	      // TODO: once I have real new message info from patrick drop this "starting now" idea.
 	      var onMessages = options.onMessages;
 

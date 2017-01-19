@@ -72,5 +72,5 @@ bot.init(() => {
 
   console.log('Beginning watch for new messages.')
 
-  bot.watchForNewMessages({onMessages})
+  bot.watchAllChannelsForNewMessages({onMessages})
 })

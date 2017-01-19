@@ -13,17 +13,15 @@ class ChannelWatcher {
   _onMessages: MessagesHandler
   _highestId: number
   _loopCount: number
-  _treatOldMessagesAsNew: boolean
 
   // --------------------------------------------------------------------------
 
-  constructor (arg: {channel: ChatChannel, bot: Bot, onMessages: MessagesHandler, treatOldMessagesAsNew?: boolean}) : void {
+  constructor (arg: {channel: ChatChannel, bot: Bot, onMessages: MessagesHandler}) : void {
     this._bot = arg.bot
     this._onMessages = arg.onMessages
     this._channel = arg.channel
     this._highestId = -1
     this._loopCount = 0
-    this._treatOldMessagesAsNew = !!arg.treatOldMessagesAsNew
     this._watchLoop()
   }
 
