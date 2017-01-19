@@ -2,7 +2,7 @@
 
 Exploration with the keybase chat API
 
-This module is a work in progress and may change, but feel free to play with it. As long as you're logged in as a Keybase user, you can use this module to script basic chat commands.
+This module is a work in progress and may change or have crashers, but feel free to play with it. As long as you're logged in as a Keybase user, you can use this module to script basic chat commands.
 
 # Installation
 
@@ -14,9 +14,7 @@ npm install keybase-chat-bot
 
 ```javascript
 //
-// This creates a bot and sends a message announcing your own device name
-// and username to `kbot`, a Keybase user...who, despite its name, probably
-// won't reply to you.
+// Says hello to the keybase `kbot` account
 //
 
 var keybaseChatBot = require('keybase-chat-bot')
@@ -25,7 +23,6 @@ var bot = new keybaseChatBot.Bot()
 
 bot.init(function (err) {
   if !(err) {
-    console.log("Your bot is initialized. It is logged in as " + bot.myInfo().username);
 
     var channel = {
       name:       'kbot,' + bot.myInfo().username,
@@ -36,7 +33,7 @@ bot.init(function (err) {
     var send_arg = {
       channel: channel,
       message: {
-        body: "Hello kbot! This is " + bot.myInfo().username + " saying hello from my device " + bot.myInfo().devicename
+        body: "Hello kbot! Saying hello from my device " + bot.myInfo().devicename
       }
     }
 
@@ -146,6 +143,8 @@ var onMessages = function(m) {
 bot.watchAllChannelsForNewMessages({onMessages: onMessages});
 ```
 
+This function may take a few seconds to recognize new messages, as it polls until we expose a realtime stream in the API.
+
 #### `bot.watchChannelForNewMessages(options)`
 
 This is exactly the same as `bot.watchAllChannelsForNewMessages` except the options argument should include a specific channel. Other channels are ignored.
@@ -161,8 +160,17 @@ bot.watchAllChannelsForNewMessages({
 });
 ```
 
+This function may take a few seconds to recognize new messages, as it polls until we expose a realtime stream in the API.
+
 
 ## TODO:
   - attachment handling
   - support for chatList options (other dev channels)
   - `messages` and `conversations` come back as null right now if a conversation or inbox is empty, instead of an empty array. I added a workaround, wondering if this should survive or be fixed in the API
+
+### Contributions
+
+- please install dev dependencies and yarn (an improved npm)
+- make sure this passes `yarn build` and `yarn flow`
+- if adding a new feature, make a demo or something
+
