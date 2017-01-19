@@ -10,9 +10,7 @@
     "dash": "DASH=true webpack-dashboard -- webpack-dev-server --config ./webpack.config.js",
     "flow": "flow",
     "build": "WEBPACK_ENV=build webpack",
-    "dev": "WEBPACK_ENV=dev   webpack --progress --colors --watch",
-    "demo": "babel-node ./es6_tests/demo.js",
-    "miles": "babel-node ./es6_tests/demo_for_miles.js"
+    "dev": "WEBPACK_ENV=dev   webpack --progress --colors --watch"
   },
   "dependencies": {},
   "devDependencies": {

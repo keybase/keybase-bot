@@ -86,6 +86,17 @@ class Bot {
 
   // --------------------------------------------------------------------------
 
+  chatDelete (options: {channel: ChatChannel, messageId: number}, cb: CbAny): void {
+    let {channel} = options
+    let message_id = options.messageId
+    this._safelyRunApiCommand({method: 'delete', options: {channel, message_id}}, (err, res) => {
+      return cb(err, res)
+    })
+  }
+
+
+  // --------------------------------------------------------------------------
+
   myInfo (): ?DeviceUsernamePair {
     return this._dPair
   }

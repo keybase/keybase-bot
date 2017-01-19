@@ -27,9 +27,10 @@ class GasPreserver {
   recommendedWait () : number {
     let speed = this._getCurrentSpeed()
     let gas = this._getRemainingGas()
+    let gas_left_with_buffer = Math.max(0, gas - tweakables.TARGET_GAS_REMAINING)
     let timeLeft = this._getTimeTillReset()
     // this._currentWait = 1000 * (speed * timeLeft / gas) * tweakables.SAFETY_BUFFER
-    if (speed * timeLeft > gas) {
+    if (speed * timeLeft > gas_left_with_buffer) {
       this._currentWait *= tweakables.GAS_ADJ_MULT
     } else {
       this._currentWait /= tweakables.GAS_ADJ_MULT

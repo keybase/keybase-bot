@@ -61,7 +61,6 @@ bot.init(() => {
 
   let onMessages = ({messages, channel}) => {
     for (let m of messages) {
-      //console.log(`FUCK YEAH YEAH YEAH\n-----------\n${m.msg.content.text.body}\n`)
       let reply = {body: msgReply(m.msg.content.text.body)}
       bot.chatSend({channel, message: reply}, (err, res) => {
         if (err) {

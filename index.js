@@ -178,6 +178,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // --------------------------------------------------------------------------
 
 	  }, {
+	    key: 'chatDelete',
+	    value: function chatDelete(options, cb) {
+	      var channel = options.channel;
+
+	      var message_id = options.messageId;
+	      this._safelyRunApiCommand({ method: 'delete', options: { channel: channel, message_id: message_id } }, function (err, res) {
+	        return cb(err, res);
+	      });
+	    }
+
+	    // --------------------------------------------------------------------------
+
+	  }, {
 	    key: 'myInfo',
 	    value: function myInfo() {
 	      return this._dPair;
@@ -727,9 +740,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function recommendedWait() {
 	      var speed = this._getCurrentSpeed();
 	      var gas = this._getRemainingGas();
+	      var gas_left_with_buffer = Math.max(0, gas - _tweakables2.default.TARGET_GAS_REMAINING);
 	      var timeLeft = this._getTimeTillReset();
 	      // this._currentWait = 1000 * (speed * timeLeft / gas) * tweakables.SAFETY_BUFFER
-	      if (speed * timeLeft > gas) {
+	      if (speed * timeLeft > gas_left_with_buffer) {
 	        this._currentWait *= _tweakables2.default.GAS_ADJ_MULT;
 	      } else {
 	        this._currentWait /= _tweakables2.default.GAS_ADJ_MULT;
@@ -838,6 +852,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  MAX_CHANNEL_WATCH_LOOP: 60000,
 	  DEFAULT_GAS: 500,
 	  DEFAULT_TIME_LEFT: 1500,
+	  TARGET_GAS_REMAINING: 100,
 	  SAFETY_BUFFER: 1.5,
 	  GAS_MONITOR_WINDOW: 10000,
 	  GAS_ADJ_MULT: 1.1
