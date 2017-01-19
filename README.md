@@ -35,12 +35,12 @@ bot.init({verbose: false}, function (err) {
     var send_arg = {
       channel: channel,
       message: {
-        body: "Hello kbot! Saying hello from my device " + bot.myInfo().devicename
+        body: 'Hello kbot! Saying hello from my device ' + bot.myInfo().devicename
       }
     }
 
     bot.chatSend(send_arg, function(err) {
-      console.log("Done...");
+      console.log('That probably sent!', err);
     });
   }
 
