@@ -1,10 +1,12 @@
 # keybase-chat-bot
 
-Exploration with the keybase chat API
+Script Keybase Chat in Node.js!
 
-This module is a work in progress and may change or have crashers, but feel free to play with it. As long as you're logged in as a Keybase user, you can use this module to script basic chat commands.
+This module is a side-project/work in progress and may change or have crashers, but feel free to play with it. As long as you're logged in as a Keybase user, you can use this module to script basic chat commands.
 
 # Installation
+
+Make sure to [install Keybase](https://keybase.io/download).
 
 ```bash
 npm install keybase-chat-bot
@@ -47,7 +49,7 @@ bot.init(function (err) {
 
 ### Commands
 
-Callback functions always call back with `err` if a reply isn't needed, or `err, result` if a reply is expected.
+Anywhere we deal with callbacks functions (`cb`), expect them to pass `err` or, if appropriate, `err, result`.
 
 #### `bot.init(cb)`
 
