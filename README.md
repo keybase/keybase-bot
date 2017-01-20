@@ -24,7 +24,7 @@ var keybaseChatBot = require('keybase-chat-bot')
 var bot = new keybaseChatBot.Bot()
 
 bot.init({verbose: false}, function (err) {
-  if !(err) {
+  if (!err) {
 
     var channel = {
       name:       'kbot,' + bot.myInfo().username,
