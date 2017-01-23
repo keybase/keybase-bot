@@ -63,7 +63,8 @@ class FullWatcher {
   _checkForNewMessagesInAllConversations (cb: CbError) : void {
     this._bot.chatList(null, (err, res) => {
       if (err) {
-        console.log(err)
+        console.log('Got error getting chat list:', err)
+        return cb(err)
       } else {
         if (res && res.ratelimits) {
           this._bot._gasPreserver.passGas(res.ratelimits)

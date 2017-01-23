@@ -653,7 +653,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      this._bot.chatList(null, function (err, res) {
 	        if (err) {
-	          console.log(err);
+	          console.log('Got error getting chat list:', err);
+	          return cb(err);
 	        } else {
 	          if (res && res.ratelimits) {
 	            _this3._bot._gasPreserver.passGas(res.ratelimits);
