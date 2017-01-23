@@ -1,6 +1,6 @@
 {
   "name": "keybase-chat-bot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "some initial messing around with keybase chat API",
   "main": "index.js",
   "repository": "git@github.com:keybase/keybase-chat-bot.git",
