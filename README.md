@@ -168,9 +168,16 @@ This function may take a few seconds to recognize new messages, as the current i
 
 
 ## TODO:
+  - ephemeral message sending (and test how reading of exploding ones errors outs)
+  - use new realtime streaming API for watching
+  - emoji reactions (also test if handling reading incoming ones)
   - attachment handling (posting/getting)
   - `verbose` option in init is mostly meaningless now. need to finish that
   - support for chatList options (other dev channels)
+  - support running in 
+  - wallet transaction monitoring and sending
+  - channel + team joining and leaving from inside bot; channel creation inside bot
+  - tests (will be nice with one shot mode)
 
 ### Contributions
 
