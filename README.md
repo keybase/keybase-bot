@@ -4,6 +4,8 @@ Script Keybase Chat in Node.js!
 
 This module is a side-project/work in progress and may change or have crashers, but feel free to play with it. As long as you're logged in as a Keybase user, you can use this module to script basic chat commands.
 
+For more information about the API this module uses, run `keybase chat api -h` from your terminal.
+
 # Installation
 
 Make sure to [install Keybase](https://keybase.io/download).
