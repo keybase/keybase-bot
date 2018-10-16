@@ -49,7 +49,7 @@ bot.init({verbose: false}, function (err) {
 
 ### Commands
 
-Anywhere we deal with callbacks functions (`cb`), expect them to pass `err` or, if appropriate, `err, result`.
+Anywhere we deal with callbacks functions (`cb`), you are required to supply this argument, and expect them to pass `err` or, if appropriate, `err, result`.
 
 #### `bot.init(options, cb)`
 
