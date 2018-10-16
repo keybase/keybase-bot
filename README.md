@@ -180,6 +180,7 @@ This function may take a few seconds to recognize new messages, as the current i
   - wallet transaction monitoring and sending
   - channel + team joining and leaving from inside bot; channel creation inside bot
   - tests (will be nice with one shot mode)
+  - bigger question: should this be expanded into a general keybase bot? it would expose other things such as team mgmt, KBFS fs operations, etc.
 
 ### Contributions
 
