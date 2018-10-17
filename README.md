@@ -170,17 +170,17 @@ This function may take a few seconds to recognize new messages, as the current i
 
 
 ## TODO:
+  - (major version upgrade) support running in "one shot" mode (or switch to it entirely, for simplicity?)
+  - (major version upgrade) update this to a general bot, maybe renamed the module `keybase-bot`. Subsequently rename these chat calls something more like `keybase.chat.send`; then we can later instroduce other API type calls such as `keybase.team.create`.
   - ephemeral message sending (and test how reading of exploding ones errors outs)
   - use new realtime streaming API for watching
   - emoji reactions (also test if handling reading incoming ones)
   - attachment handling (posting/getting)
   - `verbose` option in init is mostly meaningless now. need to finish that
   - support for chatList options (other dev channels)
-  - support running in "one shot" mode (or switch to it entirely, for simplicity?)
   - wallet transaction monitoring and sending
   - channel + team joining and leaving from inside bot; channel creation inside bot
   - tests (will be nice with one shot mode)
-  - bigger question: should this be expanded into a general keybase bot? it would expose other things such as team mgmt, KBFS fs operations, etc.
 
 ### Contributions
 
