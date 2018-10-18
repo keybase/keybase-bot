@@ -35,6 +35,7 @@
     "flow-bin": "^0.35.0",
     "flow-status-webpack-plugin": "^0.1.7",
     "mathjs": "^3.8.0",
+    "prettier": "^1.14.3",
     "webpack": "^1.13.3",
     "webpack-dashboard": "^0.2.0",
     "webpack-dev-server": "^1.16.2"
