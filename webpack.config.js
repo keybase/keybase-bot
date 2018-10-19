@@ -6,7 +6,7 @@ var webpack = require('webpack')
 var plugins = []
 if (process.env.DASH) {
   plugins = [
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     new DashboardPlugin(),
     new FlowStatusWebpackPlugin({failOnError: true}),
   ]
@@ -15,7 +15,7 @@ if (process.env.DASH) {
 module.exports = {
   target: 'node',
   plugins: plugins,
-  entry: './es6_src/entry.js',
+  entry: './lib/entry.js',
   output: {
     path: __dirname,
     filename: 'index.js',
@@ -23,16 +23,20 @@ module.exports = {
   },
   // devtool: 'eval-source-map',
   module: {
-    loaders: [
+    rules: [
       {
-        loader: 'babel-loader',
         test: /(\.jsx|\.js)$/,
         exclude: /(node_modules)/,
-        query: {
-          presets: ['es2015'],
-          plugins: ['transform-flow-strip-types'],
-        },
-      },
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+              plugins: ['transform-flow-strip-types'],
+            }
+          }
+        ],
+      }
     ],
   },
 }
