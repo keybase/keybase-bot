@@ -3,7 +3,7 @@
     "es6": true
   },
   "parser": "babel-eslint",
-  "extends": ["standard"],
+  "extends": ["standard", "prettier"],
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
@@ -32,7 +32,6 @@
     "no-duplicate-imports": 0,
     "standard/array-bracket-even-spacing": [2, "never"],
     "standard/computed-property-even-spacing": [2, "never"],
-    "standard/object-curly-even-spacing": [2, "never"],
     "strict": [2, "global"]
   }
 }
