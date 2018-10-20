@@ -15,7 +15,6 @@
   "plugins": ["babel", "flowtype"],
   "settings": {},
   "rules": {
-    "babel/flow-object-type": [1, "comma"],
     "babel/func-params-comma-dangle": 0,
     "comma-dangle": [2, "always-multiline"],
     "flowtype/require-valid-file-annotation": [2, "always", {"annotationStyle": "line"}],
