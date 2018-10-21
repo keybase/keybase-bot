@@ -15,13 +15,13 @@ bot.init(
     } else {
       console.log('Your bot is initialized. It is logged in as ' + bot.myInfo().username)
 
-      var channel = {
+      const channel = {
         name: 'kbot,' + bot.myInfo().username,
         public: false,
         topic_type: 'chat',
       }
 
-      var sendArg = {
+      const sendArg = {
         channel: channel,
         message: {
           body:
