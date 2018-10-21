@@ -13,8 +13,14 @@
   },
   "globals": {},
   "plugins": ["babel", "flowtype"],
-  "settings": {},
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": true
+    }
+  },
   "rules": {
+    "no-var": "error",
+    "prefer-const": "error",
     "babel/func-params-comma-dangle": 0,
     "comma-dangle": [2, "always-multiline"],
     "flowtype/require-valid-file-annotation": [2, "always", {"annotationStyle": "line"}],
