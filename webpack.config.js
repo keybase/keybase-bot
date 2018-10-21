@@ -1,9 +1,9 @@
 // @flow
-var DashboardPlugin = require('webpack-dashboard/plugin')
-var FlowStatusWebpackPlugin = require('flow-status-webpack-plugin')
-var webpack = require('webpack')
+let DashboardPlugin = require('webpack-dashboard/plugin')
+let FlowStatusWebpackPlugin = require('flow-status-webpack-plugin')
+let webpack = require('webpack')
 
-var plugins = []
+let plugins = []
 if (process.env.DASH) {
   plugins = [
     new webpack.NoEmitOnErrorsPlugin(),
@@ -33,10 +33,10 @@ module.exports = {
             options: {
               presets: ['@babel/preset-env'],
               plugins: ['transform-flow-strip-types'],
-            }
-          }
+            },
+          },
         ],
-      }
+      },
     ],
   },
 }
