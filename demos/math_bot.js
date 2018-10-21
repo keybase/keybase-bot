@@ -35,29 +35,35 @@ const msgReply = function(s) {
 
 const bot = new Bot()
 
-bot.init(null, function(err) {
-  if (err) {
-    console.log(err)
-  } else {
-    console.log('I am me! ', bot.myInfo().username, bot.myInfo().devicename)
-    const onMessages = function(o) {
-      for (const m of o.messages) {
-        const prefix = m.msg.content.text.body.slice(0, 6)
-        console.log(prefix)
-        if (prefix === '/math ') {
-          const reply = {
-            body: msgReply(m.msg.content.text.body.slice(6)),
-          }
-          bot.chatSend({channel: o.channel, message: reply}, function(err, res) {
-            if (err) {
-              console.log(err)
+bot.init(
+  {
+    username: process.env.KB_USERNAME,
+    paperkey: process.env.KB_PAPERKEY,
+  },
+  function(err) {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log('I am me! ', bot.myInfo().username, bot.myInfo().devicename)
+      const onMessages = function(o) {
+        for (const m of o.messages) {
+          const prefix = m.msg.content.text.body.slice(0, 6)
+          console.log(prefix)
+          if (prefix === '/math ') {
+            const reply = {
+              body: msgReply(m.msg.content.text.body.slice(6)),
             }
-          })
+            bot.chatSend({channel: o.channel, message: reply}, function(err, res) {
+              if (err) {
+                console.log(err)
+              }
+            })
+          }
         }
       }
+      console.log('Beginning watch for new messages.')
+      console.log('Tell anyone to send a message to ' + bot.myInfo().username + 'starting with /math')
+      bot.watchAllChannelsForNewMessages({onMessages: onMessages})
     }
-    console.log('Beginning watch for new messages.')
-    console.log('Tell anyone to send a message to ' + bot.myInfo().username + 'starting with /math')
-    bot.watchAllChannelsForNewMessages({onMessages: onMessages})
   }
-})
+)
