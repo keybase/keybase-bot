@@ -9,8 +9,8 @@
   "scripts": {
     "dash": "DASH=true webpack-dashboard -- webpack-dev-server --config ./webpack.config.js",
     "flow": "flow",
-    "build": "WEBPACK_ENV=build webpack",
-    "dev": "WEBPACK_ENV=dev   webpack --progress --colors --watch"
+    "build": "webpack --mode=production",
+    "dev": "webpack --mode=development --progress --colors --watch"
   },
   "dependencies": {},
   "devDependencies": {
