@@ -143,7 +143,7 @@ var onMessages = function(m) {
   var channel  = m.channel
   var messages = m.messages // we could look in this array to read them and write custom replies
   bot.chatSend({
-    channel: channel
+    channel: channel,
     message: {
       body: 'thanks!!!'
     }
