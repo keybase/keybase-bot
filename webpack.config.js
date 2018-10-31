@@ -20,7 +20,7 @@ module.exports = {
     filename: 'index.js',
     libraryTarget: 'umd',
   },
-  // devtool: 'eval-source-map',
+  devtool: 'eval-source-map',
   module: {
     rules: [
       {
