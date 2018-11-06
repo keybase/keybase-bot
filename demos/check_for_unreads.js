@@ -1,20 +1,17 @@
 #!/usr/bin/env node
-var Bot = require('../index.js').Bot
+const {Bot} = require('../index.js')
 
-var bot = new Bot()
+const bot = new Bot()
 
-bot.init({verbose: false}, function (err) {
-  if (!err) {
-    bot.chatList(null, function (err, res) {
-      if (!err) {
-        var unreadCount = 0;
-        for (var c of res.conversations) {
-          unreadCount += c.unread ? 1 : 0
-        }
-        console.log('You have ' + unreadCount + ' unread conversations out of ' + res.conversations.length + ' total.')
-      }
+bot
+  .init({
+    username: process.env.KB_USERNAME,
+    paperkey: process.env.KB_PAPERKEY,
+    verbose: false,
+  })
+  .then(() => {
+    bot.chatList(null).then(res => {
+      const unreadCount = res.conversations.filter(c => c.unread).length
+      console.log(`You have ${unreadCount} unread conversations out of ${res.conversations.length} total`)
     })
-  }
-})
-
-
+  })

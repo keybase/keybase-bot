@@ -2,7 +2,7 @@
 
 Script Keybase Chat in Node.js!
 
-This module is a side-project/work in progress and may change or have crashers, but feel free to play with it. As long as you're logged in as a Keybase user, you can use this module to script basic chat commands.
+This module is a side-project/work in progress and may change or have crashers, but feel free to play with it. As long as you have a Keybase account and a paper key, you can use this module to script basic chat commands.
 
 For more information about the API this module uses, run `keybase chat api -h` from your terminal.
 
@@ -21,32 +21,37 @@ npm install keybase-chat-bot
 // Says hello to the keybase `kbot` account
 //
 
-var keybaseChatBot = require('keybase-chat-bot')
+const keybaseChatBot = require('keybase-chat-bot')
 
-var bot = new keybaseChatBot.Bot()
+const bot = new keybaseChatBot.Bot()
 
-bot.init({verbose: false}, function (err) {
-  if (!err) {
-
-    var channel = {
-      name:       'kbot,' + bot.myInfo().username,
-      public:     false,
-      topic_type: 'chat'
-    }
-
-    var send_arg = {
-      channel: channel,
-      message: {
-        body: 'Hello kbot! Saying hello from my device ' + bot.myInfo().devicename
+bot.init(
+  {
+    username: 'your username',
+    paperkey: 'your paperkey',
+    verbose: false,
+  },
+  err => {
+    if (!err) {
+      const channel = {
+        name: 'kbot,' + bot.myInfo().username,
+        public: false,
+        topic_type: 'chat',
       }
+
+      const sendArg = {
+        channel: channel,
+        message: {
+          body: 'Hello kbot! Saying hello from my device ' + bot.myInfo().devicename,
+        },
+      }
+
+      bot.chatSend(sendArg, err => {
+        console.log('That probably sent!', err)
+      })
     }
-
-    bot.chatSend(send_arg, function(err) {
-      console.log('That probably sent!', err);
-    });
   }
-
-});
+)
 ```
 
 ### Commands
@@ -57,7 +62,7 @@ Anywhere we deal with callbacks functions (`cb`), you are required to supply thi
 
 As shown above, this must be run to initialize a bot before using it. It checks to make sure you're properly logged into Keybase and gets basic info about your session. Afterwards, feel free to check bot.myInfo() to see or check who you're logged in as.
 
-`options` is a dictionary expecting `verbose`, which says whether the bot should log much of what it's doing.
+`options` is a dictionary expecting `username` and `paperkey` (which are pretty self-explanatory), as well as `verbose`, which says whether the bot should log much of what it's doing.
 
 #### `bot.myInfo()`
 
@@ -168,23 +173,23 @@ bot.watchAllChannelsForNewMessages({
 
 This function may take a few seconds to recognize new messages, as the current implementation polls. Soon we expose a realtime stream in the API.
 
-
 ## TODO:
-  - (major version upgrade) support running in "one shot" mode (or switch to it entirely, for simplicity?)
-  - (major version upgrade) update this to a general bot, maybe renamed the module `keybase-bot`. Subsequently rename these chat calls something more like `keybase.chat.send`; then we can later instroduce other API type calls such as `keybase.team.create`.
-  - ephemeral message sending (and test how reading of exploding ones errors outs)
-  - use new realtime streaming API for watching
-  - emoji reactions (also test if handling reading incoming ones)
-  - attachment handling (posting/getting)
-  - `verbose` option in init is mostly meaningless now. need to finish that
-  - support for chatList options (other dev channels)
-  - wallet transaction monitoring and sending
-  - channel + team joining and leaving from inside bot; channel creation inside bot
-  - tests (will be nice with one shot mode)
+
+~~- (major version upgrade) support running in "one shot" mode (or switch to it entirely, for simplicity?)~~
+
+- (major version upgrade) update this to a general bot, maybe renamed the module `keybase-bot`. Subsequently rename these chat calls something more like `keybase.chat.send`; then we can later instroduce other API type calls such as `keybase.team.create`.
+- ephemeral message sending (and test how reading of exploding ones errors outs)
+- use new realtime streaming API for watching
+- emoji reactions (also test if handling reading incoming ones)
+- attachment handling (posting/getting)
+- `verbose` option in init is mostly meaningless now. need to finish that
+- support for chatList options (other dev channels)
+- wallet transaction monitoring and sending
+- channel + team joining and leaving from inside bot; channel creation inside bot
+- tests (will be nice with one shot mode)
 
 ### Contributions
 
 - please install dev dependencies and yarn (an improved npm)
 - make sure this passes `yarn build` and `yarn flow`
 - if adding a new feature, make a demo or something
-
