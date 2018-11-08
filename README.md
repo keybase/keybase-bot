@@ -25,38 +25,46 @@ const keybaseChatBot = require('keybase-chat-bot')
 
 const bot = new keybaseChatBot.Bot()
 
-bot.init(
-  {
-    username: 'your username',
-    paperkey: 'your paperkey',
+bot
+  .init({
+    username: process.env.KB_USERNAME,
+    paperkey: process.env.KB_PAPERKEY,
     verbose: false,
-  },
-  err => {
-    if (!err) {
-      const channel = {
-        name: 'kbot,' + bot.myInfo().username,
-        public: false,
-        topic_type: 'chat',
-      }
+  })
+  .catch(err => console.log(err))
+  .then(() => {
+    console.log('Your bot is initialized. It is logged in as ' + bot.myInfo().username)
 
-      const sendArg = {
-        channel: channel,
-        message: {
-          body: 'Hello kbot! Saying hello from my device ' + bot.myInfo().devicename,
-        },
-      }
-
-      bot.chatSend(sendArg, err => {
-        console.log('That probably sent!', err)
-      })
+    const channel = {
+      name: 'kbot,' + bot.myInfo().username,
+      public: false,
+      topic_type: 'chat',
     }
-  }
-)
+
+    const sendArg = {
+      channel: channel,
+      message: {
+        body:
+          'Hello kbot! This is ' +
+          bot.myInfo().username +
+          ' saying hello from my device ' +
+          bot.myInfo().devicename,
+      },
+    }
+
+    bot
+      .chatSend(sendArg)
+      .then(() => {
+        console.log('Message sent!')
+      })
+      .catch(err => console.log('Message failed to send', err))
+  })
 ```
 
 ### Commands
 
-Anywhere we deal with callbacks functions (`cb`), you are required to supply this argument, and expect them to pass `err` or, if appropriate, `err, result`.
+
+Anywhere a promise is returned from the bot API, you should handle error with `.cathc(err => { ... })`
 
 #### `bot.init(options, cb)`
 
@@ -68,64 +76,94 @@ As shown above, this must be run to initialize a bot before using it. It checks 
 
 returns your username and devicename.
 
-#### `bot.chatList(options, cb)`
+#### `bot.chatList(chatOptionsList) : Promise`
 
 lists your chats, with info on which ones have unread messages.
 
-For now, please pass `null` to options, as I haven't implemented options for this yet.
+**Chat Options List**:
 
-#### `bot.chatSend (options, cb)`
+```json
+{
+  topic_type?: 'chat' | 'DEV',
+  unread_only?: boolean,
+  show_errors?: boolean,
+  fail_offline?: boolean,
+}
+```
+
+
+#### `bot.chatSend(chatOptionsSend) : Promise`
 
 Sends a message to a certain channel.
 
 Options should be a data structure like this:
 
+**Chat Options Send**
+
 ```javascript
 // example options
 {
   channel: {
-    name:       'yourname,palsname,otherpalsname'
+    name:       'yourname,palsname,otherpalsname',
     public:     false,
-    topic_type: 'chat'
+    topic_type: 'chat',
   },
   message: {
-    body: 'This is the body of the message to send.'
-  }
+    body: 'This is the body of the message to send.',
+  },
+  // optional
+  conversation_id: 'id_here',
+  topic_type: 'chat' | 'dev',
+  nonblock: true,
+  members_type: 'team',
 }
 ```
 
-#### `bot.chatRead(options, cb)`
+#### `bot.chatRead(chatOptionsRead) : Promise`
 
 Reads the messages in a channel. You can read with or without marking as read.
 
+**Chat Options Read**
+
 ```javascript
 // example options
 {
-  unreadOnly:   true  // only return unread messages
-  peek:         false // actually mark messages as read
   channel: {
-    name:       'yourname,palsname,otherpalsname'
+    name:       'yourname,palsname,otherpalsname',
     public:     false,
-    topic_type: 'chat'
+    topic_type: 'chat',
+  }
+  // optional
+  conversation_id: 'id_here',
+  unreadOnly:       true,  // only return unread messages
+  peek:             false, // actually mark messages as read
+  pagination: {
+    num: 10,
+    next: '<result.pagination.next from last reply>',
+    previous: '<result.pagination.previous from last reply>',
+    last: '', // TODO
   }
 }
 ```
 
-#### `bot.chatDelete(options, cb)`
+#### `bot.chatDelete(ChatOptionsDelete) : Promise`
 
 Deletes a message in a channel. Messages have `messageId`'s associated with them, which you can learn in `bot.chatRead`.
 
 Known bug: the GUI has a cache, and deleting from the CLI may not become apparent immediately.
 
+**Chat Options Delete**
 ```javascript
 // example options
 {
   messageId: 12
   channel: {
-    name:       'yourname,palsname,otherpalsname'
+    name:       'yourname,palsname,otherpalsname',
     public:     false,
-    topic_type: 'chat'
-  }
+    topic_type: 'chat',
+  },
+  // optional
+  conversation_id: 'id_here',
 }
 ```
 
@@ -166,7 +204,7 @@ bot.watchAllChannelsForNewMessages({
   channel: {
     name:       'yourname,palsname,otherpalsname'
     public:     false,
-    topic_type: 'chat'
+    topic_type: 'chat',
   }
 });
 ```
