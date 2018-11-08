@@ -11,7 +11,10 @@ bot
   })
   .then(() => {
     bot
-      .chatList(null)
+      .chatList({
+        show_errors: true,
+        unread_only: true,
+      })
       .then(res => {
         const unreadCount = res.conversations.filter(c => c.unread).length
         console.log(`You have ${unreadCount} unread conversations out of ${res.conversations.length} total`)
