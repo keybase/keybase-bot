@@ -82,7 +82,7 @@ lists your chats, with info on which ones have unread messages.
 
 **Chat Options List**:
 
-```json
+```javascript
 {
   topic_type?: 'chat' | 'DEV',
   unread_only?: boolean,
