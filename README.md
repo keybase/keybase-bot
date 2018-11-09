@@ -63,7 +63,6 @@ bot
 
 ### Commands
 
-
 Anywhere a promise is returned from the bot API, you should handle error with `.cathc(err => { ... })`
 
 #### `bot.init(options, cb)`
@@ -90,7 +89,6 @@ lists your chats, with info on which ones have unread messages.
   fail_offline?: boolean,
 }
 ```
-
 
 #### `bot.chatSend(chatOptionsSend) : Promise`
 
@@ -153,6 +151,7 @@ Deletes a message in a channel. Messages have `messageId`'s associated with them
 Known bug: the GUI has a cache, and deleting from the CLI may not become apparent immediately.
 
 **Chat Options Delete**
+
 ```javascript
 // example options
 {
@@ -178,18 +177,23 @@ Example usage:
 ```javascript
 // reply to incoming traffic on all channels with 'thanks!'
 var onMessages = function(m) {
-  var channel  = m.channel
+  var channel = m.channel
   var messages = m.messages // we could look in this array to read them and write custom replies
-  bot.chatSend({
-    channel: channel,
-    message: {
-      body: 'thanks!!!'
+  bot.chatSend(
+    {
+      channel: channel,
+      message: {
+        body: 'thanks!!!',
+      },
+    },
+    function(err, res) {
+      if (err) {
+        console.log(err)
+      }
     }
-  }, function(err, res) {
-    if (err) {console.log(err);}
-  });
+  )
 }
-bot.watchAllChannelsForNewMessages({onMessages: onMessages});
+bot.watchAllChannelsForNewMessages({onMessages: onMessages})
 ```
 
 This function may take a few seconds to recognize new messages, as the current implementation polls. Soon we expose a realtime stream in the API.
@@ -210,21 +214,6 @@ bot.watchAllChannelsForNewMessages({
 ```
 
 This function may take a few seconds to recognize new messages, as the current implementation polls. Soon we expose a realtime stream in the API.
-
-## TODO:
-
-~~- (major version upgrade) support running in "one shot" mode (or switch to it entirely, for simplicity?)~~
-
-- (major version upgrade) update this to a general bot, maybe renamed the module `keybase-bot`. Subsequently rename these chat calls something more like `keybase.chat.send`; then we can later instroduce other API type calls such as `keybase.team.create`.
-- ephemeral message sending (and test how reading of exploding ones errors outs)
-- use new realtime streaming API for watching
-- emoji reactions (also test if handling reading incoming ones)
-- attachment handling (posting/getting)
-- `verbose` option in init is mostly meaningless now. need to finish that
-- support for chatList options (other dev channels)
-- wallet transaction monitoring and sending
-- channel + team joining and leaving from inside bot; channel creation inside bot
-- tests (will be nice with one shot mode)
 
 ### Contributions
 
