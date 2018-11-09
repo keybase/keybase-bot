@@ -35,5 +35,6 @@ bot
         console.log('Message sent!')
       })
       .catch(err => console.log('Message failed to send', err))
+      .finally(() => bot.deinit())
   })
   .catch(err => console.log(err))
