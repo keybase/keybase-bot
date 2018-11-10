@@ -11,8 +11,6 @@ const mathjs = require('mathjs')
 //          /math sqrt(pi/2) * 3!`
 //
 
-// -----------------------------------------------------------------------------
-
 const msgReply = function(s) {
   let a1, a2, ans, b1, b2, eqn
   try {
@@ -30,9 +28,9 @@ const msgReply = function(s) {
   return ans
 }
 
-async function main() {
-  const bot = new Bot()
+const bot = new Bot()
 
+async function main() {
   try {
     await bot.init({username: process.env.KB_USERNAME, paperkey: process.env.KB_PAPERKEY})
     console.log('I am me!', bot.myInfo().username, bot.myInfo().devicename)
@@ -61,10 +59,13 @@ async function main() {
   } catch (error) {
     console.error(error)
   }
-
-  // finally {
-  //   await bot.deinit()
-  // }
 }
+
+function shutDown() {
+  bot.deinit()
+}
+
+process.on('SIGINT', shutDown)
+process.on('SIGTERM', shutDown)
 
 main()
