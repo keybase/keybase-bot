@@ -61,8 +61,9 @@ async function main() {
   }
 }
 
-function shutDown() {
-  bot.deinit()
+async function shutDown() {
+  await bot.deinit()
+  process.exit()
 }
 
 process.on('SIGINT', shutDown)
