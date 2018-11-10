@@ -63,14 +63,17 @@ bot
 
 ### Commands
 
-
 Anywhere a promise is returned from the bot API, you should handle error with `.cathc(err => { ... })`
 
-#### `bot.init(options, cb)`
+#### `bot.init(options)`
 
 As shown above, this must be run to initialize a bot before using it. It checks to make sure you're properly logged into Keybase and gets basic info about your session. Afterwards, feel free to check bot.myInfo() to see or check who you're logged in as.
 
 `options` is a dictionary expecting `username` and `paperkey` (which are pretty self-explanatory), as well as `verbose`, which says whether the bot should log much of what it's doing.
+
+#### `bot.deinit()`
+
+This should be run to after your bot finishes running. It logs you out of your Keybase session.
 
 #### `bot.myInfo()`
 
@@ -90,7 +93,6 @@ lists your chats, with info on which ones have unread messages.
   fail_offline?: boolean,
 }
 ```
-
 
 #### `bot.chatSend(chatOptionsSend) : Promise`
 
@@ -153,6 +155,7 @@ Deletes a message in a channel. Messages have `messageId`'s associated with them
 Known bug: the GUI has a cache, and deleting from the CLI may not become apparent immediately.
 
 **Chat Options Delete**
+
 ```javascript
 // example options
 {
@@ -178,18 +181,23 @@ Example usage:
 ```javascript
 // reply to incoming traffic on all channels with 'thanks!'
 var onMessages = function(m) {
-  var channel  = m.channel
+  var channel = m.channel
   var messages = m.messages // we could look in this array to read them and write custom replies
-  bot.chatSend({
-    channel: channel,
-    message: {
-      body: 'thanks!!!'
+  bot.chatSend(
+    {
+      channel: channel,
+      message: {
+        body: 'thanks!!!',
+      },
+    },
+    function(err, res) {
+      if (err) {
+        console.log(err)
+      }
     }
-  }, function(err, res) {
-    if (err) {console.log(err);}
-  });
+  )
 }
-bot.watchAllChannelsForNewMessages({onMessages: onMessages});
+bot.watchAllChannelsForNewMessages({onMessages: onMessages})
 ```
 
 This function may take a few seconds to recognize new messages, as the current implementation polls. Soon we expose a realtime stream in the API.
