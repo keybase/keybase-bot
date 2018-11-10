@@ -9,6 +9,12 @@
       "request": "launch",
       "name": "Launch Hello World",
       "program": "${workspaceFolder}/demos/hello_world.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Math Bot",
+      "program": "${workspaceFolder}/demos/math_bot.js"
     }
   ]
 }
