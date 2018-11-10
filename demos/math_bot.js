@@ -39,24 +39,32 @@ async function main() {
 
     const onMessages = async o => {
       for (const m of o.messages) {
-        const prefix = m.msg.content.text.body.slice(0, 6)
-        if (prefix === '/math ') {
-          const reply = {
-            body: msgReply(m.msg.content.text.body.slice(6)),
+        try {
+          if (m.msg.content.type === 'text') {
+            const prefix = m.msg.content.text.body.slice(0, 6)
+            if (prefix === '/math ') {
+              const reply = {
+                body: msgReply(m.msg.content.text.body.slice(6)),
+              }
+              await bot.chatSend({channel: o.channel, message: reply})
+            }
           }
-          await bot.chatSend({channel: o.channel, message: reply})
+        } catch (error) {
+          console.error(error)
         }
       }
     }
 
     console.log('Beginning watch for new messages.')
-    console.log('Tell anyone to send a message to ' + bot.myInfo().username + 'starting with `/math `')
-    bot.watchAllChannelsForNewMessages({onMessages})
+    console.log(`Tell anyone to send a message to ${bot.myInfo().username} starting with '/math '`)
+    await bot.watchAllChannelsForNewMessages({onMessages})
   } catch (error) {
     console.error(error)
-  } finally {
-    await bot.deinit()
   }
+
+  // finally {
+  //   await bot.deinit()
+  // }
 }
 
 main()
