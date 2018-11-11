@@ -11,14 +11,12 @@ const mathjs = require('mathjs')
 //          /math sqrt(pi/2) * 3!`
 //
 
-// -----------------------------------------------------------------------------
-
 const msgReply = function(s) {
-  let a1, a2, ans, b1, b2, e, eqn
+  let a1, a2, ans, b1, b2, eqn
   try {
     ans = '= ' + mathjs['eval'](s).toString()
   } catch (error) {
-    e = error
+    console.error(error)
     a1 = Math.floor(Math.random() * 10)
     b1 = Math.floor(Math.random() * 10)
     a2 = Math.floor(Math.random() * 10)
@@ -30,40 +28,45 @@ const msgReply = function(s) {
   return ans
 }
 
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-
 const bot = new Bot()
 
-bot.init(
-  {
-    username: process.env.KB_USERNAME,
-    paperkey: process.env.KB_PAPERKEY,
-  },
-  function(err) {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log('I am me! ', bot.myInfo().username, bot.myInfo().devicename)
-      const onMessages = function(o) {
-        for (const m of o.messages) {
-          const prefix = m.msg.content.text.body.slice(0, 6)
-          console.log(prefix)
-          if (prefix === '/math ') {
-            const reply = {
-              body: msgReply(m.msg.content.text.body.slice(6)),
-            }
-            bot.chatSend({channel: o.channel, message: reply}, function(err, res) {
-              if (err) {
-                console.log(err)
+async function main() {
+  try {
+    await bot.init({username: process.env.KB_USERNAME, paperkey: process.env.KB_PAPERKEY})
+    console.log('I am me!', bot.myInfo().username, bot.myInfo().devicename)
+
+    const onMessages = async o => {
+      for (const m of o.messages) {
+        try {
+          if (m.msg.content.type === 'text') {
+            const prefix = m.msg.content.text.body.slice(0, 6)
+            if (prefix === '/math ') {
+              const reply = {
+                body: msgReply(m.msg.content.text.body.slice(6)),
               }
-            })
+              await bot.chatSend({channel: o.channel, message: reply})
+            }
           }
+        } catch (error) {
+          console.error(error)
         }
       }
-      console.log('Beginning watch for new messages.')
-      console.log('Tell anyone to send a message to ' + bot.myInfo().username + 'starting with /math')
-      bot.watchAllChannelsForNewMessages({onMessages: onMessages})
     }
+
+    console.log('Beginning watch for new messages.')
+    console.log(`Tell anyone to send a message to ${bot.myInfo().username} starting with '/math '`)
+    await bot.watchAllChannelsForNewMessages({onMessages})
+  } catch (error) {
+    console.error(error)
   }
-)
+}
+
+async function shutDown() {
+  await bot.deinit()
+  process.exit()
+}
+
+process.on('SIGINT', shutDown)
+process.on('SIGTERM', shutDown)
+
+main()

@@ -21,59 +21,65 @@ npm install keybase-chat-bot
 // Says hello to the keybase `kbot` account
 //
 
-const keybaseChatBot = require('keybase-chat-bot')
+const bot = new Bot()
 
-const bot = new keybaseChatBot.Bot()
-
-bot
-  .init({
-    username: process.env.KB_USERNAME,
-    paperkey: process.env.KB_PAPERKEY,
-    verbose: false,
-  })
-  .catch(err => console.log(err))
-  .then(() => {
-    console.log('Your bot is initialized. It is logged in as ' + bot.myInfo().username)
-
-    const channel = {
-      name: 'kbot,' + bot.myInfo().username,
-      public: false,
-      topic_type: 'chat',
-    }
-
-    const sendArg = {
-      channel: channel,
-      message: {
-        body:
-          'Hello kbot! This is ' +
-          bot.myInfo().username +
-          ' saying hello from my device ' +
-          bot.myInfo().devicename,
-      },
-    }
-
-    bot
-      .chatSend(sendArg)
-      .then(() => {
-        console.log('Message sent!')
-      })
-      .catch(err => console.log('Message failed to send', err))
-  })
+try {
+  await bot.init({username: process.env.KB_USERNAME, paperkey: process.env.KB_PAPERKEY, verbose: false})
+  console.log(`Your bot is initialized. It is logged in as ${bot.myInfo().username}`)
+  const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topic_type: 'chat'}
+  const sendArg = {
+    channel: channel,
+    message: {
+      body: `Hello kbot! This is ${bot.myInfo().username} saying hello from my device ${
+        bot.myInfo().devicename
+      }`,
+    },
+  }
+  await bot.chatSend(sendArg)
+  console.log('Message sent!')
+} catch (error) {
+  console.error(error)
+} finally {
+  await bot.deinit()
+}
 ```
 
 ### Commands
 
 Anywhere a promise is returned from the bot API, you should handle error with `.cathc(err => { ... })`
 
-#### `bot.init(options, cb)`
+#### `bot.init(options)`
 
 As shown above, this must be run to initialize a bot before using it. It checks to make sure you're properly logged into Keybase and gets basic info about your session. Afterwards, feel free to check bot.myInfo() to see or check who you're logged in as.
 
 `options` is a dictionary expecting `username` and `paperkey` (which are pretty self-explanatory), as well as `verbose`, which says whether the bot should log much of what it's doing.
 
+**options**:
+
+```javascript
+{
+  username: string,
+  paperkey: string,
+  verbose?: boolean,
+}
+```
+
+#### `bot.deinit()`
+
+This should be run to after your bot finishes running. It logs you out of your Keybase session.
+
 #### `bot.myInfo()`
 
 returns your username and devicename.
+
+**Return value**:
+
+```javascript
+{
+  username: string,
+  devicename: string,
+}
+```
 
 #### `bot.chatList(chatOptionsList) : Promise`
 
