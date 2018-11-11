@@ -54,6 +54,16 @@ As shown above, this must be run to initialize a bot before using it. It checks 
 
 `options` is a dictionary expecting `username` and `paperkey` (which are pretty self-explanatory), as well as `verbose`, which says whether the bot should log much of what it's doing.
 
+**options**:
+
+```javascript
+{
+  username: string,
+  paperkey: string,
+  verbose?: boolean,
+}
+```
+
 #### `bot.deinit()`
 
 This should be run to after your bot finishes running. It logs you out of your Keybase session.
@@ -61,6 +71,15 @@ This should be run to after your bot finishes running. It logs you out of your K
 #### `bot.myInfo()`
 
 returns your username and devicename.
+
+**Return value**:
+
+```javascript
+{
+  username: string,
+  devicename: string,
+}
+```
 
 #### `bot.chatList(chatOptionsList) : Promise`
 
