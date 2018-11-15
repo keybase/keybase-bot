@@ -36,6 +36,7 @@ async function main() {
     console.log('I am me!', bot.myInfo().username, bot.myInfo().devicename)
 
     const onMessage = async message => {
+      console.log(message)
       try {
         if (message.content.type === 'text') {
           const prefix = message.content.text.body.slice(0, 6)
@@ -51,7 +52,8 @@ async function main() {
 
     console.log('Beginning watch for new messages.')
     console.log(`Tell anyone to send a message to ${bot.myInfo().username} starting with '/math '`)
-    await bot.watchAllChannelsForNewMessages(onMessage)
+    // await bot.watchAllChannelsForNewMessages(onMessage)
+    bot.watchChannelForNewMessages('kbot,nsmith1', onMessage)
   } catch (error) {
     console.error(error)
   }
