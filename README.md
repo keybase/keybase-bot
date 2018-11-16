@@ -68,11 +68,11 @@ try {
         -   [Parameters](#parameters-3)
     -   [chatDelete](#chatdelete)
         -   [Parameters](#parameters-4)
-    -   [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
-        -   [Parameters](#parameters-5)
-        -   [Examples](#examples)
     -   [watchChannelForNewMessages](#watchchannelfornewmessages)
+        -   [Parameters](#parameters-5)
+    -   [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
         -   [Parameters](#parameters-6)
+        -   [Examples](#examples)
 -   [Types](#types)
     -   [InitOptions](#initoptions)
         -   [Properties](#properties)
@@ -99,7 +99,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 Deinitializes a bot by logging it out of its current Keybase session.
 Should be run after your bot finishes.
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?>** 
 
 ##### myInfo
 
@@ -149,6 +149,16 @@ and deleting from the CLI may not become apparent immediately.
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;any>** 
 
+##### watchChannelForNewMessages
+
+Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives.
+This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel.
+
+###### Parameters
+
+-   `channel` **ChatChannel** 
+-   `onMessage` **function (message: ChatReadMessage): void** 
+
 ##### watchAllChannelsForNewMessages
 
 This function will put your bot into insane mode, where it reads
@@ -162,7 +172,7 @@ message your bot receives.\*
 
 ###### Parameters
 
--   `options` **{onMessages: MessagesHandler}** 
+-   `onMessage` **function (message: ChatReadMessage): void** 
 
 ###### Examples
 
@@ -187,14 +197,6 @@ var onMessages = function(m) {
 }
 bot.watchAllChannelsForNewMessages({onMessages: onMessages})
 ```
-
-##### watchChannelForNewMessages
-
-This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel.
-
-###### Parameters
-
--   `options` **{channel: ChatChannel, onMessages: MessagesHandler}** 
 
 #### Types
 
