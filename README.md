@@ -56,23 +56,23 @@ try {
 ##### Table of Contents
 
 -   [Bot](#bot)
-    -   [watchChannelForNewMessages](#watchchannelfornewmessages)
-        -   [Parameters](#parameters)
     -   [init](#init)
-        -   [Parameters](#parameters-1)
+        -   [Parameters](#parameters)
     -   [deinit](#deinit)
     -   [myInfo](#myinfo)
     -   [chatList](#chatlist)
-        -   [Parameters](#parameters-2)
+        -   [Parameters](#parameters-1)
     -   [chatSend](#chatsend)
-        -   [Parameters](#parameters-3)
+        -   [Parameters](#parameters-2)
     -   [chatRead](#chatread)
-        -   [Parameters](#parameters-4)
+        -   [Parameters](#parameters-3)
     -   [chatDelete](#chatdelete)
-        -   [Parameters](#parameters-5)
+        -   [Parameters](#parameters-4)
     -   [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
-        -   [Parameters](#parameters-6)
+        -   [Parameters](#parameters-5)
         -   [Examples](#examples)
+    -   [watchChannelForNewMessages](#watchchannelfornewmessages)
+        -   [Parameters](#parameters-6)
 -   [Types](#types)
     -   [InitOptions](#initoptions)
         -   [Properties](#properties)
@@ -80,12 +80,6 @@ try {
 #### Bot
 
 A Keybase bot.
-
-##### watchChannelForNewMessages
-
-###### Parameters
-
--   `options` **{channel: ChatChannel, onMessages: MessagesHandler}**
 
 ##### init
 
@@ -96,22 +90,22 @@ see or check who you're logged in as.
 
 ###### Parameters
 
--   `options` **[InitOptions](#initoptions)**
+-   `options` **[InitOptions](#initoptions)** 
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?>**
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?>** 
 
 ##### deinit
 
 Deinitializes a bot by logging it out of its current Keybase session.
 Should be run after your bot finishes.
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
 
 ##### myInfo
 
 Returns your username and devicename.
 
-Returns **DeviceUsernamePair?**
+Returns **DeviceUsernamePair?** 
 
 ##### chatList
 
@@ -119,9 +113,9 @@ Lists your chats, with info on which ones have unread messages.
 
 ###### Parameters
 
--   `options` **ChatOptionsList**
+-   `options` **ChatOptionsList** 
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;any>**
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;any>** 
 
 ##### chatSend
 
@@ -129,9 +123,9 @@ Sends a message to a certain channel.
 
 ###### Parameters
 
--   `options` **ChatOptionsSend**
+-   `options` **ChatOptionsSend** 
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;any>**
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;any>** 
 
 ##### chatRead
 
@@ -139,9 +133,9 @@ Reads the messages in a channel. You can read with or without marking as read.
 
 ###### Parameters
 
--   `options` **ChatOptionsRead**
+-   `options` **ChatOptionsRead** 
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;any>**
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;any>** 
 
 ##### chatDelete
 
@@ -151,29 +145,24 @@ and deleting from the CLI may not become apparent immediately.
 
 ###### Parameters
 
--   `options` **ChatOptionsDelete**
+-   `options` **ChatOptionsDelete** 
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;any>**
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;any>** 
 
 ##### watchAllChannelsForNewMessages
 
 This function will put your bot into insane mode, where it reads
- everything it can (marking messages as read as it reads them), and every
- new message it finds it will pass to you, so you can do what you want
- with it. For example, if you want to write a Keybase bot that talks shit
- at anyone who dares approach it, this is the function to use.
- Specifically, it will call the onMessages function you provide,
- clustering messages together by channel. So, for example, if it detects
- 3 messages from person A, and 2 messages from person B, it will call
- your onMessages function twice; once for each channel.
+everything it can and every new message it finds it will pass to you, so
+you can do what you want with it. For example, if you want to write a
+Keybase bot that talks shit at anyone who dares approach it, this is the
+function to use.\*
 
- This function may take a few seconds to recognize new messages, as the
- current implementation polls. Soon we expose a realtime stream in the
- API.
+Specifically, it will call the `onMessage` function you provide for every
+message your bot receives.\*
 
 ###### Parameters
 
--   `options` **{onMessages: MessagesHandler}**
+-   `options` **{onMessages: MessagesHandler}** 
 
 ###### Examples
 
@@ -199,6 +188,14 @@ var onMessages = function(m) {
 bot.watchAllChannelsForNewMessages({onMessages: onMessages})
 ```
 
+##### watchChannelForNewMessages
+
+This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel.
+
+###### Parameters
+
+-   `options` **{channel: ChatChannel, onMessages: MessagesHandler}** 
+
 #### Types
 
 Collection of options for chat api
@@ -210,9 +207,9 @@ Type: {username: [string](https://developer.mozilla.org/docs/Web/JavaScript/Refe
 
 ###### Properties
 
--   `username` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
--   `paperkey` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
--   `verbose` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+-   `username` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `paperkey` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `verbose` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
 
 ### Contributions
 
