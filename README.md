@@ -6,6 +6,11 @@ This module is a side-project/work in progress and may change or have crashers, 
 
 For more information about the API this module uses, run `keybase chat api -h` from your terminal.
 
+-   [Installation](#installation)
+-   [Hello World](#hello-world)
+-   [API](#api)
+-   [Contributions](#contributions)
+
 # Installation
 
 Make sure to [install Keybase](https://keybase.io/download).
@@ -51,20 +56,22 @@ try {
 ##### Table of Contents
 
 -   [Bot](#bot)
-    -   [init](#init)
+    -   [watchChannelForNewMessages](#watchchannelfornewmessages)
         -   [Parameters](#parameters)
+    -   [init](#init)
+        -   [Parameters](#parameters-1)
     -   [deinit](#deinit)
     -   [myInfo](#myinfo)
     -   [chatList](#chatlist)
-        -   [Parameters](#parameters-1)
-    -   [chatSend](#chatsend)
         -   [Parameters](#parameters-2)
-    -   [chatRead](#chatread)
+    -   [chatSend](#chatsend)
         -   [Parameters](#parameters-3)
-    -   [chatDelete](#chatdelete)
+    -   [chatRead](#chatread)
         -   [Parameters](#parameters-4)
-    -   [watchChannelForNewMessages](#watchchannelfornewmessages)
+    -   [chatDelete](#chatdelete)
         -   [Parameters](#parameters-5)
+    -   [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
+        -   [Parameters](#parameters-6)
         -   [Examples](#examples)
 -   [Types](#types)
     -   [InitOptions](#initoptions)
@@ -73,6 +80,12 @@ try {
 #### Bot
 
 A Keybase bot.
+
+##### watchChannelForNewMessages
+
+###### Parameters
+
+-   `options` **{channel: ChatChannel, onMessages: MessagesHandler}**
 
 ##### init
 
@@ -142,7 +155,7 @@ and deleting from the CLI may not become apparent immediately.
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;any>**
 
-##### watchChannelForNewMessages
+##### watchAllChannelsForNewMessages
 
 This function will put your bot into insane mode, where it reads
  everything it can (marking messages as read as it reads them), and every
@@ -154,9 +167,13 @@ This function will put your bot into insane mode, where it reads
  3 messages from person A, and 2 messages from person B, it will call
  your onMessages function twice; once for each channel.
 
+ This function may take a few seconds to recognize new messages, as the
+ current implementation polls. Soon we expose a realtime stream in the
+ API.
+
 ###### Parameters
 
--   `options` **{channel: ChatChannel, onMessages: MessagesHandler}**
+-   `options` **{onMessages: MessagesHandler}**
 
 ###### Examples
 
@@ -197,11 +214,8 @@ Type: {username: [string](https://developer.mozilla.org/docs/Web/JavaScript/Refe
 -   `paperkey` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 -   `verbose` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
-
-
 ### Contributions
 
 -   please install dev dependencies and yarn (an improved npm)
 -   make sure this passes `yarn build` and `yarn flow`
 -   if adding a new feature, make a demo or something
-
