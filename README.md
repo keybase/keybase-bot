@@ -232,7 +232,7 @@ Collection of options for chat api
 
 ##### AllChatOptions
 
-Type: ([ChatOptionsList](#chatoptionslist) \| [ChatOptionsRead](#chatoptionsread) \| [ChatOptionsEdit](#chatoptionsedit) \| [ChatOptionsDelete](#chatoptionsdelete) \| [ChatOptionsSetStatus](#chatoptionssetstatus) \| [ChatOptionsMark](#chatoptionsmark) \| [ChatOptionsReaction](#chatoptionsreaction) \| [ChatOptionsSearchRegexp](#chatoptionssearchregexp) \| [ChatOptionsSearchInbox](#chatoptionssearchinbox) \| [ChatOptionsDownload](#chatoptionsdownload) \| [ChatOptionsAttachment](#chatoptionsattachment))
+Type: ([ChatOptionsList](#chatoptionslist) \| [ChatOptionsRead](#chatoptionsread) \| [ChatOptionsSend](#chatoptionssend) \| [ChatOptionsEdit](#chatoptionsedit) \| [ChatOptionsDelete](#chatoptionsdelete) \| [ChatOptionsSetStatus](#chatoptionssetstatus) \| [ChatOptionsMark](#chatoptionsmark) \| [ChatOptionsReaction](#chatoptionsreaction) \| [ChatOptionsSearchRegexp](#chatoptionssearchregexp) \| [ChatOptionsSearchInbox](#chatoptionssearchinbox) \| [ChatOptionsDownload](#chatoptionsdownload) \| [ChatOptionsAttachment](#chatoptionsattachment))
 
 ##### InitOptions
 
@@ -257,24 +257,24 @@ Type: {unreadOnly: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/R
 
 ##### ChatOptionsSend
 
-Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), message: ChatMessage, nonblock: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), membersType: MembersType}
+Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, message: ChatMessage, nonblock: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, membersType: MembersType}
 
 ###### Properties
 
 -   `channel` **ChatChannel** 
--   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
 -   `message` **ChatMessage** 
--   `nonblock` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
+-   `nonblock` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
 -   `membersType` **MembersType** 
 
 ##### ChatOptionsRead
 
-Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), peek: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), pagination: Pagination?, unreadOnly: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), failOffline: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)}
+Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, peek: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), pagination: Pagination?, unreadOnly: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), failOffline: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)}
 
 ###### Properties
 
 -   `channel` **ChatChannel** 
--   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
 -   `peek` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
 -   `pagination` **Pagination?** 
 -   `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
@@ -282,56 +282,56 @@ Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.
 
 ##### ChatOptionsEdit
 
-Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), messageId: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), message: ChatMessage}
+Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, messageId: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), message: ChatMessage}
 
 ###### Properties
 
 -   `channel` **ChatChannel** 
--   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
 -   `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 -   `message` **ChatMessage** 
 
 ##### ChatOptionsReaction
 
-Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), messageId: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), message: ChatMessage}
+Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, messageId: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), message: ChatMessage}
 
 ###### Properties
 
 -   `channel` **ChatChannel** 
--   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
 -   `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 -   `message` **ChatMessage** 
 
 ##### ChatOptionsDelete
 
-Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), messageId: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)}
+Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, messageId: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)}
 
 ###### Properties
 
 -   `channel` **ChatChannel** 
--   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
 -   `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
 ##### ChatOptionsAttachment
 
-Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), filename: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), title: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), preview: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
+Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, filename: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), title: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), preview: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
 
 ###### Properties
 
 -   `channel` **ChatChannel** 
--   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
 -   `filename` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `title` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `preview` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
 
 ##### ChatOptionsDownload
 
-Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), messageId: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), output: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), preview: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, noStream: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
+Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, messageId: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), output: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), preview: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, noStream: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
 
 ###### Properties
 
 -   `channel` **ChatChannel** 
--   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
 -   `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 -   `output` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `preview` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
@@ -339,22 +339,22 @@ Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.
 
 ##### ChatOptionsSetStatus
 
-Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), status: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}
+Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, status: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}
 
 ###### Properties
 
 -   `channel` **ChatChannel** 
--   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
 -   `status` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ##### ChatOptionsMark
 
-Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), messageId: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)}
+Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, messageId: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)}
 
 ###### Properties
 
 -   `channel` **ChatChannel** 
--   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
 -   `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
 ##### ChatOptionsSearchInbox
