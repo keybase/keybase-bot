@@ -14,7 +14,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Math Bot",
-      "program": "${workspaceFolder}/demos/math_bot copy.js"
+      "program": "${workspaceFolder}/demos/math_bot.js"
     }
   ]
 }
