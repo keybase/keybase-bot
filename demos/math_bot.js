@@ -35,27 +35,24 @@ async function main() {
     await bot.init({username: process.env.KB_USERNAME, paperkey: process.env.KB_PAPERKEY})
     console.log('I am me!', bot.myInfo().username, bot.myInfo().devicename)
 
-    const onMessages = async o => {
-      for (const m of o.messages) {
-        try {
-          if (m.msg.content.type === 'text') {
-            const prefix = m.msg.content.text.body.slice(0, 6)
-            if (prefix === '/math ') {
-              const reply = {
-                body: msgReply(m.msg.content.text.body.slice(6)),
-              }
-              await bot.chatSend({channel: o.channel, message: reply})
-            }
+    const onMessage = async message => {
+      try {
+        if (message.content.type === 'text') {
+          const prefix = message.content.text.body.slice(0, 6)
+          if (prefix === '/math ') {
+            const reply = {body: msgReply(message.content.text.body.slice(6))}
+            await bot.chatSend({channel: message.channel, message: reply})
           }
-        } catch (error) {
-          console.error(error)
         }
+      } catch (error) {
+        console.error(error)
       }
     }
 
     console.log('Beginning watch for new messages.')
     console.log(`Tell anyone to send a message to ${bot.myInfo().username} starting with '/math '`)
-    await bot.watchAllChannelsForNewMessages({onMessages})
+    // await bot.watchAllChannelsForNewMessages(onMessage)
+    bot.watchChannelForNewMessages('kbot,nsmith1', onMessage)
   } catch (error) {
     console.error(error)
   }
