@@ -51,8 +51,7 @@ async function main() {
 
     console.log('Beginning watch for new messages.')
     console.log(`Tell anyone to send a message to ${bot.myInfo().username} starting with '/math '`)
-    // await bot.watchAllChannelsForNewMessages(onMessage)
-    bot.watchChannelForNewMessages('kbot,nsmith1', onMessage)
+    await bot.watchAllChannelsForNewMessages(onMessage)
   } catch (error) {
     console.error(error)
   }
