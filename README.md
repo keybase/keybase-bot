@@ -212,11 +212,6 @@ bot.watchAllChannelsForNewMessages(
 );
 ```
 
-### Contributions
-
--   please install dev dependencies and yarn (an improved npm)
--   make sure this passes `yarn build` and `yarn flow`
--   if adding a new feature, make a demo or something
 
 ### API
 
@@ -257,22 +252,22 @@ see or check who you're logged in as.
 
 ###### Parameters
 
--   `options` **[InitOptions](#initoptions)** 
+-   `options` **[InitOptions](#initoptions)**
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?>**
 
 ##### deinit
 
 Deinitializes a bot by logging it out of its current Keybase session.
 Should be run after your bot finishes.
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 ##### myInfo
 
 Returns your username and devicename.
 
-Returns **DeviceUsernamePair?** 
+Returns **DeviceUsernamePair?**
 
 ##### chatList
 
@@ -280,9 +275,9 @@ Lists your chats, with info on which ones have unread messages.
 
 ###### Parameters
 
--   `options` **ChatOptionsList** 
+-   `options` **ChatOptionsList**
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;any>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;any>**
 
 ##### chatSend
 
@@ -290,9 +285,9 @@ Sends a message to a certain channel.
 
 ###### Parameters
 
--   `options` **ChatOptionsSend** 
+-   `options` **ChatOptionsSend**
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;any>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;any>**
 
 ##### chatRead
 
@@ -300,9 +295,9 @@ Reads the messages in a channel. You can read with or without marking as read.
 
 ###### Parameters
 
--   `options` **ChatOptionsRead** 
+-   `options` **ChatOptionsRead**
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;any>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;any>**
 
 ##### chatDelete
 
@@ -312,9 +307,9 @@ and deleting from the CLI may not become apparent immediately.
 
 ###### Parameters
 
--   `options` **ChatOptionsDelete** 
+-   `options` **ChatOptionsDelete**
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;any>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;any>**
 
 ##### watchChannelForNewMessages
 
@@ -330,7 +325,7 @@ This function will put your bot into insane mode, where it reads
 
 ###### Parameters
 
--   `options` **{channel: ChatChannel, onMessages: MessagesHandler}** 
+-   `options` **{channel: ChatChannel, onMessages: MessagesHandler}**
 
 ###### Examples
 
@@ -367,6 +362,15 @@ Type: {username: [string](https://developer.mozilla.org/docs/Web/JavaScript/Refe
 
 ###### Properties
 
--   `username` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `paperkey` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `verbose` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
+-   `username` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+-   `paperkey` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+-   `verbose` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+
+
+
+### Contributions
+
+-   please install dev dependencies and yarn (an improved npm)
+-   make sure this passes `yarn build` and `yarn flow`
+-   if adding a new feature, make a demo or something
+
