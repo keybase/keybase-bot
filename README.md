@@ -174,52 +174,43 @@ Known bug: the GUI has a cache, and deleting from the CLI may not become apparen
 
 #### `bot.watchAllChannelsForNewMessages(options)`
 
-This function will put your bot into insane mode, where it reads everything it can (marking messages as read as it reads them), and every new message it finds it will pass to you, so you can do what you want with it. For example, if you want to write a Keybase bot that talks shit at anyone who dares approach it, this is the function to use.
+This function will put your bot into insane mode, where it reads everything it can and every new message it finds it will pass to you, so you can do what you want with it. For example, if you want to write a Keybase bot that talks shit at anyone who dares approach it, this is the function to use.
 
-Specifically, it will call the `onMessages` function you provide, clustering messages together by channel. So, for example, if it detects 3 messages from person A, and 2 messages from person B, it will call your `onMessages` function twice; once for each channel.
+Specifically, it will call the `onMessage` function you provide for every message your bot receives.
 
 Example usage:
 
 ```javascript
-// reply to incoming traffic on all channels with 'thanks!'
-var onMessages = function(m) {
-  var channel = m.channel
-  var messages = m.messages // we could look in this array to read them and write custom replies
-  bot.chatSend(
-    {
-      channel: channel,
+// reply to each message on all channels with 'thanks!!!'
+const onMessage = async message => {
+  try {
+    await bot.chatSend({
+      channel: message.channel,
       message: {
         body: 'thanks!!!',
       },
-    },
-    function(err, res) {
-      if (err) {
-        console.log(err)
-      }
-    }
-  )
+    })
+  } catch (error) {
+    console.err(error)
+  }
 }
-bot.watchAllChannelsForNewMessages({onMessages: onMessages})
+bot.watchAllChannelsForNewMessages(onMessage)
 ```
 
-This function may take a few seconds to recognize new messages, as the current implementation polls. Soon we expose a realtime stream in the API.
+#### `bot.watchChannelForNewMessages(channel, onMessage)`
 
-#### `bot.watchChannelForNewMessages(options)`
-
-This is exactly the same as `bot.watchAllChannelsForNewMessages` except the options argument should include a specific channel. Other channels are ignored.
+This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel.
 
 ```javascript
-bot.watchAllChannelsForNewMessages({
-  onMessages: onMessages,
+bot.watchAllChannelsForNewMessages(
   channel: {
     name:       'yourname,palsname,otherpalsname'
     public:     false,
     topic_type: 'chat',
-  }
-});
+  },
+  onMessage
+);
 ```
-
-This function may take a few seconds to recognize new messages, as the current implementation polls. Soon we expose a realtime stream in the API.
 
 ### Contributions
 
