@@ -22,9 +22,12 @@
     "dash": "DASH=true webpack-dashboard -- webpack-dev-server --config ./webpack.config.js",
     "flow": "flow",
     "build": "webpack --mode=production",
-    "dev": "webpack --mode=development --progress --colors --watch"
+    "dev": "webpack --mode=development --progress --colors --watch",
+    "docs": "documentation readme lib/*.js --config documentation.yml --section=API"
   },
-  "dependencies": {},
+  "dependencies": {
+    "documentation": "^8.1.2"
+  },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
