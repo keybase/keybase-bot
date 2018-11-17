@@ -29,10 +29,7 @@ module.exports = {
         use: [
           {
             loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env'],
-              plugins: ['transform-flow-strip-types'],
-            },
+            options: {babelrc: true},
           },
         ],
       },
