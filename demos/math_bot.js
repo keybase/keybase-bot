@@ -11,12 +11,11 @@ const mathjs = require('mathjs')
 //          /math sqrt(pi/2) * 3!`
 //
 
-const msgReply = function(s) {
+const msgReply = s => {
   let a1, a2, ans, b1, b2, eqn
   try {
     ans = '= ' + mathjs['eval'](s).toString()
-  } catch (error) {
-    console.error(error)
+  } catch {
     a1 = Math.floor(Math.random() * 10)
     b1 = Math.floor(Math.random() * 10)
     a2 = Math.floor(Math.random() * 10)
