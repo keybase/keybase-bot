@@ -19,7 +19,6 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "flow": "flow",
     "build": "rollup -c",
     "dev": "rollup -c --watch"
   },
@@ -29,7 +28,6 @@
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-flow": "^7.0.0",
     "babel-eslint": "^10.0.1",
-    "babel-loader": "^8.0.4",
     "eslint": "^5.9.0",
     "eslint-config-prettier": "^3.3.0",
     "eslint-config-standard": "^12.0.0",
