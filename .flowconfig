@@ -1,4 +1,6 @@
 [ignore]
+index.js
+index.js.*
 
 [include]
 
