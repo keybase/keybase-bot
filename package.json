@@ -19,7 +19,6 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "flow": "flow",
     "build": "rollup -c",
     "dev": "rollup -c --watch"
   },
