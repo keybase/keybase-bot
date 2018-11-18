@@ -13,6 +13,12 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Launch Check For Unreads",
+      "program": "${workspaceFolder}/demos/check_for_unreads.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Launch Math Bot",
       "program": "${workspaceFolder}/demos/math_bot.js"
     }

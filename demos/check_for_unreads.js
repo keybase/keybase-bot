@@ -6,12 +6,16 @@ async function main() {
 
   try {
     await bot.init({username: process.env.KB_USERNAME, paperkey: process.env.KB_PAPERKEY, verbose: false})
-    const res = await bot.chatList({
+    const res = await bot.chat.list({
       showErrors: true,
-      unreadOnly: true,
+      unreadOnly: false,
     })
-    const unreadCount = res.conversations.filter(c => c.unread).length
-    console.log(`You have ${unreadCount} unread conversations out of ${res.conversations.length} total`)
+
+    console.log(
+      `You have ${res.conversations.filter(c => c.unread).length} unread conversations out of ${
+        res.conversations.length
+      } total`
+    )
   } catch (error) {
     console.error(error)
   } finally {

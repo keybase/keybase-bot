@@ -40,7 +40,7 @@ async function main() {
           const prefix = message.content.text.body.slice(0, 6)
           if (prefix === '/math ') {
             const reply = {body: msgReply(message.content.text.body.slice(6))}
-            await bot.chatSend({channel: message.channel, message: reply})
+            await bot.chat.send({channel: message.channel, message: reply})
           }
         }
       } catch (error) {
@@ -50,7 +50,7 @@ async function main() {
 
     console.log('Beginning watch for new messages.')
     console.log(`Tell anyone to send a message to ${bot.myInfo().username} starting with '/math '`)
-    await bot.watchAllChannelsForNewMessages(onMessage)
+    bot.chat.watchAllChannelsForNewMessages(onMessage)
   } catch (error) {
     console.error(error)
   }
