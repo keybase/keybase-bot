@@ -16,7 +16,7 @@ async function main() {
         }`,
       },
     }
-    await bot.chatSend(sendArg)
+    await bot.chat.send(sendArg)
     console.log('Message sent!')
   } catch (error) {
     console.error(error)
