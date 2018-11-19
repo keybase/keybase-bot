@@ -1,0 +1,26 @@
+# Configuration for documentation.js
+# Specifies the table of contents order and child docs
+# CONFIG: https://github.com/documentationjs/documentation/blob/master/docs/CONFIG.md
+toc:
+  - Bot
+  - name: Types
+    description: |
+      Collection of options for chat api
+    children:
+      - AllChatOptions
+      - InitOptions
+      - ChatOptionsList
+      - ChatOptionsSend
+      - ChatOptionsRead
+      - ChatOptionsEdit
+      - ChatOptionsReaction
+      - ChatOptionsDelete
+      - ChatOptionsAttachment
+      - ChatOptionsDownload
+      - ChatOptionsSetStatus
+      - ChatOptionsMark
+      - ChatOptionsSearchInbox
+      - ChatOptionsSearchRegexp
+      - ChatReadMessage
+      - DeviceUsernamePair
+      - NativeStatus
