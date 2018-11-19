@@ -6,10 +6,7 @@
   "extends": ["standard", "prettier"],
   "parserOptions": {
     "ecmaVersion": 6,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
+    "sourceType": "module"
   },
   "globals": {},
   "plugins": ["babel", "flowtype"],
@@ -34,7 +31,6 @@
     "flowtype/delimiter-dangle": [2, "always-multiline"],
     "flowtype/no-dupe-keys": 2,
     "flowtype/semi": [2, "never"],
-    "jsx-quotes": [2, "prefer-single"],
     "no-duplicate-imports": 0,
     "standard/array-bracket-even-spacing": [2, "never"],
     "standard/computed-property-even-spacing": [2, "never"],
