@@ -22,6 +22,9 @@
     "build": "rollup -c",
     "dev": "rollup -c --watch"
   },
+  "dependencies": {
+    "documentation": "^8.1.2"
+  },
   "devDependencies": {
     "@babel/cli": "^7.1.5",
     "@babel/core": "^7.1.6",
