@@ -34,6 +34,7 @@
     ]
   },
   "scripts": {
+    "docs": "documentation readme lib/*.js --config documentation.yml --section=API",
     "build": "rollup -c",
     "dev": "rollup -c --watch",
     "docs": "documentation readme lib/*.js --config documentation.yml --section=API"
