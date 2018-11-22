@@ -15,7 +15,7 @@ const msgReply = s => {
   let a1, a2, ans, b1, b2, eqn
   try {
     ans = '= ' + mathjs['eval'](s).toString()
-  } catch {
+  } catch (e) {
     a1 = Math.floor(Math.random() * 10)
     b1 = Math.floor(Math.random() * 10)
     a2 = Math.floor(Math.random() * 10)

@@ -7,21 +7,20 @@ toc:
     description: |
       Collection of options for chat api
     children:
-    - AllChatOptions
-    - InitOptions
-    - ChatOptionsList
-    - ChatOptionsSend
-    - ChatOptionsRead
-    - ChatOptionsEdit
-    - ChatOptionsReaction
-    - ChatOptionsDelete
-    - ChatOptionsAttachment
-    - ChatOptionsDownload
-    - ChatOptionsSetStatus
-    - ChatOptionsMark
-    - ChatOptionsSearchInbox
-    - ChatOptionsSearchRegexp
-    - ChatReadMessage
-    - DeviceUsernamePair
-    - NativeStatus
-    - MessagesHandler
+      - AllChatOptions
+      - InitOptions
+      - ChatOptionsList
+      - ChatOptionsSend
+      - ChatOptionsRead
+      - ChatOptionsEdit
+      - ChatOptionsReaction
+      - ChatOptionsDelete
+      - ChatOptionsAttachment
+      - ChatOptionsDownload
+      - ChatOptionsSetStatus
+      - ChatOptionsMark
+      - ChatOptionsSearchInbox
+      - ChatOptionsSearchRegexp
+      - ChatReadMessage
+      - DeviceUsernamePair
+      - NativeStatus
