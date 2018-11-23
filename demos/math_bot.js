@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const Bot = require('../index.js').Bot
+const bot = require('../index.js')
 const mathjs = require('mathjs')
 
 //
@@ -26,8 +26,6 @@ const msgReply = s => {
   }
   return ans
 }
-
-const bot = new Bot()
 
 async function main() {
   try {
