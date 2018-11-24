@@ -12,5 +12,5 @@ export default {
       exclude: 'node_modules/**',
     }),
   ],
-  external: ['child_process', 'readline'],
+  external: ['child_process', 'readline', 'lodash.snakecase'],
 }
