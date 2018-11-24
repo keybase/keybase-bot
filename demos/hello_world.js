@@ -3,7 +3,6 @@ const Bot = require('../index.js')
 
 async function main() {
   const bot = new Bot()
-  console.log('BOT', bot)
   try {
     await bot.init({username: process.env.KB_USERNAME, paperkey: process.env.KB_PAPERKEY, verbose: false})
     console.log(`Your bot is initialized. It is logged in as ${bot.myInfo().username}`)
