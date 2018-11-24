@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const bot = require('../index.js')
+const Bot = require('../index.js')
 const mathjs = require('mathjs')
 
 //
@@ -10,6 +10,8 @@ const mathjs = require('mathjs')
 //
 //          /math sqrt(pi/2) * 3!`
 //
+
+const bot = new Bot()
 
 const msgReply = s => {
   let a1, a2, ans, b1, b2, eqn
