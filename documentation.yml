@@ -2,12 +2,12 @@
 # Specifies the table of contents order and child docs
 # CONFIG: https://github.com/documentationjs/documentation/blob/master/docs/CONFIG.md
 toc:
-  - Bot
+  - bot
   - name: Types
     description: |
       Collection of options for chat api
     children:
-      - AllChatOptions
+      - AnyChatOption
       - InitOptions
       - ChatOptionsList
       - ChatOptionsSend
@@ -24,3 +24,4 @@ toc:
       - ChatReadMessage
       - DeviceUsernamePair
       - NativeStatus
+      - OnMessage
