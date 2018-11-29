@@ -31,7 +31,9 @@ const msgReply = s => {
 
 async function main() {
   try {
-    await bot.init({username: process.env.KB_USERNAME, paperkey: process.env.KB_PAPERKEY})
+    const username = process.env.KB_USERNAME
+    const paperkey = process.env.KB_PAPERKEY
+    await bot.init(username, paperkey)
     console.log('I am me!', bot.myInfo().username, bot.myInfo().devicename)
 
     const onMessage = async message => {
@@ -52,7 +54,7 @@ async function main() {
     console.log(`Tell anyone to send a message to ${bot.myInfo().username} starting with '/math '`)
     bot.chat.watchAllChannelsForNewMessages(onMessage)
   } catch (error) {
-    console.error(error)
+    console.error(error.message)
   }
 }
 
