@@ -35,6 +35,7 @@
   },
   "scripts": {
     "docs": "documentation readme lib/*.js --config documentation.yml --section=API",
+    "prepublish": "yarn build",
     "build": "rollup -c",
     "dev": "rollup -c --watch"
   },
