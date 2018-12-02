@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/keybase-bot.svg)](https://www.npmjs.com/package/keybase-bot)
 
-Script Keybase functionality in Node.js
+Script Keybase functionality in Node.js.
 
 This module is a side-project/work in progress and may change or have crashers, but feel free to play with it. As long as you have a Keybase account and a paper key, you can use this module to script basic Keybase commands.
 
