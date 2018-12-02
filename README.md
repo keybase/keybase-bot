@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/keybase-bot.svg)](https://www.npmjs.com/package/keybase-bot)
 
-Script Keybase functionality in Node.js!
+Script Keybase functionality in Node.js
 
 This module is a side-project/work in progress and may change or have crashers, but feel free to play with it. As long as you have a Keybase account and a paper key, you can use this module to script basic Keybase commands.
 
@@ -397,8 +397,13 @@ Type: {username: [string](https://developer.mozilla.org/docs/Web/JavaScript/Refe
 
 ## Contributions
 
-We welcome contributions from you!
+Make sure that you have Node, Yarn, and the Keybase application installed. We also use developer tools such as EditorConfig, ESLint, Flow, and Prettier so you'll probably want to make sure that your development is configured to use those tools somewhere in your code writing process.
 
-- please install dev dependencies and yarn (an improved npm)
-- make sure this passes `yarn build` and `yarn flow`
-- if adding a new feature, make a demo or something
+### Setting up the source code
+
+1. Clone this repo.
+2. Install dependencies with `yarn`.
+3. Build the bot in watch mode with `yarn dev`.
+4. Build the bot for production with `yarn build`.
+
+That's it. We accept changes via Pull Requests; please make sure that any changes you make build successfully and pass Flow, Prettier, and ESLint checks. If you're adding a new feature, please add tests, demos, documentation, and whatever else to go with it.
