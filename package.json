@@ -5,7 +5,11 @@
   "keywords": [
     "keybase",
     "bot",
-    "encryption"
+    "chatbot",
+    "encryption",
+    "crypto",
+    "pgp",
+    "gpg"
   ],
   "main": "index.js",
   "homepage": "https://github.com/keybase/keybase-chat-bot",
