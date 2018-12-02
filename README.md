@@ -407,3 +407,7 @@ Make sure that you have Node, Yarn, and the Keybase application installed. We al
 4. Build the bot for production with `yarn build`.
 
 That's it. We accept changes via Pull Requests; please make sure that any changes you make build successfully and pass Flow, Prettier, and ESLint checks. If you're adding a new feature, please add tests, demos, documentation, and whatever else to go with it.
+
+## License
+
+BSD-3-Clause
