@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const Bot = require('../index.js').Bot
+const Bot = require('../index.js')
 const mathjs = require('mathjs')
 
 //
@@ -10,6 +10,8 @@ const mathjs = require('mathjs')
 //
 //          /math sqrt(pi/2) * 3!`
 //
+
+const bot = new Bot()
 
 const msgReply = s => {
   let a1, a2, ans, b1, b2, eqn
@@ -27,11 +29,11 @@ const msgReply = s => {
   return ans
 }
 
-const bot = new Bot()
-
 async function main() {
   try {
-    await bot.init({username: process.env.KB_USERNAME, paperkey: process.env.KB_PAPERKEY})
+    const username = process.env.KB_USERNAME
+    const paperkey = process.env.KB_PAPERKEY
+    await bot.init(username, paperkey)
     console.log('I am me!', bot.myInfo().username, bot.myInfo().devicename)
 
     const onMessage = async message => {
@@ -40,7 +42,7 @@ async function main() {
           const prefix = message.content.text.body.slice(0, 6)
           if (prefix === '/math ') {
             const reply = {body: msgReply(message.content.text.body.slice(6))}
-            await bot.chatSend({channel: message.channel, message: reply})
+            await bot.chat.send({channel: message.channel, message: reply})
           }
         }
       } catch (error) {
@@ -50,9 +52,9 @@ async function main() {
 
     console.log('Beginning watch for new messages.')
     console.log(`Tell anyone to send a message to ${bot.myInfo().username} starting with '/math '`)
-    await bot.watchAllChannelsForNewMessages(onMessage)
+    bot.chat.watchAllChannelsForNewMessages(onMessage)
   } catch (error) {
-    console.error(error)
+    console.error(error.message)
   }
 }
 
