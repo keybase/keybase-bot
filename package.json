@@ -18,6 +18,11 @@
   "engines": {
     "node": ">=8.0.0"
   },
+  "files": [
+    "index.js",
+    "index.js.map",
+    "lib/*"
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
