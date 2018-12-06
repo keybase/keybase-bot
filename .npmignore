@@ -1,0 +1,6 @@
+.*
+lib/*
+demos/*
+documentation.yml
+rollup.config.js
+yarn.lock
