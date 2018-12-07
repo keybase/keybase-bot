@@ -42,7 +42,7 @@ async function main() {
           const prefix = message.content.text.body.slice(0, 6)
           if (prefix === '/math ') {
             const reply = {body: msgReply(message.content.text.body.slice(6))}
-            await bot.chat.send({channel: message.channel, message: reply})
+            await bot.chat.send(message.channel, reply)
           }
         }
       } catch (error) {
