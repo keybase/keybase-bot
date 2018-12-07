@@ -1,4 +1,11 @@
 #!/usr/bin/env node
+
+/*
+ * This bot loads 2 users from tests.config.js and fires up a bot for each one, simultaneusly,
+ * and they cumulatively count to 10; first `alice1` sends 1 to `bob1`, and then each one
+ * keeps adding 1 to the previous message. Script exits when 10 is reached.
+ */
+
 const Bot = require('../index.js')
 const config = require('./tests.config.js')
 const alice = new Bot()
