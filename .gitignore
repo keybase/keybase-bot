@@ -2,3 +2,4 @@ node_modules/
 *.DS_Store
 /index.js
 /index.js.map
+tests/tests.config.js
