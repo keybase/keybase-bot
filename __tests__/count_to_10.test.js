@@ -20,7 +20,6 @@ const onMessageForBot = (botName, bot) => {
     try {
       if (message.content.type === 'text') {
         const body = message.content.text.body
-        console.log(`${botName} (${bot.myInfo().username}) got message ${body}`)
         const num = parseInt(body)
         HIGHEST_REACHED = Math.max(num, HIGHEST_REACHED)
         if (num === STOP_AT) {
@@ -58,7 +57,6 @@ async function main() {
 async function shutDown(code) {
   await alice.deinit()
   await bob.deinit()
-  process.exit(code)
 }
 
 function waitAMoment(ms) {

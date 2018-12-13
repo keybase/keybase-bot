@@ -1,0 +1,67 @@
+#!/usr/bin/env node
+/* eslint-env jest */
+
+const fs = require('fs')
+const {promisify} = require('util')
+const Bot = require('../index.js')
+const config = require('./tests.config.js')
+const alice = new Bot()
+const exec = require('child_process').exec
+
+async function doesFileOrDirectoryExist(fpath) {
+  try {
+    await promisify(fs.lstat)(fpath)
+    return true
+  } catch (err) {
+    return false
+  }
+}
+
+async function countProcessesMentioning(substr) {
+  expect(substr).toMatch(/^[0-9a-z_\- /]+$/i)
+  const aexec = promisify(exec)
+  try {
+    const execRes = await aexec(`ps ax | grep -v 'grep' | grep "${substr}"`)
+    return execRes.stdout.split('\n').length - 1
+  } catch (e) {
+    if (e.code === 1) {
+      return 0
+    } else {
+      throw new Error('Error looking for processes')
+    }
+  }
+}
+
+async function runTest() {
+  it(`alice can init and deinit()`, async () => {
+    await alice.init(config.alice1.username, config.alice1.paperkey)
+    const homeDir = alice.myInfo().homeDir
+
+    // make sure our bot can return a home directory
+    expect(homeDir.indexOf('keybase_bot_')).toBeGreaterThanOrEqual(0)
+
+    // make sure that homeDir exists
+    expect(await doesFileOrDirectoryExist(homeDir)).toBe(true)
+
+    // make sure we see a running server processes
+    expect(await countProcessesMentioning(homeDir)).toBe(1)
+
+    // get a couple listen processes going
+    alice.chat.watchAllChannelsForNewMessages(msg => console.log(msg))
+    alice.chat.watchAllChannelsForNewMessages(msg => console.error(msg))
+
+    // now we should see 1 server and 2 clients
+    expect(await countProcessesMentioning(homeDir)).toBe(3)
+
+    // deinit
+    await alice.deinit()
+
+    // make sure homeDir has now been deleted
+    expect(await doesFileOrDirectoryExist(homeDir)).toBe(false)
+
+    // all processes should be shut down
+    expect(await countProcessesMentioning(homeDir)).toBe(0)
+  })
+}
+
+runTest()
