@@ -3,7 +3,7 @@
 
 import fs from 'fs'
 import {promisify} from 'util'
-import Bot from '../lib/entry.js'
+import Bot from '../lib'
 import config from './tests.config.js'
 const alice = new Bot()
 const exec = require('child_process').exec
