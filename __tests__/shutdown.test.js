@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /* eslint-env jest */
 
-const fs = require('fs')
-const {promisify} = require('util')
-const Bot = require('../index.js')
-const config = require('./tests.config.js')
+import fs from 'fs'
+import {promisify} from 'util'
+import Bot from '../lib/entry.js'
+import config from './tests.config.js'
 const alice = new Bot()
 const exec = require('child_process').exec
 

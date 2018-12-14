@@ -7,8 +7,8 @@
  * keeps adding 1 to the previous message.
  */
 
-const Bot = require('../index.js')
-const config = require('./tests.config.js')
+import Bot from '../lib/entry.js'
+import config from './tests.config.js'
 const alice = new Bot()
 const bob = new Bot()
 
@@ -40,7 +40,7 @@ const onMessageForBot = (botName, bot) => {
   return onMessage
 }
 
-async function main() {
+async function startup() {
   await alice.init(config.alice1.username, config.alice1.paperkey)
   await bob.init(config.bob1.username, config.bob1.paperkey)
   alice.chat.watchAllChannelsForNewMessages(onMessageForBot('alice', alice))
@@ -95,7 +95,7 @@ async function runTest() {
   }
 }
 
-main().catch(e => {
+startup().catch(e => {
   console.log('main error', e)
 })
 
