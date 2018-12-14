@@ -32,36 +32,32 @@ async function countProcessesMentioning(substr) {
   }
 }
 
-async function runTest() {
-  it(`alice can init and deinit()`, async () => {
-    await alice.init(config.alice1.username, config.alice1.paperkey)
-    const homeDir = alice.myInfo().homeDir
+it(`alice can init and deinit()`, async () => {
+  await alice.init(config.alice1.username, config.alice1.paperkey)
+  const homeDir = alice.myInfo().homeDir
 
-    // make sure our bot can return a home directory
-    expect(homeDir.indexOf('keybase_bot_')).toBeGreaterThanOrEqual(0)
+  // make sure our bot can return a home directory
+  expect(homeDir.indexOf('keybase_bot_')).toBeGreaterThanOrEqual(0)
 
-    // make sure that homeDir exists
-    expect(await doesFileOrDirectoryExist(homeDir)).toBe(true)
+  // make sure that homeDir exists
+  expect(await doesFileOrDirectoryExist(homeDir)).toBe(true)
 
-    // make sure we see a running server processes
-    expect(await countProcessesMentioning(homeDir)).toBe(1)
+  // make sure we see a running server processes
+  expect(await countProcessesMentioning(homeDir)).toBe(1)
 
-    // get a couple listen processes going
-    alice.chat.watchAllChannelsForNewMessages(msg => console.log(msg))
-    alice.chat.watchAllChannelsForNewMessages(msg => console.error(msg))
+  // get a couple listen processes going
+  alice.chat.watchAllChannelsForNewMessages(msg => console.log(msg))
+  alice.chat.watchAllChannelsForNewMessages(msg => console.error(msg))
 
-    // now we should see 1 server and 2 clients
-    expect(await countProcessesMentioning(homeDir)).toBe(3)
+  // now we should see 1 server and 2 clients
+  expect(await countProcessesMentioning(homeDir)).toBe(3)
 
-    // deinit
-    await alice.deinit()
+  // deinit
+  await alice.deinit()
 
-    // make sure homeDir has now been deleted
-    expect(await doesFileOrDirectoryExist(homeDir)).toBe(false)
+  // make sure homeDir has now been deleted
+  expect(await doesFileOrDirectoryExist(homeDir)).toBe(false)
 
-    // all processes should be shut down
-    expect(await countProcessesMentioning(homeDir)).toBe(0)
-  })
-}
-
-runTest()
+  // all processes should be shut down
+  expect(await countProcessesMentioning(homeDir)).toBe(0)
+})
