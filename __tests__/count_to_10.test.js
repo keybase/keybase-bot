@@ -7,8 +7,8 @@
  * keeps adding 1 to the previous message.
  */
 
-const Bot = require('../index.js')
-const config = require('./tests.config.js')
+import Bot from '../lib/entry.js'
+import config from './tests.config.js'
 const alice = new Bot()
 const bob = new Bot()
 
@@ -20,7 +20,6 @@ const onMessageForBot = (botName, bot) => {
     try {
       if (message.content.type === 'text') {
         const body = message.content.text.body
-        console.log(`${botName} (${bot.myInfo().username}) got message ${body}`)
         const num = parseInt(body)
         HIGHEST_REACHED = Math.max(num, HIGHEST_REACHED)
         if (num === STOP_AT) {
@@ -41,7 +40,7 @@ const onMessageForBot = (botName, bot) => {
   return onMessage
 }
 
-async function main() {
+async function startup() {
   await alice.init(config.alice1.username, config.alice1.paperkey)
   await bob.init(config.bob1.username, config.bob1.paperkey)
   alice.chat.watchAllChannelsForNewMessages(onMessageForBot('alice', alice))
@@ -58,7 +57,6 @@ async function main() {
 async function shutDown(code) {
   await alice.deinit()
   await bob.deinit()
-  process.exit(code)
 }
 
 function waitAMoment(ms) {
@@ -97,7 +95,7 @@ async function runTest() {
   }
 }
 
-main().catch(e => {
+startup().catch(e => {
   console.log('main error', e)
 })
 
