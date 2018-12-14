@@ -15,14 +15,6 @@
       "onlyFilesWithFlowAnnotation": true
     }
   },
-  "overrides": [
-    {
-      "files": ["**/*.test.js", "__tests__/*"],
-      "env": {
-        "jest": true
-      }
-    }
-  ],
   "rules": {
     "no-var": "error",
     "prefer-const": "error",
