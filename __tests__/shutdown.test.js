@@ -33,7 +33,7 @@ async function countProcessesMentioning(substr) {
 }
 
 it(`alice can init and deinit()`, async () => {
-  await alice.init(config.alice1.username, config.alice1.paperkey)
+  await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
   const homeDir = alice.myInfo().homeDir
 
   // make sure our bot can return a home directory

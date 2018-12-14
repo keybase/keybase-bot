@@ -5,16 +5,23 @@
  */
 
 module.exports = {
-  alice1: {
-    username: 'alice',
-    paperkey: 'foo bar car...',
+  bots: {
+    alice1: {
+      username: 'alice',
+      paperkey: 'foo bar car...',
+    },
+    alice2: {
+      username: 'alice' /* should be the same as alice1 */,
+      paperkey: 'yo there paperkey...',
+    },
+    bob1: {
+      username: 'bob',
+      paperkey: 'one two three four...',
+    },
   },
-  alice2: {
-    username: 'alice' /* should be the same as alice1 */,
-    paperkey: 'yo there paperkey...',
-  },
-  bob1: {
-    username: 'bob',
-    paperkey: 'one two three four...',
+  teams: {
+    acme: {
+      teamname: 'someteam' /* a real team that you add your alice1, alice2, and bob1 all into */,
+    },
   },
 }

@@ -7,8 +7,8 @@ const alice = new Bot()
 
 async function main() {
   it(`alice can init()`, async () => {
-    await alice.init(config.alice1.username, config.alice1.paperkey)
-    expect(alice.myInfo().username).toBe(config.alice1.username)
+    await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
+    expect(alice.myInfo().username).toBe(config.bots.alice1.username)
     await alice.deinit()
   })
 }

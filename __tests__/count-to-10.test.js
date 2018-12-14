@@ -7,50 +7,43 @@
  * keeps adding 1 to the previous message.
  */
 
+import crypto from 'crypto'
 import Bot from '../lib/entry.js'
 import config from './tests.config.js'
 const alice = new Bot()
 const bob = new Bot()
-
 const STOP_AT = 10
+const CONVO_CODE = crypto.randomBytes(8).toString('hex')
 let HIGHEST_REACHED = 0
 
 const onMessageForBot = (botName, bot) => {
   const onMessage = async message => {
-    try {
-      if (message.content.type === 'text') {
-        const body = message.content.text.body
-        const num = parseInt(body)
+    if (message.content.type === 'text') {
+      const body = message.content.text.body
+      if (body.indexOf(CONVO_CODE) !== -1) {
+        const num = parseInt(body.replace(CONVO_CODE, '').trim())
         HIGHEST_REACHED = Math.max(num, HIGHEST_REACHED)
-        if (num === STOP_AT) {
-          // no-op
-        }
-        // make sure it really was a number
-        else if (num >= 0 && num < STOP_AT) {
-          const reply = {body: (num + 1).toString()}
+        if (num < STOP_AT) {
+          const reply = {body: `${CONVO_CODE} ${num + 1}`}
           await bot.chat.send(message.channel, reply)
-        } else {
-          throw new Error('Got non-integer message')
         }
       }
-    } catch (error) {
-      console.error(error)
     }
   }
   return onMessage
 }
 
 async function startup() {
-  await alice.init(config.alice1.username, config.alice1.paperkey)
-  await bob.init(config.bob1.username, config.bob1.paperkey)
+  await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
+  await bob.init(config.bots.bob1.username, config.bots.bob1.paperkey)
   alice.chat.watchAllChannelsForNewMessages(onMessageForBot('alice', alice))
   bob.chat.watchAllChannelsForNewMessages(onMessageForBot('bob', bob))
   const channel = {
-    name: `${config.alice1.username},${config.bob1.username}`,
+    name: `${config.bots.alice1.username},${config.bots.bob1.username}`,
     public: false,
     topic_type: 'chat',
   }
-  const message = {body: '1'}
+  const message = {body: `${CONVO_CODE} 1`}
   await bob.chat.send(channel, message)
 }
 
