@@ -2,7 +2,7 @@
 
 import fs from 'fs'
 import {promisify} from 'util'
-import Bot from '../lib/entry.js'
+import Bot from '../lib'
 import config from './tests.config.js'
 const alice = new Bot()
 const exec = require('child_process').exec
@@ -31,6 +31,14 @@ async function countProcessesMentioning(substr) {
   }
 }
 
+function timeout(time: number) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve()
+    }, time)
+  })
+}
+
 it(`alice can init and deinit()`, async () => {
   await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
   const homeDir = alice.myInfo().homeDir
@@ -47,6 +55,8 @@ it(`alice can init and deinit()`, async () => {
   // get a couple listen processes going
   alice.chat.watchAllChannelsForNewMessages(msg => console.log(msg))
   alice.chat.watchAllChannelsForNewMessages(msg => console.error(msg))
+
+  await timeout(3000)
 
   // now we should see 1 server and 2 clients
   expect(await countProcessesMentioning(homeDir)).toBe(3)

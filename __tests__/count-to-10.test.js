@@ -7,7 +7,7 @@
  */
 
 import crypto from 'crypto'
-import Bot from '../lib/entry.js'
+import Bot from '../lib'
 import config from './tests.config.js'
 const alice = new Bot()
 const bob = new Bot()

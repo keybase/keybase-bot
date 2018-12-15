@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import Bot from '../lib/entry.js'
+import Bot from '../lib'
 import config from './tests.config.js'
 
 const alice = new Bot()
