@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/* eslint-env jest */
 import Bot from '../lib/entry.js'
 import config from './tests.config.js'
 

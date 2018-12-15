@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/* eslint-env jest */
 
 /*
  * This bot loads 2 users from tests.config.js and fires up a bot for each one, simultaneusly,

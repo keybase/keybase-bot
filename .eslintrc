@@ -1,7 +1,17 @@
 {
   "env": {
-    "es6": true
+    "es6": true,
+    "node": true
   },
+  "overrides": [
+    {
+      "files": ["**/*.test.js"],
+      "env": {
+        "jest": true
+      }
+    }
+  ],
+
   "parser": "babel-eslint",
   "extends": ["standard", "prettier"],
   "parserOptions": {
