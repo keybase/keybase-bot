@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/* eslint-env jest */
 
 import fs from 'fs'
 import {promisify} from 'util'
