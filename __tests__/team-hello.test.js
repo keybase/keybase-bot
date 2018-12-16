@@ -62,7 +62,6 @@ async function watchForCompletion() {
 startup()
 
 it(`alice and bob can talk in a team channel`, async () => {
-  jest.setTimeout(30000)
   await watchForCompletion()
   return true
 })
