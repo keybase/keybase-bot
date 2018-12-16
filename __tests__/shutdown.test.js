@@ -7,6 +7,8 @@ import config from './tests.config.js'
 const alice = new Bot()
 const exec = require('child_process').exec
 
+jest.setTimeout(30000)
+
 async function doesFileOrDirectoryExist(fpath) {
   try {
     await promisify(fs.lstat)(fpath)
