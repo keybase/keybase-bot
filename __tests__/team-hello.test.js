@@ -6,7 +6,7 @@
  * keeps adding 1 to the previous message.
  */
 
-import Bot from '../lib/entry.js'
+import Bot from '../lib'
 import config from './tests.config.js'
 const alice = new Bot()
 const bob = new Bot()
@@ -62,7 +62,6 @@ async function watchForCompletion() {
 startup()
 
 it(`alice and bob can talk in a team channel`, async () => {
-  jest.setTimeout(15000)
   await watchForCompletion()
   return true
 })

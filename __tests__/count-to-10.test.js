@@ -70,7 +70,6 @@ async function runTest() {
   // support running by hand or from jest
   if (typeof test !== 'undefined') {
     it(`can count to ${STOP_AT} with alice and bob`, async () => {
-      jest.setTimeout(30000)
       let done = false
       try {
         done = await watchForCompletion()
