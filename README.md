@@ -63,61 +63,133 @@ node <my-awesome-file-name>.js
 
 #### Table of Contents
 
-- [Types](#types)
-  - [ChatReadMessage](#chatreadmessage)
+- [Bot](#bot)
+- [ChatBot](#chatbot)
+  - [list](#list)
+    - [Parameters](#parameters)
+  - [read](#read)
+    - [Parameters](#parameters-1)
+  - [send](#send)
+    - [Parameters](#parameters-2)
+  - [delete](#delete)
+    - [Parameters](#parameters-3)
+  - [watchChannelForNewMessages](#watchchannelfornewmessages)
+    - [Parameters](#parameters-4)
+- [Chat Types](#chat-types)
+  - [InitOptions](#initoptions)
+    - [Properties](#properties)
   - [OnMessage](#onmessage)
   - [ChatOptionsEdit](#chatoptionsedit)
-    - [Properties](#properties)
-  - [ChatOptionsReaction](#chatoptionsreaction)
     - [Properties](#properties-1)
-  - [ChatOptionsAttachment](#chatoptionsattachment)
+  - [ChatOptionsReaction](#chatoptionsreaction)
     - [Properties](#properties-2)
-  - [ChatOptionsDownload](#chatoptionsdownload)
+  - [ChatOptionsAttachment](#chatoptionsattachment)
     - [Properties](#properties-3)
-  - [ChatOptionsSetStatus](#chatoptionssetstatus)
+  - [ChatOptionsDownload](#chatoptionsdownload)
     - [Properties](#properties-4)
-  - [ChatOptionsMark](#chatoptionsmark)
+  - [ChatOptionsSetStatus](#chatoptionssetstatus)
     - [Properties](#properties-5)
+  - [ChatOptionsMark](#chatoptionsmark)
+    - [Properties](#properties-6)
   - [ChatOptionsSearchInbox](#chatoptionssearchinbox)
   - [ChatOptionsSearchRegexp](#chatoptionssearchregexp)
-- [init](#init)
-  - [Parameters](#parameters)
-- [deinit](#deinit)
-- [deinit](#deinit-1)
-- [myInfo](#myinfo)
-- [list](#list)
-  - [Parameters](#parameters-1)
-- [read](#read)
-  - [Parameters](#parameters-2)
-- [send](#send)
-  - [Parameters](#parameters-3)
-- [delete](#delete)
-  - [Parameters](#parameters-4)
-- [watchChannelForNewMessages](#watchchannelfornewmessages)
-  - [Parameters](#parameters-5)
+- [BotInfo](#botinfo)
+  - [Properties](#properties-7)
+- [BaseBot](#basebot)
+  - [init](#init)
+    - [Parameters](#parameters-5)
+  - [deinit](#deinit)
+  - [myInfo](#myinfo)
 - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
   - [Parameters](#parameters-6)
   - [Examples](#examples)
 - [ChatListOptions](#chatlistoptions)
-  - [Properties](#properties-6)
-- [ChatSendOptions](#chatsendoptions)
-  - [Properties](#properties-7)
-- [ChatReadOptions](#chatreadoptions)
   - [Properties](#properties-8)
-- [ChatDeleteOptions](#chatdeleteoptions)
+- [ChatSendOptions](#chatsendoptions)
   - [Properties](#properties-9)
+- [ChatReadOptions](#chatreadoptions)
+  - [Properties](#properties-10)
+- [ChatDeleteOptions](#chatdeleteoptions)
+  - [Properties](#properties-11)
 
-### Types
+### Bot
+
+**Extends BaseBot**
+
+The Keybase bot.
+
+### ChatBot
+
+**Extends BaseBot**
+
+A Keybase bot with chat functionality.
+
+#### list
+
+Lists your chats, with info on which ones have unread messages.
+
+##### Parameters
+
+- `options` **[ChatListOptions](#chatlistoptions)**
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;ChatConversation>>**
+
+#### read
+
+Reads the messages in a channel. You can read with or without marking as read.
+
+##### Parameters
+
+- `channel` **ChatChannel**
+- `options` **[ChatReadOptions](#chatreadoptions)**
+
+#### send
+
+Sends a message to a certain channel.
+
+##### Parameters
+
+- `channel` **ChatChannel**
+- `message` **ChatMessage**
+- `options` **[ChatSendOptions](#chatsendoptions)**
+
+#### delete
+
+Deletes a message in a channel. Messages have messageId's associated with
+them, which you can learn in `bot.chat.read`. Known bug: the GUI has a cache,
+and deleting from the CLI may not become apparent immediately.
+
+##### Parameters
+
+- `channel` **ChatChannel**
+- `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `options` **[ChatDeleteOptions](#chatdeleteoptions)**
+
+#### watchChannelForNewMessages
+
+Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives.
+This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel.
+
+##### Parameters
+
+- `channel` **ChatChannel**
+- `onMessage` **[OnMessage](#onmessage)**
+
+### Chat Types
 
 Collection of options for chat api
 
-#### ChatReadMessage
+#### InitOptions
 
-Type: any
+Type: {verbose: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
+
+##### Properties
+
+- `verbose` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
 #### OnMessage
 
-Type: function (message: [ChatReadMessage](#chatreadmessage)): void
+Type: function (message: MessageSummary): void
 
 #### ChatOptionsEdit
 
@@ -194,86 +266,43 @@ Type: any
 
 Type: any
 
-### init
+### BotInfo
+
+Type: {username: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), devicename: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), homeDir: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}
+
+#### Properties
+
+- `username` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `devicename` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `homeDir` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+
+### BaseBot
+
+A BaseBot. This bot handles initialization, deinitialization, and other common bot functionalities. You shouldn't be calling it directly, but all other bots should inherit from it.
+
+#### init
 
 Initializes your bot.
 
-#### Parameters
+##### Parameters
 
 - `username` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 - `paperkey` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-- `options` **InitOptions**
+- `options` **[InitOptions](#initoptions)**
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
-### deinit
+#### deinit
 
 Deinitializes the bot by logging out, stopping the keybase service, and removing any leftover login files made by the bot. This should be run before your bot ends.
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
-### deinit
+#### myInfo
 
-Deinitializes the bot by logging out, stopping the keybase service, and removing any leftover login files made by the bot. This should be run before your bot ends.
+Returns the username, device name, and home directory of the current bot, or `null` if the bot has not been initialized.
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
-
-### myInfo
-
-Returns the username and device name of the current bot, or `null` if the bot has not been initialized.
-
-Returns **BotInfo?**
-
-### list
-
-Lists your chats, with info on which ones have unread messages.
-
-#### Parameters
-
-- `options` **[ChatListOptions](#chatlistoptions)**
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;ChatConversation>>**
-
-### read
-
-Reads the messages in a channel. You can read with or without marking as read.
-
-#### Parameters
-
-- `channel` **ChatChannel**
-- `options` **[ChatReadOptions](#chatreadoptions)**
-
-### send
-
-Sends a message to a certain channel.
-
-#### Parameters
-
-- `channel` **ChatChannel**
-- `message` **ChatMessage**
-- `options` **[ChatSendOptions](#chatsendoptions)**
-
-### delete
-
-Deletes a message in a channel. Messages have messageId's associated with
-them, which you can learn in `bot.chat.read`. Known bug: the GUI has a cache,
-and deleting from the CLI may not become apparent immediately.
-
-#### Parameters
-
-- `channel` **ChatChannel**
-- `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
-- `options` **[ChatDeleteOptions](#chatdeleteoptions)**
-
-### watchChannelForNewMessages
-
-Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives.
-This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel.
-
-#### Parameters
-
-- `channel` **ChatChannel**
-- `onMessage` **[OnMessage](#onmessage)**
+Returns **[BotInfo](#botinfo)?**
 
 ### watchAllChannelsForNewMessages
 

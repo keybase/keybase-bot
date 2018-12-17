@@ -2,8 +2,9 @@
 # Specifies the table of contents order and child docs
 # CONFIG: https://github.com/documentationjs/documentation/blob/master/docs/CONFIG.md
 toc:
-  - bot
-  - name: Types
+  - Bot
+  - ChatBot
+  - name: Chat Types
     description: |
       Collection of options for chat api
     children:
