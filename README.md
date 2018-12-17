@@ -63,191 +63,53 @@ node <my-awesome-file-name>.js
 
 #### Table of Contents
 
-- [bot](#bot)
-  - [init](#init)
-    - [Parameters](#parameters)
-  - [deinit](#deinit)
-  - [myInfo](#myinfo)
-  - [chat](#chat)
-    - [read](#read)
-      - [Parameters](#parameters-1)
-    - [send](#send)
-      - [Parameters](#parameters-2)
-    - [delete](#delete)
-      - [Parameters](#parameters-3)
-    - [watchChannelForNewMessages](#watchchannelfornewmessages)
-      - [Parameters](#parameters-4)
-    - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
-      - [Parameters](#parameters-5)
-      - [Examples](#examples)
 - [Types](#types)
-  - [InitOptions](#initoptions)
-    - [Properties](#properties)
   - [ChatReadMessage](#chatreadmessage)
   - [OnMessage](#onmessage)
-  - [ChatListOptionals](#chatlistoptionals)
-    - [Properties](#properties-1)
-  - [ChatSendOptionals](#chatsendoptionals)
-    - [Properties](#properties-2)
-  - [ChatReadOptionals](#chatreadoptionals)
-    - [Properties](#properties-3)
   - [ChatOptionsEdit](#chatoptionsedit)
-    - [Properties](#properties-4)
+    - [Properties](#properties)
   - [ChatOptionsReaction](#chatoptionsreaction)
-    - [Properties](#properties-5)
-  - [ChatDeleteOptionals](#chatdeleteoptionals)
-    - [Properties](#properties-6)
+    - [Properties](#properties-1)
   - [ChatOptionsAttachment](#chatoptionsattachment)
-    - [Properties](#properties-7)
+    - [Properties](#properties-2)
   - [ChatOptionsDownload](#chatoptionsdownload)
-    - [Properties](#properties-8)
+    - [Properties](#properties-3)
   - [ChatOptionsSetStatus](#chatoptionssetstatus)
-    - [Properties](#properties-9)
+    - [Properties](#properties-4)
   - [ChatOptionsMark](#chatoptionsmark)
-    - [Properties](#properties-10)
+    - [Properties](#properties-5)
   - [ChatOptionsSearchInbox](#chatoptionssearchinbox)
   - [ChatOptionsSearchRegexp](#chatoptionssearchregexp)
-  - [AnyChatOption](#anychatoption)
-  - [DeviceUsernamePair](#deviceusernamepair)
-    - [Properties](#properties-11)
-
-### bot
-
-#### init
-
-`bot.init()` must be run to initialize the bot before using other methods. It
-checks to make sure you're properly logged into Keybase and gets basic
-info about your session. Afterwards, feel free to check bot.myInfo() to
-see or check who you're logged in as.
-
-Type: Init
-
-##### Parameters
-
-- `username`
-- `paperkey`
-- `options`
-
-#### deinit
-
-Deinitializes a bot by logging it out of its current Keybase session.
-Should be run after your bot finishes.
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
-
-#### myInfo
-
-Returns **[DeviceUsernamePair](#deviceusernamepair)?**
-
-#### chat
-
-Keybase chat api functions
-
-#####
-
-Lists your chats, with info on which ones have unread messages.
-
-##### read
-
-Reads the messages in a channel. You can read with or without marking as read.
-
-Type: Read
-
-###### Parameters
-
-- `channel`
-- `options`
-
-##### send
-
-Sends a message to a certain channel.
-
-Type: Send
-
-###### Parameters
-
-- `channel`
-- `message`
-- `options`
-
-##### delete
-
-Deletes a message in a channel. Messages have messageId's associated with
-them, which you can learn in `bot.chatRead`. Known bug: the GUI has a cache,
-and deleting from the CLI may not become apparent immediately.
-
-Type: Delete
-
-###### Parameters
-
-- `channel`
-- `messageId`
-- `options`
-
-##### watchChannelForNewMessages
-
-Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives.
-This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel.
-
-Type: WatchChannelForNewMessage
-
-###### Parameters
-
-- `channel`
-- `onMessage`
-
-##### watchAllChannelsForNewMessages
-
-This function will put your bot into insane mode, where it reads
-everything it can and every new message it finds it will pass to you, so
-you can do what you want with it. For example, if you want to write a
-Keybase bot that talks shit at anyone who dares approach it, this is the
-function to use.\*
-
-Specifically, it will call the `onMessage` function you provide for every
-message your bot receives.\*
-
-Type: WatchAllChannelsForNewMessages
-
-###### Parameters
-
-- `onMessage`
-
-###### Examples
-
-```javascript
-// reply to incoming traffic on all channels with 'thanks!'
-var onMessages = function(m) {
-  var channel = m.channel
-  var messages = m.messages // we could look in this array to read them and write custom replies
-  bot.chatSend(
-    {
-      channel: channel,
-      message: {
-        body: 'thanks!!!',
-      },
-    },
-    function(err, res) {
-      if (err) {
-        console.log(err)
-      }
-    }
-  )
-}
-bot.watchAllChannelsForNewMessages({onMessages: onMessages})
-```
+- [init](#init)
+  - [Parameters](#parameters)
+- [deinit](#deinit)
+- [deinit](#deinit-1)
+- [myInfo](#myinfo)
+- [list](#list)
+  - [Parameters](#parameters-1)
+- [read](#read)
+  - [Parameters](#parameters-2)
+- [send](#send)
+  - [Parameters](#parameters-3)
+- [delete](#delete)
+  - [Parameters](#parameters-4)
+- [watchChannelForNewMessages](#watchchannelfornewmessages)
+  - [Parameters](#parameters-5)
+- [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
+  - [Parameters](#parameters-6)
+  - [Examples](#examples)
+- [ChatListOptions](#chatlistoptions)
+  - [Properties](#properties-6)
+- [ChatSendOptions](#chatsendoptions)
+  - [Properties](#properties-7)
+- [ChatReadOptions](#chatreadoptions)
+  - [Properties](#properties-8)
+- [ChatDeleteOptions](#chatdeleteoptions)
+  - [Properties](#properties-9)
 
 ### Types
 
 Collection of options for chat api
-
-#### InitOptions
-
-Type: {verbose: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
-
-##### Properties
-
-- `verbose` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
 #### ChatReadMessage
 
@@ -256,39 +118,6 @@ Type: any
 #### OnMessage
 
 Type: function (message: [ChatReadMessage](#chatreadmessage)): void
-
-#### ChatListOptionals
-
-Type: {unreadOnly: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, topicType: TopicType?, showErrors: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, failOffline: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
-
-##### Properties
-
-- `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
-- `topicType` **TopicType?**
-- `showErrors` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
-- `failOffline` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
-
-#### ChatSendOptionals
-
-Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, nonblock: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, membersType: MembersType}
-
-##### Properties
-
-- `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
-- `nonblock` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
-- `membersType` **MembersType**
-
-#### ChatReadOptionals
-
-Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, peek: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, pagination: Pagination?, unreadOnly: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, failOffline: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
-
-##### Properties
-
-- `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
-- `peek` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
-- `pagination` **Pagination?**
-- `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
-- `failOffline` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
 #### ChatOptionsEdit
 
@@ -311,14 +140,6 @@ Type: {channel: ChatChannel, conversationId: [string](https://developer.mozilla.
 - `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
 - `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
 - `message` **ChatMessage**
-
-#### ChatDeleteOptionals
-
-Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
-
-##### Properties
-
-- `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
 
 #### ChatOptionsAttachment
 
@@ -373,18 +194,165 @@ Type: any
 
 Type: any
 
-#### AnyChatOption
+### init
 
-Type: ([ChatListOptionals](#chatlistoptionals) \| [ChatReadOptionals](#chatreadoptionals) \| [ChatSendOptionals](#chatsendoptionals) \| [ChatOptionsEdit](#chatoptionsedit) \| [ChatDeleteOptionals](#chatdeleteoptionals) \| [ChatOptionsSetStatus](#chatoptionssetstatus) \| [ChatOptionsMark](#chatoptionsmark) \| [ChatOptionsReaction](#chatoptionsreaction) \| [ChatOptionsSearchRegexp](#chatoptionssearchregexp) \| [ChatOptionsSearchInbox](#chatoptionssearchinbox) \| [ChatOptionsDownload](#chatoptionsdownload) \| [ChatOptionsAttachment](#chatoptionsattachment))
+Initializes your bot.
 
-#### DeviceUsernamePair
-
-Type: {username: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), devicename: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}
-
-##### Properties
+#### Parameters
 
 - `username` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-- `devicename` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `paperkey` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `options` **InitOptions**
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
+### deinit
+
+Deinitializes the bot by logging out, stopping the keybase service, and removing any leftover login files made by the bot. This should be run before your bot ends.
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
+### deinit
+
+Deinitializes the bot by logging out, stopping the keybase service, and removing any leftover login files made by the bot. This should be run before your bot ends.
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
+### myInfo
+
+Returns the username and device name of the current bot, or `null` if the bot has not been initialized.
+
+Returns **BotInfo?**
+
+### list
+
+Lists your chats, with info on which ones have unread messages.
+
+#### Parameters
+
+- `options` **[ChatListOptions](#chatlistoptions)**
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;ChatConversation>>**
+
+### read
+
+Reads the messages in a channel. You can read with or without marking as read.
+
+#### Parameters
+
+- `channel` **ChatChannel**
+- `options` **[ChatReadOptions](#chatreadoptions)**
+
+### send
+
+Sends a message to a certain channel.
+
+#### Parameters
+
+- `channel` **ChatChannel**
+- `message` **ChatMessage**
+- `options` **[ChatSendOptions](#chatsendoptions)**
+
+### delete
+
+Deletes a message in a channel. Messages have messageId's associated with
+them, which you can learn in `bot.chat.read`. Known bug: the GUI has a cache,
+and deleting from the CLI may not become apparent immediately.
+
+#### Parameters
+
+- `channel` **ChatChannel**
+- `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `options` **[ChatDeleteOptions](#chatdeleteoptions)**
+
+### watchChannelForNewMessages
+
+Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives.
+This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel.
+
+#### Parameters
+
+- `channel` **ChatChannel**
+- `onMessage` **[OnMessage](#onmessage)**
+
+### watchAllChannelsForNewMessages
+
+This function will put your bot into full-read mode, where it reads
+everything it can and every new message it finds it will pass to you, so
+you can do what you want with it. For example, if you want to write a
+Keybase bot that talks shit at anyone who dares approach it, this is the
+function to use.\*
+
+Specifically, it will call the `onMessage` function you provide for every
+message your bot receives.\*
+
+#### Parameters
+
+- `onMessage` **[OnMessage](#onmessage)**
+
+#### Examples
+
+```javascript
+// reply to incoming traffic on all channels with 'thanks!'
+const onMessage = message => {
+  const channel = message.channel
+  bot.chat.send(
+    {
+      channel: channel,
+      message: {
+        body: 'thanks!!!',
+      },
+    },
+    (err, res) => {
+      if (err) {
+        console.error(err)
+      }
+    }
+  )
+}
+bot.chat.watchAllChannelsForNewMessages(onMessage)
+```
+
+### ChatListOptions
+
+Type: {unreadOnly: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, topicType: TopicType?, showErrors: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, failOffline: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
+
+#### Properties
+
+- `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `topicType` **TopicType?**
+- `showErrors` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `failOffline` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+
+### ChatSendOptions
+
+Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, nonblock: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, membersType: MembersType}
+
+#### Properties
+
+- `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
+- `nonblock` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `membersType` **MembersType**
+
+### ChatReadOptions
+
+Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, peek: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, pagination: Pagination?, unreadOnly: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, failOffline: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
+
+#### Properties
+
+- `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
+- `peek` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `pagination` **Pagination?**
+- `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `failOffline` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+
+### ChatDeleteOptions
+
+Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
+
+#### Properties
+
+- `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
 
 ## Contributions
 

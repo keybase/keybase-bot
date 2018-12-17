@@ -22,5 +22,4 @@ toc:
       - ChatOptionsMark
       - ChatOptionsSearchInbox
       - ChatOptionsSearchRegexp
-      - AnyChatOption
       - DeviceUsernamePair
