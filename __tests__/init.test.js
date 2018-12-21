@@ -1,6 +1,7 @@
 import Bot from '../lib'
 import config from './tests.config.js'
-import {keybaseServiceStartup, keybaseExec, randomTempDir} from '../lib/utils'
+import {startServiceManually, stopServiceManually} from './test-utils'
+import {randomTempDir} from '../lib/utils'
 
 describe('Keybase bot initialization', () => {
   it('can init with a username and paperkey', async () => {
@@ -22,18 +23,12 @@ describe('Keybase bot initialization', () => {
 
   it('can init if a service with a logged in user is currently running', async () => {
     const homeDir = randomTempDir()
-    const servicePID = await keybaseServiceStartup(homeDir)
-    // Ideally, this should use `login` instead of `oneshot` but `login` doesn't provide a programmatic way to input a password.
-    await keybaseExec(homeDir, ['oneshot', '--username', config.bots.alice1.username], {
-      stdinBuffer: config.bots.alice1.paperkey,
-    })
-
+    await startServiceManually(homeDir, config.bots.alice1.username, config.bots.alice1.paperkey)
     const alice = new Bot()
     await alice.initFromRunningService(homeDir)
-
     expect(alice.myInfo().username).toBe(config.bots.alice1.username)
     await alice.deinit()
-    process.kill(servicePID)
+    await stopServiceManually(homeDir)
   })
 
   it('throws an error if an invalid home directory is given as the location of a currently running service', async () => {
@@ -49,13 +44,10 @@ describe('Keybase bot initialization', () => {
     await alice.deinit()
 
     const homeDir = randomTempDir()
-    const servicePID = await keybaseServiceStartup(homeDir)
-    await keybaseExec(homeDir, ['oneshot', '--username', config.bots.bob1.username], {
-      stdinBuffer: config.bots.bob1.paperkey,
-    })
+    await startServiceManually(homeDir, config.bots.bob1.username, config.bots.bob1.paperkey)
     await alice.initFromRunningService(homeDir)
     await expect(alice.initFromRunningService(homeDir)).rejects.toThrowError()
     await alice.deinit()
-    process.kill(servicePID)
+    await stopServiceManually(homeDir)
   })
 })

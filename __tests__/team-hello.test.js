@@ -8,6 +8,7 @@
 
 import Bot from '../lib'
 import config from './tests.config.js'
+import {timeout} from './test-utils'
 const alice = new Bot()
 const bob = new Bot()
 
@@ -43,15 +44,9 @@ async function shutDown() {
   await bob.deinit()
 }
 
-function waitAMoment(ms) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => resolve('done'), ms)
-  })
-}
-
 async function watchForCompletion() {
   while (true) {
-    await waitAMoment(100)
+    await timeout(100)
     if (ALICE_IS_SATISFIED && BOB_IS_SATISFIED) {
       await shutDown()
       return true

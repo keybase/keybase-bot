@@ -4,7 +4,8 @@ import {promisify} from 'util'
 
 import Bot from '../lib'
 import config from './tests.config.js'
-import {keybaseServiceStartup, keybaseExec, randomTempDir} from '../lib/utils'
+import {timeout, startServiceManually, stopServiceManually} from './test-utils'
+import {randomTempDir} from '../lib/utils'
 
 async function doesFileOrDirectoryExist(fpath) {
   try {
@@ -30,14 +31,6 @@ async function countProcessesMentioning(substr) {
   }
 }
 
-function timeout(time: number) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve()
-    }, time)
-  })
-}
-
 describe('Keybase bot deinitialization', () => {
   it('kills all spawned processes it creates', async () => {
     const alice = new Bot()
@@ -53,10 +46,7 @@ describe('Keybase bot deinitialization', () => {
 
     const bobHomeDir = randomTempDir()
     const bob = new Bot()
-    const bobPID = await keybaseServiceStartup(bobHomeDir)
-    await keybaseExec(bobHomeDir, ['oneshot', '--username', config.bots.alice1.username], {
-      stdinBuffer: config.bots.alice1.paperkey,
-    })
+    await startServiceManually(bobHomeDir, config.bots.bob1.username, config.bots.bob1.paperkey)
     await bob.initFromRunningService(bobHomeDir)
 
     expect(bobHomeDir.indexOf('keybase_bot_')).toBeGreaterThanOrEqual(0)
@@ -70,6 +60,7 @@ describe('Keybase bot deinitialization', () => {
     bob.chat.watchAllChannelsForNewMessages(msg => console.log(msg))
     bob.chat.watchAllChannelsForNewMessages(msg => console.log(msg))
 
+    // Give just a couple seconds for the processes to get going
     await timeout(3000)
     expect(await countProcessesMentioning(aliceHomeDir)).toBe(3)
     expect(await countProcessesMentioning(bobHomeDir)).toBe(4)
@@ -81,8 +72,8 @@ describe('Keybase bot deinitialization', () => {
     expect(await countProcessesMentioning(aliceHomeDir)).toBe(0)
     // The service should still be running for bob, as that was started before he was initialized
     expect(await countProcessesMentioning(bobHomeDir)).toBe(1)
-    process.kill(bobPID)
-    expect(await countProcessesMentioning(bobHomeDir)).toBe(0)
+    await stopServiceManually(bobHomeDir)
+    await expect(await countProcessesMentioning(bobHomeDir)).toBe(0)
   })
 
   it('removes its home directory if initialized with a paperkey', async () => {
@@ -96,16 +87,13 @@ describe('Keybase bot deinitialization', () => {
 
   it('does not remove its home directory if initialized from a running service', async () => {
     const homeDir = randomTempDir()
-    await keybaseServiceStartup(homeDir)
-    const servicePID = await keybaseExec(homeDir, ['oneshot', '--username', config.bots.bob1.username], {
-      stdinBuffer: config.bots.bob1.paperkey,
-    })
+    await startServiceManually(homeDir, config.bots.alice1.username, config.bots.alice1.paperkey)
     const alice = new Bot()
     await alice.initFromRunningService(homeDir)
 
     expect(await doesFileOrDirectoryExist(homeDir)).toBe(true)
     await alice.deinit()
     expect(await doesFileOrDirectoryExist(homeDir)).toBe(true)
-    process.kill(servicePID)
+    await stopServiceManually(homeDir)
   })
 })
