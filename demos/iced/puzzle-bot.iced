@@ -9,7 +9,6 @@
 
 Bot = require '../../index.js'
 bot = new Bot()
-{callbackify} = require 'util'
 
 # --------------------------------------------------------------------------------
 
@@ -75,19 +74,19 @@ msgCheckAndReply = (s, senderName) =>
 # --------------------------------------------------------------------------------
 
 main = ->
-  await (callbackify bot.init) process.env.KB_USERNAME, process.env.KB_PAPERKEY, defer err
-  console.log "I am me! #{bot.myInfo().username}"
-  bot.chat.watchAllChannelsForNewMessages (message) ->
-    if (message.content.type is 'text')
-      body = message.content.text.body
-      senderName = message.sender.username
-      reply = {body: msgCheckAndReply(body, senderName)}
-      console.log "#{senderName} guessed `#{body}`. Reply = `#{reply.body}`"
-      await (callbackify bot.chat.send) message.channel, reply, defer err
+  bot.init(process.env.KB_USERNAME, process.env.KB_PAPERKEY).then ->
+    console.log "I am me! #{bot.myInfo().username}"
+    bot.chat.watchAllChannelsForNewMessages (message) ->
+      if (message.content.type is 'text')
+        body = message.content.text.body
+        senderName = message.sender.username
+        reply = {body: msgCheckAndReply(body, senderName)}
+        console.log "#{senderName} guessed `#{body}`. Reply = `#{reply.body}`"
+        bot.chat.send message.channel, reply
 
 shutDown = ->
-  await (callbackify bot.deinit) defer()
-  process.exit()
+  bot.deinit().then ->
+    process.exit()
 
 process.on 'SIGINT', shutDown
 process.on 'SIGTERM', shutDown
