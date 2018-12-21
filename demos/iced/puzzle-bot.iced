@@ -75,7 +75,7 @@ msgCheckAndReply = (s, senderName) =>
 
 main = ->
   bot.init(process.env.KB_USERNAME, process.env.KB_PAPERKEY).then ->
-    console.log "I am me! #{bot.myInfo().username}"
+    console.log "I am me! #{bot.myInfo().username}. My homeDir is #{bot.myInfo().homeDir}"
     bot.chat.watchAllChannelsForNewMessages (message) ->
       if (message.content.type is 'text')
         body = message.content.text.body
