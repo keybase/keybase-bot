@@ -40,4 +40,20 @@ describe('Keybase bot initialization', () => {
     const alice = new Bot()
     await expect(alice.initFromRunningService(homeDir)).rejects.toThrowError()
   })
+
+  it('throws an error if it is already initialized', async () => {
+    const alice = new Bot()
+    await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
+    await expect(alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)).rejects.toThrowError()
+    await alice.deinit()
+
+    const homeDir = randomTempDir()
+    await keybaseServiceStartup(homeDir)
+    await keybaseExec(homeDir, ['oneshot', '--username', config.bots.bob1.username], {
+      stdinBuffer: config.bots.bob1.paperkey,
+    })
+    await alice.initFromRunningService(homeDir)
+    await expect(alice.initFromRunningService(homeDir)).rejects.toThrowError()
+    await alice.deinit()
+  })
 })
