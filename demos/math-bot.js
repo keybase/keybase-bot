@@ -38,18 +38,17 @@ function main() {
       console.log('I am me!', bot.myInfo().username, bot.myInfo().devicename)
       console.log('Beginning watch for new messages.')
       console.log(`Tell anyone to send a message to ${bot.myInfo().username} starting with '/math '`)
-      bot.chat.watchAllChannelsForNewMessages(message => {
+      const onMessage = message => {
         if (message.content.type === 'text') {
           const prefix = message.content.text.body.slice(0, 6)
           if (prefix === '/math ') {
             const reply = {body: msgReply(message.content.text.body.slice(6))}
-            bot.chat.send(message.channel, reply).catch(error => {
-              console.error(error)
-              shutDown()
-            })
+            bot.chat.send(message.channel, reply)
           }
         }
-      })
+      }
+      const onError = e => console.error(e)
+      bot.chat.watchAllChannelsForNewMessages(onMessage, onError)
     })
     .catch(error => {
       console.error(error)

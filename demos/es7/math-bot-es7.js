@@ -35,24 +35,20 @@ async function main() {
     const paperkey = process.env.KB_PAPERKEY
     await bot.init(username, paperkey)
     console.log('I am me!', bot.myInfo().username, bot.myInfo().devicename)
-
-    const onMessage = async message => {
-      try {
-        if (message.content.type === 'text') {
-          const prefix = message.content.text.body.slice(0, 6)
-          if (prefix === '/math ') {
-            const reply = {body: msgReply(message.content.text.body.slice(6))}
-            await bot.chat.send(message.channel, reply)
-          }
-        }
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
     console.log('Beginning watch for new messages.')
     console.log(`Tell anyone to send a message to ${bot.myInfo().username} starting with '/math '`)
-    bot.chat.watchAllChannelsForNewMessages(onMessage)
+
+    const onMessage = async message => {
+      if (message.content.type === 'text') {
+        const prefix = message.content.text.body.slice(0, 6)
+        if (prefix === '/math ') {
+          const reply = {body: msgReply(message.content.text.body.slice(6))}
+          await bot.chat.send(message.channel, reply)
+        }
+      }
+    }
+    const onError = e => console.error(e)
+    bot.chat.watchAllChannelsForNewMessages(onMessage, onError)
   } catch (error) {
     console.error(error.message)
   }
