@@ -76,13 +76,13 @@ async function runTest() {
       } catch (e) {
       } finally {
         expect(done).toBe(true)
-        shutDown(done ? 0 : 1)
+        await shutDown(done ? 0 : 1)
       }
     })
   } else {
     const done = await watchForCompletion()
     console.log(`Success: ${done}`)
-    shutDown(done ? 0 : 1)
+    await shutDown(done ? 0 : 1)
   }
 }
 
