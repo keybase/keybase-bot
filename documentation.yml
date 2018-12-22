@@ -3,6 +3,12 @@
 # CONFIG: https://github.com/documentationjs/documentation/blob/master/docs/CONFIG.md
 toc:
   - Bot
+  - name: Bot Types
+    description: |
+      A collection of types used by the bot.
+    children:
+      - InitOptions
+      - BotInfo
   - Chat
   - name: Chat Types
     description: |

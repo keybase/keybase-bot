@@ -55,53 +55,134 @@ try {
 
 #### Table of Contents
 
-- [Chat](#chat)
-  - [list](#list)
+- [Bot](#bot)
+  - [init](#init)
     - [Parameters](#parameters)
     - [Examples](#examples)
-  - [read](#read)
-    - [Parameters](#parameters-1)
-  - [send](#send)
-    - [Parameters](#parameters-2)
+  - [myInfo](#myinfo)
     - [Examples](#examples-1)
-  - [delete](#delete)
-    - [Parameters](#parameters-3)
+  - [deinit](#deinit)
     - [Examples](#examples-2)
-  - [watchChannelForNewMessages](#watchchannelfornewmessages)
-    - [Parameters](#parameters-4)
+- [Bot Types](#bot-types)
+  - [InitOptions](#initoptions)
+    - [Properties](#properties)
+- [Chat](#chat)
+  - [list](#list)
+    - [Parameters](#parameters-1)
     - [Examples](#examples-3)
-  - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
-    - [Parameters](#parameters-5)
+  - [read](#read)
+    - [Parameters](#parameters-2)
+  - [send](#send)
+    - [Parameters](#parameters-3)
     - [Examples](#examples-4)
+  - [delete](#delete)
+    - [Parameters](#parameters-4)
+    - [Examples](#examples-5)
+  - [watchChannelForNewMessages](#watchchannelfornewmessages)
+    - [Parameters](#parameters-5)
+    - [Examples](#examples-6)
+  - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
+    - [Parameters](#parameters-6)
+    - [Examples](#examples-7)
 - [Chat Types](#chat-types)
   - [ChatChannel](#chatchannel)
-    - [Properties](#properties)
-  - [ChatMessage](#chatmessage)
     - [Properties](#properties-1)
-  - [ChatConversation](#chatconversation)
+  - [ChatMessage](#chatmessage)
     - [Properties](#properties-2)
-  - [ChatListOptions](#chatlistoptions)
+  - [ChatConversation](#chatconversation)
     - [Properties](#properties-3)
-  - [ChatReadOptions](#chatreadoptions)
+  - [ChatListOptions](#chatlistoptions)
     - [Properties](#properties-4)
-  - [ChatSendOptions](#chatsendoptions)
+  - [ChatReadOptions](#chatreadoptions)
     - [Properties](#properties-5)
-  - [ChatDeleteOptions](#chatdeleteoptions)
+  - [ChatSendOptions](#chatsendoptions)
     - [Properties](#properties-6)
+  - [ChatDeleteOptions](#chatdeleteoptions)
+    - [Properties](#properties-7)
   - [OnMessage](#onmessage)
   - [OnError](#onerror)
 
-### Chat
+### Bot
 
-[lib/chat-client/index.js:28-200](https://github.com/keybase/keybase-chat-bot/blob/4e1469126a55266a2f4ea5c9cc086c73f7bf9857/lib/chat-client/index.js#L28-L200 'Source code on GitHub')
-
-**Extends ClientBase**
+[lib/index.js:7-60](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/index.js#L7-L60 'Source code on GitHub')
 
 A Keybase bot.
 
+#### init
+
+[lib/index.js:29-35](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/index.js#L29-L35 'Source code on GitHub')
+
+Initialize your bot by starting an instance of the Keybase service and logging in using oneshot mode.
+
+##### Parameters
+
+- `username` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The username of your bot's Keybase account.
+- `paperkey` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The paperkey of your bot's Keybase account.
+- `options` **[InitOptions](#initoptions)** The initialization options for your bot.
+
+##### Examples
+
+```javascript
+bot.init('username', 'paperkey')
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
+#### myInfo
+
+[lib/index.js:44-46](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/index.js#L44-L46 'Source code on GitHub')
+
+Get info about your bot!
+
+##### Examples
+
+```javascript
+const info = bot.myInfo()
+```
+
+Returns **BotInfo?** – Useful information like the username, device, and home directory of your bot. If your bot isn't initialized, you'll get `null`.
+
+#### deinit
+
+[lib/index.js:54-59](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/index.js#L54-L59 'Source code on GitHub')
+
+Deinitializes the bot by logging out, stopping the keybase service, and removing any leftover login files made by the bot. This should be run before your bot ends.
+
+##### Examples
+
+```javascript
+bot.deinit()
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
+### Bot Types
+
+A collection of types used by the bot.
+
+#### InitOptions
+
+[lib/service/index.js:10-12](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/service/index.js#L7-L9 'Source code on GitHub')
+
+Options for initializing the bot.
+
+Type: {verbose: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
+
+##### Properties
+
+- `verbose` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+
+### Chat
+
+[lib/chat-client/index.js:25-200](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/index.js#L25-L200 'Source code on GitHub')
+
+**Extends ClientBase**
+
+The chat module of your Keybase bot.
+
 #### list
 
-[lib/chat-client/index.js:37-41](https://github.com/keybase/keybase-chat-bot/blob/4e1469126a55266a2f4ea5c9cc086c73f7bf9857/lib/chat-client/index.js#L37-L41 'Source code on GitHub')
+[lib/chat-client/index.js:34-38](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/index.js#L34-L38 'Source code on GitHub')
 
 Lists your chats, with info on which ones have unread messages.
 
@@ -119,7 +200,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### read
 
-[lib/chat-client/index.js:49-58](https://github.com/keybase/keybase-chat-bot/blob/4e1469126a55266a2f4ea5c9cc086c73f7bf9857/lib/chat-client/index.js#L49-L58 'Source code on GitHub')
+[lib/chat-client/index.js:46-55](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/index.js#L46-L55 'Source code on GitHub')
 
 Reads the messages in a channel. You can read with or without marking as read.
 
@@ -128,9 +209,11 @@ Reads the messages in a channel. You can read with or without marking as read.
 - `channel` **[ChatChannel](#chatchannel)** The chat channel to read messages in.
 - `options` **[ChatReadOptions](#chatreadoptions)** An object of options that can be passed to the method.
 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
 #### send
 
-[lib/chat-client/index.js:71-90](https://github.com/keybase/keybase-chat-bot/blob/4e1469126a55266a2f4ea5c9cc086c73f7bf9857/lib/chat-client/index.js#L71-L90 'Source code on GitHub')
+[lib/chat-client/index.js:68-86](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/index.js#L68-L86 'Source code on GitHub')
 
 Send a message to a certain channel.
 
@@ -148,9 +231,11 @@ const message = {body: 'Hello kbot!'}
 bot.chat.send(channel, message)
 ```
 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
 #### delete
 
-[lib/chat-client/index.js:103-111](https://github.com/keybase/keybase-chat-bot/blob/4e1469126a55266a2f4ea5c9cc086c73f7bf9857/lib/chat-client/index.js#L103-L111 'Source code on GitHub')
+[lib/chat-client/index.js:99-107](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/index.js#L99-L107 'Source code on GitHub')
 
 Deletes a message in a channel. Messages have messageId's associated with
 them, which you can learn in `bot.chat.read`. Known bug: the GUI has a cache,
@@ -168,9 +253,11 @@ and deleting from the CLI may not become apparent immediately.
 bot.chat.delete(channel, 314)
 ```
 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
 #### watchChannelForNewMessages
 
-[lib/chat-client/index.js:133-136](https://github.com/keybase/keybase-chat-bot/blob/4e1469126a55266a2f4ea5c9cc086c73f7bf9857/lib/chat-client/index.js#L133-L136 'Source code on GitHub')
+[lib/chat-client/index.js:129-136](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/index.js#L129-L136 'Source code on GitHub')
 
 Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel.
 
@@ -197,9 +284,11 @@ const onMessage = message => {
 bot.chat.watchChannelForNewMessages(channel, onMessage)
 ```
 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
 #### watchAllChannelsForNewMessages
 
-[lib/chat-client/index.js:161-164](https://github.com/keybase/keybase-chat-bot/blob/4e1469126a55266a2f4ea5c9cc086c73f7bf9857/lib/chat-client/index.js#L161-L164 'Source code on GitHub')
+[lib/chat-client/index.js:161-164](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/index.js#L161-L164 'Source code on GitHub')
 
 This function will put your bot into full-read mode, where it reads
 everything it can and every new message it finds it will pass to you, so
@@ -228,13 +317,15 @@ const onMessage = message => {
 bot.chat.watchAllChannelsForNewMessages(onMessage)
 ```
 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
 ### Chat Types
 
 A collection of types used by the Chat module.
 
 #### ChatChannel
 
-[lib/chat-client/types.js:23-29](https://github.com/keybase/keybase-chat-bot/blob/4e1469126a55266a2f4ea5c9cc086c73f7bf9857/lib/chat-client/types.js#L20-L22 'Source code on GitHub')
+[lib/chat-client/types.js:23-29](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/types.js#L20-L22 'Source code on GitHub')
 
 A Keybase chat channel. This can be a channel in a team, or just an informal channel between two users.
 
@@ -250,7 +341,7 @@ Type: {name: [string](https://developer.mozilla.org/docs/Web/JavaScript/Referenc
 
 #### ChatMessage
 
-[lib/chat-client/types.js:34-36](https://github.com/keybase/keybase-chat-bot/blob/4e1469126a55266a2f4ea5c9cc086c73f7bf9857/lib/chat-client/types.js#L31-L33 'Source code on GitHub')
+[lib/chat-client/types.js:34-36](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/types.js#L31-L33 'Source code on GitHub')
 
 A chat message. The content goes in the `body` property!
 
@@ -262,7 +353,7 @@ Type: {body: [string](https://developer.mozilla.org/docs/Web/JavaScript/Referenc
 
 #### ChatConversation
 
-[lib/chat-client/types.js:41-48](https://github.com/keybase/keybase-chat-bot/blob/4e1469126a55266a2f4ea5c9cc086c73f7bf9857/lib/chat-client/types.js#L38-L40 'Source code on GitHub')
+[lib/chat-client/types.js:41-48](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/types.js#L38-L40 'Source code on GitHub')
 
 A chat conversation. This is essentially a chat channel plus some additional metadata.
 
@@ -279,7 +370,7 @@ Type: {id: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### ChatListOptions
 
-[lib/chat-client/types.js:174-179](https://github.com/keybase/keybase-chat-bot/blob/4e1469126a55266a2f4ea5c9cc086c73f7bf9857/lib/chat-client/types.js#L171-L173 'Source code on GitHub')
+[lib/chat-client/types.js:174-179](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/types.js#L171-L173 'Source code on GitHub')
 
 Options for the `list` method of the chat module.
 
@@ -294,7 +385,7 @@ Type: {unreadOnly: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/R
 
 #### ChatReadOptions
 
-[lib/chat-client/types.js:184-190](https://github.com/keybase/keybase-chat-bot/blob/4e1469126a55266a2f4ea5c9cc086c73f7bf9857/lib/chat-client/types.js#L181-L183 'Source code on GitHub')
+[lib/chat-client/types.js:184-190](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/types.js#L181-L183 'Source code on GitHub')
 
 Options for the `read` method of the chat module.
 
@@ -310,7 +401,7 @@ Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScrip
 
 #### ChatSendOptions
 
-[lib/chat-client/types.js:195-199](https://github.com/keybase/keybase-chat-bot/blob/4e1469126a55266a2f4ea5c9cc086c73f7bf9857/lib/chat-client/types.js#L192-L194 'Source code on GitHub')
+[lib/chat-client/types.js:195-199](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/types.js#L192-L194 'Source code on GitHub')
 
 Options for the `send` method of the chat module.
 
@@ -324,7 +415,7 @@ Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScrip
 
 #### ChatDeleteOptions
 
-[lib/chat-client/types.js:204-206](https://github.com/keybase/keybase-chat-bot/blob/4e1469126a55266a2f4ea5c9cc086c73f7bf9857/lib/chat-client/types.js#L201-L203 'Source code on GitHub')
+[lib/chat-client/types.js:204-206](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/types.js#L201-L203 'Source code on GitHub')
 
 Options for the `delete` method of the chat module.
 
@@ -336,7 +427,7 @@ Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScrip
 
 #### OnMessage
 
-[lib/chat-client/index.js:20-20](https://github.com/keybase/keybase-chat-bot/blob/4e1469126a55266a2f4ea5c9cc086c73f7bf9857/lib/chat-client/index.js#L19-L19 'Source code on GitHub')
+[lib/chat-client/index.js:20-20](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/index.js#L19-L19 'Source code on GitHub')
 
 A function to call when a message is received.
 
@@ -344,7 +435,7 @@ Type: function (message: MessageSummary): void
 
 #### OnError
 
-[lib/chat-client/index.js:22-22](https://github.com/keybase/keybase-chat-bot/blob/4e1469126a55266a2f4ea5c9cc086c73f7bf9857/lib/chat-client/index.js#L21-L21 'Source code on GitHub')
+[lib/chat-client/index.js:22-22](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/index.js#L21-L21 'Source code on GitHub')
 
 A function to call when an error occurs.
 
