@@ -1,53 +1,75 @@
 # keybase-chat-bot
 
-Script Keybase Chat in Node.js!
+[![npm](https://img.shields.io/npm/v/keybase-bot.svg)](https://www.npmjs.com/package/keybase-bot)
 
-This module is a side-project/work in progress and may change or have crashers, but feel free to play with it. As long as you have a Keybase account and a paper key, you can use this module to script basic chat commands.
+Script Keybase functionality in Node.js.
 
-For more information about the API this module uses, run `keybase chat api -h` from your terminal.
+This module is a side-project/work in progress and may change or have crashers, but feel free to play with it. As long as you have a Keybase account, you can use this module to script basic Keybase commands.
 
 - [Installation](#installation)
 - [Hello World](#hello-world)
 - [API](#api)
 - [Contributions](#contributions)
 
-# Installation
+## Installation
 
-Make sure to [install Keybase](https://keybase.io/download).
+1.  Install Node.js 8 or above. You can do this [directly from the Node.js website](https://nodejs.org/en/download) or [via your favorite package manager](https://nodejs.org/en/download/package-manager/).
+2.  Make sure that you have Keybase [installed](https://keybase.io/download) and running.
+3.  Install `keybase-bot`. You can do this using either [npm](https://www.npmjs.com) or [Yarn](https://yarnpkg.com).
+    ```bash
+    npm install keybase-bot
+    # or
+    yarn add keybase-bot
+    ```
 
-```bash
-npm install keybase-chat-bot
-```
+You're ready to make your first Keybase bot!
 
-### Hello world
+## Hello world via your Keybase bot
+
+Let's make a bot that says hello to the Keybase user [kbot](https://keybase.io/kbot).
 
 ```javascript
-//
-// Says hello to the keybase `kbot` account
-//
+const Bot = require('keybase-bot')
 
 const bot = new Bot()
+const username = 'your username'
+const paperkey = 'your paperkey'
+bot
+  .init(username, paperkey, {verbose: false})
+  .then(() => {
+    console.log(`Your bot is initialized. It is logged in as ${bot.myInfo().username}`)
 
-try {
-  await bot.init({username: process.env.KB_USERNAME, paperkey: process.env.KB_PAPERKEY, verbose: false})
-  console.log(`Your bot is initialized. It is logged in as ${bot.myInfo().username}`)
-  const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topic_type: 'chat'}
-  const sendArg = {
-    channel: channel,
-    message: {
+    const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topic_type: 'chat'}
+    const message = {
       body: `Hello kbot! This is ${bot.myInfo().username} saying hello from my device ${
         bot.myInfo().devicename
       }`,
-    },
-  }
-  await bot.chatSend(sendArg)
-  console.log('Message sent!')
-} catch (error) {
-  console.error(error)
-} finally {
-  await bot.deinit()
-}
+    }
+
+    bot.chat
+      .send(channel, message)
+      .then(() => {
+        console.log('Message sent!')
+        bot.deinit()
+      })
+      .catch(error => {
+        console.error(error)
+        bot.deinit()
+      })
+  })
+  .catch(error => {
+    console.error(error)
+    bot.deinit()
+  })
 ```
+
+To run the above bot, you want to save that code into a file and run it with node:
+
+```bash
+node <my-awesome-file-name>.js
+```
+
+This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want to take a look in there. There are also some other cool bots in the demos directory, including a bot that tells you how many unread messages you have and a bot that does math for you and your friends. You can write a bot in any language that can compile to JavaScript and run on Node.js. We have some ES7+ (with `async/await`) demos in [`demos/ES7`](demos/ES7) and even a bot in [Iced CoffeeScript](http://maxtaco.github.io/coffee-script/)!
 
 ## API
 
@@ -104,13 +126,9 @@ try {
 
 ### Bot
 
-[lib/index.js:7-60](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/index.js#L7-L60 'Source code on GitHub')
-
 A Keybase bot.
 
 #### init
-
-[lib/index.js:29-35](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/index.js#L29-L35 'Source code on GitHub')
 
 Initialize your bot by starting an instance of the Keybase service and logging in using oneshot mode.
 
@@ -130,8 +148,6 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### myInfo
 
-[lib/index.js:44-46](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/index.js#L44-L46 'Source code on GitHub')
-
 Get info about your bot!
 
 ##### Examples
@@ -143,8 +159,6 @@ const info = bot.myInfo()
 Returns **BotInfo?** – Useful information like the username, device, and home directory of your bot. If your bot isn't initialized, you'll get `null`.
 
 #### deinit
-
-[lib/index.js:54-59](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/index.js#L54-L59 'Source code on GitHub')
 
 Deinitializes the bot by logging out, stopping the keybase service, and removing any leftover login files made by the bot. This should be run before your bot ends.
 
@@ -162,8 +176,6 @@ A collection of types used by the bot.
 
 #### InitOptions
 
-[lib/service/index.js:10-12](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/service/index.js#L7-L9 'Source code on GitHub')
-
 Options for initializing the bot.
 
 Type: {verbose: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
@@ -174,15 +186,11 @@ Type: {verbose: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Refe
 
 ### Chat
 
-[lib/chat-client/index.js:25-200](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/index.js#L25-L200 'Source code on GitHub')
-
 **Extends ClientBase**
 
-The chat module of your Keybase bot.
+The chat module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase chat api`.
 
 #### list
-
-[lib/chat-client/index.js:34-38](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/index.js#L34-L38 'Source code on GitHub')
 
 Lists your chats, with info on which ones have unread messages.
 
@@ -200,8 +208,6 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### read
 
-[lib/chat-client/index.js:46-55](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/index.js#L46-L55 'Source code on GitHub')
-
 Reads the messages in a channel. You can read with or without marking as read.
 
 ##### Parameters
@@ -212,8 +218,6 @@ Reads the messages in a channel. You can read with or without marking as read.
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### send
-
-[lib/chat-client/index.js:68-86](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/index.js#L68-L86 'Source code on GitHub')
 
 Send a message to a certain channel.
 
@@ -235,8 +239,6 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### delete
 
-[lib/chat-client/index.js:99-107](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/index.js#L99-L107 'Source code on GitHub')
-
 Deletes a message in a channel. Messages have messageId's associated with
 them, which you can learn in `bot.chat.read`. Known bug: the GUI has a cache,
 and deleting from the CLI may not become apparent immediately.
@@ -256,8 +258,6 @@ bot.chat.delete(channel, 314)
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### watchChannelForNewMessages
-
-[lib/chat-client/index.js:129-136](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/index.js#L129-L136 'Source code on GitHub')
 
 Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel.
 
@@ -287,8 +287,6 @@ bot.chat.watchChannelForNewMessages(channel, onMessage)
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### watchAllChannelsForNewMessages
-
-[lib/chat-client/index.js:161-164](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/index.js#L161-L164 'Source code on GitHub')
 
 This function will put your bot into full-read mode, where it reads
 everything it can and every new message it finds it will pass to you, so
@@ -325,8 +323,6 @@ A collection of types used by the Chat module.
 
 #### ChatChannel
 
-[lib/chat-client/types.js:23-29](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/types.js#L20-L22 'Source code on GitHub')
-
 A Keybase chat channel. This can be a channel in a team, or just an informal channel between two users.
 
 Type: {name: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), public: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), membersType: MembersType, topicType: TopicType?, topicName: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
@@ -341,8 +337,6 @@ Type: {name: [string](https://developer.mozilla.org/docs/Web/JavaScript/Referenc
 
 #### ChatMessage
 
-[lib/chat-client/types.js:34-36](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/types.js#L31-L33 'Source code on GitHub')
-
 A chat message. The content goes in the `body` property!
 
 Type: {body: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}
@@ -352,8 +346,6 @@ Type: {body: [string](https://developer.mozilla.org/docs/Web/JavaScript/Referenc
 - `body` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 
 #### ChatConversation
-
-[lib/chat-client/types.js:41-48](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/types.js#L38-L40 'Source code on GitHub')
 
 A chat conversation. This is essentially a chat channel plus some additional metadata.
 
@@ -370,8 +362,6 @@ Type: {id: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### ChatListOptions
 
-[lib/chat-client/types.js:174-179](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/types.js#L171-L173 'Source code on GitHub')
-
 Options for the `list` method of the chat module.
 
 Type: {unreadOnly: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, topicType: TopicType?, showErrors: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, failOffline: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
@@ -384,8 +374,6 @@ Type: {unreadOnly: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/R
 - `failOffline` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
 #### ChatReadOptions
-
-[lib/chat-client/types.js:184-190](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/types.js#L181-L183 'Source code on GitHub')
 
 Options for the `read` method of the chat module.
 
@@ -401,8 +389,6 @@ Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScrip
 
 #### ChatSendOptions
 
-[lib/chat-client/types.js:195-199](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/types.js#L192-L194 'Source code on GitHub')
-
 Options for the `send` method of the chat module.
 
 Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, nonblock: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, membersType: MembersType}
@@ -415,8 +401,6 @@ Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScrip
 
 #### ChatDeleteOptions
 
-[lib/chat-client/types.js:204-206](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/types.js#L201-L203 'Source code on GitHub')
-
 Options for the `delete` method of the chat module.
 
 Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
@@ -427,16 +411,29 @@ Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScrip
 
 #### OnMessage
 
-[lib/chat-client/index.js:20-20](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/index.js#L19-L19 'Source code on GitHub')
-
 A function to call when a message is received.
 
 Type: function (message: MessageSummary): void
 
 #### OnError
 
-[lib/chat-client/index.js:22-22](https://github.com/keybase/keybase-chat-bot/blob/58363d6d8d68c14f2a4e2f2cea05b2d53cb564d6/lib/chat-client/index.js#L21-L21 'Source code on GitHub')
-
 A function to call when an error occurs.
 
 Type: function (error: [Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)): void
+
+## Contributions
+
+Make sure that you have Node, Yarn, and the Keybase application installed. We also use developer tools such as EditorConfig, ESLint, Flow, and Prettier so you'll probably want to make sure that your development is configured to use those tools somewhere in your code writing process.
+
+### Setting up the source code
+
+1.  Clone this repo.
+2.  Install dependencies with `yarn`.
+3.  Build the bot in watch mode with `yarn dev`.
+4.  Build the bot for production with `yarn build`.
+
+That's it. We accept changes via Pull Requests; please make sure that any changes you make build successfully and pass Flow, Prettier, and ESLint checks. If you're adding a new feature, please add tests, demos, documentation, and whatever else to go with it.
+
+## License
+
+BSD-3-Clause
