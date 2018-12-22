@@ -4,3 +4,17 @@
 toc:
   - Bot
   - Chat
+  - name: Chat Types
+    description: |
+      A collection of types used by the Chat module.
+    children:
+      - ChatChannel
+      - ChatMessage
+      - ChatConversation
+      - MessageSummary
+      - ChatListOptions
+      - ChatReadOptions
+      - ChatSendOptions
+      - ChatDeleteOptions
+      - OnMessage
+      - OnError
