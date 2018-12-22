@@ -62,6 +62,7 @@ try {
 - [Chat](#chat)
   - [list](#list)
     - [Parameters](#parameters-1)
+    - [Examples](#examples)
   - [read](#read)
     - [Parameters](#parameters-2)
   - [send](#send)
@@ -70,9 +71,10 @@ try {
     - [Parameters](#parameters-4)
   - [watchChannelForNewMessages](#watchchannelfornewmessages)
     - [Parameters](#parameters-5)
+    - [Examples](#examples-1)
   - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
     - [Parameters](#parameters-6)
-    - [Examples](#examples)
+    - [Examples](#examples-2)
 
 ### Bot
 
@@ -108,9 +110,15 @@ Lists your chats, with info on which ones have unread messages.
 
 ##### Parameters
 
-- `options` **ChatListOptions**
+- `options` **ChatListOptions** An object of options that can be passed to the method.
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;ChatConversation>>**
+##### Examples
+
+```javascript
+const chatConversations = bot.chat.list({unreadOnly: true})
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;ChatConversation>>** An array of chat conversations. If there are no conversations, the array is empty.
 
 #### read
 
@@ -118,18 +126,18 @@ Reads the messages in a channel. You can read with or without marking as read.
 
 ##### Parameters
 
-- `channel` **ChatChannel**
-- `options` **ChatReadOptions**
+- `channel` **ChatChannel** The chat channel to read messages in.
+- `options` **ChatReadOptions** An object of options that can be passed to the method.
 
 #### send
 
-Sends a message to a certain channel.
+Send a message to a certain channel.
 
 ##### Parameters
 
-- `channel` **ChatChannel**
-- `message` **ChatMessage**
-- `options` **ChatSendOptions**
+- `channel` **ChatChannel** The chat channel to send the message in.
+- `message` **ChatMessage** The chat message to send.
+- `options` **ChatSendOptions** An object of options that can be passed to the method.
 
 #### delete
 
@@ -139,20 +147,36 @@ and deleting from the CLI may not become apparent immediately.
 
 ##### Parameters
 
-- `channel` **ChatChannel**
-- `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
-- `options` **ChatDeleteOptions**
+- `channel` **ChatChannel** The chat channel to send the message in.
+- `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The chat message to send.
+- `options` **ChatDeleteOptions** An object of options that can be passed to the method.
 
 #### watchChannelForNewMessages
 
-Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives.
-This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel.
+Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel.
 
 ##### Parameters
 
-- `channel` **ChatChannel**
-- `onMessage` **OnMessage**
-- `onError` **[OnError](https://developer.mozilla.org/docs/Web/API/GlobalEventHandlers/onerror)**
+- `channel` **ChatChannel** The chat channel to watch.
+- `onMessage` **OnMessage** A callback that is triggered on every message your bot receives.
+- `onError` **[OnError](https://developer.mozilla.org/docs/Web/API/GlobalEventHandlers/onerror)** A callback that is triggered on any error that occurs while the method is executing.
+
+##### Examples
+
+```javascript
+// Reply to all messages between you and `kbot` with 'thanks!'
+const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topic_type: 'chat'}
+const onMessage = message => {
+  const channel = message.channel
+  bot.chat.send({
+    channel: channel,
+    message: {
+      body: 'thanks!!!',
+    },
+  })
+}
+bot.chat.watchChannelForNewMessages(channel, onMessage)
+```
 
 #### watchAllChannelsForNewMessages
 
@@ -160,20 +184,17 @@ This function will put your bot into full-read mode, where it reads
 everything it can and every new message it finds it will pass to you, so
 you can do what you want with it. For example, if you want to write a
 Keybase bot that talks shit at anyone who dares approach it, this is the
-function to use.\*
-
-Specifically, it will call the `onMessage` function you provide for every
-message your bot receives.\*
+function to use.
 
 ##### Parameters
 
-- `onMessage` **OnMessage**
-- `onError` **[OnError](https://developer.mozilla.org/docs/Web/API/GlobalEventHandlers/onerror)**
+- `onMessage` **OnMessage** A callback that is triggered on every message your bot receives.
+- `onError` **[OnError](https://developer.mozilla.org/docs/Web/API/GlobalEventHandlers/onerror)** A callback that is triggered on any error that occurs while the method is executing.
 
 ##### Examples
 
 ```javascript
-// reply to incoming traffic on all channels with 'thanks!'
+// Reply to incoming traffic on all channels with 'thanks!'
 const onMessage = message => {
   const channel = message.channel
   bot.chat.send({
