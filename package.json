@@ -39,7 +39,7 @@
     ]
   },
   "scripts": {
-    "docs": "documentation readme lib/** --config documentation.yml --section=API --github",
+    "docs": "documentation readme lib/** --config documentation.yml --section=API",
     "build": "rollup -c",
     "dev": "rollup -c --watch",
     "test": "jest"
