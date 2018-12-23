@@ -21,6 +21,11 @@ describe('Keybase bot initialization', () => {
     await expect(alice.init(config.bots.alice1.username, undefined)).rejects.toThrowError()
   })
 
+  it('throws an error if given an invalid paperkey', async () => {
+    const alice = new Bot()
+    await expect(alice.init(config.bots.alice1.username, 'not a real paperkey')).rejects.toThrowError()
+  })
+
   it('can init if a service with a logged in user is currently running', async () => {
     const homeDir = randomTempDir()
     await startServiceManually(homeDir, config.bots.alice1.username, config.bots.alice1.paperkey)
