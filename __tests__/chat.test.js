@@ -27,6 +27,7 @@ describe('Chat list', () => {
   // it('Throws an error if the bot is not initialized', async () => {})
 
   // it('Shows only unread messages if given the option', async () => {})
+  // it('Shows only messages of a specific topic type if given the option', async () => {})
 })
 
 describe('Chat read', () => {
@@ -38,6 +39,10 @@ describe('Chat read', () => {
 
     expect(Array.isArray(messages)).toBe(true)
   })
+
+  // it('Shows only unread messages if given the option')
+  // it('Doesn't mark options read on peek)
+  // it('Throws an error if given an invalid channel')
 })
 
 describe('Chat send', () => {
@@ -49,13 +54,19 @@ describe('Chat send', () => {
     const message = {body: 'Testing chat.send()!'}
     await alice.chat.send(channel, message)
 
-    const messages = await alice.chat.read(channel, {peek: true})
+    const messages = await alice.chat.read(channel, {
+      peek: true,
+    })
     expect(messages[0].sender.username).toEqual(alice.myInfo().username)
     expect(messages[0].content.text.body).toEqual(message.body)
   })
+
+  // it('Throws an error if given an invalid channel')
+  // it('Throws an error if given an invalid message')
+  // it('Throws an error if it cannot send the message (e.g., the channel does not exist)')
 })
 
-describe('Chat delet', () => {
+describe('Chat delete', () => {
   it('Deletes a message to a certain channel and returns an empty promise', async () => {
     const alice = new Bot()
     await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
@@ -64,18 +75,28 @@ describe('Chat delet', () => {
     const message = {body: 'Testing chat.send()!'}
     await alice.chat.send(channel, message)
 
-    const messages = await alice.chat.read(channel, {peek: true})
+    // Send a message
+    const messages = await alice.chat.read(channel, {
+      peek: true,
+    })
     expect(messages[0].sender.username).toEqual(alice.myInfo().username)
     expect(messages[0].content.text.body).toEqual(message.body)
 
     const {id} = messages[0]
     await alice.chat.delete(channel, id)
 
-    const newMessages = await alice.chat.read(channel, {peek: true})
+    // Send a message
+    const newMessages = await alice.chat.read(channel, {
+      peek: true,
+    })
     expect(newMessages[0].id).toEqual(id + 1)
     expect(newMessages[0].content.delete.messageIDs).toContain(id)
     expect(newMessages[0].content.delete.messageIDs).toHaveLength(1)
     expect(newMessages[1].id).toEqual(id - 1)
     await alice.deinit()
   })
+
+  // it('Throws an error if given an invalid channel')
+  // it('Throws an error if given an invalid id')
+  // it('Throws an error if it cannot delete the message (e.g., someone else wrote it)')
 })
