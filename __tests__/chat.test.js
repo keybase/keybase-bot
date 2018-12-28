@@ -30,7 +30,7 @@ describe('Chat list', () => {
 })
 
 describe('Chat read', () => {
-  it('Retrievs all messages in a conversation', async () => {
+  it('Retrieves all messages in a conversation', async () => {
     const alice = new Bot()
     await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
     const channel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
