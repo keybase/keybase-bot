@@ -5,31 +5,57 @@ describe('Chat list', () => {
   it('Returns all chat conversations in an array', async () => {
     const alice = new Bot()
     await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
-    const list = await alice.chat.list()
+    const conversations = await alice.chat.list()
 
-    // const conversationMatcher = expect.objectContaining({
-    //   id: expect.any(String),
-    //   // channel: expect.any(),
-    //   unread: expect.any(Boolean),
-    //   activeAt: expect.any(Number),
-    //   activeAtMs: expect.any(Number),
-    //   memberStatus: expect.any(String),
-    // })
+    const conversationMatcher = expect.objectContaining({
+      id: expect.any(String),
+      // channel: expect.any(),
+      unread: expect.any(Boolean),
+      activeAt: expect.any(Number),
+      activeAtMs: expect.any(Number),
+      memberStatus: expect.any(String),
+    })
 
-    expect(Array.isArray(list)).toBe(true)
-    expect(list).toEqual(expect.arrayContaining([expect.anything()]))
-    // .or.toHaveLength(0)
+    expect(Array.isArray(conversations)).toBe(true)
+    for (const conversation of conversations) {
+      expect(conversation).toEqual(conversationMatcher)
+    }
     await alice.deinit()
   })
 
   // it('Returns an empty array if there are no chat conversations', async () => {})
 
-  // it('Throws an error if the bot is not initialized', async () => {})
+  it('Throws an error if the bot is not initialized', async () => {
+    const alice = new Bot()
+    expect(alice.chat.list()).rejects.toThrowError()
+  })
 
-  // it('Shows only unread messages if given the option', async () => {})
-  // it('Shows only messages of a specific topic type if given the option', async () => {})
-  // it('Throws an error if given an invalid option')
-  // it('Throws an error if the bot is uninitialized')
+  it('Shows only unread messages if given the option', async () => {
+    const alice = new Bot()
+    await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
+    const conversations = await alice.chat.list()
+    for (const conversation of conversations) {
+      expect(conversation).toHaveProperty('unread', true)
+    }
+    await alice.deinit()
+  })
+
+  it('Shows only messages of a specific topic type if given the option', async () => {
+    const alice = new Bot()
+    await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
+    const conversations = await alice.chat.list({topicType: 'DEV'})
+    for (const conversation of conversations) {
+      expect(conversation).toHaveProperty('topicType', 'DEV')
+    }
+    await alice.deinit()
+  })
+
+  it('Throws an error if given an invalid option', async () => {
+    const alice = new Bot()
+    await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
+    expect(await alice.chat.list({fakeOption: 'blah'})).rejects.toThrowError()
+    await alice.deinit()
+  })
 })
 
 describe('Chat read', () => {
