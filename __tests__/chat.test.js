@@ -28,6 +28,8 @@ describe('Chat list', () => {
 
   // it('Shows only unread messages if given the option', async () => {})
   // it('Shows only messages of a specific topic type if given the option', async () => {})
+  // it('Throws an error if given an invalid option')
+  // it('Throws an error if the bot is uninitialized')
 })
 
 describe('Chat read', () => {
@@ -43,6 +45,8 @@ describe('Chat read', () => {
   // it('Shows only unread messages if given the option')
   // it('Doesn't mark options read on peek)
   // it('Throws an error if given an invalid channel')
+  // it('Throws an error if given an invalid option')
+  // it('Throws an error if the bot is uninitialized')
 })
 
 describe('Chat send', () => {
@@ -63,6 +67,9 @@ describe('Chat send', () => {
 
   // it('Throws an error if given an invalid channel')
   // it('Throws an error if given an invalid message')
+  // it('Throws an error if given an invalid option')
+  // it('Throws an error if the bot is uninitialized')  // it('Throws an error if given an invalid option')
+  // it('Throws an error if the bot is uninitialized')
   // it('Throws an error if it cannot send the message (e.g., the channel does not exist)')
 })
 
@@ -98,5 +105,7 @@ describe('Chat delete', () => {
 
   // it('Throws an error if given an invalid channel')
   // it('Throws an error if given an invalid id')
+  // it('Throws an error if given an invalid option')
+  // it('Throws an error if the bot is uninitialized')
   // it('Throws an error if it cannot delete the message (e.g., someone else wrote it)')
 })
