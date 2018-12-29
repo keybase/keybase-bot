@@ -3,7 +3,13 @@ import config from './tests.config.js'
 
 test('Chat methods with an uninitialized bot', () => {
   const alice = new Bot()
+  const channel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
+  const message = {body: 'Testing chat.send()!'}
+
   expect(alice.chat.list()).rejects.toThrowError()
+  expect(alice.chat.read()).rejects.toThrowError()
+  expect(alice.chat.send(channel, message)).rejects.toThrowError()
+  expect(alice.chat.delete(channel, 314)).rejects.toThrowError()
 })
 
 describe('Chat Methods', () => {
