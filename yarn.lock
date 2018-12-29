@@ -1663,6 +1663,13 @@ commander@~2.17.1:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
   integrity sha512-wPMUt6FnH2yzG95SA6mzjQOEKUU3aLaDEmzs1ti+1E9h+CsrZghRlqEM/EJ4KscsQVG8uNN4uVreUeT8+drlgg==
 
+comment-parser@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/comment-parser/-/comment-parser-0.5.1.tgz#041fb38d943ba99b700aff44c13958681eb89adc"
+  integrity sha512-6RIp9+7yxmrTjwa1S+fv2eZ2x/ta81pdhOBmRtkY+0o+3tdquvPWqARAv6djmk0YSsAzpx7UgeHcvSv7bHQYCA==
+  dependencies:
+    readable-stream "^2.0.4"
+
 complex.js@2.0.11:
   version "2.0.11"
   resolved "https://registry.yarnpkg.com/complex.js/-/complex.js-2.0.11.tgz#09a873fbf15ffd8c18c9c2201ccef425c32b8bf1"
@@ -2193,6 +2200,15 @@ eslint-plugin-import@2.14.0:
     minimatch "^3.0.3"
     read-pkg-up "^2.0.0"
     resolve "^1.6.0"
+
+eslint-plugin-jsdoc@3.14.1:
+  version "3.14.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-3.14.1.tgz#465836dfde8e3061a66e69a95b21e83f9c89779e"
+  integrity sha512-rhWrW3UrMt487TCXxSIXW4aCqB3pb1tGAWki0CjWG/ApQdNnhoCs/Lz7EtxOfQfBGvBSjfYiXEEnJRCRMTtubQ==
+  dependencies:
+    comment-parser "^0.5.1"
+    jsdoctypeparser "^2.0.0-alpha-8"
+    lodash "^4.17.11"
 
 eslint-plugin-node@8.0.0:
   version "8.0.0"
@@ -3807,6 +3823,11 @@ jsbn@~0.1.0:
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
   integrity sha1-peZUwuWi3rXyAdls77yoDA7y9RM=
 
+jsdoctypeparser@^2.0.0-alpha-8:
+  version "2.0.0-alpha-8"
+  resolved "https://registry.yarnpkg.com/jsdoctypeparser/-/jsdoctypeparser-2.0.0-alpha-8.tgz#baf137fb8e2a558810adcf19d2d2a2f680e90a5f"
+  integrity sha1-uvE3+44qVYgQrc8Z0tKi9oDpCl8=
+
 jsdom@^11.5.1:
   version "11.12.0"
   resolved "https://registry.yarnpkg.com/jsdom/-/jsdom-11.12.0.tgz#1a80d40ddd378a1de59656e9e6dc5a3ba8657bc8"
@@ -4110,7 +4131,7 @@ lodash.upperfirst@4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/lodash.upperfirst/-/lodash.upperfirst-4.3.1.tgz#1365edf431480481ef0d1c68957a5ed99d49f7ce"
 
-lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.4, lodash@^4.17.5:
+lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.4, lodash@^4.17.5:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
 
