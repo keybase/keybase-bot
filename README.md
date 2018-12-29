@@ -81,46 +81,51 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
   - [init](#init)
     - [Parameters](#parameters)
     - [Examples](#examples)
-  - [myInfo](#myinfo)
+  - [initFromRunningService](#initfromrunningservice)
+    - [Parameters](#parameters-1)
     - [Examples](#examples-1)
-  - [deinit](#deinit)
+  - [myInfo](#myinfo)
     - [Examples](#examples-2)
+  - [deinit](#deinit)
+    - [Examples](#examples-3)
 - [Bot Types](#bot-types)
   - [InitOptions](#initoptions)
     - [Properties](#properties)
+  - [BotInfo](#botinfo)
+    - [Properties](#properties-1)
 - [Chat](#chat)
   - [list](#list)
-    - [Parameters](#parameters-1)
-    - [Examples](#examples-3)
-  - [read](#read)
     - [Parameters](#parameters-2)
-  - [send](#send)
-    - [Parameters](#parameters-3)
     - [Examples](#examples-4)
-  - [delete](#delete)
+  - [read](#read)
+    - [Parameters](#parameters-3)
+  - [send](#send)
     - [Parameters](#parameters-4)
     - [Examples](#examples-5)
-  - [watchChannelForNewMessages](#watchchannelfornewmessages)
+  - [delete](#delete)
     - [Parameters](#parameters-5)
     - [Examples](#examples-6)
-  - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
+  - [watchChannelForNewMessages](#watchchannelfornewmessages)
     - [Parameters](#parameters-6)
     - [Examples](#examples-7)
+  - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
+    - [Parameters](#parameters-7)
+    - [Examples](#examples-8)
 - [Chat Types](#chat-types)
   - [ChatChannel](#chatchannel)
-    - [Properties](#properties-1)
-  - [ChatMessage](#chatmessage)
     - [Properties](#properties-2)
-  - [ChatConversation](#chatconversation)
+  - [ChatMessage](#chatmessage)
     - [Properties](#properties-3)
-  - [ChatListOptions](#chatlistoptions)
+  - [ChatConversation](#chatconversation)
     - [Properties](#properties-4)
-  - [ChatReadOptions](#chatreadoptions)
+  - [ChatListOptions](#chatlistoptions)
     - [Properties](#properties-5)
-  - [ChatSendOptions](#chatsendoptions)
+  - [ChatReadOptions](#chatreadoptions)
     - [Properties](#properties-6)
-  - [ChatDeleteOptions](#chatdeleteoptions)
+  - [ChatSendOptions](#chatsendoptions)
     - [Properties](#properties-7)
+  - [ChatDeleteOptions](#chatdeleteoptions)
+    - [Properties](#properties-8)
   - [OnMessage](#onmessage)
   - [OnError](#onerror)
 
@@ -146,6 +151,23 @@ bot.init('username', 'paperkey')
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
+#### initFromRunningService
+
+Initialize your bot by using an existing running service with a logged in user.
+
+##### Parameters
+
+- `homeDir` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The home directory of this currently running service. Leave blank to use the default homeDir for your system.
+- `options` **[InitOptions](#initoptions)** The initialization options for your bot.
+
+##### Examples
+
+```javascript
+bot.initFromRunningService()
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
 #### myInfo
 
 Get info about your bot!
@@ -156,7 +178,7 @@ Get info about your bot!
 const info = bot.myInfo()
 ```
 
-Returns **BotInfo?** – Useful information like the username, device, and home directory of your bot. If your bot isn't initialized, you'll get `null`.
+Returns **[BotInfo](#botinfo)?** – Useful information like the username, device, and home directory of your bot. If your bot isn't initialized, you'll get `null`.
 
 #### deinit
 
@@ -183,6 +205,18 @@ Type: {verbose: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Refe
 ##### Properties
 
 - `verbose` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+
+#### BotInfo
+
+Useful information like the username, device, and home directory of your bot.
+
+Type: {username: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), devicename: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), homeDir: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
+
+##### Properties
+
+- `username` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `devicename` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `homeDir` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
 
 ### Chat
 
