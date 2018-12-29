@@ -73,7 +73,6 @@ describe('Chat Methods', () => {
     // it('Doesn't mark options read on peek)
     // it('Throws an error if given an invalid channel')
     // it('Throws an error if given an invalid option')
-    // it('Throws an error if the bot is uninitialized')
   })
 
   describe('Chat send', () => {
@@ -89,11 +88,14 @@ describe('Chat Methods', () => {
       expect(messages[0].content.text.body).toEqual(message.body)
     })
 
-    // it('Throws an error if given an invalid channel')
+    it('Throws an error if given an invalid channel', async () => {
+      const channel = {name: 'kbot,'}
+      const message = {body: 'Testing chat.send()!'}
+      expect(alice.chat.send(channel, message)).rejects.toThrowError()
+    })
     // it('Throws an error if given an invalid message')
     // it('Throws an error if given an invalid option')
     // it('Throws an error if the bot is uninitialized')  // it('Throws an error if given an invalid option')
-    // it('Throws an error if the bot is uninitialized')
     // it('Throws an error if it cannot send the message (e.g., the channel does not exist)')
   })
 
@@ -126,7 +128,6 @@ describe('Chat Methods', () => {
     // it('Throws an error if given an invalid channel')
     // it('Throws an error if given an invalid id')
     // it('Throws an error if given an invalid option')
-    // it('Throws an error if the bot is uninitialized')
     // it('Throws an error if it cannot delete the message (e.g., someone else wrote it)')
   })
 })
