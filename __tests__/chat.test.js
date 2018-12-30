@@ -14,28 +14,50 @@ test('Chat methods with an uninitialized bot', () => {
 
 describe('Chat Methods', () => {
   const alice = new Bot()
+  const bob = new Bot()
   const channel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
   const message = {body: 'Test message!'}
 
+  const channelMatcher = expect.objectContaining({
+    name: expect.any(String),
+    public: expect.any(Boolean),
+    membersType: expect.any(String),
+  })
+  const conversationMatcher = expect.objectContaining({
+    id: expect.any(String),
+    channel: channelMatcher,
+    unread: expect.any(Boolean),
+    activeAt: expect.any(Number),
+    activeAtMs: expect.any(Number),
+    memberStatus: expect.any(String),
+  })
+  const messageMatcher = expect.objectContaining({
+    id: expect.any(Number),
+    channel: channelMatcher,
+    // sender: expect.objectContaining({
+    //   username: expect.any(String),
+    //   deviceName: expect.any(String),
+    // }),
+    sentAt: expect.any(Number),
+    sentAtMs: expect.any(Number),
+    content: expect.objectContaining({
+      type: expect.any(String),
+    }),
+    unread: expect.any(Boolean),
+  })
+
   beforeAll(async () => {
     await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
+    await bob.init(config.bots.bob1.username, config.bots.bob1.paperkey)
   })
   afterAll(async () => {
     await alice.deinit()
+    await bob.deinit()
   })
 
   describe('Chat list', () => {
     it('Returns all chat conversations in an array', async () => {
       const conversations = await alice.chat.list()
-
-      const conversationMatcher = expect.objectContaining({
-        id: expect.any(String),
-        // channel: expect.any(),
-        unread: expect.any(Boolean),
-        activeAt: expect.any(Number),
-        activeAtMs: expect.any(Number),
-        memberStatus: expect.any(String),
-      })
 
       expect(Array.isArray(conversations)).toBe(true)
       for (const conversation of conversations) {
@@ -67,12 +89,36 @@ describe('Chat Methods', () => {
   describe('Chat read', () => {
     it('Retrieves all messages in a conversation', async () => {
       const messages = await alice.chat.read(channel)
-
       expect(Array.isArray(messages)).toBe(true)
+      for (const message of messages) {
+        expect(message).toEqual(messageMatcher)
+      }
     })
 
-    it('Shows only unread messages if given the option', async () => {})
-    // it('Doesn't mark options read on peek)
+    it('Shows only unread messages if given the option', async () => {
+      const messages = await alice.chat.read(channel, {unreadOnly: true})
+      expect(Array.isArray(messages)).toBe(true)
+      for (const message of messages) {
+        expect(message).toHaveProperty('unread', true)
+      }
+    })
+
+    it("Doesn't mark messages read on peek", async () => {
+      // No peeking: message should be unread on first read, and read on subsequent reads
+      await bob.chat.send(channel, message)
+      let messages = await alice.chat.read(channel)
+      expect(messages[0]).toHaveProperty('unread', true)
+      messages = await alice.chat.read(channel)
+      expect(messages[0]).toHaveProperty('unread', false)
+
+      // Now let's peek. Messages should remain unread on subsequent reads.
+      await bob.chat.send(channel, message)
+      messages = await alice.chat.read(channel, {peek: true})
+      expect(messages[0]).toHaveProperty('unread', true)
+      messages = await alice.chat.read(channel)
+      expect(messages[0]).toHaveProperty('unread', true)
+    })
+
     // it('Throws an error if given an invalid channel')
     // it('Throws an error if given an invalid option')
   })
