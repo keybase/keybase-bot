@@ -14,6 +14,9 @@ test('Chat methods with an uninitialized bot', () => {
 
 describe('Chat Methods', () => {
   const alice = new Bot()
+  const channel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
+  const message = {body: 'Test message!'}
+
   beforeAll(async () => {
     await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
   })
@@ -63,13 +66,12 @@ describe('Chat Methods', () => {
 
   describe('Chat read', () => {
     it('Retrieves all messages in a conversation', async () => {
-      const channel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
       const messages = await alice.chat.read(channel)
 
       expect(Array.isArray(messages)).toBe(true)
     })
 
-    // it('Shows only unread messages if given the option')
+    it('Shows only unread messages if given the option', async () => {})
     // it('Doesn't mark options read on peek)
     // it('Throws an error if given an invalid channel')
     // it('Throws an error if given an invalid option')
@@ -77,8 +79,6 @@ describe('Chat Methods', () => {
 
   describe('Chat send', () => {
     it('Sends a message to a certain channel and returns an empty promise', async () => {
-      const channel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
-      const message = {body: 'Testing chat.send()!'}
       await alice.chat.send(channel, message)
 
       const messages = await alice.chat.read(channel, {
@@ -89,9 +89,8 @@ describe('Chat Methods', () => {
     })
 
     it('Throws an error if given an invalid channel', async () => {
-      const channel = {name: 'kbot,'}
-      const message = {body: 'Testing chat.send()!'}
-      expect(alice.chat.send(channel, message)).rejects.toThrowError()
+      const invalidChannel = {name: 'kbot,'}
+      expect(alice.chat.send(invalidChannel, message)).rejects.toThrowError()
     })
     // it('Throws an error if given an invalid message')
     // it('Throws an error if given an invalid option')
@@ -101,8 +100,6 @@ describe('Chat Methods', () => {
 
   describe('Chat delete', () => {
     it('Deletes a message to a certain channel and returns an empty promise', async () => {
-      const channel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
-      const message = {body: 'Testing chat.send()!'}
       await alice.chat.send(channel, message)
 
       // Send a message
