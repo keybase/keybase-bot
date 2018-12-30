@@ -36,10 +36,10 @@ describe('Chat Methods', () => {
   const messageMatcher = expect.objectContaining({
     id: expect.any(Number),
     channel: channelMatcher,
-    // sender: expect.objectContaining({
-    //   username: expect.any(String),
-    //   deviceName: expect.any(String),
-    // }),
+    sender: expect.objectContaining({
+      deviceId: expect.any(String),
+      uid: expect.any(String),
+    }),
     sentAt: expect.any(Number),
     sentAtMs: expect.any(Number),
     content: expect.objectContaining({
