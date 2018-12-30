@@ -4,7 +4,7 @@ import config from './tests.config.js'
 test('Chat methods with an uninitialized bot', () => {
   const alice = new Bot()
   const channel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
-  const message = {body: 'Testing chat.send()!'}
+  const message = {body: 'Testing!'}
 
   expect(alice.chat.list()).rejects.toThrowError()
   expect(alice.chat.read()).rejects.toThrowError()
@@ -17,6 +17,8 @@ describe('Chat Methods', () => {
   const bob = new Bot()
   const channel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
   const message = {body: 'Test message!'}
+  const invalidChannel = {name: 'kbot,'}
+  const invalidMessage = {bdy: 'blah'}
 
   const channelMatcher = expect.objectContaining({
     name: expect.any(String),
@@ -119,7 +121,10 @@ describe('Chat Methods', () => {
       expect(messages[0]).toHaveProperty('unread', true)
     })
 
-    // it('Throws an error if given an invalid channel')
+    it('Throws an error if given an invalid channel', async () => {
+      expect(alice.chat.read(invalidChannel)).rejects.toThrowError()
+    })
+
     // it('Throws an error if given an invalid option')
   })
 
@@ -135,13 +140,14 @@ describe('Chat Methods', () => {
     })
 
     it('Throws an error if given an invalid channel', async () => {
-      const invalidChannel = {name: 'kbot,'}
       expect(alice.chat.send(invalidChannel, message)).rejects.toThrowError()
     })
-    // it('Throws an error if given an invalid message')
+
+    it('Throws an error if given an invalid message', async () => {
+      expect(alice.chat.send(channel, invalidMessage)).rejects.toThrowError()
+    })
+
     // it('Throws an error if given an invalid option')
-    // it('Throws an error if the bot is uninitialized')  // it('Throws an error if given an invalid option')
-    // it('Throws an error if it cannot send the message (e.g., the channel does not exist)')
   })
 
   describe('Chat delete', () => {
@@ -168,9 +174,28 @@ describe('Chat Methods', () => {
       expect(newMessages[1].id).toEqual(id - 1)
     })
 
-    // it('Throws an error if given an invalid channel')
-    // it('Throws an error if given an invalid id')
+    it('Throws an error if given an invalid channel', async () => {
+      await alice.chat.send(channel, message)
+      const messages = await alice.chat.read(channel, {
+        peek: true,
+      })
+      const {id} = messages[0]
+      expect(alice.chat.delete(invalidChannel, id)).rejects.toThrowError()
+    })
+
+    it('Throws an error if given an invalid id', async () => {
+      expect(alice.chat.send(channel, -1)).rejects.toThrowError()
+    })
+
+    it('Throws an error if it cannot delete the message (e.g., someone else wrote it)', async () => {
+      await bob.chat.send(channel, message)
+      const messages = await alice.chat.read(channel, {
+        peek: true,
+      })
+      const {id} = messages[0]
+      expect(alice.chat.delete(channel, id)).rejects.toThrowError()
+    })
+
     // it('Throws an error if given an invalid option')
-    // it('Throws an error if it cannot delete the message (e.g., someone else wrote it)')
   })
 })
