@@ -83,8 +83,6 @@ describe('Chat Methods', () => {
       }
     })
 
-    // it('Returns an empty array if there are no chat conversations', async () => {})
-
     it('Shows only unread messages if given the option', async () => {
       const conversations = await alice.chat.list({unreadOnly: true})
       for (const conversation of conversations) {
@@ -98,10 +96,6 @@ describe('Chat Methods', () => {
         expect(conversation).toHaveProperty('topicType', 'DEV')
       }
     })
-
-    // it('Throws an error if given an invalid option', async () => {
-    //   expect(await alice.chat.list({fakeOption: 'blah'})).rejects.toThrowError()
-    // })
   })
 
   describe('Chat read', () => {
@@ -140,8 +134,6 @@ describe('Chat Methods', () => {
     it('Throws an error if given an invalid channel', async () => {
       expect(alice.chat.read(invalidChannel)).rejects.toThrowError()
     })
-
-    // it('Throws an error if given an invalid option')
   })
 
   describe('Chat send', () => {
@@ -162,8 +154,6 @@ describe('Chat Methods', () => {
     it('Throws an error if given an invalid message', async () => {
       expect(alice.chat.send(channel, invalidMessage)).rejects.toThrowError()
     })
-
-    // it('Throws an error if given an invalid option')
   })
 
   describe('Chat delete', () => {
@@ -203,14 +193,14 @@ describe('Chat Methods', () => {
       expect(alice.chat.send(channel, -1)).rejects.toThrowError()
     })
 
-    // it('Throws an error if it cannot delete the message (e.g., someone else wrote it)', async () => {
-    //   await bob.chat.send(channel, message)
-    //   const messages = await alice.chat.read(channel, {
-    //     peek: true,
-    //   })
-    //   const {id} = messages[0]
-    //   expect(alice.chat.delete(channel, id)).rejects.toThrowError()
-    // })
+    it('Throws an error if it cannot delete the message (e.g., someone else wrote it)', async () => {
+      await bob.chat.send(channel, message)
+      const messages = await alice.chat.read(channel, {
+        peek: true,
+      })
+      const {id} = messages[0]
+      expect(alice.chat.delete(channel, id)).rejects.toThrowError()
+    })
   })
 
   describe('watchChannelForNewMessages', () => {
