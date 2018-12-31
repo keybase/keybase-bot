@@ -1,3 +1,5 @@
+import crypto from 'crypto'
+
 import Bot from '../lib'
 import config from './tests.config.js'
 
@@ -232,6 +234,40 @@ describe('Chat Methods', () => {
       await waitAMoment(3000)
       expect(ALICE_IS_SATISFIED).toBe(true)
       expect(BOB_IS_SATISFIED).toBe(true)
+    })
+  })
+
+  describe('watchAllChannelsForNewMessages', () => {
+    it('Can have bots count up to 10 to each other', async () => {
+      const STOP_AT = 10
+      const CONVO_CODE = crypto.randomBytes(8).toString('hex')
+      let HIGHEST_REACHED = 0
+
+      const onMessageForBot = (botName, bot) => {
+        const onMessage = async message => {
+          if (message.content.type === 'text') {
+            const body = message.content.text.body
+            if (body.indexOf(CONVO_CODE) !== -1) {
+              const num = parseInt(body.replace(CONVO_CODE, '').trim())
+              HIGHEST_REACHED = Math.max(num, HIGHEST_REACHED)
+              if (num < STOP_AT) {
+                const reply = {body: `${CONVO_CODE} ${num + 1}`}
+                await bot.chat.send(message.channel, reply)
+              }
+            }
+          }
+        }
+        return onMessage
+      }
+
+      alice.chat.watchAllChannelsForNewMessages(onMessageForBot('alice', alice))
+      bob.chat.watchAllChannelsForNewMessages(onMessageForBot('bob', bob))
+      const message = {body: `${CONVO_CODE} 1`}
+      await bob.chat.send(channel, message)
+
+      // Wait 10 seconds, ample time for our bots to count to 10
+      await waitAMoment(10000)
+      expect(HIGHEST_REACHED).toBe(STOP_AT)
     })
   })
 })
