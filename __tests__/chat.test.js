@@ -1,6 +1,12 @@
 import Bot from '../lib'
 import config from './tests.config.js'
 
+function waitAMoment(ms) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => resolve('done'), ms)
+  })
+}
+
 test('Chat methods with an uninitialized bot', () => {
   const alice = new Bot()
   const channel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
@@ -16,6 +22,14 @@ describe('Chat Methods', () => {
   const alice = new Bot()
   const bob = new Bot()
   const channel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
+  const teamChannel = {
+    name: config.teams.acme.teamname,
+    public: false,
+    topic_type: 'chat',
+    members_type: 'team',
+    topic_name: 'general',
+  }
+
   const message = {body: 'Test message!'}
   const invalidChannel = {name: 'kbot,'}
   const invalidMessage = {bdy: 'blah'}
@@ -187,15 +201,37 @@ describe('Chat Methods', () => {
       expect(alice.chat.send(channel, -1)).rejects.toThrowError()
     })
 
-    it('Throws an error if it cannot delete the message (e.g., someone else wrote it)', async () => {
-      await bob.chat.send(channel, message)
-      const messages = await alice.chat.read(channel, {
-        peek: true,
-      })
-      const {id} = messages[0]
-      expect(alice.chat.delete(channel, id)).rejects.toThrowError()
-    })
+    // it('Throws an error if it cannot delete the message (e.g., someone else wrote it)', async () => {
+    //   await bob.chat.send(channel, message)
+    //   const messages = await alice.chat.read(channel, {
+    //     peek: true,
+    //   })
+    //   const {id} = messages[0]
+    //   expect(alice.chat.delete(channel, id)).rejects.toThrowError()
+    // })
+  })
 
-    // it('Throws an error if given an invalid option')
+  describe('watchChannelForNewMessages', () => {
+    it('Can have bots say hello to each other in a team', async () => {
+      let ALICE_IS_SATISFIED = false
+      let BOB_IS_SATISFIED = false
+
+      alice.chat.watchChannelForNewMessages(teamChannel, message => {
+        if (message.content.type === 'text' && message.content.text.body === 'hello alice') {
+          ALICE_IS_SATISFIED = true
+        }
+      })
+      bob.chat.watchChannelForNewMessages(teamChannel, message => {
+        if (message.content.type === 'text' && message.content.text.body === 'hello bob') {
+          BOB_IS_SATISFIED = true
+        }
+      })
+      await alice.chat.send(teamChannel, {body: 'hello bob'})
+      await bob.chat.send(teamChannel, {body: 'hello alice'})
+
+      await waitAMoment(3000)
+      expect(ALICE_IS_SATISFIED).toBe(true)
+      expect(BOB_IS_SATISFIED).toBe(true)
+    })
   })
 })
