@@ -2,12 +2,7 @@ import crypto from 'crypto'
 
 import Bot from '../lib'
 import config from './tests.config.js'
-
-function waitAMoment(ms) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => resolve('done'), ms)
-  })
-}
+import {timeout} from './test-utils'
 
 test('Chat methods with an uninitialized bot', () => {
   const alice = new Bot()
@@ -221,7 +216,7 @@ describe('Chat Methods', () => {
       await alice.chat.send(teamChannel, {body: 'hello bob'})
       await bob.chat.send(teamChannel, {body: 'hello alice'})
 
-      await waitAMoment(3000)
+      await timeout(3000)
       expect(ALICE_IS_SATISFIED).toBe(true)
       expect(BOB_IS_SATISFIED).toBe(true)
     })
@@ -256,7 +251,7 @@ describe('Chat Methods', () => {
       await bob.chat.send(channel, message)
 
       // Wait 10 seconds, ample time for our bots to count to 10
-      await waitAMoment(10000)
+      await timeout(10000)
       expect(HIGHEST_REACHED).toBe(STOP_AT)
     })
   })
