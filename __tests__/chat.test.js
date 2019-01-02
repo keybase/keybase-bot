@@ -1,8 +1,7 @@
 import crypto from 'crypto'
-
 import Bot from '../lib'
 import config from './tests.config.js'
-import {timeout} from './test-utils'
+import {timeout} from '../lib/utils'
 
 test('Chat methods with an uninitialized bot', () => {
   const alice = new Bot()
