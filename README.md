@@ -99,18 +99,19 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
     - [Examples](#examples-4)
   - [read](#read)
     - [Parameters](#parameters-3)
+    - [Examples](#examples-5)
   - [send](#send)
     - [Parameters](#parameters-4)
-    - [Examples](#examples-5)
+    - [Examples](#examples-6)
   - [delete](#delete)
     - [Parameters](#parameters-5)
-    - [Examples](#examples-6)
+    - [Examples](#examples-7)
   - [watchChannelForNewMessages](#watchchannelfornewmessages)
     - [Parameters](#parameters-6)
-    - [Examples](#examples-7)
+    - [Examples](#examples-8)
   - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
     - [Parameters](#parameters-7)
-    - [Examples](#examples-8)
+    - [Examples](#examples-9)
 - [Chat Types](#chat-types)
   - [ChatChannel](#chatchannel)
     - [Properties](#properties-2)
@@ -235,7 +236,7 @@ Lists your chats, with info on which ones have unread messages.
 ##### Examples
 
 ```javascript
-const chatConversations = bot.chat.list({unreadOnly: true})
+bot.chat.list({unreadOnly: true}).then(chatConversations => console.log(chatConversations))
 ```
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[ChatConversation](#chatconversation)>>** An array of chat conversations. If there are no conversations, the array is empty.
@@ -249,7 +250,13 @@ Reads the messages in a channel. You can read with or without marking as read.
 - `channel` **[ChatChannel](#chatchannel)** The chat channel to read messages in.
 - `options` **[ChatReadOptions](#chatreadoptions)** An object of options that can be passed to the method.
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+##### Examples
+
+```javascript
+alice.chat.read(channel).then(messages => console.log(messages))
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;MessageSummary>>** A summary of data about a message, including who send it, when, the content of the message, etc. If there are no messages in your channel, then an error is thrown.
 
 #### send
 
@@ -266,7 +273,7 @@ Send a message to a certain channel.
 ```javascript
 const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topic_type: 'chat'}
 const message = {body: 'Hello kbot!'}
-bot.chat.send(channel, message)
+bot.chat.send(channel, message).then(() => console.log('message sent!'))
 ```
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
@@ -286,7 +293,7 @@ and deleting from the CLI may not become apparent immediately.
 ##### Examples
 
 ```javascript
-bot.chat.delete(channel, 314)
+bot.chat.delete(channel, 314).then(() => console.log('message deleted!'))
 ```
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
@@ -398,28 +405,28 @@ Type: {id: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 Options for the `list` method of the chat module.
 
-Type: {unreadOnly: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, topicType: TopicType?, showErrors: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, failOffline: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
+Type: {failOffline: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, showErrors: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, topicType: TopicType?, unreadOnly: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
 
 ##### Properties
 
-- `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
-- `topicType` **TopicType?**
-- `showErrors` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 - `failOffline` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `showErrors` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `topicType` **TopicType?**
+- `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
 #### ChatReadOptions
 
 Options for the `read` method of the chat module.
 
-Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, peek: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, pagination: Pagination?, unreadOnly: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, failOffline: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
+Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, failOffline: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, pagination: Pagination?, peek: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, unreadOnly: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
 
 ##### Properties
 
 - `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
-- `peek` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
-- `pagination` **Pagination?**
-- `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 - `failOffline` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `pagination` **Pagination?**
+- `peek` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
 #### ChatSendOptions
 
@@ -447,13 +454,13 @@ Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScrip
 
 A function to call when a message is received.
 
-Type: function (message: MessageSummary): void
+Type: function (message: MessageSummary): (void | [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>)
 
 #### OnError
 
 A function to call when an error occurs.
 
-Type: function (error: [Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)): void
+Type: function (error: [Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)): (void | [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>)
 
 ## Contributions
 
