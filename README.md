@@ -474,9 +474,17 @@ Make sure that you have Node, Yarn, and the Keybase application installed. We al
 4.  Build the bot for production with `yarn build`.
 5.  Build the docs for the bot with `yarn docs`.
 
-That's it. We accept changes via Pull Requests; please make sure that any changes you make build successfully and pass Flow, Prettier, and ESLint checks. If you're adding a new feature, please add/update tests, demos, documentation, and whatever else makes sense to go with it.
+That's it. We accept changes via Pull Requests; please make sure that any changes you make build successfully and pass Flow, Prettier, and ESLint checks. We'd also really appreciate it if your PR could follow the [Conventional Commit](https://www.conventionalcommits.org) specification. If you're adding a new feature, please add/update tests, demos, documentation, and whatever else makes sense to go with it. If you have any questions about contributing, please feel free to ask a maintainer!
 
 ### Release
+
+We automatically generate a CHANGELOG and version (using [Semantic Versioning](https://semver.org)) `keybase-bot` with [`standard-version`](https://github.com/conventional-changelog/standard-version). To cut a new release:
+
+1. Make sure all commits that are to be included in the release are squash-merged into `master` branch.
+2. On your local copy of the bot, checkout `master` and ensure it's up to date with `origin/master`.
+3. Run `standard-version` with the command `yarn release`.
+4. Push the new git tags to `origin`. (`git push --follow-tags origin master`)
+5. Publish to npm with `yarn publish`.
 
 ## License
 
