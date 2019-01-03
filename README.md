@@ -69,7 +69,7 @@ To run the above bot, you want to save that code into a file and run it with nod
 node <my-awesome-file-name>.js
 ```
 
-This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want to take a look in there. There are also some other cool bots in the demos directory, including a bot that tells you how many unread messages you have and a bot that does math for you and your friends. You can write a bot in any language that can compile to JavaScript and run on Node.js. We have some ES7+ (with `async/await`) demos in [`demos/ES7`](demos/ES7) and even a bot in [Iced CoffeeScript](http://maxtaco.github.io/coffee-script/)!
+This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want to take a look in there. There are also some other cool bots in the demos directory, including a bot that tells you how many unread messages you have and a bot that does math for you and your friends. You can write a bot in any language that can compile to JavaScript and run on Node.js. We have some ES7+ (with `async/await`) demos in [`demos/ES7`](demos/es7) and even a bot in [Iced CoffeeScript](http://maxtaco.github.io/coffee-script/)! (in [`demos/iced`](demos/iced))
 
 ## API
 
@@ -464,7 +464,7 @@ Type: function (error: [Error](https://developer.mozilla.org/docs/Web/JavaScript
 
 ## Contributions
 
-Make sure that you have Node, Yarn, and the Keybase application installed. We also use developer tools such as EditorConfig, ESLint, Flow, and Prettier so you'll probably want to make sure that your development is configured to use those tools somewhere in your code writing process.
+Make sure that you have Node, Yarn, and the Keybase application installed. We also use developer tools such as [EditorConfig](https://editorconfig.org), [ESLint](https://eslint.org), [Flow](https://flow.org), and [Prettier](https://prettier.io) so you'll probably want to make sure that your development is configured to use those tools somewhere in your code writing process.
 
 ### Setting up the source code
 
@@ -472,8 +472,11 @@ Make sure that you have Node, Yarn, and the Keybase application installed. We al
 2.  Install dependencies with `yarn`.
 3.  Build the bot in watch mode with `yarn dev`.
 4.  Build the bot for production with `yarn build`.
+5.  Build the docs for the bot with `yarn docs`.
 
-That's it. We accept changes via Pull Requests; please make sure that any changes you make build successfully and pass Flow, Prettier, and ESLint checks. If you're adding a new feature, please add tests, demos, documentation, and whatever else to go with it.
+That's it. We accept changes via Pull Requests; please make sure that any changes you make build successfully and pass Flow, Prettier, and ESLint checks. If you're adding a new feature, please add/update tests, demos, documentation, and whatever else makes sense to go with it.
+
+### Release
 
 ## License
 
