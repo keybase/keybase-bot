@@ -4,8 +4,8 @@ import {promisify} from 'util'
 
 import Bot from '../lib'
 import config from './tests.config.js'
-import {timeout, startServiceManually, stopServiceManually} from './test-utils'
-import {randomTempDir} from '../lib/utils'
+import {startServiceManually, stopServiceManually} from './test-utils'
+import {randomTempDir, timeout} from '../lib/utils'
 
 async function doesFileOrDirectoryExist(fpath) {
   try {
