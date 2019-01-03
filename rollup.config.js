@@ -14,5 +14,15 @@ export default {
     }),
     resolve(),
   ],
-  external: ['child_process', 'readline', 'lodash.snakecase', 'fs', 'os', 'path', 'util', 'crypto'],
+  external: [
+    'child_process',
+    'readline',
+    'lodash.snakecase',
+    'lodash.camelcase',
+    'fs',
+    'os',
+    'path',
+    'util',
+    'crypto',
+  ],
 }
