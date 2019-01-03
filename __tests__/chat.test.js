@@ -244,44 +244,44 @@ describe('Chat Methods', () => {
     })
   })
 
-  const testTwoBotsCounting = async (bot1, bot2) => {
-    const stopAt = 10
-    const convoCode = crypto.randomBytes(8).toString('hex')
-    const directChannel = {name: `${bot1.myInfo().username},${bot2.myInfo().username}`}
-    let highestReached = 0
-    const onMessageForBot = bot => {
-      const onMessage = async message => {
-        if (message.content.type === 'text') {
-          const body = message.content.text.body
-          if (body.indexOf(convoCode) !== -1) {
-            const num = parseInt(body.replace(convoCode, '').trim())
-            highestReached = Math.max(num, highestReached)
-            if (num < stopAt) {
-              const reply = {body: `${convoCode} ${num + 1}`}
-              await bot.chat.send(message.channel, reply)
+  describe('watchAllChannelsForNewMessages', async () => {
+    const testTwoBotsCounting = async (bot1, bot2) => {
+      const stopAt = 10
+      const convoCode = crypto.randomBytes(8).toString('hex')
+      const directChannel = {name: `${bot1.myInfo().username},${bot2.myInfo().username}`}
+      let highestReached = 0
+      const onMessageForBot = bot => {
+        const onMessage = async message => {
+          if (message.content.type === 'text') {
+            const body = message.content.text.body
+            if (body.indexOf(convoCode) !== -1) {
+              const num = parseInt(body.replace(convoCode, '').trim())
+              highestReached = Math.max(num, highestReached)
+              if (num < stopAt) {
+                const reply = {body: `${convoCode} ${num + 1}`}
+                await bot.chat.send(message.channel, reply)
+              }
             }
           }
         }
+        return onMessage
       }
-      return onMessage
-    }
-    bot1.chat.watchAllChannelsForNewMessages(onMessageForBot(bot1))
-    bot2.chat.watchAllChannelsForNewMessages(onMessageForBot(bot2))
-    const message = {body: `${convoCode} 1`}
-    await bot1.chat.send(directChannel, message)
+      bot1.chat.watchAllChannelsForNewMessages(onMessageForBot(bot1))
+      bot2.chat.watchAllChannelsForNewMessages(onMessageForBot(bot2))
+      const message = {body: `${convoCode} 1`}
+      await bot1.chat.send(directChannel, message)
 
-    // we should exit this as fast as possible, but wait up to 10 seconds
-    let i = 0
-    while (i++ < 100) {
-      await timeout(100)
-      if (highestReached === stopAt) {
-        break
+      // we should exit this as fast as possible, but wait up to 10 seconds
+      let i = 0
+      while (i++ < 100) {
+        await timeout(100)
+        if (highestReached === stopAt) {
+          break
+        }
       }
+      expect(highestReached).toBe(stopAt)
     }
-    expect(highestReached).toBe(stopAt)
-  }
 
-  describe('watchAllChannelsForNewMessages', async () => {
     it('can have 2 users count together', async () => testTwoBotsCounting(alice1, bob))
     it('can have 1 user count across 2 devices', async () => testTwoBotsCounting(alice1, alice2))
   })
