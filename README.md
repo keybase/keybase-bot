@@ -1,4 +1,4 @@
-# keybase-chat-bot
+# keybase-bot
 
 [![npm](https://img.shields.io/npm/v/keybase-bot.svg)](https://www.npmjs.com/package/keybase-bot)
 
