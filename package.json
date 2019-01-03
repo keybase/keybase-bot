@@ -47,7 +47,8 @@
     "docs": "documentation readme lib/** --config documentation.yml --section=API",
     "build": "rollup -c",
     "dev": "rollup -c --watch",
-    "test": "jest"
+    "test": "jest",
+    "release": "standard-version"
   },
   "dependencies": {
     "lodash.camelcase": "4.3.0",
@@ -82,6 +83,7 @@
     "regenerator-runtime": "0.13.1",
     "rollup": "0.67.3",
     "rollup-plugin-babel": "4.0.3",
-    "rollup-plugin-node-resolve": "3.4.0"
+    "rollup-plugin-node-resolve": "3.4.0",
+    "standard-version": "4.4.0"
   }
 }
