@@ -300,7 +300,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### watchChannelForNewMessages
 
-Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel.
+Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel. Note that it receives messages your own bot posts, but from other devices. You can filter out your own messages by looking at a message's sender object.
 
 ##### Parameters
 
@@ -333,7 +333,8 @@ This function will put your bot into full-read mode, where it reads
 everything it can and every new message it finds it will pass to you, so
 you can do what you want with it. For example, if you want to write a
 Keybase bot that talks shit at anyone who dares approach it, this is the
-function to use.
+function to use. Note that it receives messages your own bot posts, but from other devices.
+You can filter out your own messages by looking at a message's sender object.
 
 ##### Parameters
 
@@ -480,11 +481,11 @@ That's it. We accept changes via Pull Requests; please make sure that any change
 
 We automatically generate a CHANGELOG and version (using [Semantic Versioning](https://semver.org)) `keybase-bot` with [`standard-version`](https://github.com/conventional-changelog/standard-version). To cut a new release:
 
-1. Make sure all commits that are to be included in the release are squash-merged into `master` branch.
-2. On your local copy of the bot, checkout `master` and ensure it's up to date with `origin/master`.
-3. Run `standard-version` with the command `yarn release`.
-4. Push the new git tags to `origin`. (`git push --follow-tags origin master`)
-5. Publish to npm with `yarn publish`.
+1.  Make sure all commits that are to be included in the release are squash-merged into `master` branch.
+2.  On your local copy of the bot, checkout `master` and ensure it's up to date with `origin/master`.
+3.  Run `standard-version` with the command `yarn release`.
+4.  Push the new git tags to `origin`. (`git push --follow-tags origin master`)
+5.  Publish to npm with `yarn publish`.
 
 ## License
 
