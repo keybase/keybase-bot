@@ -249,12 +249,14 @@ describe('Chat Methods', () => {
       const stopAt = 10
       const convoCode = crypto.randomBytes(8).toString('hex')
       const directChannel = {name: `${bot1.myInfo().username},${bot2.myInfo().username}`}
+      let totalMessagesSeen = 0
       let highestReached = 0
       const onMessageForBot = bot => {
         const onMessage = async message => {
           if (message.content.type === 'text') {
             const body = message.content.text.body
             if (body.indexOf(convoCode) !== -1) {
+              totalMessagesSeen++
               const num = parseInt(body.replace(convoCode, '').trim())
               highestReached = Math.max(num, highestReached)
               if (num < stopAt) {
@@ -271,15 +273,13 @@ describe('Chat Methods', () => {
       const message = {body: `${convoCode} 1`}
       await bot1.chat.send(directChannel, message)
 
-      // we should exit this as fast as possible, but wait up to 10 seconds
-      let i = 0
-      while (i++ < 100) {
+      while (true) {
         await timeout(100)
         if (highestReached === stopAt) {
           break
         }
       }
-      expect(highestReached).toBe(stopAt)
+      expect(totalMessagesSeen).toBe(stopAt)
     }
 
     it('can have 2 users count together', async () => testTwoBotsCounting(alice1, bob))
