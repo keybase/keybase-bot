@@ -4,18 +4,19 @@ import config from './tests.config.js'
 import {timeout} from '../lib/utils'
 
 test('Chat methods with an uninitialized bot', () => {
-  const alice = new Bot()
+  const alice1 = new Bot()
   const channel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
   const message = {body: 'Testing!'}
 
-  expect(alice.chat.list()).rejects.toThrowError()
-  expect(alice.chat.read()).rejects.toThrowError()
-  expect(alice.chat.send(channel, message)).rejects.toThrowError()
-  expect(alice.chat.delete(channel, 314)).rejects.toThrowError()
+  expect(alice1.chat.list()).rejects.toThrowError()
+  expect(alice1.chat.read()).rejects.toThrowError()
+  expect(alice1.chat.send(channel, message)).rejects.toThrowError()
+  expect(alice1.chat.delete(channel, 314)).rejects.toThrowError()
 })
 
 describe('Chat Methods', () => {
-  const alice = new Bot()
+  const alice1 = new Bot()
+  const alice2 = new Bot()
   const bob = new Bot()
   const channel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
   const teamChannel = {
@@ -59,17 +60,19 @@ describe('Chat Methods', () => {
   })
 
   beforeAll(async () => {
-    await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
+    await alice1.init(config.bots.alice1.username, config.bots.alice1.paperkey)
+    await alice2.init(config.bots.alice2.username, config.bots.alice2.paperkey)
     await bob.init(config.bots.bob1.username, config.bots.bob1.paperkey)
   })
   afterAll(async () => {
-    await alice.deinit()
+    await alice1.deinit()
+    await alice2.deinit()
     await bob.deinit()
   })
 
   describe('Chat list', () => {
     it('Returns all chat conversations in an array', async () => {
-      const conversations = await alice.chat.list()
+      const conversations = await alice1.chat.list()
 
       expect(Array.isArray(conversations)).toBe(true)
       for (const conversation of conversations) {
@@ -78,14 +81,14 @@ describe('Chat Methods', () => {
     })
 
     it('Shows only unread messages if given the option', async () => {
-      const conversations = await alice.chat.list({unreadOnly: true})
+      const conversations = await alice1.chat.list({unreadOnly: true})
       for (const conversation of conversations) {
         expect(conversation).toHaveProperty('unread', true)
       }
     })
 
     it('Shows only messages of a specific topic type if given the option', async () => {
-      const conversations = await alice.chat.list({topicType: 'DEV'})
+      const conversations = await alice1.chat.list({topicType: 'DEV'})
       for (const conversation of conversations) {
         expect(conversation).toHaveProperty('topicType', 'DEV')
       }
@@ -94,7 +97,7 @@ describe('Chat Methods', () => {
 
   describe('Chat read', () => {
     it('Retrieves all messages in a conversation', async () => {
-      const messages = await alice.chat.read(channel)
+      const messages = await alice1.chat.read(channel)
       expect(Array.isArray(messages)).toBe(true)
       for (const message of messages) {
         expect(message).toEqual(messageMatcher)
@@ -102,7 +105,7 @@ describe('Chat Methods', () => {
     })
 
     it('Shows only unread messages if given the option', async () => {
-      const messages = await alice.chat.read(channel, {unreadOnly: true})
+      const messages = await alice1.chat.read(channel, {unreadOnly: true})
       expect(Array.isArray(messages)).toBe(true)
       for (const message of messages) {
         expect(message).toHaveProperty('unread', true)
@@ -112,60 +115,60 @@ describe('Chat Methods', () => {
     it("Doesn't mark messages read on peek", async () => {
       // No peeking: message should be unread on first read, and read on subsequent reads
       await bob.chat.send(channel, message)
-      let messages = await alice.chat.read(channel)
+      let messages = await alice1.chat.read(channel)
       expect(messages[0]).toHaveProperty('unread', true)
-      messages = await alice.chat.read(channel)
+      messages = await alice1.chat.read(channel)
       expect(messages[0]).toHaveProperty('unread', false)
 
       // Now let's peek. Messages should remain unread on subsequent reads.
       await bob.chat.send(channel, message)
-      messages = await alice.chat.read(channel, {peek: true})
+      messages = await alice1.chat.read(channel, {peek: true})
       expect(messages[0]).toHaveProperty('unread', true)
-      messages = await alice.chat.read(channel)
+      messages = await alice1.chat.read(channel)
       expect(messages[0]).toHaveProperty('unread', true)
     })
 
     it('Throws an error if given an invalid channel', async () => {
-      expect(alice.chat.read(invalidChannel)).rejects.toThrowError()
+      expect(alice1.chat.read(invalidChannel)).rejects.toThrowError()
     })
   })
 
   describe('Chat send', () => {
     it('Sends a message to a certain channel and returns an empty promise', async () => {
-      await alice.chat.send(channel, message)
+      await alice1.chat.send(channel, message)
 
-      const messages = await alice.chat.read(channel, {
+      const messages = await alice1.chat.read(channel, {
         peek: true,
       })
-      expect(messages[0].sender.username).toEqual(alice.myInfo().username)
+      expect(messages[0].sender.username).toEqual(alice1.myInfo().username)
       expect(messages[0].content.text.body).toEqual(message.body)
     })
 
     it('Throws an error if given an invalid channel', async () => {
-      expect(alice.chat.send(invalidChannel, message)).rejects.toThrowError()
+      expect(alice1.chat.send(invalidChannel, message)).rejects.toThrowError()
     })
 
     it('Throws an error if given an invalid message', async () => {
-      expect(alice.chat.send(channel, invalidMessage)).rejects.toThrowError()
+      expect(alice1.chat.send(channel, invalidMessage)).rejects.toThrowError()
     })
   })
 
   describe('Chat delete', () => {
     it('Deletes a message to a certain channel and returns an empty promise', async () => {
-      await alice.chat.send(channel, message)
+      await alice1.chat.send(channel, message)
 
       // Send a message
-      const messages = await alice.chat.read(channel, {
+      const messages = await alice1.chat.read(channel, {
         peek: true,
       })
-      expect(messages[0].sender.username).toEqual(alice.myInfo().username)
+      expect(messages[0].sender.username).toEqual(alice1.myInfo().username)
       expect(messages[0].content.text.body).toEqual(message.body)
 
       const {id} = messages[0]
-      await alice.chat.delete(channel, id)
+      await alice1.chat.delete(channel, id)
 
       // Send a message
-      const newMessages = await alice.chat.read(channel, {
+      const newMessages = await alice1.chat.read(channel, {
         peek: true,
       })
       expect(newMessages[0].id).toEqual(id + 1)
@@ -175,16 +178,16 @@ describe('Chat Methods', () => {
     })
 
     it('Throws an error if given an invalid channel', async () => {
-      await alice.chat.send(channel, message)
-      const messages = await alice.chat.read(channel, {
+      await alice1.chat.send(channel, message)
+      const messages = await alice1.chat.read(channel, {
         peek: true,
       })
       const {id} = messages[0]
-      expect(alice.chat.delete(invalidChannel, id)).rejects.toThrowError()
+      expect(alice1.chat.delete(invalidChannel, id)).rejects.toThrowError()
     })
 
     it('Throws an error if given an invalid id', async () => {
-      expect(alice.chat.send(channel, -1)).rejects.toThrowError()
+      expect(alice1.chat.send(channel, -1)).rejects.toThrowError()
     })
 
     /*
@@ -195,11 +198,11 @@ describe('Chat Methods', () => {
 
     it('Throws an error if it cannot delete the message (e.g., someone else wrote it)', async () => {
       await bob.chat.send(channel, message)
-      const messages = await alice.chat.read(channel, {
+      const messages = await alice1.chat.read(channel, {
         peek: true,
       })
       const {id} = messages[0]
-      expect(alice.chat.delete(channel, id)).rejects.toThrowError()
+      expect(alice1.chat.delete(channel, id)).rejects.toThrowError()
     })
     */
   })
@@ -209,8 +212,8 @@ describe('Chat Methods', () => {
       let ALICE_IS_SATISFIED = false
       let BOB_IS_SATISFIED = false
 
-      alice.chat.watchChannelForNewMessages(teamChannel, message => {
-        if (message.content.type === 'text' && message.content.text.body === 'hello alice') {
+      alice1.chat.watchChannelForNewMessages(teamChannel, message => {
+        if (message.content.type === 'text' && message.content.text.body === 'hello alice1') {
           ALICE_IS_SATISFIED = true
         }
       })
@@ -219,30 +222,45 @@ describe('Chat Methods', () => {
           BOB_IS_SATISFIED = true
         }
       })
-      await alice.chat.send(teamChannel, {body: 'hello bob'})
-      await bob.chat.send(teamChannel, {body: 'hello alice'})
+      await alice1.chat.send(teamChannel, {body: 'hello bob'})
+      await bob.chat.send(teamChannel, {body: 'hello alice1'})
 
       await timeout(3000)
       expect(ALICE_IS_SATISFIED).toBe(true)
       expect(BOB_IS_SATISFIED).toBe(true)
     })
+
+    it("Doesn't pick up its own messages from the same device", async () => {
+      const messageText = 'Ever thus to deadbeats, Lebowski'
+      let noticedMessages = 0
+      alice1.chat.watchChannelForNewMessages(teamChannel, message => {
+        if (message.content.type === 'text' && message.content.text.body === messageText) {
+          noticedMessages++
+        }
+      })
+      await alice1.chat.send(teamChannel, {body: messageText})
+      await timeout(3000)
+      expect(noticedMessages).toBe(0)
+    })
   })
 
-  describe('watchAllChannelsForNewMessages', () => {
-    it('Can have bots count up to 10 to each other', async () => {
-      const STOP_AT = 10
-      const CONVO_CODE = crypto.randomBytes(8).toString('hex')
-      let HIGHEST_REACHED = 0
-
-      const onMessageForBot = (botName, bot) => {
+  describe('watchAllChannelsForNewMessages', async () => {
+    const testTwoBotsCounting = async (bot1, bot2) => {
+      const stopAt = 10
+      const convoCode = crypto.randomBytes(8).toString('hex')
+      const directChannel = {name: `${bot1.myInfo().username},${bot2.myInfo().username}`}
+      let totalMessagesSeen = 0
+      let highestReached = 0
+      const onMessageForBot = bot => {
         const onMessage = async message => {
           if (message.content.type === 'text') {
             const body = message.content.text.body
-            if (body.indexOf(CONVO_CODE) !== -1) {
-              const num = parseInt(body.replace(CONVO_CODE, '').trim())
-              HIGHEST_REACHED = Math.max(num, HIGHEST_REACHED)
-              if (num < STOP_AT) {
-                const reply = {body: `${CONVO_CODE} ${num + 1}`}
+            if (body.indexOf(convoCode) !== -1) {
+              totalMessagesSeen++
+              const num = parseInt(body.replace(convoCode, '').trim())
+              highestReached = Math.max(num, highestReached)
+              if (num < stopAt) {
+                const reply = {body: `${convoCode} ${num + 1}`}
                 await bot.chat.send(message.channel, reply)
               }
             }
@@ -250,15 +268,21 @@ describe('Chat Methods', () => {
         }
         return onMessage
       }
+      bot1.chat.watchAllChannelsForNewMessages(onMessageForBot(bot1))
+      bot2.chat.watchAllChannelsForNewMessages(onMessageForBot(bot2))
+      const message = {body: `${convoCode} 1`}
+      await bot1.chat.send(directChannel, message)
 
-      alice.chat.watchAllChannelsForNewMessages(onMessageForBot('alice', alice))
-      bob.chat.watchAllChannelsForNewMessages(onMessageForBot('bob', bob))
-      const message = {body: `${CONVO_CODE} 1`}
-      await bob.chat.send(channel, message)
+      while (true) {
+        await timeout(100)
+        if (highestReached === stopAt) {
+          break
+        }
+      }
+      expect(totalMessagesSeen).toBe(stopAt)
+    }
 
-      // Wait 10 seconds, ample time for our bots to count to 10
-      await timeout(10000)
-      expect(HIGHEST_REACHED).toBe(STOP_AT)
-    })
+    it('can have 2 users count together', async () => testTwoBotsCounting(alice1, bob))
+    it('can have 1 user count across 2 devices', async () => testTwoBotsCounting(alice1, alice2))
   })
 })
