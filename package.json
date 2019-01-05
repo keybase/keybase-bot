@@ -1,6 +1,6 @@
 {
-  "name": "keybase-chat-bot",
-  "version": "1.0.1",
+  "name": "keybase-bot",
+  "version": "1.0.0",
   "description": "Script Keybase in Node.js!",
   "keywords": [
     "keybase",
@@ -13,10 +13,10 @@
     "gpg"
   ],
   "main": "index.js",
-  "homepage": "https://github.com/keybase/keybase-chat-bot",
-  "repository": "git@github.com:keybase/keybase-chat-bot.git",
+  "homepage": "https://github.com/keybase/keybase-bot",
+  "repository": "git@github.com:keybase/keybase-bot.git",
   "bugs": {
-    "url": "https://github.com/keybase/keybase-chat-bot/issues"
+    "url": "https://github.com/keybase/keybase-bot/issues"
   },
   "author": "Chris Coyne <ccoyne77@gmail.com>",
   "license": "BSD-3-Clause",
@@ -47,7 +47,8 @@
     "docs": "documentation readme lib/** --config documentation.yml --section=API",
     "build": "rollup -c",
     "dev": "rollup -c --watch",
-    "test": "jest"
+    "test": "jest",
+    "release": "standard-version"
   },
   "dependencies": {
     "lodash.camelcase": "4.3.0",
@@ -82,6 +83,7 @@
     "regenerator-runtime": "0.13.1",
     "rollup": "0.67.3",
     "rollup-plugin-babel": "4.0.3",
-    "rollup-plugin-node-resolve": "3.4.0"
+    "rollup-plugin-node-resolve": "3.4.0",
+    "standard-version": "4.4.0"
   }
 }
