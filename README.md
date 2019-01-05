@@ -1,4 +1,4 @@
-# keybase-chat-bot
+# keybase-bot
 
 [![npm](https://img.shields.io/npm/v/keybase-bot.svg)](https://www.npmjs.com/package/keybase-bot)
 
@@ -69,7 +69,7 @@ To run the above bot, you want to save that code into a file and run it with nod
 node <my-awesome-file-name>.js
 ```
 
-This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want to take a look in there. There are also some other cool bots in the demos directory, including a bot that tells you how many unread messages you have and a bot that does math for you and your friends. You can write a bot in any language that can compile to JavaScript and run on Node.js. We have some ES7+ (with `async/await`) demos in [`demos/ES7`](demos/ES7) and even a bot in [Iced CoffeeScript](http://maxtaco.github.io/coffee-script/)!
+This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want to take a look in there. There are also some other cool bots in the demos directory, including a bot that tells you how many unread messages you have and a bot that does math for you and your friends. You can write a bot in any language that can compile to JavaScript and run on Node.js. We have some ES7+ (with `async/await`) demos in [`demos/ES7`](demos/es7) and even a bot in [Iced CoffeeScript](http://maxtaco.github.io/coffee-script/)! (in [`demos/iced`](demos/iced))
 
 ## API
 
@@ -99,18 +99,19 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
     - [Examples](#examples-4)
   - [read](#read)
     - [Parameters](#parameters-3)
+    - [Examples](#examples-5)
   - [send](#send)
     - [Parameters](#parameters-4)
-    - [Examples](#examples-5)
+    - [Examples](#examples-6)
   - [delete](#delete)
     - [Parameters](#parameters-5)
-    - [Examples](#examples-6)
+    - [Examples](#examples-7)
   - [watchChannelForNewMessages](#watchchannelfornewmessages)
     - [Parameters](#parameters-6)
-    - [Examples](#examples-7)
+    - [Examples](#examples-8)
   - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
     - [Parameters](#parameters-7)
-    - [Examples](#examples-8)
+    - [Examples](#examples-9)
 - [Chat Types](#chat-types)
   - [ChatChannel](#chatchannel)
     - [Properties](#properties-2)
@@ -235,7 +236,7 @@ Lists your chats, with info on which ones have unread messages.
 ##### Examples
 
 ```javascript
-const chatConversations = bot.chat.list({unreadOnly: true})
+bot.chat.list({unreadOnly: true}).then(chatConversations => console.log(chatConversations))
 ```
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[ChatConversation](#chatconversation)>>** An array of chat conversations. If there are no conversations, the array is empty.
@@ -249,7 +250,13 @@ Reads the messages in a channel. You can read with or without marking as read.
 - `channel` **[ChatChannel](#chatchannel)** The chat channel to read messages in.
 - `options` **[ChatReadOptions](#chatreadoptions)** An object of options that can be passed to the method.
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+##### Examples
+
+```javascript
+alice.chat.read(channel).then(messages => console.log(messages))
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;MessageSummary>>** A summary of data about a message, including who send it, when, the content of the message, etc. If there are no messages in your channel, then an error is thrown.
 
 #### send
 
@@ -266,7 +273,7 @@ Send a message to a certain channel.
 ```javascript
 const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topic_type: 'chat'}
 const message = {body: 'Hello kbot!'}
-bot.chat.send(channel, message)
+bot.chat.send(channel, message).then(() => console.log('message sent!'))
 ```
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
@@ -286,14 +293,14 @@ and deleting from the CLI may not become apparent immediately.
 ##### Examples
 
 ```javascript
-bot.chat.delete(channel, 314)
+bot.chat.delete(channel, 314).then(() => console.log('message deleted!'))
 ```
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### watchChannelForNewMessages
 
-Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel.
+Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel. Note that it receives messages your own bot posts, but from other devices. You can filter out your own messages by looking at a message's sender object.
 
 ##### Parameters
 
@@ -326,7 +333,8 @@ This function will put your bot into full-read mode, where it reads
 everything it can and every new message it finds it will pass to you, so
 you can do what you want with it. For example, if you want to write a
 Keybase bot that talks shit at anyone who dares approach it, this is the
-function to use.
+function to use. Note that it receives messages your own bot posts, but from other devices.
+You can filter out your own messages by looking at a message's sender object.
 
 ##### Parameters
 
@@ -398,28 +406,28 @@ Type: {id: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 Options for the `list` method of the chat module.
 
-Type: {unreadOnly: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, topicType: TopicType?, showErrors: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, failOffline: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
+Type: {failOffline: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, showErrors: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, topicType: TopicType?, unreadOnly: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
 
 ##### Properties
 
-- `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
-- `topicType` **TopicType?**
-- `showErrors` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 - `failOffline` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `showErrors` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `topicType` **TopicType?**
+- `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
 #### ChatReadOptions
 
 Options for the `read` method of the chat module.
 
-Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, peek: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, pagination: Pagination?, unreadOnly: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, failOffline: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
+Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, failOffline: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, pagination: Pagination?, peek: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, unreadOnly: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
 
 ##### Properties
 
 - `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
-- `peek` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
-- `pagination` **Pagination?**
-- `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 - `failOffline` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `pagination` **Pagination?**
+- `peek` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
 #### ChatSendOptions
 
@@ -447,17 +455,17 @@ Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScrip
 
 A function to call when a message is received.
 
-Type: function (message: MessageSummary): void
+Type: function (message: MessageSummary): (void | [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>)
 
 #### OnError
 
 A function to call when an error occurs.
 
-Type: function (error: [Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)): void
+Type: function (error: [Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)): (void | [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>)
 
 ## Contributions
 
-Make sure that you have Node, Yarn, and the Keybase application installed. We also use developer tools such as EditorConfig, ESLint, Flow, and Prettier so you'll probably want to make sure that your development is configured to use those tools somewhere in your code writing process.
+Make sure that you have Node, Yarn, and the Keybase application installed. We also use developer tools such as [EditorConfig](https://editorconfig.org), [ESLint](https://eslint.org), [Flow](https://flow.org), and [Prettier](https://prettier.io) so you'll probably want to make sure that your development is configured to use those tools somewhere in your code writing process.
 
 ### Setting up the source code
 
@@ -465,8 +473,19 @@ Make sure that you have Node, Yarn, and the Keybase application installed. We al
 2.  Install dependencies with `yarn`.
 3.  Build the bot in watch mode with `yarn dev`.
 4.  Build the bot for production with `yarn build`.
+5.  Build the docs for the bot with `yarn docs`.
 
-That's it. We accept changes via Pull Requests; please make sure that any changes you make build successfully and pass Flow, Prettier, and ESLint checks. If you're adding a new feature, please add tests, demos, documentation, and whatever else to go with it.
+That's it. We accept changes via Pull Requests; please make sure that any changes you make build successfully and pass Flow, Prettier, and ESLint checks. We'd also really appreciate it if your PR could follow the [Conventional Commit](https://www.conventionalcommits.org) specification. If you're adding a new feature, please add/update tests, demos, documentation, and whatever else makes sense to go with it. If you have any questions about contributing, please feel free to ask a maintainer!
+
+### Release
+
+We automatically generate a CHANGELOG and version (using [Semantic Versioning](https://semver.org)) `keybase-bot` with [`standard-version`](https://github.com/conventional-changelog/standard-version). To cut a new release:
+
+1.  Make sure all commits that are to be included in the release are squash-merged into `master` branch.
+2.  On your local copy of the bot, checkout `master` and ensure it's up to date with `origin/master`.
+3.  Run `standard-version` with the command `yarn release`.
+4.  Push the new git tags to `origin`. (`git push --follow-tags origin master`)
+5.  Publish to npm with `yarn publish`.
 
 ## License
 
