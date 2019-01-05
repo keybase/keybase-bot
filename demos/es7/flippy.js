@@ -10,29 +10,39 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-async function main() {
-  const bot = new Bot()
+const bot = new Bot()
 
-  const channel = {name: 'test'}
+async function main() {
+  const channel = {
+    name: process.env.KB_TEAM,
+    public: false,
+    topicType: 'chat',
+    membersType: 'team',
+    topicName: 'general',
+  }
 
   try {
     const username = process.env.KB_USERNAME
     const paperkey = process.env.KB_PAPERKEY
     await bot.init(username, paperkey)
+    const info = bot.myInfo()
+    console.log(`Flippy initialized with username ${info.username}.`)
 
     const onMessage = async message => {
       if (message.content.type === 'text') {
-        // could probably normalize the body a little more before comparisons
+        // TODO: could probably normalize the body a little more before comparisons
         const messageBody = message.content.text.body.toLowerCase()
         switch (messageBody) {
           case 'new flip':
-            await bot.chat.send(channel, {body: 'Starting a new flip... 🍇🍈🍉🍊🍋'})
+            console.log('Starting a new flip!')
+            const messageToSend = {body: 'Starting a new flip...'}
+            await bot.chat.send(message.channel, messageToSend)
             break
           case 'coin flip':
           case 'coyne flip':
-            const {id} = message
+            console.log('Making a flip!')
             const flip = getRandomIntInclusive(0, 1) ? ':+1:' : ':-1:'
-            await bot.chat.react(channel, id, flip)
+            await bot.chat.react(message.channel, message.id, flip)
             break
           default:
             break
@@ -41,12 +51,19 @@ async function main() {
     }
 
     const onError = e => console.error(e)
-    bot.chat.watchChannelForNewMessages(channel, onMessage, onError)
+    console.log(`Listening in the general channel of ${channel.name}...`)
+    await bot.chat.watchAllChannelsForNewMessages(onMessage, onError)
   } catch (error) {
     console.error(error)
-  } finally {
-    await bot.deinit()
   }
 }
+
+async function shutDown() {
+  await bot.deinit()
+  process.exit()
+}
+
+process.on('SIGINT', shutDown)
+process.on('SIGTERM', shutDown)
 
 main()
