@@ -18,6 +18,11 @@ module.exports = {
       username: 'bob',
       paperkey: 'one two three four...',
     },
+    charlie1: {
+      // Charlie should be an account that has access to Stellar features
+      username: 'charlie',
+      paperkey: 'get this bread...',
+    },
   },
   teams: {
     acme: {
