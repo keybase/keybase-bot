@@ -36,13 +36,13 @@ async function main() {
           case 'new flip':
             console.log('Starting a new flip!')
             const messageToSend = {body: 'Starting a new flip...'}
-            await bot.chat.send(message.channel, messageToSend)
+            await bot.chat.send(channel, messageToSend)
             break
           case 'coin flip':
           case 'coyne flip':
-            console.log('Making a flip!')
             const flip = getRandomIntInclusive(0, 1) ? ':+1:' : ':-1:'
-            await bot.chat.react(message.channel, message.id, flip)
+            console.log('Making a flip:', flip)
+            await bot.chat.react(channel, message.id, flip)
             break
           default:
             break
@@ -52,7 +52,7 @@ async function main() {
 
     const onError = e => console.error(e)
     console.log(`Listening in the general channel of ${channel.name}...`)
-    await bot.chat.watchAllChannelsForNewMessages(onMessage, onError)
+    await bot.chat.watchChannelForNewMessages(channel, onMessage, onError)
   } catch (error) {
     console.error(error)
   }
