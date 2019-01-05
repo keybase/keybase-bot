@@ -13,12 +13,12 @@ describe('Keybase bot initialization', () => {
 
   it('throws an error if not given a username', async () => {
     const alice = new Bot()
-    await expect(alice.init(undefined, config.bots.alice1.paperkey)).rejects.toThrowError()
+    await expect(alice.init('', config.bots.alice1.paperkey)).rejects.toThrowError()
   })
 
   it('throws an error if not given a paperkey', async () => {
     const alice = new Bot()
-    await expect(alice.init(config.bots.alice1.username, undefined)).rejects.toThrowError()
+    await expect(alice.init(config.bots.alice1.username, '')).rejects.toThrowError()
   })
 
   it('throws an error if given an invalid paperkey', async () => {
