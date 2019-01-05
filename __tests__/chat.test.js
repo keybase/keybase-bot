@@ -151,6 +151,25 @@ describe('Chat Methods', () => {
     })
   })
 
+  describe('Chat react', () => {
+    it('Allows a user to react to a valid message', async () => {
+      const emoji = ':poop:'
+      await alice1.chat.send(channel, message)
+      let messages = await alice1.chat.read(channel, {peek: true})
+      const messageToReactTo = messages[0]
+
+      await bob.chat.react(channel, messageToReactTo.id, emoji)
+      messages = await alice1.chat.read(channel, {peek: true})
+      const reaction = messages[0]
+      expect(reaction.id).toBe(messageToReactTo.id + 1)
+      expect(reaction.content.type).toBe('reaction')
+      expect(messages[1].reactions.reactions[emoji]).toHaveProperty(config.bots.bob.username)
+    })
+
+    it('Throws an error if given an invalid emoji')
+    it("Throws an error if it cannot react to a message (e.g., it's not a reactable message type")
+  })
+
   describe('Chat delete', () => {
     it('Deletes a message to a certain channel and returns an empty promise', async () => {
       await alice1.chat.send(channel, message)
