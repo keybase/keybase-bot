@@ -33,4 +33,13 @@ describe('Wallet Methods', () => {
       }
     })
   })
+
+  describe('Wallet history', () => {
+    it('Lists all the transactions of an account', async () => {
+      const accounts = await charlie1.wallet.balances()
+      const transactions = await charlie1.wallet.history(accounts[0].accountId)
+      expect(Array.isArray(transactions)).toBe(true)
+      console.log(transactions)
+    })
+  })
 })
