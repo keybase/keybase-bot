@@ -129,6 +129,33 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
     - [Properties](#properties-8)
   - [OnMessage](#onmessage)
   - [OnError](#onerror)
+- [Wallet](#wallet)
+  - [balances](#balances)
+    - [Examples](#examples-10)
+  - [history](#history)
+    - [Parameters](#parameters-8)
+    - [Examples](#examples-11)
+  - [details](#details)
+    - [Parameters](#parameters-9)
+    - [Examples](#examples-12)
+  - [lookup](#lookup)
+    - [Parameters](#parameters-10)
+    - [Examples](#examples-13)
+  - [send](#send-1)
+    - [Parameters](#parameters-11)
+    - [Examples](#examples-14)
+  - [cancel](#cancel)
+    - [Parameters](#parameters-12)
+    - [Examples](#examples-15)
+- [PaymentStatus](#paymentstatus)
+- [Asset](#asset)
+  - [Properties](#properties-9)
+- [ExchangeRate](#exchangerate)
+  - [Properties](#properties-10)
+- [Account](#account)
+  - [Properties](#properties-11)
+- [Transaction](#transaction)
+  - [Properties](#properties-12)
 
 ### Bot
 
@@ -462,6 +489,184 @@ Type: function (message: MessageSummary): (void | [Promise](https://developer.mo
 A function to call when an error occurs.
 
 Type: function (error: [Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)): (void | [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>)
+
+### Wallet
+
+**Extends ClientBase**
+
+The wallet module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase wallet api`.
+
+#### balances
+
+Provides a list of all accounts owned by the current Keybase user.
+
+##### Examples
+
+```javascript
+bot.wallet.balances().then(accounts => console.log(accounts))
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Account](#account)>>** An array of accounts. If there are no accounts, the array is empty.
+
+#### history
+
+Provides a list of all transactions in a single account.
+
+##### Parameters
+
+- `accountId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The id of an account owned by a Keybase user.
+
+##### Examples
+
+```javascript
+bot.wallet
+  .history('GDUKZH6Q3U5WQD4PDGZXYLJE3P76BDRDWPSALN4OUFEESI2QL5UZHCK')
+  .then(transactions => console.log(transactions))
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Transaction](#transaction)>>** An array of transactions related to the account.
+
+#### details
+
+Get details about a particular transaction
+
+##### Parameters
+
+- `transactionId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The id of the transaction you would like details about.
+
+##### Examples
+
+```javascript
+bot.wallet
+  .details('e5334601b9dc2a24e031ffeec2fce37bb6a8b4b51fc711d16dec04d3e64976c4')
+  .then(details => console.log(details))
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Transaction](#transaction)>** An object of details about the transaction specified.
+
+#### lookup
+
+Lookup the primary Stellar account ID of a Keybase user.
+
+##### Parameters
+
+- `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The name of the user you want to lookup.
+
+##### Examples
+
+```javascript
+const {accountID} = bot.wallet.lookup('patrick')
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;{accountID: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), username: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}>** An object containing the account ID and Keybase username of the found user.
+
+#### send
+
+Send money with your bot!
+
+##### Parameters
+
+- `recipient` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Who you're sending your money to!
+- `amount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** How much money to send.
+- `currency` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The currency of the value you're sending. If not included, defaults to XLM.
+- `message` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The message for your payment
+
+##### Examples
+
+```javascript
+bot.wallet
+  .send('nathunsmitty', '3.50', 'USD', 'Shut up and take my money!')
+  .then(() => console.log('Money sent!'))
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Transaction](#transaction)>** The trasaction object of the transaction.
+
+#### cancel
+
+If you send XLM to a Keybase user who has not established a wallet, you can cancel the payment before the recipient claims it and the XLM will be returned to your account.
+
+##### Parameters
+
+- `transactionId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The id of the transaction to cancel.
+
+##### Examples
+
+```javascript
+bot.wallet
+  .cancel('e5334601b9dc2a24e031ffeec2fce37bb6a8b4b51fc711d16dec04d3e64976c4')
+  .then(() => console.log('Transaction successfully canceled!'))
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
+### PaymentStatus
+
+The status of a payment.
+
+Type: (`"none"` \| `"pending"` \| `"claimable"` \| `"completed"` \| `"error"` \| `"unknown"` \| `"canceled"`)
+
+### Asset
+
+An asset.
+
+Type: {type: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), code: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), issuer: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), verifiedDomain: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), issuerName: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}
+
+#### Properties
+
+- `type` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `code` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `issuer` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `verifiedDomain` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `issuerName` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+
+### ExchangeRate
+
+An exchange rate, which specifies a currency and the rate of exchange between an asset and that currency.
+
+Type: {currency: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), rate: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}
+
+#### Properties
+
+- `currency` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `rate` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+
+### Account
+
+An account, with money inside!
+
+Type: {accountId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), name: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), isPrimary: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), balance: (null | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;Balance>), exchangeRate: [ExchangeRate](#exchangerate)}
+
+#### Properties
+
+- `accountId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `isPrimary` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
+- `balance` **(null | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;Balance>)**
+- `exchangeRate` **[ExchangeRate](#exchangerate)**
+
+### Transaction
+
+A transaction, where a user sends money to another user.
+
+Type: {txId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), time: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), status: [PaymentStatus](#paymentstatus), statusDetail: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), amount: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), asset: [Asset](#asset), displayAmount: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), displayCurrency: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), fromStellar: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), toStellar: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), fromUsername: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), toUsername: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), note: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), noteErr: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), unread: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)}
+
+#### Properties
+
+- `txId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `time` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `status` **[PaymentStatus](#paymentstatus)**
+- `statusDetail` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `amount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `asset` **[Asset](#asset)**
+- `displayAmount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `displayCurrency` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `fromStellar` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `toStellar` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `fromUsername` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `toUsername` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `note` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `noteErr` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `unread` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
 
 ## Contributions
 
