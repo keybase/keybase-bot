@@ -19,7 +19,7 @@ module.exports = {
       paperkey: 'one two three four...',
     },
     charlie1: {
-      // Charlie should be an account that has access to Stellar features
+      // Charlie should be an account that does not have access to Stellar features
       username: 'charlie',
       paperkey: 'get this bread...',
     },
