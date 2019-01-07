@@ -10,7 +10,6 @@ test('Wallet methods with an uninitialized bot', () => {
 
 describe('Wallet Methods', () => {
   const alice = new Bot()
-  const bob = new Bot()
 
   const accountMatcher = expect.objectContaining({
     accountId: expect.any(String),
@@ -20,16 +19,9 @@ describe('Wallet Methods', () => {
   const transactionMatcher = expect.objectContaining({
     txId: expect.any(String),
     time: expect.any(Number),
-    // status: PaymentStatus,
     statusDetail: expect.any(String),
     amount: expect.any(String),
-    // asset: Asset,
-    // displayAmount: expect.any(String),
-    // displayCurrency: expect.any(String),
     fromStellar: expect.any(String),
-    toStellar: expect.any(String),
-    // fromUsername: expect.any(String),
-    // toUsername: expect.any(String),
     note: expect.any(String),
     noteErr: expect.any(String),
     unread: expect.any(Boolean),
@@ -37,12 +29,11 @@ describe('Wallet Methods', () => {
 
   beforeAll(async () => {
     await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
-    await bob.init(config.bots.bob1.username, config.bots.bob1.paperkey)
   })
 
   afterAll(async () => {
     await alice.deinit()
-    await bob.deinit()
+    // await bob.deinit()
   })
 
   describe('Wallet balances', () => {
@@ -106,11 +97,14 @@ describe('Wallet Methods', () => {
     const recipient = config.bots.bob1.username
 
     it('Sends money', async () => {
+      const bob = new Bot()
+      await bob.init(config.bots.bob1.username, config.bots.bob1.paperkey)
       const note = crypto.randomBytes(8).toString('hex')
       await alice.wallet.send(recipient, amount, currency, note)
       const primaryAccount = await alice.wallet.lookup(recipient)
       const transactions = await bob.wallet.history(primaryAccount.accountId)
       expect(transactions[0]).toHaveProperty('note', note)
+      await bob.deinit()
     })
     it('Throws an error if given an invalid recipient', () => {
       expect(alice.wallet.send('keybase', amount, currency)).rejects.toThrowError()
