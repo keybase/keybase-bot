@@ -19,6 +19,7 @@ export default {
     'readline',
     'lodash.snakecase',
     'lodash.camelcase',
+    'lodash.kebabcase',
     'fs',
     'os',
     'path',
