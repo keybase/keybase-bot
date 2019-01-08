@@ -33,7 +33,6 @@ describe('Wallet Methods', () => {
 
   afterAll(async () => {
     await alice.deinit()
-    // await bob.deinit()
   })
 
   describe('Wallet balances', () => {
