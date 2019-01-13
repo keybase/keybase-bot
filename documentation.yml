@@ -21,6 +21,8 @@ toc:
       - ChatListOptions
       - ChatReadOptions
       - ChatSendOptions
+      - ChatAttachOptions
+      - ChatDownloadOptions
       - ChatDeleteOptions
       - OnMessage
       - OnError
