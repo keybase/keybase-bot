@@ -7,6 +7,7 @@
 module.exports = {
   bots: {
     alice1: {
+      // Alice should have an active Stellar account with a little bit of XLM in it
       username: 'alice',
       paperkey: 'foo bar car...',
     },
@@ -15,6 +16,7 @@ module.exports = {
       paperkey: 'yo there paperkey...',
     },
     bob1: {
+      // Bob should have an active Stellar account with a little bit of XLM in it
       username: 'bob',
       paperkey: 'one two three four...',
     },
