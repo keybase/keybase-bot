@@ -103,15 +103,18 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
   - [send](#send)
     - [Parameters](#parameters-4)
     - [Examples](#examples-6)
-  - [delete](#delete)
+  - [react](#react)
     - [Parameters](#parameters-5)
     - [Examples](#examples-7)
-  - [watchChannelForNewMessages](#watchchannelfornewmessages)
+  - [delete](#delete)
     - [Parameters](#parameters-6)
     - [Examples](#examples-8)
-  - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
+  - [watchChannelForNewMessages](#watchchannelfornewmessages)
     - [Parameters](#parameters-7)
     - [Examples](#examples-9)
+  - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
+    - [Parameters](#parameters-8)
+    - [Examples](#examples-10)
 - [Chat Types](#chat-types)
   - [ChatChannel](#chatchannel)
     - [Properties](#properties-2)
@@ -129,35 +132,37 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
     - [Properties](#properties-8)
   - [OnMessage](#onmessage)
   - [OnError](#onerror)
+- [ChatReactOptions](#chatreactoptions)
+  - [Properties](#properties-9)
 - [Wallet](#wallet)
   - [balances](#balances)
-    - [Examples](#examples-10)
-  - [history](#history)
-    - [Parameters](#parameters-8)
     - [Examples](#examples-11)
-  - [details](#details)
+  - [history](#history)
     - [Parameters](#parameters-9)
     - [Examples](#examples-12)
-  - [lookup](#lookup)
+  - [details](#details)
     - [Parameters](#parameters-10)
     - [Examples](#examples-13)
-  - [send](#send-1)
+  - [lookup](#lookup)
     - [Parameters](#parameters-11)
     - [Examples](#examples-14)
-  - [cancel](#cancel)
+  - [send](#send-1)
     - [Parameters](#parameters-12)
     - [Examples](#examples-15)
+  - [cancel](#cancel)
+    - [Parameters](#parameters-13)
+    - [Examples](#examples-16)
 - [PaymentStatus](#paymentstatus)
 - [Asset](#asset)
-  - [Properties](#properties-9)
-- [ExchangeRate](#exchangerate)
   - [Properties](#properties-10)
-- [Balance](#balance)
+- [ExchangeRate](#exchangerate)
   - [Properties](#properties-11)
-- [Account](#account)
+- [Balance](#balance)
   - [Properties](#properties-12)
-- [Transaction](#transaction)
+- [Account](#account)
   - [Properties](#properties-13)
+- [Transaction](#transaction)
+  - [Properties](#properties-14)
 
 ### Bot
 
@@ -307,6 +312,26 @@ bot.chat.send(channel, message).then(() => console.log('message sent!'))
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
+#### react
+
+Reacts to a given message in a channel. Messages have messageId's associated with
+them, which you can learn in `bot.chat.read`.
+
+##### Parameters
+
+- `channel` **[ChatChannel](#chatchannel)** The chat channel to send the message in.
+- `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The id of the message to react to.
+- `reaction` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The reaction emoji, in colon form.
+- `options` **[ChatReactOptions](#chatreactoptions)** An object of options that can be passed to the method.
+
+##### Examples
+
+```javascript
+bot.chat.react(channel, 314, ':+1:').then(() => console.log('Thumbs up!'))
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
 #### delete
 
 Deletes a message in a channel. Messages have messageId's associated with
@@ -316,7 +341,7 @@ and deleting from the CLI may not become apparent immediately.
 ##### Parameters
 
 - `channel` **[ChatChannel](#chatchannel)** The chat channel to send the message in.
-- `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The chat message to send.
+- `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The id of the message to delete.
 - `options` **[ChatDeleteOptions](#chatdeleteoptions)** An object of options that can be passed to the method.
 
 ##### Examples
@@ -491,6 +516,16 @@ Type: function (message: MessageSummary): (void | [Promise](https://developer.mo
 A function to call when an error occurs.
 
 Type: function (error: [Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)): (void | [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>)
+
+### ChatReactOptions
+
+Options for the `react` method of the chat module.
+
+Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
+
+#### Properties
+
+- `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
 
 ### Wallet
 

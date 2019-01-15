@@ -137,9 +137,7 @@ describe('Chat Methods', () => {
     it('Sends a message to a certain channel and returns an empty promise', async () => {
       await alice1.chat.send(channel, message)
 
-      const messages = await alice1.chat.read(channel, {
-        peek: true,
-      })
+      const messages = await alice1.chat.read(channel, {peek: true})
       expect(messages[0].sender.username).toEqual(alice1.myInfo().username)
       expect(messages[0].content.text.body).toEqual(message.body)
     })
@@ -151,6 +149,30 @@ describe('Chat Methods', () => {
     it('Throws an error if given an invalid message', async () => {
       expect(alice1.chat.send(channel, invalidMessage)).rejects.toThrowError()
     })
+  })
+
+  describe('Chat react', () => {
+    it('Allows a user to react to a valid message', async () => {
+      await alice1.chat.send(channel, message)
+      let messages = await alice1.chat.read(channel, {peek: true})
+      const messageToReactTo = messages[0]
+
+      await bob.chat.react(channel, messageToReactTo.id, ':poop:')
+      messages = await alice1.chat.read(channel, {peek: true})
+      const reaction = messages[0]
+      expect(reaction.id).toBe(messageToReactTo.id + 1)
+      expect(reaction.content.type).toBe('reaction')
+      expect(messages[1].reactions.reactions.poop).toHaveProperty(config.bots.bob1.username)
+    })
+
+    // it('Throws an error if given an invalid emoji', async () => {
+    //   await alice1.chat.send(channel, message)
+    //   const messages = await alice1.chat.read(channel, {peek: true})
+    //   const messageToReactTo = messages[0]
+
+    //   expect(bob.chat.react(channel, messageToReactTo.id, 'blah')).rejects.toThrowError()
+    // })
+    // it("Throws an error if it cannot react to a message (e.g., it's not a reactable message type")
   })
 
   describe('Chat delete', () => {
