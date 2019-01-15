@@ -68,6 +68,9 @@ describe('Keybase bot deinitialization', () => {
     await alice.deinit()
     await bob.deinit()
 
+    // Also give a couple seconds for the processes to fully deinit
+    await timeout(3000)
+
     // All processes should be shut down for alice
     expect(await countProcessesMentioning(aliceHomeDir)).toBe(0)
     // The service should still be running for bob, as that was started before he was initialized

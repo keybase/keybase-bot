@@ -1,6 +1,6 @@
 {
   "name": "keybase-bot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Script Keybase in Node.js!",
   "keywords": [
     "keybase",
@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "lodash.camelcase": "4.3.0",
+    "lodash.kebabcase": "4.1.1",
     "lodash.snakecase": "4.1.1"
   },
   "devDependencies": {
