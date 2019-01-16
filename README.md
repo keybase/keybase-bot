@@ -28,6 +28,8 @@ You're ready to make your first Keybase bot!
 
 Let's make a bot that says hello to the Keybase user [kbot](https://keybase.io/kbot).
 
+We recommend either creating a dedicated Keybase account for the bot, or if you decide to reuse your own account at the very least create a dedicated paperkey so you can revoke it later if needed.
+
 ```javascript
 const Bot = require('keybase-bot')
 
