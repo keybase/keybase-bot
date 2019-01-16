@@ -1,6 +1,7 @@
 import crypto from 'crypto'
 import Bot from '../lib'
 import config from './tests.config.js'
+import {timeout} from '../lib/utils'
 
 test('Wallet methods with an uninitialized bot', () => {
   const alice1 = new Bot()
@@ -10,6 +11,7 @@ test('Wallet methods with an uninitialized bot', () => {
 
 describe('Wallet Methods', () => {
   const alice = new Bot()
+  const bob = new Bot()
 
   const accountMatcher = expect.objectContaining({
     accountId: expect.any(String),
@@ -29,10 +31,12 @@ describe('Wallet Methods', () => {
 
   beforeAll(async () => {
     await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
+    await bob.init(config.bots.bob1.username, config.bots.bob1.paperkey)
   })
 
   afterAll(async () => {
     await alice.deinit()
+    await bob.deinit()
   })
 
   describe('Wallet balances', () => {
@@ -91,19 +95,45 @@ describe('Wallet Methods', () => {
   })
 
   describe('Wallet send', () => {
-    const amount = '1'
+    const amount = '0.01'
     const currency = 'USD'
     const recipient = config.bots.bob1.username
 
     it('Sends money', async () => {
-      const bob = new Bot()
-      await bob.init(config.bots.bob1.username, config.bots.bob1.paperkey)
       const note = crypto.randomBytes(8).toString('hex')
       await alice.wallet.send(recipient, amount, currency, note)
       const primaryAccount = await alice.wallet.lookup(recipient)
       const transactions = await bob.wallet.history(primaryAccount.accountId)
       expect(transactions[0]).toHaveProperty('note', note)
-      await bob.deinit()
+    })
+    it('Sends money from chat when option set', async () => {
+      const channel = {name: recipient, public: false, topic_type: 'chat'}
+      const chatAmount = '0.0001230'
+      const message = {
+        body: `And voila +${chatAmount}xlm`,
+      }
+      const options = {
+        confirmLumenSend: true,
+      }
+      await alice.chat.send(channel, message, options)
+      let sendStatus = 'pending'
+      while (sendStatus === 'pending') {
+        await timeout(100)
+        const primaryAccount = await alice.wallet.lookup(recipient)
+        const tx = (await bob.wallet.history(primaryAccount.accountId))[0]
+        if (tx.amount === chatAmount) {
+          sendStatus = tx.status
+        }
+      }
+      expect(sendStatus).toBe('completed')
+    })
+    it('Throws an error if chat sending without `confirmLumenSend` option set', async () => {
+      const channel = {name: recipient, public: false, topic_type: 'chat'}
+      const chatAmount = '0.0009876'
+      const message = {
+        body: `This should fail +${chatAmount}xlm`,
+      }
+      expect(alice.chat.send(channel, message)).rejects.toThrowError()
     })
     it('Throws an error if given an invalid recipient', () => {
       expect(alice.wallet.send('keybase', amount, currency)).rejects.toThrowError()
