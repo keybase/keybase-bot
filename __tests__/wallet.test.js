@@ -151,7 +151,7 @@ describe('Wallet Methods', () => {
       }
       console.log(tx)
       expect(sendStatus).toBe('completed')
-    })*/
+    }) */
     it('Throws an error if chat sending without `confirmLumenSend` option set', async () => {
       const channel = {name: recipient, public: false, topic_type: 'chat'}
       const chatAmount = '0.0009876'
