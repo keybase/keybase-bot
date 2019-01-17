@@ -47,7 +47,7 @@
     "docs": "documentation readme lib/** --config documentation.yml --section=API",
     "build": "rollup -c",
     "dev": "rollup -c --watch",
-    "test": "jest",
+    "test": "jest --runInBand",
     "release": "standard-version"
   },
   "dependencies": {
