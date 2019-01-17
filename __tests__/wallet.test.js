@@ -127,6 +127,31 @@ describe('Wallet Methods', () => {
       }
       expect(sendStatus).toBe('completed')
     })
+    /*
+    it('Can send two inline in rapid succession', async () => {
+      const channel = {name: recipient, public: false, topic_type: 'chat'}
+      const chatAmount = '0.0001230'
+      const message = {
+        body: `And voila +${chatAmount}xlm`,
+      }
+      const options = {
+        confirmLumenSend: true,
+      }
+      await alice.chat.send(channel, message, options)
+      await alice.chat.send(channel, message, options)
+      let sendStatus = 'pending'
+      let tx = null
+      while (sendStatus === 'pending') {
+        await timeout(100)
+        const primaryAccount = await alice.wallet.lookup(recipient)
+        tx = (await bob.wallet.history(primaryAccount.accountId))[0]
+        if (tx.amount === chatAmount) {
+          sendStatus = tx.status
+        }
+      }
+      console.log(tx)
+      expect(sendStatus).toBe('completed')
+    }) */
     it('Throws an error if chat sending without `confirmLumenSend` option set', async () => {
       const channel = {name: recipient, public: false, topic_type: 'chat'}
       const chatAmount = '0.0009876'
