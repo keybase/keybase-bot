@@ -151,9 +151,12 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
   - [send](#send-1)
     - [Parameters](#parameters-12)
     - [Examples](#examples-15)
-  - [cancel](#cancel)
+  - [batch](#batch)
     - [Parameters](#parameters-13)
     - [Examples](#examples-16)
+  - [cancel](#cancel)
+    - [Parameters](#parameters-14)
+    - [Examples](#examples-17)
 - [PaymentStatus](#paymentstatus)
 - [Asset](#asset)
   - [Properties](#properties-10)
@@ -165,6 +168,10 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
   - [Properties](#properties-13)
 - [Transaction](#transaction)
   - [Properties](#properties-14)
+- [PaymentBatchItem](#paymentbatchitem)
+  - [Properties](#properties-15)
+- [BatchResult](#batchresult)
+  - [Properties](#properties-16)
 
 ### Bot
 
@@ -489,13 +496,14 @@ Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScrip
 
 Options for the `send` method of the chat module.
 
-Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, nonblock: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, membersType: MembersType}
+Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, nonblock: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, membersType: MembersType, confirmLumenSend: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
 
 ##### Properties
 
 - `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
 - `nonblock` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 - `membersType` **MembersType**
+- `confirmLumenSend` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
 #### ChatDeleteOptions
 
@@ -625,6 +633,24 @@ bot.wallet.send('nathunsmitty', '3.50', 'USD', 'Shut up and take my money!') // 
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Transaction](#transaction)>** The trasaction object of the transaction.
 
+#### batch
+
+Send lumens (XLM) via Keybase to more than one user at once. As opposed to the normal bot.wallet.send
+command, this can get multiple transactions into the same 5-second Stellar ledger.
+
+##### Parameters
+
+- `batchId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** a unique Id for this batch, which you provide. Example, `airdrop2025`. A user can only receive once per batchId, enforced by Keybase, so if you run a program twice with the same batchId and send to the same users, subsequent sends will error.
+- `payments` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[PaymentBatchItem](#paymentbatchitem)>** an array of objects containing recipients and XLM of the form {"recipient": "someusername", "amount": "1.234", "message", "hi there"}
+
+##### Examples
+
+```javascript
+bot.wallet.batch("airdrop2040",[{"recipient":"a1","amount": "1.414", "message": "hi a1, yes 1"},{"recipient": "a2", "amount": "3.14159", "message": "hi a2, yes 2"},}])
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[BatchResult](#batchresult)>** an object
+
 #### cancel
 
 If you send XLM to a Keybase user who has not established a wallet, you can cancel the payment before the recipient claims it and the XLM will be returned to your account.
@@ -723,6 +749,42 @@ Type: {txId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Referenc
 - `note` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 - `noteErr` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 - `unread` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
+
+### PaymentBatchItem
+
+In batch sends, one individual send
+
+Type: {recipient: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), amount: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), message: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
+
+#### Properties
+
+- `recipient` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `amount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `message` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
+
+### BatchResult
+
+A batch send result
+
+Type: {payments: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;BatchItemResult>, startTime: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), preparedTime: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), allSubmittedTime: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), endTime: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), overallDurationMs: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), prepareDurationMs: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), submitDurationMs: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), waitDurationMs: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), countSuccess: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), countError: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), countPending: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), avgDurationMs: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), avgSuccessDurationMs: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), avgErrorDurationMs: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)}
+
+#### Properties
+
+- `payments` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;BatchItemResult>**
+- `startTime` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `preparedTime` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `allSubmittedTime` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `endTime` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `overallDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `prepareDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `submitDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `waitDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `countSuccess` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `countError` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `countPending` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `avgDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `avgSuccessDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `avgErrorDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
 
 ## Contributions
 
