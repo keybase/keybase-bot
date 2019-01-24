@@ -5,3 +5,4 @@ node_js:
   - "10"
   - "11"
 script: yarn lint-staged
+cache: yarn
