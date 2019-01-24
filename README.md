@@ -1,6 +1,7 @@
 # keybase-bot
 
 [![npm](https://img.shields.io/npm/v/keybase-bot.svg)](https://www.npmjs.com/package/keybase-bot)
+[![Travis CI](https://travis-ci.org/keybase/keybase-bot.svg?branch=master)](https://travis-ci.org/keybase/keybase-bot)
 
 Script Keybase functionality in Node.js.
 
