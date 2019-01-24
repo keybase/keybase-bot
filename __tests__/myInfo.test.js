@@ -12,6 +12,7 @@ describe('bot.myInfo()', () => {
     expect(aliceInfo.devicename).toBe(publicPaperkeyLabel(config.bots.alice1.paperkey))
     expect(aliceInfo).toHaveProperty('homeDir')
     expect(aliceInfo.botLite).toBe(true)
+    expect(aliceInfo.disableTyping).toBe(true)
     await alice.deinit()
   })
 
