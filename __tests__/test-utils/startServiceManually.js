@@ -4,7 +4,7 @@ import readline from 'readline'
 import {keybaseExec} from '../../lib/utils'
 
 function keybaseServiceStartup(homeDir: string): Promise<void> {
-  const child = spawn('keybase', ['--home', homeDir, 'service'])
+  const child = spawn('keybase', ['--home', homeDir, '--enable-bot-lite-mode', 'service'])
   const lineReader = readline.createInterface({input: child.stderr})
   return new Promise((resolve, reject) => {
     child.on('close', code => {
