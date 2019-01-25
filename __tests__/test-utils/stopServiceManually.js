@@ -19,7 +19,11 @@ async function stopServiceManually(homeDir: string) {
         throw new Error('Process ID file still exists after 10 seconds')
       }
     } catch (e) {
-      // We're actually expecting the error
+      if (e.code !== 'ENOENT') {
+        throw e
+      }
+
+      // We're expecting ENOENT here
       break
     }
   }
