@@ -1,7 +1,8 @@
 // @flow
 import {spawn} from 'child_process'
 import readline from 'readline'
-import {keybaseExec} from '../../lib/utils'
+import {keybaseExec, whichKeybase} from '../../lib/utils'
+import path from 'path'
 
 function keybaseServiceStartup(homeDir: string): Promise<void> {
   const child = spawn('keybase', ['--home', homeDir, 'service'])
@@ -21,9 +22,10 @@ function keybaseServiceStartup(homeDir: string): Promise<void> {
 }
 
 async function startServiceManually(homeDir: string, username: string, paperkey: string) {
+  const workingDir = path.parse(await whichKeybase()).dir
   await keybaseServiceStartup(homeDir)
   // Ideally, this should use `login` instead of `oneshot` but `login` doesn't provide a programmatic way to input a password.
-  await keybaseExec(homeDir, ['oneshot', '--username', username], {
+  await keybaseExec(workingDir, homeDir, ['oneshot', '--username', username], {
     stdinBuffer: paperkey,
   })
 }

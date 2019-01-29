@@ -1,12 +1,13 @@
 // @flow
-import {keybaseExec, rmdirRecursive, timeout} from '../../lib/utils'
+import {keybaseExec, rmdirRecursive, timeout, whichKeybase} from '../../lib/utils'
 import path from 'path'
 import {promisify} from 'util'
 import fs from 'fs'
 
 async function stopServiceManually(homeDir: string) {
-  await keybaseExec(homeDir, ['logout'])
-  await keybaseExec(homeDir, ['ctl', 'stop', '--shutdown'])
+  const workingDir = path.parse(await whichKeybase()).dir
+  await keybaseExec(workingDir, homeDir, ['logout'])
+  await keybaseExec(workingDir, homeDir, ['ctl', 'stop', '--shutdown'])
 
   // Wait until the pid file disappears as a workaround for the lack of process tracking
   const fileToWatchFor = path.join(homeDir, '.config', 'keybase', 'keybase.pid')
