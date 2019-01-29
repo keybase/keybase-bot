@@ -25,5 +25,6 @@ export default {
     'path',
     'util',
     'crypto',
+    'tail',
   ],
 }

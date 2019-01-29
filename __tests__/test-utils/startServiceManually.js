@@ -13,7 +13,7 @@ function keybaseServiceStartup(homeDir: string): Promise<void> {
       reject(new Error(`keybase service exited with code ${code}:`))
     })
     lineReader.on('line', (line: string) => {
-      if (line.indexOf('net.Listen on unix:keybased.sock')) {
+      if (line.indexOf('net.Listen on unix:') !== -1) {
         resolve()
       }
     })
