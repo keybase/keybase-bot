@@ -11,6 +11,7 @@ describe('Keybase bot initialization', () => {
     await alice.deinit()
   })
 
+  /*
   it('throws an error if not given a username', async () => {
     const alice = new Bot()
     await expect(alice.init('', config.bots.alice1.paperkey)).rejects.toThrowError()
@@ -55,4 +56,5 @@ describe('Keybase bot initialization', () => {
     await alice.deinit()
     await stopServiceManually(homeDir)
   })
+  */
 })
