@@ -26,5 +26,6 @@ export default {
     'util',
     'crypto',
     'tail',
+    'mkdirp',
   ],
 }
