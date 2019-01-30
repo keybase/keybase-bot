@@ -54,8 +54,7 @@
     "lodash.camelcase": "4.3.0",
     "lodash.kebabcase": "4.1.1",
     "lodash.snakecase": "4.1.1",
-    "mkdirp": "0.5.1",
-    "tail": "2.0.2"
+    "mkdirp": "0.5.1"
   },
   "devDependencies": {
     "@babel/cli": "7.1.5",
