@@ -60,7 +60,7 @@ describe('Keybase bot initialization', () => {
     const alice = new Bot()
     await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
     expect(alice.myInfo().botLite).toBe(true)
-    expect(alice.myInfo().displayTyping).toBe(true)
+    expect(alice.myInfo().disableTyping).toBe(true)
     await alice.deinit()
   })
 
