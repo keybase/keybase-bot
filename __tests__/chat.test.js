@@ -1,7 +1,9 @@
 import crypto from 'crypto'
+import fs from 'fs'
 import Bot from '../lib'
 import config from './tests.config.js'
 import {timeout} from '../lib/utils'
+import {promisify} from 'util'
 
 test('Chat methods with an uninitialized bot', () => {
   const alice1 = new Bot()
@@ -173,6 +175,60 @@ describe('Chat Methods', () => {
     //   expect(bob.chat.react(channel, messageToReactTo.id, 'blah')).rejects.toThrowError()
     // })
     // it("Throws an error if it cannot react to a message (e.g., it's not a reactable message type")
+  })
+
+  describe('Chat attach', () => {
+    const attachmentLocation = '/tmp/kb-attachment.txt'
+    beforeAll(async () => {
+      await promisify(fs.writeFile)(attachmentLocation, 'This is a test file!')
+    })
+    afterAll(async () => {
+      await promisify(fs.unlink)(attachmentLocation)
+    })
+    it('Attaches and sends a file on the filesystem', async () => {
+      await alice1.chat.attach(channel, attachmentLocation)
+      const messages = await alice1.chat.read(channel)
+      expect(messages[0].sender.username).toEqual(alice1.myInfo().username)
+      expect(messages[0].content.type).toBe('attachment')
+      expect(messages[0].content).toHaveProperty('attachment')
+    })
+    it('Throws an error if given an invalid channel', async () => {
+      expect(alice1.chat.attach(invalidChannel, attachmentLocation)).rejects.toThrowError()
+    })
+    it('Throws an error if the file does not exist', async () => {
+      expect(alice1.chat.attach(channel, '/fake-attachment.png')).rejects.toThrowError()
+    })
+  })
+
+  describe('Chat download', () => {
+    const downloadLocation = '/tmp/kb-downloaded-file'
+    it('Downloads a file and saves it on the filesystem', async () => {
+      // Send a file
+      const attachmentLocation = '/tmp/kb-attachment.txt'
+      const attachmentContent = 'Test attachment file'
+      await promisify(fs.writeFile)(attachmentLocation, attachmentContent)
+      await alice1.chat.attach(channel, attachmentLocation)
+
+      // Read the file
+      const messages = await alice1.chat.read(channel)
+      await alice1.chat.download(channel, messages[0].id, downloadLocation)
+      const downloadContents = await promisify(fs.readFile)(downloadLocation)
+      expect(downloadContents.toString()).toBe(attachmentContent)
+
+      // Delete the created files
+      await promisify(fs.unlink)(attachmentLocation)
+      await promisify(fs.unlink)(downloadLocation)
+    })
+    it('Throws an errow if given an invalid channel', async () => {
+      const messages = await alice1.chat.read(channel)
+      const attachments = messages.filter(message => message.content.type === 'attachment')
+      expect(alice1.chat.download(invalidChannel, attachments[0].id, downloadLocation)).rejects.toThrowError()
+    })
+    it('Throws an error if given a non-attachment message', async () => {
+      await alice1.chat.send(channel, message)
+      const messages = await alice1.chat.read(channel)
+      expect(alice1.chat.download(channel, messages[0].id, '/tmp/attachment')).rejects.toThrowError()
+    })
   })
 
   describe('Chat delete', () => {
