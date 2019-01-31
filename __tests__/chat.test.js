@@ -3,6 +3,7 @@ import fs from 'fs'
 import Bot from '../lib'
 import config from './tests.config.js'
 import {timeout} from '../lib/utils'
+import {promisify} from 'util'
 
 test('Chat methods with an uninitialized bot', () => {
   const alice1 = new Bot()
@@ -178,11 +179,11 @@ describe('Chat Methods', () => {
 
   describe('Chat attach', () => {
     const attachmentLocation = '/tmp/kb-attachment.txt'
-    beforeAll(() => {
-      fs.writeFileSync(attachmentLocation, 'This is a test file!')
+    beforeAll(async () => {
+      await promisify(fs.writeFile)(attachmentLocation, 'This is a test file!')
     })
-    afterAll(() => {
-      fs.unlinkSync(attachmentLocation)
+    afterAll(async () => {
+      await promisify(fs.unlink)(attachmentLocation)
     })
     it('Attaches and sends a file on the filesystem', async () => {
       await alice1.chat.attach(channel, attachmentLocation)
@@ -205,18 +206,18 @@ describe('Chat Methods', () => {
       // Send a file
       const attachmentLocation = '/tmp/kb-attachment.txt'
       const attachmentContent = 'Test attachment file'
-      fs.writeFileSync(attachmentLocation, attachmentContent)
+      await promisify(fs.writeFile)(attachmentLocation, attachmentContent)
       await alice1.chat.attach(channel, attachmentLocation)
 
       // Read the file
       const messages = await alice1.chat.read(channel)
       await alice1.chat.download(channel, messages[0].id, downloadLocation)
-      const downloadContents = fs.readFileSync(downloadLocation)
+      const downloadContents = await promisify(fs.readFile)(downloadLocation)
       expect(downloadContents.toString()).toBe(attachmentContent)
 
       // Delete the created files
-      fs.unlinkSync(attachmentLocation)
-      fs.unlinkSync(downloadLocation)
+      await promisify(fs.unlink)(attachmentLocation)
+      await promisify(fs.unlink)(downloadLocation)
     })
     it('Throws an errow if given an invalid channel', async () => {
       const messages = await alice1.chat.read(channel)
