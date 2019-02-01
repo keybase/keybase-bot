@@ -55,4 +55,31 @@ describe('Keybase bot initialization', () => {
     await alice.deinit()
     await stopServiceManually(homeDir)
   })
+
+  it('can init with botLite/disableTyping enabled by default', async () => {
+    const alice = new Bot()
+    await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
+    expect(alice.myInfo().botLite).toBe(true)
+    expect(alice.myInfo().disableTyping).toBe(true)
+    await alice.deinit()
+  })
+
+  it('can respect disabling botLite and disableTyping', async () => {
+    const alice = new Bot()
+    await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey, {
+      botLite: false,
+      disableTyping: false,
+    })
+    expect(alice.myInfo().botLite).toBe(false)
+    expect(alice.myInfo().disableTyping).toBe(false)
+    await alice.deinit()
+  })
+
+  it('can config without botLite or disableTyping', async () => {
+    const alice = new Bot()
+    await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey, {verbose: true})
+    expect(alice.myInfo().botLite).toBe(true)
+    expect(alice.myInfo().disableTyping).toBe(true)
+    await alice.deinit()
+  })
 })
