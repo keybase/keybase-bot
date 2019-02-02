@@ -641,7 +641,7 @@ command, this can get multiple transactions into the same 5-second Stellar ledge
 
 ##### Parameters
 
-- `batchId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** a unique Id for this batch, which you provide. Example, `airdrop2025`. A user can only receive once per batchId, enforced by Keybase, so if you run a program twice with the same batchId and send to the same users, subsequent sends will error.
+- `batchId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** example, if sending a bunch of batches for an airdrop, you could pass them all `airdrop2025`.
 - `payments` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[PaymentBatchItem](#paymentbatchitem)>** an array of objects containing recipients and XLM of the form {"recipient": "someusername", "amount": "1.234", "message", "hi there"}
 
 ##### Examples
