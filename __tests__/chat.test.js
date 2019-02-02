@@ -107,6 +107,7 @@ describe('Chat Methods', () => {
     })
 
     it('Shows only unread messages if given the option', async () => {
+      await bob.chat.send(channel, message)
       const result = await alice1.chat.read(channel, {unreadOnly: true})
       expect(Array.isArray(result.messages)).toBe(true)
       for (const message of result.messages) {
