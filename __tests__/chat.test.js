@@ -131,6 +131,37 @@ describe('Chat Methods', () => {
       expect(result.messages[0]).toHaveProperty('unread', true)
     })
 
+    it('Allows a user to properly paginate over the messages', async () => {
+      // Mark all messages as read
+      await alice1.chat.read(channel)
+
+      // Prepare some new messages
+      for (let i = 0; i < 10; i++) {
+        await bob.chat.send(channel, message)
+      }
+
+      // Run the pagination with peek and unreadOnly enabled, expecting 10 msgs
+      let totalCount = 0
+      let lastPagination
+      while (true) {
+        const result = await alice1.chat.read(channel, {
+          peek: true,
+          unreadOnly: true,
+          pagination: {
+            num: 3,
+            next: lastPagination ? lastPagination.next : undefined,
+          },
+        })
+        totalCount += result.messages.length
+
+        if (result.pagination.last) {
+          break
+        }
+        lastPagination = result.pagination
+      }
+      expect(totalCount).toEqual(10)
+    })
+
     it('Throws an error if given an invalid channel', async () => {
       expect(alice1.chat.read(invalidChannel)).rejects.toThrowError()
     })
