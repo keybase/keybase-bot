@@ -256,7 +256,6 @@ A collection of types used by the bot.
 Options for initializing the bot.
 
 Type: {verbose: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, botLite: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, disableTyping: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
-}
 
 ##### Properties
 
@@ -266,10 +265,10 @@ Type: {verbose: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Refe
 
 #### BotInfo
 
-Useful information like the username, device, and home directory of your bot.
+Useful information like the username, device, home directory of your bot and
+configuration options.
 
-Type: {username: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), devicename: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), homeDir: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, botLite: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
-}
+Type: {username: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), devicename: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), homeDir: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, botLite: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, disableTyping: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
 
 ##### Properties
 
@@ -428,12 +427,7 @@ Listens for new chat messages on a specified channel. The `onMessage` function i
 const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topic_type: 'chat'}
 const onMessage = message => {
   const channel = message.channel
-  bot.chat.send({
-    channel: channel,
-    message: {
-      body: 'thanks!!!',
-    },
-  })
+  bot.chat.send(channel, {body: 'thanks!!!'})
 }
 bot.chat.watchChannelForNewMessages(channel, onMessage)
 ```
@@ -460,12 +454,7 @@ You can filter out your own messages by looking at a message's sender object.
 // Reply to incoming traffic on all channels with 'thanks!'
 const onMessage = message => {
   const channel = message.channel
-  bot.chat.send({
-    channel: channel,
-    message: {
-      body: 'thanks!!!',
-    },
-  })
+  bot.chat.send(channel, {body: 'thanks!!!'})
 }
 bot.chat.watchAllChannelsForNewMessages(onMessage)
 ```
