@@ -5,7 +5,7 @@
 
 Script Keybase functionality in Node.js.
 
-This module is a side-project/work in progress and may change or have crashers, but feel free to play with it. As long as you have a Keybase account, you can use this module to script basic Keybase commands.
+This module is a side-project/work in progress and may change or have crashes, but feel free to play with it. As long as you have a Keybase account, you can use this module to script basic Keybase commands.
 
 - [Installation](#installation)
 - [Hello World](#hello-world)

@@ -185,6 +185,38 @@ describe('Chat Methods', () => {
     })
   })
 
+  describe('Chat newconv, join and leave', () => {
+    it('Successfully performs the complete flow', async () => {
+      const teamChannel = {
+        name: config.teams.acme.teamname,
+        public: false,
+        topic_type: 'chat',
+        members_type: 'team',
+        topic_name: 'subchannel',
+      }
+
+      await alice1.chat.newConv(teamChannel)
+      await bob.chat.join(teamChannel)
+
+      const read1 = await alice1.chat.read(teamChannel, {
+        pagination: {
+          num: 1,
+        },
+      })
+      expect(read1.messages[0].content.type).toEqual('join')
+      expect(read1.messages[0].sender.username).toEqual(config.bots.bob1.username)
+
+      await bob.chat.leave(teamChannel)
+      const read2 = await alice1.chat.read(teamChannel, {
+        pagination: {
+          num: 1,
+        },
+      })
+      expect(read2.messages[0].content.type).toEqual('leave')
+      expect(read2.messages[0].sender.username).toEqual(config.bots.bob1.username)
+    })
+  })
+
   describe('Chat react', () => {
     it('Allows a user to react to a valid message', async () => {
       await alice1.chat.send(channel, message)
