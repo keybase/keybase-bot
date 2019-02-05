@@ -5,7 +5,7 @@
 
 Script Keybase functionality in Node.js.
 
-This module is a side-project/work in progress and may change or have crashers, but feel free to play with it. As long as you have a Keybase account, you can use this module to script basic Keybase commands.
+This module is a side-project/work in progress and may change or have crashes, but feel free to play with it. As long as you have a Keybase account, you can use this module to script basic Keybase commands.
 
 - [Installation](#installation)
 - [Hello World](#hello-world)
@@ -97,33 +97,45 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
   - [BotInfo](#botinfo)
     - [Properties](#properties-1)
 - [Chat](#chat)
-  - [list](#list)
+  - [joinChannel](#joinchannel)
     - [Parameters](#parameters-2)
     - [Examples](#examples-4)
-  - [read](#read)
+  - [leaveChannel](#leavechannel)
     - [Parameters](#parameters-3)
     - [Examples](#examples-5)
-  - [send](#send)
+  - [list](#list)
     - [Parameters](#parameters-4)
     - [Examples](#examples-6)
-  - [attach](#attach)
+  - [listChannels](#listchannels)
     - [Parameters](#parameters-5)
     - [Examples](#examples-7)
-  - [download](#download)
+  - [read](#read)
     - [Parameters](#parameters-6)
     - [Examples](#examples-8)
-  - [react](#react)
+  - [send](#send)
     - [Parameters](#parameters-7)
     - [Examples](#examples-9)
-  - [delete](#delete)
+  - [createChannel](#createchannel)
     - [Parameters](#parameters-8)
     - [Examples](#examples-10)
-  - [watchChannelForNewMessages](#watchchannelfornewmessages)
+  - [attach](#attach)
     - [Parameters](#parameters-9)
     - [Examples](#examples-11)
-  - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
+  - [download](#download)
     - [Parameters](#parameters-10)
     - [Examples](#examples-12)
+  - [react](#react)
+    - [Parameters](#parameters-11)
+    - [Examples](#examples-13)
+  - [delete](#delete)
+    - [Parameters](#parameters-12)
+    - [Examples](#examples-14)
+  - [watchChannelForNewMessages](#watchchannelfornewmessages)
+    - [Parameters](#parameters-13)
+    - [Examples](#examples-15)
+  - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
+    - [Parameters](#parameters-14)
+    - [Examples](#examples-16)
 - [Chat Types](#chat-types)
   - [ChatChannel](#chatchannel)
     - [Properties](#properties-2)
@@ -145,44 +157,46 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
     - [Properties](#properties-10)
   - [OnMessage](#onmessage)
   - [OnError](#onerror)
-- [ChatReactOptions](#chatreactoptions)
+- [ChatListChannelsOptions](#chatlistchannelsoptions)
   - [Properties](#properties-11)
+- [ChatReactOptions](#chatreactoptions)
+  - [Properties](#properties-12)
 - [Wallet](#wallet)
   - [balances](#balances)
-    - [Examples](#examples-13)
-  - [history](#history)
-    - [Parameters](#parameters-11)
-    - [Examples](#examples-14)
-  - [details](#details)
-    - [Parameters](#parameters-12)
-    - [Examples](#examples-15)
-  - [lookup](#lookup)
-    - [Parameters](#parameters-13)
-    - [Examples](#examples-16)
-  - [send](#send-1)
-    - [Parameters](#parameters-14)
     - [Examples](#examples-17)
-  - [batch](#batch)
+  - [history](#history)
     - [Parameters](#parameters-15)
     - [Examples](#examples-18)
-  - [cancel](#cancel)
+  - [details](#details)
     - [Parameters](#parameters-16)
     - [Examples](#examples-19)
+  - [lookup](#lookup)
+    - [Parameters](#parameters-17)
+    - [Examples](#examples-20)
+  - [send](#send-1)
+    - [Parameters](#parameters-18)
+    - [Examples](#examples-21)
+  - [batch](#batch)
+    - [Parameters](#parameters-19)
+    - [Examples](#examples-22)
+  - [cancel](#cancel)
+    - [Parameters](#parameters-20)
+    - [Examples](#examples-23)
 - [PaymentStatus](#paymentstatus)
 - [Asset](#asset)
-  - [Properties](#properties-12)
-- [ExchangeRate](#exchangerate)
   - [Properties](#properties-13)
-- [Balance](#balance)
+- [ExchangeRate](#exchangerate)
   - [Properties](#properties-14)
-- [Account](#account)
+- [Balance](#balance)
   - [Properties](#properties-15)
-- [Transaction](#transaction)
+- [Account](#account)
   - [Properties](#properties-16)
-- [PaymentBatchItem](#paymentbatchitem)
+- [Transaction](#transaction)
   - [Properties](#properties-17)
-- [BatchResult](#batchresult)
+- [PaymentBatchItem](#paymentbatchitem)
   - [Properties](#properties-18)
+- [BatchResult](#batchresult)
+  - [Properties](#properties-19)
 
 ### Bot
 
@@ -285,6 +299,52 @@ Type: {username: [string](https://developer.mozilla.org/docs/Web/JavaScript/Refe
 
 The chat module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase chat api`.
 
+#### joinChannel
+
+Joins a team conversation.
+
+##### Parameters
+
+- `channel` **[ChatChannel](#chatchannel)** The team chat channel to join.
+
+##### Examples
+
+```javascript
+bot.chat.listConvsOnName('team_name').then(async teamConversations => {
+  for (const conversation of teamConversations) {
+    if (conversation.memberStatus !== 'active') {
+      await bot.chat.join(conversation.channel)
+      console.log('Joined team channel', conversation.channel)
+    }
+  }
+})
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
+#### leaveChannel
+
+Leaves a team conversation.
+
+##### Parameters
+
+- `channel` **[ChatChannel](#chatchannel)** The team chat channel to leave.
+
+##### Examples
+
+```javascript
+bot.chat.listConvsOnName('team_name').then(async teamConversations => {
+  for (const conversation of teamConversations) {
+    if (conversation.memberStatus === 'active') {
+      await bot.chat.leave(conversation.channel)
+      console.log('Left team channel', conversation.channel)
+    }
+  }
+})
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
 #### list
 
 Lists your chats, with info on which ones have unread messages.
@@ -297,6 +357,23 @@ Lists your chats, with info on which ones have unread messages.
 
 ```javascript
 bot.chat.list({unreadOnly: true}).then(chatConversations => console.log(chatConversations))
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[ChatConversation](#chatconversation)>>** An array of chat conversations. If there are no conversations, the array is empty.
+
+#### listChannels
+
+Lists conversation channels in a team
+
+##### Parameters
+
+- `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Name of the team
+- `options` **[ChatListChannelsOptions](#chatlistchannelsoptions)** An object of options that can be passed to the method.
+
+##### Examples
+
+```javascript
+bot.chat.listChannels('team_name').then(chatConversations => console.log(chatConversations))
 ```
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[ChatConversation](#chatconversation)>>** An array of chat conversations. If there are no conversations, the array is empty.
@@ -316,7 +393,7 @@ Reads the messages in a channel. You can read with or without marking as read.
 alice.chat.read(channel).then(messages => console.log(messages))
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;MessageSummary>>** A summary of data about a message, including who send it, when, the content of the message, etc. If there are no messages in your channel, then an error is thrown.
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;ReadResult>** A summary of data about a message, including who send it, when, the content of the message, etc. If there are no messages in your channel, then an error is thrown.
 
 #### send
 
@@ -338,6 +415,22 @@ bot.chat.send(channel, message).then(() => console.log('message sent!'))
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
+#### createChannel
+
+Creates a new blank conversation.
+
+##### Parameters
+
+- `channel` **[ChatChannel](#chatchannel)** The chat channel to create.
+
+##### Examples
+
+```javascript
+bot.chat.createChannel(channel).then(() => console.log('conversation created'))
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
 #### attach
 
 Send a file to a channel.
@@ -353,6 +446,8 @@ Send a file to a channel.
 ```javascript
 bot.chat.attach(channel, '/Users/nathan/my_picture.png').then(() => console.log('Sent a picture!'))
 ```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### download
 
@@ -600,6 +695,17 @@ Type: function (message: MessageSummary): (void | [Promise](https://developer.mo
 A function to call when an error occurs.
 
 Type: function (error: [Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)): (void | [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>)
+
+### ChatListChannelsOptions
+
+Options for the `listChannels` method of the chat module.
+
+Type: {topicType: TopicType?, membersType: MembersType?}
+
+#### Properties
+
+- `topicType` **TopicType?**
+- `membersType` **MembersType?**
 
 ### ChatReactOptions
 

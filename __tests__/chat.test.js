@@ -99,17 +99,18 @@ describe('Chat Methods', () => {
 
   describe('Chat read', () => {
     it('Retrieves all messages in a conversation', async () => {
-      const messages = await alice1.chat.read(channel)
-      expect(Array.isArray(messages)).toBe(true)
-      for (const message of messages) {
+      const result = await alice1.chat.read(channel)
+      expect(Array.isArray(result.messages)).toBe(true)
+      for (const message of result.messages) {
         expect(message).toEqual(messageMatcher)
       }
     })
 
     it('Shows only unread messages if given the option', async () => {
-      const messages = await alice1.chat.read(channel, {unreadOnly: true})
-      expect(Array.isArray(messages)).toBe(true)
-      for (const message of messages) {
+      await bob.chat.send(channel, message)
+      const result = await alice1.chat.read(channel, {unreadOnly: true})
+      expect(Array.isArray(result.messages)).toBe(true)
+      for (const message of result.messages) {
         expect(message).toHaveProperty('unread', true)
       }
     })
@@ -117,17 +118,48 @@ describe('Chat Methods', () => {
     it("Doesn't mark messages read on peek", async () => {
       // No peeking: message should be unread on first read, and read on subsequent reads
       await bob.chat.send(channel, message)
-      let messages = await alice1.chat.read(channel)
-      expect(messages[0]).toHaveProperty('unread', true)
-      messages = await alice1.chat.read(channel)
-      expect(messages[0]).toHaveProperty('unread', false)
+      let result = await alice1.chat.read(channel)
+      expect(result.messages[0]).toHaveProperty('unread', true)
+      result = await alice1.chat.read(channel)
+      expect(result.messages[0]).toHaveProperty('unread', false)
 
       // Now let's peek. Messages should remain unread on subsequent reads.
       await bob.chat.send(channel, message)
-      messages = await alice1.chat.read(channel, {peek: true})
-      expect(messages[0]).toHaveProperty('unread', true)
-      messages = await alice1.chat.read(channel)
-      expect(messages[0]).toHaveProperty('unread', true)
+      result = await alice1.chat.read(channel, {peek: true})
+      expect(result.messages[0]).toHaveProperty('unread', true)
+      result = await alice1.chat.read(channel)
+      expect(result.messages[0]).toHaveProperty('unread', true)
+    })
+
+    it('Allows a user to properly paginate over the messages', async () => {
+      // Mark all messages as read
+      await alice1.chat.read(channel)
+
+      // Prepare some new messages
+      for (let i = 0; i < 10; i++) {
+        await bob.chat.send(channel, message)
+      }
+
+      // Run the pagination with peek and unreadOnly enabled, expecting 10 msgs
+      let totalCount = 0
+      let lastPagination
+      while (true) {
+        const result = await alice1.chat.read(channel, {
+          peek: true,
+          unreadOnly: true,
+          pagination: {
+            num: 3,
+            next: lastPagination ? lastPagination.next : undefined,
+          },
+        })
+        totalCount += result.messages.length
+
+        if (result.pagination.last) {
+          break
+        }
+        lastPagination = result.pagination
+      }
+      expect(totalCount).toEqual(10)
     })
 
     it('Throws an error if given an invalid channel', async () => {
@@ -139,9 +171,9 @@ describe('Chat Methods', () => {
     it('Sends a message to a certain channel and returns an empty promise', async () => {
       await alice1.chat.send(channel, message)
 
-      const messages = await alice1.chat.read(channel, {peek: true})
-      expect(messages[0].sender.username).toEqual(alice1.myInfo().username)
-      expect(messages[0].content.text.body).toEqual(message.body)
+      const result = await alice1.chat.read(channel, {peek: true})
+      expect(result.messages[0].sender.username).toEqual(alice1.myInfo().username)
+      expect(result.messages[0].content.text.body).toEqual(message.body)
     })
 
     it('Throws an error if given an invalid channel', async () => {
@@ -153,24 +185,56 @@ describe('Chat Methods', () => {
     })
   })
 
+  describe('Chat createChannel, joinChannel and leaveChannel', () => {
+    it('Successfully performs the complete flow', async () => {
+      const teamChannel = {
+        name: config.teams.acme.teamname,
+        public: false,
+        topic_type: 'chat',
+        members_type: 'team',
+        topic_name: 'subchannel',
+      }
+
+      await alice1.chat.createChannel(teamChannel)
+      await bob.chat.joinChannel(teamChannel)
+
+      const read1 = await alice1.chat.read(teamChannel, {
+        pagination: {
+          num: 1,
+        },
+      })
+      expect(read1.messages[0].content.type).toEqual('join')
+      expect(read1.messages[0].sender.username).toEqual(config.bots.bob1.username)
+
+      await bob.chat.leaveChannel(teamChannel)
+      const read2 = await alice1.chat.read(teamChannel, {
+        pagination: {
+          num: 1,
+        },
+      })
+      expect(read2.messages[0].content.type).toEqual('leave')
+      expect(read2.messages[0].sender.username).toEqual(config.bots.bob1.username)
+    })
+  })
+
   describe('Chat react', () => {
     it('Allows a user to react to a valid message', async () => {
       await alice1.chat.send(channel, message)
-      let messages = await alice1.chat.read(channel, {peek: true})
-      const messageToReactTo = messages[0]
+      let result = await alice1.chat.read(channel, {peek: true})
+      const messageToReactTo = result.messages[0]
 
       await bob.chat.react(channel, messageToReactTo.id, ':poop:')
-      messages = await alice1.chat.read(channel, {peek: true})
-      const reaction = messages[0]
+      result = await alice1.chat.read(channel, {peek: true})
+      const reaction = result.messages[0]
       expect(reaction.id).toBe(messageToReactTo.id + 1)
       expect(reaction.content.type).toBe('reaction')
-      expect(messages[1].reactions.reactions.poop).toHaveProperty(config.bots.bob1.username)
+      expect(result.messages[1].reactions.reactions.poop).toHaveProperty(config.bots.bob1.username)
     })
 
     // it('Throws an error if given an invalid emoji', async () => {
     //   await alice1.chat.send(channel, message)
-    //   const messages = await alice1.chat.read(channel, {peek: true})
-    //   const messageToReactTo = messages[0]
+    //   const result = await alice1.chat.read(channel, {peek: true})
+    //   const messageToReactTo = result.messages[0]
 
     //   expect(bob.chat.react(channel, messageToReactTo.id, 'blah')).rejects.toThrowError()
     // })
@@ -187,10 +251,10 @@ describe('Chat Methods', () => {
     })
     it('Attaches and sends a file on the filesystem', async () => {
       await alice1.chat.attach(channel, attachmentLocation)
-      const messages = await alice1.chat.read(channel)
-      expect(messages[0].sender.username).toEqual(alice1.myInfo().username)
-      expect(messages[0].content.type).toBe('attachment')
-      expect(messages[0].content).toHaveProperty('attachment')
+      const result = await alice1.chat.read(channel)
+      expect(result.messages[0].sender.username).toEqual(alice1.myInfo().username)
+      expect(result.messages[0].content.type).toBe('attachment')
+      expect(result.messages[0].content).toHaveProperty('attachment')
     })
     it('Throws an error if given an invalid channel', async () => {
       expect(alice1.chat.attach(invalidChannel, attachmentLocation)).rejects.toThrowError()
@@ -210,8 +274,8 @@ describe('Chat Methods', () => {
       await alice1.chat.attach(channel, attachmentLocation)
 
       // Read the file
-      const messages = await alice1.chat.read(channel)
-      await alice1.chat.download(channel, messages[0].id, downloadLocation)
+      const result = await alice1.chat.read(channel)
+      await alice1.chat.download(channel, result.messages[0].id, downloadLocation)
       const downloadContents = await promisify(fs.readFile)(downloadLocation)
       expect(downloadContents.toString()).toBe(attachmentContent)
 
@@ -220,14 +284,14 @@ describe('Chat Methods', () => {
       await promisify(fs.unlink)(downloadLocation)
     })
     it('Throws an errow if given an invalid channel', async () => {
-      const messages = await alice1.chat.read(channel)
-      const attachments = messages.filter(message => message.content.type === 'attachment')
+      const result = await alice1.chat.read(channel)
+      const attachments = result.messages.filter(message => message.content.type === 'attachment')
       expect(alice1.chat.download(invalidChannel, attachments[0].id, downloadLocation)).rejects.toThrowError()
     })
     it('Throws an error if given a non-attachment message', async () => {
       await alice1.chat.send(channel, message)
-      const messages = await alice1.chat.read(channel)
-      expect(alice1.chat.download(channel, messages[0].id, '/tmp/attachment')).rejects.toThrowError()
+      const result = await alice1.chat.read(channel)
+      expect(alice1.chat.download(channel, result.messages[0].id, '/tmp/attachment')).rejects.toThrowError()
     })
   })
 
@@ -236,31 +300,31 @@ describe('Chat Methods', () => {
       await alice1.chat.send(channel, message)
 
       // Send a message
-      const messages = await alice1.chat.read(channel, {
+      const result = await alice1.chat.read(channel, {
         peek: true,
       })
-      expect(messages[0].sender.username).toEqual(alice1.myInfo().username)
-      expect(messages[0].content.text.body).toEqual(message.body)
+      expect(result.messages[0].sender.username).toEqual(alice1.myInfo().username)
+      expect(result.messages[0].content.text.body).toEqual(message.body)
 
-      const {id} = messages[0]
+      const {id} = result.messages[0]
       await alice1.chat.delete(channel, id)
 
       // Send a message
-      const newMessages = await alice1.chat.read(channel, {
+      const newResult = await alice1.chat.read(channel, {
         peek: true,
       })
-      expect(newMessages[0].id).toEqual(id + 1)
-      expect(newMessages[0].content.delete.messageIDs).toContain(id)
-      expect(newMessages[0].content.delete.messageIDs).toHaveLength(1)
-      expect(newMessages[1].id).toEqual(id - 1)
+      expect(newResult.messages[0].id).toEqual(id + 1)
+      expect(newResult.messages[0].content.delete.messageIDs).toContain(id)
+      expect(newResult.messages[0].content.delete.messageIDs).toHaveLength(1)
+      expect(newResult.messages[1].id).toEqual(id - 1)
     })
 
     it('Throws an error if given an invalid channel', async () => {
       await alice1.chat.send(channel, message)
-      const messages = await alice1.chat.read(channel, {
+      const result = await alice1.chat.read(channel, {
         peek: true,
       })
-      const {id} = messages[0]
+      const {id} = result.messages[0]
       expect(alice1.chat.delete(invalidChannel, id)).rejects.toThrowError()
     })
 
@@ -276,10 +340,10 @@ describe('Chat Methods', () => {
 
     it('Throws an error if it cannot delete the message (e.g., someone else wrote it)', async () => {
       await bob.chat.send(channel, message)
-      const messages = await alice1.chat.read(channel, {
+      const result = await alice1.chat.read(channel, {
         peek: true,
       })
-      const {id} = messages[0]
+      const {id} = result.messages[0]
       expect(alice1.chat.delete(channel, id)).rejects.toThrowError()
     })
     */
