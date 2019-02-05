@@ -106,7 +106,7 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
   - [list](#list)
     - [Parameters](#parameters-4)
     - [Examples](#examples-6)
-  - [listConvsOnName](#listconvsonname)
+  - [listChannels](#listchannels)
     - [Parameters](#parameters-5)
     - [Examples](#examples-7)
   - [read](#read)
@@ -118,27 +118,24 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
   - [newConv](#newconv)
     - [Parameters](#parameters-8)
     - [Examples](#examples-10)
-  - [deleteConv](#deleteconv)
+  - [attach](#attach)
     - [Parameters](#parameters-9)
     - [Examples](#examples-11)
-  - [attach](#attach)
+  - [download](#download)
     - [Parameters](#parameters-10)
     - [Examples](#examples-12)
-  - [download](#download)
+  - [react](#react)
     - [Parameters](#parameters-11)
     - [Examples](#examples-13)
-  - [react](#react)
+  - [delete](#delete)
     - [Parameters](#parameters-12)
     - [Examples](#examples-14)
-  - [delete](#delete)
+  - [watchChannelForNewMessages](#watchchannelfornewmessages)
     - [Parameters](#parameters-13)
     - [Examples](#examples-15)
-  - [watchChannelForNewMessages](#watchchannelfornewmessages)
+  - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
     - [Parameters](#parameters-14)
     - [Examples](#examples-16)
-  - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
-    - [Parameters](#parameters-15)
-    - [Examples](#examples-17)
 - [Chat Types](#chat-types)
   - [ChatChannel](#chatchannel)
     - [Properties](#properties-2)
@@ -160,31 +157,31 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
     - [Properties](#properties-10)
   - [OnMessage](#onmessage)
   - [OnError](#onerror)
-- [ChatListConvsOnNameOptions](#chatlistconvsonnameoptions)
+- [ChatListChannelsOptions](#chatlistchannelsoptions)
   - [Properties](#properties-11)
 - [ChatReactOptions](#chatreactoptions)
   - [Properties](#properties-12)
 - [Wallet](#wallet)
   - [balances](#balances)
-    - [Examples](#examples-18)
+    - [Examples](#examples-17)
   - [history](#history)
+    - [Parameters](#parameters-15)
+    - [Examples](#examples-18)
+  - [details](#details)
     - [Parameters](#parameters-16)
     - [Examples](#examples-19)
-  - [details](#details)
+  - [lookup](#lookup)
     - [Parameters](#parameters-17)
     - [Examples](#examples-20)
-  - [lookup](#lookup)
+  - [send](#send-1)
     - [Parameters](#parameters-18)
     - [Examples](#examples-21)
-  - [send](#send-1)
+  - [batch](#batch)
     - [Parameters](#parameters-19)
     - [Examples](#examples-22)
-  - [batch](#batch)
+  - [cancel](#cancel)
     - [Parameters](#parameters-20)
     - [Examples](#examples-23)
-  - [cancel](#cancel)
-    - [Parameters](#parameters-21)
-    - [Examples](#examples-24)
 - [PaymentStatus](#paymentstatus)
 - [Asset](#asset)
   - [Properties](#properties-13)
@@ -358,19 +355,19 @@ bot.chat.list({unreadOnly: true}).then(chatConversations => console.log(chatConv
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[ChatConversation](#chatconversation)>>** An array of chat conversations. If there are no conversations, the array is empty.
 
-#### listConvsOnName
+#### listChannels
 
 Lists conversation channels in a team
 
 ##### Parameters
 
 - `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Name of the team
-- `options` **[ChatListConvsOnNameOptions](#chatlistconvsonnameoptions)** An object of options that can be passed to the method.
+- `options` **[ChatListChannelsOptions](#chatlistchannelsoptions)** An object of options that can be passed to the method.
 
 ##### Examples
 
 ```javascript
-bot.chat.listConvsOnName('team_name').then(chatConversations => console.log(chatConversations))
+bot.chat.listChannels('team_name').then(chatConversations => console.log(chatConversations))
 ```
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[ChatConversation](#chatconversation)>>** An array of chat conversations. If there are no conversations, the array is empty.
@@ -413,22 +410,6 @@ bot.chat.send(channel, message).then(() => console.log('message sent!'))
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### newConv
-
-Create a new blank conversation.
-
-##### Parameters
-
-- `channel` **[ChatChannel](#chatchannel)** The chat channel to create.
-
-##### Examples
-
-```javascript
-bot.chat.newConv(channel).then(() => console.log('conversation created'))
-```
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
-
-#### deleteConv
 
 Create a new blank conversation.
 
@@ -709,9 +690,9 @@ A function to call when an error occurs.
 
 Type: function (error: [Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)): (void | [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>)
 
-### ChatListConvsOnNameOptions
+### ChatListChannelsOptions
 
-Options for the `listConvsOnName` method of the chat module.
+Options for the `listChannels` method of the chat module.
 
 Type: {topicType: TopicType?, membersType: MembersType?}
 

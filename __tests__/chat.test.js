@@ -185,7 +185,7 @@ describe('Chat Methods', () => {
     })
   })
 
-  describe('Chat newconv, join and leave', () => {
+  describe('Chat createChannel, join and leave', () => {
     it('Successfully performs the complete flow', async () => {
       const teamChannel = {
         name: config.teams.acme.teamname,
@@ -195,7 +195,7 @@ describe('Chat Methods', () => {
         topic_name: 'subchannel',
       }
 
-      await alice1.chat.newConv(teamChannel)
+      await alice1.chat.createChannel(teamChannel)
       await bob.chat.join(teamChannel)
 
       const read1 = await alice1.chat.read(teamChannel, {
