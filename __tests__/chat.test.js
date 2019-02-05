@@ -185,7 +185,7 @@ describe('Chat Methods', () => {
     })
   })
 
-  describe('Chat createChannel, join and leave', () => {
+  describe('Chat createChannel, joinChannel and leaveChannel', () => {
     it('Successfully performs the complete flow', async () => {
       const teamChannel = {
         name: config.teams.acme.teamname,
@@ -196,7 +196,7 @@ describe('Chat Methods', () => {
       }
 
       await alice1.chat.createChannel(teamChannel)
-      await bob.chat.join(teamChannel)
+      await bob.chat.joinChannel(teamChannel)
 
       const read1 = await alice1.chat.read(teamChannel, {
         pagination: {
@@ -206,7 +206,7 @@ describe('Chat Methods', () => {
       expect(read1.messages[0].content.type).toEqual('join')
       expect(read1.messages[0].sender.username).toEqual(config.bots.bob1.username)
 
-      await bob.chat.leave(teamChannel)
+      await bob.chat.leaveChannel(teamChannel)
       const read2 = await alice1.chat.read(teamChannel, {
         pagination: {
           num: 1,

@@ -97,10 +97,10 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
   - [BotInfo](#botinfo)
     - [Properties](#properties-1)
 - [Chat](#chat)
-  - [join](#join)
+  - [joinChannel](#joinchannel)
     - [Parameters](#parameters-2)
     - [Examples](#examples-4)
-  - [leave](#leave)
+  - [leaveChannel](#leavechannel)
     - [Parameters](#parameters-3)
     - [Examples](#examples-5)
   - [list](#list)
@@ -115,7 +115,7 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
   - [send](#send)
     - [Parameters](#parameters-7)
     - [Examples](#examples-9)
-  - [newConv](#newconv)
+  - [createChannel](#createchannel)
     - [Parameters](#parameters-8)
     - [Examples](#examples-10)
   - [attach](#attach)
@@ -293,7 +293,7 @@ Type: {username: [string](https://developer.mozilla.org/docs/Web/JavaScript/Refe
 
 The chat module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase chat api`.
 
-#### join
+#### joinChannel
 
 Joins a team conversation.
 
@@ -316,7 +316,7 @@ bot.chat.listConvsOnName('team_name').then(async teamConversations => {
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
-#### leave
+#### leaveChannel
 
 Leaves a team conversation.
 
@@ -409,9 +409,9 @@ bot.chat.send(channel, message).then(() => console.log('message sent!'))
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
-#### newConv
+#### createChannel
 
-Create a new blank conversation.
+Creates a new blank conversation.
 
 ##### Parameters
 
@@ -420,7 +420,7 @@ Create a new blank conversation.
 ##### Examples
 
 ```javascript
-bot.chat.newConv(channel).then(() => console.log('conversation created'))
+bot.chat.createChannel(channel).then(() => console.log('conversation created'))
 ```
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
