@@ -900,10 +900,12 @@ class Chat extends ClientBase {
   }
   /**
    * Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel. Note that it receives messages your own bot posts, but from other devices. You can filter out your own messages by looking at a message's sender object.
+   * Hides exploding messages by default.
    * @memberof Chat
    * @param channel - The chat channel to watch.
    * @param onMessage - A callback that is triggered on every message your bot receives.
    * @param onError - A callback that is triggered on any error that occurs while the method is executing.
+   * @param options - Options for the listen method.
    * @example
    * // Reply to all messages between you and `kbot` with 'thanks!'
    * const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topic_type: 'chat'}
@@ -920,7 +922,7 @@ class Chat extends ClientBase {
    */
 
 
-  async watchChannelForNewMessages(channel, onMessage, onError) {
+  async watchChannelForNewMessages(channel, onMessage, onError, options) {
     await this._guardInitialized();
 
     this._chatListen(onMessage, onError, channel);
@@ -932,9 +934,11 @@ class Chat extends ClientBase {
    * Keybase bot that talks shit at anyone who dares approach it, this is the
    * function to use. Note that it receives messages your own bot posts, but from other devices.
    * You can filter out your own messages by looking at a message's sender object.
+   * Hides exploding messages by default.
    * @memberof Chat
    * @param onMessage - A callback that is triggered on every message your bot receives.
    * @param onError - A callback that is triggered on any error that occurs while the method is executing.
+   * @param options - Options for the listen method.
    * @example
    * // Reply to incoming traffic on all channels with 'thanks!'
    * const onMessage = message => {
@@ -951,7 +955,7 @@ class Chat extends ClientBase {
    */
 
 
-  async watchAllChannelsForNewMessages(onMessage, onError) {
+  async watchAllChannelsForNewMessages(onMessage, onError, options) {
     await this._guardInitialized();
 
     this._chatListen(onMessage, onError);
@@ -963,16 +967,21 @@ class Chat extends ClientBase {
    * @param onMessage - A callback that is triggered on every message your bot receives.
    * @param onError - A callback that is triggered on any error that occurs while the method is executing.
    * @param channel - The chat channel to watch.
+   * @param options - Options for the listen method.
    * @example
    * this._chatListen(onMessage, onError)
    */
 
 
-  _chatListen(onMessage, onError, channel) {
+  _chatListen(onMessage, onError, channel, options) {
     const args = ['chat', 'api-listen'];
 
     if (this.homeDir) {
       args.unshift('--home', this.homeDir);
+    }
+
+    if (options && options.hideExploding !== false) {
+      args.push('--hide-exploding');
     }
 
     const child = child_process.spawn(this._pathToKeybaseBinary(), args);
