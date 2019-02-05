@@ -925,7 +925,7 @@ class Chat extends ClientBase {
   async watchChannelForNewMessages(channel, onMessage, onError, options) {
     await this._guardInitialized();
 
-    this._chatListen(onMessage, onError, channel);
+    this._chatListen(onMessage, onError, channel, options);
   }
   /**
    * This function will put your bot into full-read mode, where it reads
@@ -958,7 +958,7 @@ class Chat extends ClientBase {
   async watchAllChannelsForNewMessages(onMessage, onError, options) {
     await this._guardInitialized();
 
-    this._chatListen(onMessage, onError);
+    this._chatListen(onMessage, onError, undefined, options);
   }
   /**
    * Spawns the chat listen process and handles the calling of onMessage, onError, and filtering for a specific channel.
@@ -980,7 +980,7 @@ class Chat extends ClientBase {
       args.unshift('--home', this.homeDir);
     }
 
-    if (options && options.hideExploding !== false) {
+    if (!options || options && options.hideExploding !== false) {
       args.push('--hide-exploding');
     }
 
