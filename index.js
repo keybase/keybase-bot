@@ -900,10 +900,12 @@ class Chat extends ClientBase {
   }
   /**
    * Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel. Note that it receives messages your own bot posts, but from other devices. You can filter out your own messages by looking at a message's sender object.
+   * Hides exploding messages by default.
    * @memberof Chat
    * @param channel - The chat channel to watch.
    * @param onMessage - A callback that is triggered on every message your bot receives.
    * @param onError - A callback that is triggered on any error that occurs while the method is executing.
+   * @param options - Options for the listen method.
    * @example
    * // Reply to all messages between you and `kbot` with 'thanks!'
    * const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topic_type: 'chat'}
@@ -920,10 +922,10 @@ class Chat extends ClientBase {
    */
 
 
-  async watchChannelForNewMessages(channel, onMessage, onError) {
+  async watchChannelForNewMessages(channel, onMessage, onError, options) {
     await this._guardInitialized();
 
-    this._chatListen(onMessage, onError, channel);
+    this._chatListen(onMessage, onError, channel, options);
   }
   /**
    * This function will put your bot into full-read mode, where it reads
@@ -932,9 +934,11 @@ class Chat extends ClientBase {
    * Keybase bot that talks shit at anyone who dares approach it, this is the
    * function to use. Note that it receives messages your own bot posts, but from other devices.
    * You can filter out your own messages by looking at a message's sender object.
+   * Hides exploding messages by default.
    * @memberof Chat
    * @param onMessage - A callback that is triggered on every message your bot receives.
    * @param onError - A callback that is triggered on any error that occurs while the method is executing.
+   * @param options - Options for the listen method.
    * @example
    * // Reply to incoming traffic on all channels with 'thanks!'
    * const onMessage = message => {
@@ -951,10 +955,10 @@ class Chat extends ClientBase {
    */
 
 
-  async watchAllChannelsForNewMessages(onMessage, onError) {
+  async watchAllChannelsForNewMessages(onMessage, onError, options) {
     await this._guardInitialized();
 
-    this._chatListen(onMessage, onError);
+    this._chatListen(onMessage, onError, undefined, options);
   }
   /**
    * Spawns the chat listen process and handles the calling of onMessage, onError, and filtering for a specific channel.
@@ -963,16 +967,21 @@ class Chat extends ClientBase {
    * @param onMessage - A callback that is triggered on every message your bot receives.
    * @param onError - A callback that is triggered on any error that occurs while the method is executing.
    * @param channel - The chat channel to watch.
+   * @param options - Options for the listen method.
    * @example
    * this._chatListen(onMessage, onError)
    */
 
 
-  _chatListen(onMessage, onError, channel) {
+  _chatListen(onMessage, onError, channel, options) {
     const args = ['chat', 'api-listen'];
 
     if (this.homeDir) {
       args.unshift('--home', this.homeDir);
+    }
+
+    if (!options || options && options.hideExploding !== false) {
+      args.push('--hide-exploding');
     }
 
     const child = child_process.spawn(this._pathToKeybaseBinary(), args);
@@ -1153,7 +1162,7 @@ class Wallet extends ClientBase {
    * Send lumens (XLM) via Keybase to more than one user at once. As opposed to the normal bot.wallet.send
    * command, this can get multiple transactions into the same 5-second Stellar ledger.
    * @memberof Wallet
-   * @param batchId - a unique Id for this batch, which you provide. Example, `airdrop2025`. A user can only receive once per batchId, enforced by Keybase, so if you run a program twice with the same batchId and send to the same users, subsequent sends will error.
+   * @param batchId - example, if sending a bunch of batches for an airdrop, you could pass them all `airdrop2025`.
    * @param payments - an array of objects containing recipients and XLM of the form {"recipient": "someusername", "amount": "1.234", "message", "hi there"}
    * @returns - an object
    * @example

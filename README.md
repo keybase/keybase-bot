@@ -270,7 +270,6 @@ A collection of types used by the bot.
 Options for initializing the bot.
 
 Type: {verbose: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, botLite: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, disableTyping: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
-}
 
 ##### Properties
 
@@ -280,10 +279,10 @@ Type: {verbose: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Refe
 
 #### BotInfo
 
-Useful information like the username, device, and home directory of your bot.
+Useful information like the username, device, home directory of your bot and
+configuration options.
 
-Type: {username: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), devicename: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), homeDir: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, botLite: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
-}
+Type: {username: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), devicename: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), homeDir: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, botLite: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, disableTyping: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
 
 ##### Properties
 
@@ -509,12 +508,14 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 #### watchChannelForNewMessages
 
 Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel. Note that it receives messages your own bot posts, but from other devices. You can filter out your own messages by looking at a message's sender object.
+Hides exploding messages by default.
 
 ##### Parameters
 
 - `channel` **[ChatChannel](#chatchannel)** The chat channel to watch.
 - `onMessage` **[OnMessage](#onmessage)** A callback that is triggered on every message your bot receives.
 - `onError` **[OnError](#onerror)** A callback that is triggered on any error that occurs while the method is executing.
+- `options` **ListenOptions** Options for the listen method.
 
 ##### Examples
 
@@ -543,11 +544,13 @@ you can do what you want with it. For example, if you want to write a
 Keybase bot that talks shit at anyone who dares approach it, this is the
 function to use. Note that it receives messages your own bot posts, but from other devices.
 You can filter out your own messages by looking at a message's sender object.
+Hides exploding messages by default.
 
 ##### Parameters
 
 - `onMessage` **[OnMessage](#onmessage)** A callback that is triggered on every message your bot receives.
 - `onError` **[OnError](#onerror)** A callback that is triggered on any error that occurs while the method is executing.
+- `options` **ListenOptions** Options for the listen method.
 
 ##### Examples
 
