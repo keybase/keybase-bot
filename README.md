@@ -7,10 +7,10 @@ Script Keybase functionality in Node.js.
 
 This module is a side-project/work in progress and may change or have crashes, but feel free to play with it. As long as you have a Keybase account, you can use this module to script basic Keybase commands.
 
--   [Installation](#installation)
--   [Hello World](#hello-world)
--   [API](#api)
--   [Contributions](#contributions)
+- [Installation](#installation)
+- [Hello World](#hello-world)
+- [API](#api)
+- [Contributions](#contributions)
 
 ## Installation
 
@@ -80,124 +80,124 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
 
 #### Table of Contents
 
--   [Bot](#bot)
-    -   [init](#init)
-        -   [Parameters](#parameters)
-        -   [Examples](#examples)
-    -   [initFromRunningService](#initfromrunningservice)
-        -   [Parameters](#parameters-1)
-        -   [Examples](#examples-1)
-    -   [myInfo](#myinfo)
-        -   [Examples](#examples-2)
-    -   [deinit](#deinit)
-        -   [Examples](#examples-3)
--   [Bot Types](#bot-types)
-    -   [InitOptions](#initoptions)
-        -   [Properties](#properties)
-    -   [BotInfo](#botinfo)
-        -   [Properties](#properties-1)
--   [Chat](#chat)
-    -   [joinChannel](#joinchannel)
-        -   [Parameters](#parameters-2)
-        -   [Examples](#examples-4)
-    -   [leaveChannel](#leavechannel)
-        -   [Parameters](#parameters-3)
-        -   [Examples](#examples-5)
-    -   [list](#list)
-        -   [Parameters](#parameters-4)
-        -   [Examples](#examples-6)
-    -   [listChannels](#listchannels)
-        -   [Parameters](#parameters-5)
-        -   [Examples](#examples-7)
-    -   [read](#read)
-        -   [Parameters](#parameters-6)
-        -   [Examples](#examples-8)
-    -   [send](#send)
-        -   [Parameters](#parameters-7)
-        -   [Examples](#examples-9)
-    -   [createChannel](#createchannel)
-        -   [Parameters](#parameters-8)
-        -   [Examples](#examples-10)
-    -   [attach](#attach)
-        -   [Parameters](#parameters-9)
-        -   [Examples](#examples-11)
-    -   [download](#download)
-        -   [Parameters](#parameters-10)
-        -   [Examples](#examples-12)
-    -   [react](#react)
-        -   [Parameters](#parameters-11)
-        -   [Examples](#examples-13)
-    -   [delete](#delete)
-        -   [Parameters](#parameters-12)
-        -   [Examples](#examples-14)
-    -   [watchChannelForNewMessages](#watchchannelfornewmessages)
-        -   [Parameters](#parameters-13)
-        -   [Examples](#examples-15)
-    -   [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
-        -   [Parameters](#parameters-14)
-        -   [Examples](#examples-16)
--   [Chat Types](#chat-types)
-    -   [ChatChannel](#chatchannel)
-        -   [Properties](#properties-2)
-    -   [ChatMessage](#chatmessage)
-        -   [Properties](#properties-3)
-    -   [ChatConversation](#chatconversation)
-        -   [Properties](#properties-4)
-    -   [ChatListOptions](#chatlistoptions)
-        -   [Properties](#properties-5)
-    -   [ChatReadOptions](#chatreadoptions)
-        -   [Properties](#properties-6)
-    -   [ChatSendOptions](#chatsendoptions)
-        -   [Properties](#properties-7)
-    -   [ChatAttachOptions](#chatattachoptions)
-        -   [Properties](#properties-8)
-    -   [ChatDownloadOptions](#chatdownloadoptions)
-        -   [Properties](#properties-9)
-    -   [ChatDeleteOptions](#chatdeleteoptions)
-        -   [Properties](#properties-10)
-    -   [OnMessage](#onmessage)
-    -   [OnError](#onerror)
--   [Wallet](#wallet)
-    -   [balances](#balances)
-        -   [Examples](#examples-17)
-    -   [history](#history)
-        -   [Parameters](#parameters-15)
-        -   [Examples](#examples-18)
-    -   [details](#details)
-        -   [Parameters](#parameters-16)
-        -   [Examples](#examples-19)
-    -   [lookup](#lookup)
-        -   [Parameters](#parameters-17)
-        -   [Examples](#examples-20)
-    -   [send](#send-1)
-        -   [Parameters](#parameters-18)
-        -   [Examples](#examples-21)
-    -   [batch](#batch)
-        -   [Parameters](#parameters-19)
-        -   [Examples](#examples-22)
-    -   [cancel](#cancel)
-        -   [Parameters](#parameters-20)
-        -   [Examples](#examples-23)
--   [Wallet Types](#wallet-types)
-    -   [Asset](#asset)
-        -   [Properties](#properties-11)
-    -   [ExchangeRate](#exchangerate)
-        -   [Properties](#properties-12)
-    -   [Balance](#balance)
-        -   [Properties](#properties-13)
-    -   [Account](#account)
-        -   [Properties](#properties-14)
-    -   [Transaction](#transaction)
-        -   [Properties](#properties-15)
-    -   [PaymentStatus](#paymentstatus)
-    -   [BatchResult](#batchresult)
-        -   [Properties](#properties-16)
-    -   [PaymentBatchItem](#paymentbatchitem)
-        -   [Properties](#properties-17)
--   [ChatListChannelsOptions](#chatlistchannelsoptions)
-    -   [Properties](#properties-18)
--   [ChatReactOptions](#chatreactoptions)
-    -   [Properties](#properties-19)
+- [Bot](#bot)
+  - [init](#init)
+    - [Parameters](#parameters)
+    - [Examples](#examples)
+  - [initFromRunningService](#initfromrunningservice)
+    - [Parameters](#parameters-1)
+    - [Examples](#examples-1)
+  - [myInfo](#myinfo)
+    - [Examples](#examples-2)
+  - [deinit](#deinit)
+    - [Examples](#examples-3)
+- [Bot Types](#bot-types)
+  - [InitOptions](#initoptions)
+    - [Properties](#properties)
+  - [BotInfo](#botinfo)
+    - [Properties](#properties-1)
+- [Chat](#chat)
+  - [joinChannel](#joinchannel)
+    - [Parameters](#parameters-2)
+    - [Examples](#examples-4)
+  - [leaveChannel](#leavechannel)
+    - [Parameters](#parameters-3)
+    - [Examples](#examples-5)
+  - [list](#list)
+    - [Parameters](#parameters-4)
+    - [Examples](#examples-6)
+  - [listChannels](#listchannels)
+    - [Parameters](#parameters-5)
+    - [Examples](#examples-7)
+  - [read](#read)
+    - [Parameters](#parameters-6)
+    - [Examples](#examples-8)
+  - [send](#send)
+    - [Parameters](#parameters-7)
+    - [Examples](#examples-9)
+  - [createChannel](#createchannel)
+    - [Parameters](#parameters-8)
+    - [Examples](#examples-10)
+  - [attach](#attach)
+    - [Parameters](#parameters-9)
+    - [Examples](#examples-11)
+  - [download](#download)
+    - [Parameters](#parameters-10)
+    - [Examples](#examples-12)
+  - [react](#react)
+    - [Parameters](#parameters-11)
+    - [Examples](#examples-13)
+  - [delete](#delete)
+    - [Parameters](#parameters-12)
+    - [Examples](#examples-14)
+  - [watchChannelForNewMessages](#watchchannelfornewmessages)
+    - [Parameters](#parameters-13)
+    - [Examples](#examples-15)
+  - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
+    - [Parameters](#parameters-14)
+    - [Examples](#examples-16)
+- [Chat Types](#chat-types)
+  - [ChatChannel](#chatchannel)
+    - [Properties](#properties-2)
+  - [ChatMessage](#chatmessage)
+    - [Properties](#properties-3)
+  - [ChatConversation](#chatconversation)
+    - [Properties](#properties-4)
+  - [ChatListOptions](#chatlistoptions)
+    - [Properties](#properties-5)
+  - [ChatReadOptions](#chatreadoptions)
+    - [Properties](#properties-6)
+  - [ChatSendOptions](#chatsendoptions)
+    - [Properties](#properties-7)
+  - [ChatAttachOptions](#chatattachoptions)
+    - [Properties](#properties-8)
+  - [ChatDownloadOptions](#chatdownloadoptions)
+    - [Properties](#properties-9)
+  - [ChatDeleteOptions](#chatdeleteoptions)
+    - [Properties](#properties-10)
+  - [OnMessage](#onmessage)
+  - [OnError](#onerror)
+- [Wallet](#wallet)
+  - [balances](#balances)
+    - [Examples](#examples-17)
+  - [history](#history)
+    - [Parameters](#parameters-15)
+    - [Examples](#examples-18)
+  - [details](#details)
+    - [Parameters](#parameters-16)
+    - [Examples](#examples-19)
+  - [lookup](#lookup)
+    - [Parameters](#parameters-17)
+    - [Examples](#examples-20)
+  - [send](#send-1)
+    - [Parameters](#parameters-18)
+    - [Examples](#examples-21)
+  - [batch](#batch)
+    - [Parameters](#parameters-19)
+    - [Examples](#examples-22)
+  - [cancel](#cancel)
+    - [Parameters](#parameters-20)
+    - [Examples](#examples-23)
+- [Wallet Types](#wallet-types)
+  - [Asset](#asset)
+    - [Properties](#properties-11)
+  - [ExchangeRate](#exchangerate)
+    - [Properties](#properties-12)
+  - [Balance](#balance)
+    - [Properties](#properties-13)
+  - [Account](#account)
+    - [Properties](#properties-14)
+  - [Transaction](#transaction)
+    - [Properties](#properties-15)
+  - [PaymentStatus](#paymentstatus)
+  - [BatchResult](#batchresult)
+    - [Properties](#properties-16)
+  - [PaymentBatchItem](#paymentbatchitem)
+    - [Properties](#properties-17)
+- [ChatListChannelsOptions](#chatlistchannelsoptions)
+  - [Properties](#properties-18)
+- [ChatReactOptions](#chatreactoptions)
+  - [Properties](#properties-19)
 
 ### Bot
 
@@ -209,9 +209,9 @@ Initialize your bot by starting an instance of the Keybase service and logging i
 
 ##### Parameters
 
--   `username` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The username of your bot's Keybase account.
--   `paperkey` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The paperkey of your bot's Keybase account.
--   `options` **[InitOptions](#initoptions)** The initialization options for your bot.
+- `username` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The username of your bot's Keybase account.
+- `paperkey` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The paperkey of your bot's Keybase account.
+- `options` **[InitOptions](#initoptions)** The initialization options for your bot.
 
 ##### Examples
 
@@ -219,7 +219,7 @@ Initialize your bot by starting an instance of the Keybase service and logging i
 bot.init('username', 'paperkey')
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### initFromRunningService
 
@@ -227,8 +227,8 @@ Initialize your bot by using an existing running service with a logged in user.
 
 ##### Parameters
 
--   `homeDir` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The home directory of this currently running service. Leave blank to use the default homeDir for your system.
--   `options` **[InitOptions](#initoptions)** The initialization options for your bot.
+- `homeDir` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The home directory of this currently running service. Leave blank to use the default homeDir for your system.
+- `options` **[InitOptions](#initoptions)** The initialization options for your bot.
 
 ##### Examples
 
@@ -236,7 +236,7 @@ Initialize your bot by using an existing running service with a logged in user.
 bot.initFromRunningService()
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### myInfo
 
@@ -260,12 +260,11 @@ Deinitializes the bot by logging out, stopping the keybase service, and removing
 bot.deinit()
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 ### Bot Types
 
 A collection of types used by the bot.
-
 
 #### InitOptions
 
@@ -275,9 +274,9 @@ Type: {verbose: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Refe
 
 ##### Properties
 
--   `verbose` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
--   `botLite` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
--   `disableTyping` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
+- `verbose` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `botLite` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `disableTyping` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
 #### BotInfo
 
@@ -288,11 +287,11 @@ Type: {username: [string](https://developer.mozilla.org/docs/Web/JavaScript/Refe
 
 ##### Properties
 
--   `username` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `devicename` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `homeDir` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
--   `botLite` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
--   `disableTyping` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
+- `username` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `devicename` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `homeDir` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
+- `botLite` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `disableTyping` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
 ### Chat
 
@@ -306,22 +305,22 @@ Joins a team conversation.
 
 ##### Parameters
 
--   `channel` **[ChatChannel](#chatchannel)** The team chat channel to join.
+- `channel` **[ChatChannel](#chatchannel)** The team chat channel to join.
 
 ##### Examples
 
 ```javascript
 bot.chat.listConvsOnName('team_name').then(async teamConversations => {
- for (const conversation of teamConversations) {
-   if (conversation.memberStatus !== 'active') {
-     await bot.chat.join(conversation.channel)
-     console.log('Joined team channel', conversation.channel)
-   }
- }
+  for (const conversation of teamConversations) {
+    if (conversation.memberStatus !== 'active') {
+      await bot.chat.join(conversation.channel)
+      console.log('Joined team channel', conversation.channel)
+    }
+  }
 })
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### leaveChannel
 
@@ -329,22 +328,22 @@ Leaves a team conversation.
 
 ##### Parameters
 
--   `channel` **[ChatChannel](#chatchannel)** The team chat channel to leave.
+- `channel` **[ChatChannel](#chatchannel)** The team chat channel to leave.
 
 ##### Examples
 
 ```javascript
 bot.chat.listConvsOnName('team_name').then(async teamConversations => {
- for (const conversation of teamConversations) {
-   if (conversation.memberStatus === 'active') {
-     await bot.chat.leave(conversation.channel)
-     console.log('Left team channel', conversation.channel)
-   }
- }
+  for (const conversation of teamConversations) {
+    if (conversation.memberStatus === 'active') {
+      await bot.chat.leave(conversation.channel)
+      console.log('Left team channel', conversation.channel)
+    }
+  }
 })
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### list
 
@@ -352,7 +351,7 @@ Lists your chats, with info on which ones have unread messages.
 
 ##### Parameters
 
--   `options` **[ChatListOptions](#chatlistoptions)** An object of options that can be passed to the method.
+- `options` **[ChatListOptions](#chatlistoptions)** An object of options that can be passed to the method.
 
 ##### Examples
 
@@ -368,8 +367,8 @@ Lists conversation channels in a team
 
 ##### Parameters
 
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Name of the team
--   `options` **[ChatListChannelsOptions](#chatlistchannelsoptions)** An object of options that can be passed to the method.
+- `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Name of the team
+- `options` **[ChatListChannelsOptions](#chatlistchannelsoptions)** An object of options that can be passed to the method.
 
 ##### Examples
 
@@ -385,8 +384,8 @@ Reads the messages in a channel. You can read with or without marking as read.
 
 ##### Parameters
 
--   `channel` **[ChatChannel](#chatchannel)** The chat channel to read messages in.
--   `options` **[ChatReadOptions](#chatreadoptions)** An object of options that can be passed to the method.
+- `channel` **[ChatChannel](#chatchannel)** The chat channel to read messages in.
+- `options` **[ChatReadOptions](#chatreadoptions)** An object of options that can be passed to the method.
 
 ##### Examples
 
@@ -402,9 +401,9 @@ Send a message to a certain channel.
 
 ##### Parameters
 
--   `channel` **[ChatChannel](#chatchannel)** The chat channel to send the message in.
--   `message` **[ChatMessage](#chatmessage)** The chat message to send.
--   `options` **[ChatSendOptions](#chatsendoptions)** An object of options that can be passed to the method.
+- `channel` **[ChatChannel](#chatchannel)** The chat channel to send the message in.
+- `message` **[ChatMessage](#chatmessage)** The chat message to send.
+- `options` **[ChatSendOptions](#chatsendoptions)** An object of options that can be passed to the method.
 
 ##### Examples
 
@@ -414,7 +413,7 @@ const message = {body: 'Hello kbot!'}
 bot.chat.send(channel, message).then(() => console.log('message sent!'))
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### createChannel
 
@@ -422,7 +421,7 @@ Creates a new blank conversation.
 
 ##### Parameters
 
--   `channel` **[ChatChannel](#chatchannel)** The chat channel to create.
+- `channel` **[ChatChannel](#chatchannel)** The chat channel to create.
 
 ##### Examples
 
@@ -430,7 +429,7 @@ Creates a new blank conversation.
 bot.chat.createChannel(channel).then(() => console.log('conversation created'))
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### attach
 
@@ -438,9 +437,9 @@ Send a file to a channel.
 
 ##### Parameters
 
--   `channel` **[ChatChannel](#chatchannel)** The chat channel to send the message in.
--   `filename` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The absolute path of the file to send.
--   `options` **[ChatAttachOptions](#chatattachoptions)** An object of options that can be passed to the method.
+- `channel` **[ChatChannel](#chatchannel)** The chat channel to send the message in.
+- `filename` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The absolute path of the file to send.
+- `options` **[ChatAttachOptions](#chatattachoptions)** An object of options that can be passed to the method.
 
 ##### Examples
 
@@ -448,7 +447,7 @@ Send a file to a channel.
 bot.chat.attach(channel, '/Users/nathan/my_picture.png').then(() => console.log('Sent a picture!'))
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### download
 
@@ -456,10 +455,10 @@ Download a file send via Keybase chat.
 
 ##### Parameters
 
--   `channel` **[ChatChannel](#chatchannel)** The chat channel that the desired attacment to download is in.
--   `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The message id of the attached file.
--   `output` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The absolute path of where the file should be downloaded to.
--   `options` **[ChatDownloadOptions](#chatdownloadoptions)** An object of options that can be passed to the method
+- `channel` **[ChatChannel](#chatchannel)** The chat channel that the desired attacment to download is in.
+- `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The message id of the attached file.
+- `output` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The absolute path of where the file should be downloaded to.
+- `options` **[ChatDownloadOptions](#chatdownloadoptions)** An object of options that can be passed to the method
 
 ##### Examples
 
@@ -474,10 +473,10 @@ them, which you can learn in `bot.chat.read`.
 
 ##### Parameters
 
--   `channel` **[ChatChannel](#chatchannel)** The chat channel to send the message in.
--   `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The id of the message to react to.
--   `reaction` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The reaction emoji, in colon form.
--   `options` **[ChatReactOptions](#chatreactoptions)** An object of options that can be passed to the method.
+- `channel` **[ChatChannel](#chatchannel)** The chat channel to send the message in.
+- `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The id of the message to react to.
+- `reaction` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The reaction emoji, in colon form.
+- `options` **[ChatReactOptions](#chatreactoptions)** An object of options that can be passed to the method.
 
 ##### Examples
 
@@ -485,7 +484,7 @@ them, which you can learn in `bot.chat.read`.
 bot.chat.react(channel, 314, ':+1:').then(() => console.log('Thumbs up!'))
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### delete
 
@@ -495,9 +494,9 @@ and deleting from the CLI may not become apparent immediately.
 
 ##### Parameters
 
--   `channel` **[ChatChannel](#chatchannel)** The chat channel to send the message in.
--   `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The id of the message to delete.
--   `options` **[ChatDeleteOptions](#chatdeleteoptions)** An object of options that can be passed to the method.
+- `channel` **[ChatChannel](#chatchannel)** The chat channel to send the message in.
+- `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The id of the message to delete.
+- `options` **[ChatDeleteOptions](#chatdeleteoptions)** An object of options that can be passed to the method.
 
 ##### Examples
 
@@ -505,7 +504,7 @@ and deleting from the CLI may not become apparent immediately.
 bot.chat.delete(channel, 314).then(() => console.log('message deleted!'))
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### watchChannelForNewMessages
 
@@ -514,10 +513,10 @@ Hides exploding messages by default.
 
 ##### Parameters
 
--   `channel` **[ChatChannel](#chatchannel)** The chat channel to watch.
--   `onMessage` **[OnMessage](#onmessage)** A callback that is triggered on every message your bot receives.
--   `onError` **[OnError](#onerror)** A callback that is triggered on any error that occurs while the method is executing.
--   `options` **ListenOptions** Options for the listen method.
+- `channel` **[ChatChannel](#chatchannel)** The chat channel to watch.
+- `onMessage` **[OnMessage](#onmessage)** A callback that is triggered on every message your bot receives.
+- `onError` **[OnError](#onerror)** A callback that is triggered on any error that occurs while the method is executing.
+- `options` **ListenOptions** Options for the listen method.
 
 ##### Examples
 
@@ -527,16 +526,16 @@ const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topic_typ
 const onMessage = message => {
   const channel = message.channel
   bot.chat.send({
-   channel: channel,
-     message: {
-       body: 'thanks!!!',
-     },
+    channel: channel,
+    message: {
+      body: 'thanks!!!',
+    },
   })
 }
 bot.chat.watchChannelForNewMessages(channel, onMessage)
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### watchAllChannelsForNewMessages
 
@@ -550,9 +549,9 @@ Hides exploding messages by default.
 
 ##### Parameters
 
--   `onMessage` **[OnMessage](#onmessage)** A callback that is triggered on every message your bot receives.
--   `onError` **[OnError](#onerror)** A callback that is triggered on any error that occurs while the method is executing.
--   `options` **ListenOptions** Options for the listen method.
+- `onMessage` **[OnMessage](#onmessage)** A callback that is triggered on every message your bot receives.
+- `onError` **[OnError](#onerror)** A callback that is triggered on any error that occurs while the method is executing.
+- `options` **ListenOptions** Options for the listen method.
 
 ##### Examples
 
@@ -561,21 +560,20 @@ Hides exploding messages by default.
 const onMessage = message => {
   const channel = message.channel
   bot.chat.send({
-   channel: channel,
-     message: {
-       body: 'thanks!!!',
-     },
+    channel: channel,
+    message: {
+      body: 'thanks!!!',
+    },
   })
 }
 bot.chat.watchAllChannelsForNewMessages(onMessage)
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 ### Chat Types
 
 A collection of types used by the Chat module.
-
 
 #### ChatChannel
 
@@ -585,11 +583,11 @@ Type: {name: [string](https://developer.mozilla.org/docs/Web/JavaScript/Referenc
 
 ##### Properties
 
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `public` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
--   `membersType` **MembersType** 
--   `topicType` **TopicType?** 
--   `topicName` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
+- `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `public` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
+- `membersType` **MembersType**
+- `topicType` **TopicType?**
+- `topicName` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
 
 #### ChatMessage
 
@@ -599,7 +597,7 @@ Type: {body: [string](https://developer.mozilla.org/docs/Web/JavaScript/Referenc
 
 ##### Properties
 
--   `body` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+- `body` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 
 #### ChatConversation
 
@@ -609,12 +607,12 @@ Type: {id: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 ##### Properties
 
--   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `channel` **[ChatChannel](#chatchannel)** 
--   `unread` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
--   `activeAt` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `activeAtMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `memberStatus` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+- `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `channel` **[ChatChannel](#chatchannel)**
+- `unread` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
+- `activeAt` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `activeAtMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `memberStatus` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 
 #### ChatListOptions
 
@@ -624,10 +622,10 @@ Type: {failOffline: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/
 
 ##### Properties
 
--   `failOffline` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
--   `showErrors` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
--   `topicType` **TopicType?** 
--   `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
+- `failOffline` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `showErrors` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `topicType` **TopicType?**
+- `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
 #### ChatReadOptions
 
@@ -637,11 +635,11 @@ Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScrip
 
 ##### Properties
 
--   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
--   `failOffline` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
--   `pagination` **Pagination?** 
--   `peek` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
--   `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
+- `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
+- `failOffline` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `pagination` **Pagination?**
+- `peek` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
 #### ChatSendOptions
 
@@ -651,10 +649,10 @@ Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScrip
 
 ##### Properties
 
--   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
--   `nonblock` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
--   `membersType` **MembersType** 
--   `confirmLumenSend` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
+- `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
+- `nonblock` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `membersType` **MembersType**
+- `confirmLumenSend` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
 #### ChatAttachOptions
 
@@ -664,9 +662,9 @@ Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScrip
 
 ##### Properties
 
--   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
--   `title` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
--   `preview` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
+- `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
+- `title` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
+- `preview` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
 
 #### ChatDownloadOptions
 
@@ -676,9 +674,9 @@ Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScrip
 
 ##### Properties
 
--   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
--   `preview` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
--   `noStream` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
+- `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
+- `preview` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
+- `noStream` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
 #### ChatDeleteOptions
 
@@ -688,7 +686,7 @@ Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScrip
 
 ##### Properties
 
--   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
+- `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
 
 #### OnMessage
 
@@ -726,12 +724,14 @@ Provides a list of all transactions in a single account.
 
 ##### Parameters
 
--   `accountId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The id of an account owned by a Keybase user.
+- `accountId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The id of an account owned by a Keybase user.
 
 ##### Examples
 
 ```javascript
-bot.wallet.history('GDUKZH6Q3U5WQD4PDGZXYLJE3P76BDRDWPSALN4OUFEESI2QL5UZHCK').then(transactions => console.log(transactions))
+bot.wallet
+  .history('GDUKZH6Q3U5WQD4PDGZXYLJE3P76BDRDWPSALN4OUFEESI2QL5UZHCK')
+  .then(transactions => console.log(transactions))
 ```
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Transaction](#transaction)>>** An array of transactions related to the account.
@@ -742,12 +742,14 @@ Get details about a particular transaction
 
 ##### Parameters
 
--   `transactionId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The id of the transaction you would like details about.
+- `transactionId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The id of the transaction you would like details about.
 
 ##### Examples
 
 ```javascript
-bot.wallet.details('e5334601b9dc2a24e031ffeec2fce37bb6a8b4b51fc711d16dec04d3e64976c4').then(details => console.log(details))
+bot.wallet
+  .details('e5334601b9dc2a24e031ffeec2fce37bb6a8b4b51fc711d16dec04d3e64976c4')
+  .then(details => console.log(details))
 ```
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Transaction](#transaction)>** An object of details about the transaction specified.
@@ -758,7 +760,7 @@ Lookup the primary Stellar account ID of a Keybase user.
 
 ##### Parameters
 
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The name of the user you want to lookup. This can be either a Keybase username or a username of another account that is supported by Keybase if it is followed by an '@<service>'.
+- `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The name of the user you want to lookup. This can be either a Keybase username or a username of another account that is supported by Keybase if it is followed by an '@<service>'.
 
 ##### Examples
 
@@ -778,10 +780,10 @@ Send lumens (XLM) via Keybase with your bot!
 
 ##### Parameters
 
--   `recipient` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Who you're sending your money to. This can be a Keybase user, stellar address, or a username of another account that is supported by Keybase if it is followed by an '@<service>'.
--   `amount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The amount of XLM to send.
--   `currency` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Adds a currency value to the amount specified. For example, adding 'USD' would send
--   `message` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The message for your payment
+- `recipient` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Who you're sending your money to. This can be a Keybase user, stellar address, or a username of another account that is supported by Keybase if it is followed by an '@<service>'.
+- `amount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The amount of XLM to send.
+- `currency` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Adds a currency value to the amount specified. For example, adding 'USD' would send
+- `message` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The message for your payment
 
 ##### Examples
 
@@ -801,8 +803,8 @@ command, this can get multiple transactions into the same 5-second Stellar ledge
 
 ##### Parameters
 
--   `batchId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** example, if sending a bunch of batches for an airdrop, you could pass them all `airdrop2025`.
--   `payments` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[PaymentBatchItem](#paymentbatchitem)>** an array of objects containing recipients and XLM of the form {"recipient": "someusername", "amount": "1.234", "message", "hi there"}
+- `batchId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** example, if sending a bunch of batches for an airdrop, you could pass them all `airdrop2025`.
+- `payments` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[PaymentBatchItem](#paymentbatchitem)>** an array of objects containing recipients and XLM of the form {"recipient": "someusername", "amount": "1.234", "message", "hi there"}
 
 ##### Examples
 
@@ -818,20 +820,21 @@ If you send XLM to a Keybase user who has not established a wallet, you can canc
 
 ##### Parameters
 
--   `transactionId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The id of the transaction to cancel.
+- `transactionId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The id of the transaction to cancel.
 
 ##### Examples
 
 ```javascript
-bot.wallet.cancel('e5334601b9dc2a24e031ffeec2fce37bb6a8b4b51fc711d16dec04d3e64976c4').then(() => console.log('Transaction successfully canceled!'))
+bot.wallet
+  .cancel('e5334601b9dc2a24e031ffeec2fce37bb6a8b4b51fc711d16dec04d3e64976c4')
+  .then(() => console.log('Transaction successfully canceled!'))
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 ### Wallet Types
 
 A collection of types used by the Wallet module.
-
 
 #### Asset
 
@@ -841,11 +844,11 @@ Type: {type: [string](https://developer.mozilla.org/docs/Web/JavaScript/Referenc
 
 ##### Properties
 
--   `type` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `code` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `issuer` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `verifiedDomain` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `issuerName` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+- `type` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `code` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `issuer` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `verifiedDomain` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `issuerName` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 
 #### ExchangeRate
 
@@ -855,8 +858,8 @@ Type: {currency: [string](https://developer.mozilla.org/docs/Web/JavaScript/Refe
 
 ##### Properties
 
--   `currency` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `rate` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+- `currency` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `rate` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 
 #### Balance
 
@@ -866,9 +869,9 @@ Type: {asset: [Asset](#asset), amount: [string](https://developer.mozilla.org/do
 
 ##### Properties
 
--   `asset` **[Asset](#asset)** 
--   `amount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `limit` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+- `asset` **[Asset](#asset)**
+- `amount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `limit` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 
 #### Account
 
@@ -878,11 +881,11 @@ Type: {accountId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Ref
 
 ##### Properties
 
--   `accountId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `isPrimary` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
--   `balance` **(null | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Balance](#balance)>)** 
--   `exchangeRate` **[ExchangeRate](#exchangerate)** 
+- `accountId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `isPrimary` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
+- `balance` **(null | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Balance](#balance)>)**
+- `exchangeRate` **[ExchangeRate](#exchangerate)**
 
 #### Transaction
 
@@ -892,21 +895,21 @@ Type: {txId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Referenc
 
 ##### Properties
 
--   `txId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `time` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `status` **[PaymentStatus](#paymentstatus)** 
--   `statusDetail` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `amount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `asset` **[Asset](#asset)** 
--   `displayAmount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `displayCurrency` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `fromStellar` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `toStellar` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `fromUsername` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `toUsername` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `note` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `noteErr` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `unread` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
+- `txId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `time` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `status` **[PaymentStatus](#paymentstatus)**
+- `statusDetail` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `amount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `asset` **[Asset](#asset)**
+- `displayAmount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `displayCurrency` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `fromStellar` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `toStellar` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `fromUsername` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `toUsername` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `note` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `noteErr` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `unread` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
 
 #### PaymentStatus
 
@@ -922,21 +925,21 @@ Type: {payments: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Refer
 
 ##### Properties
 
--   `payments` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;BatchItemResult>** 
--   `startTime` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `preparedTime` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `allSubmittedTime` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `endTime` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `overallDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `prepareDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `submitDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `waitDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `countSuccess` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `countError` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `countPending` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `avgDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `avgSuccessDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `avgErrorDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+- `payments` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;BatchItemResult>**
+- `startTime` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `preparedTime` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `allSubmittedTime` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `endTime` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `overallDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `prepareDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `submitDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `waitDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `countSuccess` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `countError` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `countPending` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `avgDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `avgSuccessDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+- `avgErrorDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
 
 #### PaymentBatchItem
 
@@ -946,9 +949,9 @@ Type: {recipient: [string](https://developer.mozilla.org/docs/Web/JavaScript/Ref
 
 ##### Properties
 
--   `recipient` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `amount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `message` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
+- `recipient` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `amount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `message` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
 
 ### ChatListChannelsOptions
 
@@ -958,8 +961,8 @@ Type: {topicType: TopicType?, membersType: MembersType?}
 
 #### Properties
 
--   `topicType` **TopicType?** 
--   `membersType` **MembersType?** 
+- `topicType` **TopicType?**
+- `membersType` **MembersType?**
 
 ### ChatReactOptions
 
@@ -969,7 +972,7 @@ Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScrip
 
 #### Properties
 
--   `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
+- `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
 
 ## Contributions
 
