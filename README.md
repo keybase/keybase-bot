@@ -145,22 +145,22 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
     - [Properties](#properties-4)
   - [ChatListOptions](#chatlistoptions)
     - [Properties](#properties-5)
-  - [ChatReadOptions](#chatreadoptions)
+  - [ChatListChannelsOptions](#chatlistchannelsoptions)
     - [Properties](#properties-6)
-  - [ChatSendOptions](#chatsendoptions)
+  - [ChatReadOptions](#chatreadoptions)
     - [Properties](#properties-7)
-  - [ChatAttachOptions](#chatattachoptions)
+  - [ChatSendOptions](#chatsendoptions)
     - [Properties](#properties-8)
-  - [ChatDownloadOptions](#chatdownloadoptions)
+  - [ChatReactOptions](#chatreactoptions)
     - [Properties](#properties-9)
-  - [ChatDeleteOptions](#chatdeleteoptions)
+  - [ChatAttachOptions](#chatattachoptions)
     - [Properties](#properties-10)
+  - [ChatDownloadOptions](#chatdownloadoptions)
+    - [Properties](#properties-11)
+  - [ChatDeleteOptions](#chatdeleteoptions)
+    - [Properties](#properties-12)
   - [OnMessage](#onmessage)
   - [OnError](#onerror)
-- [ChatListChannelsOptions](#chatlistchannelsoptions)
-  - [Properties](#properties-11)
-- [ChatReactOptions](#chatreactoptions)
-  - [Properties](#properties-12)
 - [Wallet](#wallet)
   - [balances](#balances)
     - [Examples](#examples-17)
@@ -182,21 +182,22 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
   - [cancel](#cancel)
     - [Parameters](#parameters-20)
     - [Examples](#examples-23)
-- [PaymentStatus](#paymentstatus)
-- [Asset](#asset)
-  - [Properties](#properties-13)
-- [ExchangeRate](#exchangerate)
-  - [Properties](#properties-14)
-- [Balance](#balance)
-  - [Properties](#properties-15)
-- [Account](#account)
-  - [Properties](#properties-16)
-- [Transaction](#transaction)
-  - [Properties](#properties-17)
-- [PaymentBatchItem](#paymentbatchitem)
-  - [Properties](#properties-18)
-- [BatchResult](#batchresult)
-  - [Properties](#properties-19)
+- [Wallet Types](#wallet-types)
+  - [Asset](#asset)
+    - [Properties](#properties-13)
+  - [ExchangeRate](#exchangerate)
+    - [Properties](#properties-14)
+  - [Balance](#balance)
+    - [Properties](#properties-15)
+  - [Account](#account)
+    - [Properties](#properties-16)
+  - [Transaction](#transaction)
+    - [Properties](#properties-17)
+  - [PaymentStatus](#paymentstatus)
+  - [BatchResult](#batchresult)
+    - [Properties](#properties-18)
+  - [PaymentBatchItem](#paymentbatchitem)
+    - [Properties](#properties-19)
 
 ### Bot
 
@@ -626,6 +627,17 @@ Type: {failOffline: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/
 - `topicType` **TopicType?**
 - `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
+#### ChatListChannelsOptions
+
+Options for the `listChannels` method of the chat module.
+
+Type: {topicType: TopicType?, membersType: MembersType?}
+
+##### Properties
+
+- `topicType` **TopicType?**
+- `membersType` **MembersType?**
+
 #### ChatReadOptions
 
 Options for the `read` method of the chat module.
@@ -652,6 +664,16 @@ Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScrip
 - `nonblock` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 - `membersType` **MembersType**
 - `confirmLumenSend` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+
+#### ChatReactOptions
+
+Options for the `react` method of the chat module.
+
+Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
+
+##### Properties
+
+- `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
 
 #### ChatAttachOptions
 
@@ -698,27 +720,6 @@ Type: function (message: MessageSummary): (void | [Promise](https://developer.mo
 A function to call when an error occurs.
 
 Type: function (error: [Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)): (void | [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>)
-
-### ChatListChannelsOptions
-
-Options for the `listChannels` method of the chat module.
-
-Type: {topicType: TopicType?, membersType: MembersType?}
-
-#### Properties
-
-- `topicType` **TopicType?**
-- `membersType` **MembersType?**
-
-### ChatReactOptions
-
-Options for the `react` method of the chat module.
-
-Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
-
-#### Properties
-
-- `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
 
 ### Wallet
 
@@ -852,19 +853,17 @@ bot.wallet
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
-### PaymentStatus
+### Wallet Types
 
-The status of a payment.
+A collection of types used by the Wallet module.
 
-Type: (`"none"` \| `"pending"` \| `"claimable"` \| `"completed"` \| `"error"` \| `"unknown"` \| `"canceled"`)
-
-### Asset
+#### Asset
 
 An asset.
 
 Type: {type: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), code: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), issuer: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), verifiedDomain: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), issuerName: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}
 
-#### Properties
+##### Properties
 
 - `type` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 - `code` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
@@ -872,36 +871,36 @@ Type: {type: [string](https://developer.mozilla.org/docs/Web/JavaScript/Referenc
 - `verifiedDomain` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 - `issuerName` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 
-### ExchangeRate
+#### ExchangeRate
 
 An exchange rate, which specifies a currency and the rate of exchange between an asset and that currency.
 
 Type: {currency: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), rate: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}
 
-#### Properties
+##### Properties
 
 - `currency` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 - `rate` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 
-### Balance
+#### Balance
 
 A balance.
 
 Type: {asset: [Asset](#asset), amount: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), limit: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}
 
-#### Properties
+##### Properties
 
 - `asset` **[Asset](#asset)**
 - `amount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 - `limit` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 
-### Account
+#### Account
 
 An account, with money inside!
 
 Type: {accountId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), name: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), isPrimary: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), balance: (null | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Balance](#balance)>), exchangeRate: [ExchangeRate](#exchangerate)}
 
-#### Properties
+##### Properties
 
 - `accountId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 - `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
@@ -909,13 +908,13 @@ Type: {accountId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Ref
 - `balance` **(null | [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Balance](#balance)>)**
 - `exchangeRate` **[ExchangeRate](#exchangerate)**
 
-### Transaction
+#### Transaction
 
 A transaction, where a user sends money to another user.
 
 Type: {txId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), time: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), status: [PaymentStatus](#paymentstatus), statusDetail: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), amount: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), asset: [Asset](#asset), displayAmount: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), displayCurrency: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), fromStellar: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), toStellar: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), fromUsername: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), toUsername: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), note: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), noteErr: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), unread: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)}
 
-#### Properties
+##### Properties
 
 - `txId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 - `time` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
@@ -933,25 +932,19 @@ Type: {txId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Referenc
 - `noteErr` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 - `unread` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
 
-### PaymentBatchItem
+#### PaymentStatus
 
-In batch sends, one individual send
+The status of a payment.
 
-Type: {recipient: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), amount: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), message: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
+Type: (`"none"` \| `"pending"` \| `"claimable"` \| `"completed"` \| `"error"` \| `"unknown"` \| `"canceled"`)
 
-#### Properties
-
-- `recipient` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-- `amount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-- `message` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
-
-### BatchResult
+#### BatchResult
 
 A batch send result
 
 Type: {payments: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;BatchItemResult>, startTime: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), preparedTime: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), allSubmittedTime: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), endTime: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), overallDurationMs: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), prepareDurationMs: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), submitDurationMs: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), waitDurationMs: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), countSuccess: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), countError: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), countPending: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), avgDurationMs: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), avgSuccessDurationMs: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), avgErrorDurationMs: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)}
 
-#### Properties
+##### Properties
 
 - `payments` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;BatchItemResult>**
 - `startTime` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
@@ -968,6 +961,18 @@ Type: {payments: [Array](https://developer.mozilla.org/docs/Web/JavaScript/Refer
 - `avgDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
 - `avgSuccessDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
 - `avgErrorDurationMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+
+#### PaymentBatchItem
+
+In batch sends, one individual send
+
+Type: {recipient: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), amount: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), message: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
+
+##### Properties
+
+- `recipient` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `amount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `message` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
 
 ## Contributions
 

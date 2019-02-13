@@ -19,10 +19,26 @@ toc:
       - ChatConversation
       - MessageSummary
       - ChatListOptions
+      - ChatListChannelsOptions
       - ChatReadOptions
       - ChatSendOptions
+      - ChatReactOptions
       - ChatAttachOptions
       - ChatDownloadOptions
       - ChatDeleteOptions
       - OnMessage
       - OnError
+  - Wallet
+  - name: Wallet Types
+    description: |
+      A collection of types used by the Wallet module.
+    children:
+      - Asset
+      - ExchangeRate
+      - Balance
+      - Account
+      - Transaction
+      - PaymentStatus
+      - BatchResult
+      - BatchItemResult
+      - PaymentBatchItem
