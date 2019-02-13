@@ -19,8 +19,10 @@ toc:
       - ChatConversation
       - MessageSummary
       - ChatListOptions
+      - ChatListChannelsOptions
       - ChatReadOptions
       - ChatSendOptions
+      - ChatReactOptions
       - ChatAttachOptions
       - ChatDownloadOptions
       - ChatDeleteOptions

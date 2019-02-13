@@ -145,16 +145,20 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
     - [Properties](#properties-4)
   - [ChatListOptions](#chatlistoptions)
     - [Properties](#properties-5)
-  - [ChatReadOptions](#chatreadoptions)
+  - [ChatListChannelsOptions](#chatlistchannelsoptions)
     - [Properties](#properties-6)
-  - [ChatSendOptions](#chatsendoptions)
+  - [ChatReadOptions](#chatreadoptions)
     - [Properties](#properties-7)
-  - [ChatAttachOptions](#chatattachoptions)
+  - [ChatSendOptions](#chatsendoptions)
     - [Properties](#properties-8)
-  - [ChatDownloadOptions](#chatdownloadoptions)
+  - [ChatReactOptions](#chatreactoptions)
     - [Properties](#properties-9)
-  - [ChatDeleteOptions](#chatdeleteoptions)
+  - [ChatAttachOptions](#chatattachoptions)
     - [Properties](#properties-10)
+  - [ChatDownloadOptions](#chatdownloadoptions)
+    - [Properties](#properties-11)
+  - [ChatDeleteOptions](#chatdeleteoptions)
+    - [Properties](#properties-12)
   - [OnMessage](#onmessage)
   - [OnError](#onerror)
 - [Wallet](#wallet)
@@ -180,24 +184,20 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
     - [Examples](#examples-23)
 - [Wallet Types](#wallet-types)
   - [Asset](#asset)
-    - [Properties](#properties-11)
-  - [ExchangeRate](#exchangerate)
-    - [Properties](#properties-12)
-  - [Balance](#balance)
     - [Properties](#properties-13)
-  - [Account](#account)
+  - [ExchangeRate](#exchangerate)
     - [Properties](#properties-14)
-  - [Transaction](#transaction)
+  - [Balance](#balance)
     - [Properties](#properties-15)
+  - [Account](#account)
+    - [Properties](#properties-16)
+  - [Transaction](#transaction)
+    - [Properties](#properties-17)
   - [PaymentStatus](#paymentstatus)
   - [BatchResult](#batchresult)
-    - [Properties](#properties-16)
+    - [Properties](#properties-18)
   - [PaymentBatchItem](#paymentbatchitem)
-    - [Properties](#properties-17)
-- [ChatListChannelsOptions](#chatlistchannelsoptions)
-  - [Properties](#properties-18)
-- [ChatReactOptions](#chatreactoptions)
-  - [Properties](#properties-19)
+    - [Properties](#properties-19)
 
 ### Bot
 
@@ -627,6 +627,17 @@ Type: {failOffline: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/
 - `topicType` **TopicType?**
 - `unreadOnly` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
+#### ChatListChannelsOptions
+
+Options for the `listChannels` method of the chat module.
+
+Type: {topicType: TopicType?, membersType: MembersType?}
+
+##### Properties
+
+- `topicType` **TopicType?**
+- `membersType` **MembersType?**
+
 #### ChatReadOptions
 
 Options for the `read` method of the chat module.
@@ -653,6 +664,16 @@ Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScrip
 - `nonblock` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 - `membersType` **MembersType**
 - `confirmLumenSend` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+
+#### ChatReactOptions
+
+Options for the `react` method of the chat module.
+
+Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
+
+##### Properties
+
+- `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
 
 #### ChatAttachOptions
 
@@ -952,27 +973,6 @@ Type: {recipient: [string](https://developer.mozilla.org/docs/Web/JavaScript/Ref
 - `recipient` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 - `amount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 - `message` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
-
-### ChatListChannelsOptions
-
-Options for the `listChannels` method of the chat module.
-
-Type: {topicType: TopicType?, membersType: MembersType?}
-
-#### Properties
-
-- `topicType` **TopicType?**
-- `membersType` **MembersType?**
-
-### ChatReactOptions
-
-Options for the `react` method of the chat module.
-
-Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
-
-#### Properties
-
-- `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
 
 ## Contributions
 
