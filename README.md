@@ -525,12 +525,7 @@ Hides exploding messages by default.
 const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topic_type: 'chat'}
 const onMessage = message => {
   const channel = message.channel
-  bot.chat.send({
-    channel: channel,
-    message: {
-      body: 'thanks!!!',
-    },
-  })
+  bot.chat.send(channel, {body: 'thanks!!!'})
 }
 bot.chat.watchChannelForNewMessages(channel, onMessage)
 ```
@@ -559,12 +554,7 @@ Hides exploding messages by default.
 // Reply to incoming traffic on all channels with 'thanks!'
 const onMessage = message => {
   const channel = message.channel
-  bot.chat.send({
-    channel: channel,
-    message: {
-      body: 'thanks!!!',
-    },
-  })
+  bot.chat.send(channel, {body: 'thanks!!!'})
 }
 bot.chat.watchAllChannelsForNewMessages(onMessage)
 ```
