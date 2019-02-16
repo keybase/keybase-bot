@@ -756,6 +756,10 @@ class Chat extends ClientBase {
     if (!res) {
       throw new Error('Keybase chat send returned nothing');
     }
+
+    return {
+      id: res.id
+    };
   }
   /**
    * Creates a new blank conversation.
@@ -807,6 +811,10 @@ class Chat extends ClientBase {
     if (!res) {
       throw new Error('Keybase chat attach returned nothing');
     }
+
+    return {
+      id: res.id
+    };
   }
   /**
    * Download a file send via Keybase chat.
@@ -868,6 +876,10 @@ class Chat extends ClientBase {
     if (!res) {
       throw new Error('Keybase chat react returned nothing.');
     }
+
+    return {
+      id: res.id
+    };
   }
   /**
    * Deletes a message in a channel. Messages have messageId's associated with
@@ -911,12 +923,7 @@ class Chat extends ClientBase {
    * const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topic_type: 'chat'}
    * const onMessage = message => {
    *   const channel = message.channel
-   *   bot.chat.send({
-   *    channel: channel,
-   *      message: {
-   *        body: 'thanks!!!',
-   *      },
-   *   })
+   *   bot.chat.send(channel, {body: 'thanks!!!'})
    * }
    * bot.chat.watchChannelForNewMessages(channel, onMessage)
    */
@@ -943,12 +950,7 @@ class Chat extends ClientBase {
    * // Reply to incoming traffic on all channels with 'thanks!'
    * const onMessage = message => {
    *   const channel = message.channel
-   *   bot.chat.send({
-   *    channel: channel,
-   *      message: {
-   *        body: 'thanks!!!',
-   *      },
-   *   })
+   *   bot.chat.send(channel, {body: 'thanks!!!'})
    * }
    * bot.chat.watchAllChannelsForNewMessages(onMessage)
    *
