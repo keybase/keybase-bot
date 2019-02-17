@@ -413,7 +413,7 @@ const message = {body: 'Hello kbot!'}
 bot.chat.send(channel, message).then(() => console.log('message sent!'))
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;SendResult>**
 
 #### createChannel
 
@@ -447,7 +447,7 @@ Send a file to a channel.
 bot.chat.attach(channel, '/Users/nathan/my_picture.png').then(() => console.log('Sent a picture!'))
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;SendResult>**
 
 #### download
 
@@ -484,7 +484,7 @@ them, which you can learn in `bot.chat.read`.
 bot.chat.react(channel, 314, ':+1:').then(() => console.log('Thumbs up!'))
 ```
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;SendResult>**
 
 #### delete
 
