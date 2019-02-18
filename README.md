@@ -42,7 +42,7 @@ bot
   .then(() => {
     console.log(`Your bot is initialized. It is logged in as ${bot.myInfo().username}`)
 
-    const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topic_type: 'chat'}
+    const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topicType: 'chat'}
     const message = {
       body: `Hello kbot! This is ${bot.myInfo().username} saying hello from my device ${
         bot.myInfo().devicename
@@ -408,7 +408,7 @@ Send a message to a certain channel.
 ##### Examples
 
 ```javascript
-const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topic_type: 'chat'}
+const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topicType: 'chat'}
 const message = {body: 'Hello kbot!'}
 bot.chat.send(channel, message).then(() => console.log('message sent!'))
 ```
@@ -522,7 +522,7 @@ Hides exploding messages by default.
 
 ```javascript
 // Reply to all messages between you and `kbot` with 'thanks!'
-const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topic_type: 'chat'}
+const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topicType: 'chat'}
 const onMessage = message => {
   const channel = message.channel
   bot.chat.send(channel, {body: 'thanks!!!'})

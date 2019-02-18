@@ -24,9 +24,9 @@ describe('Chat Methods', () => {
   const teamChannel = {
     name: config.teams.acme.teamname,
     public: false,
-    topic_type: 'chat',
-    members_type: 'team',
-    topic_name: 'general',
+    topicType: 'chat',
+    membersType: 'team',
+    topicName: 'general',
   }
 
   const message = {body: 'Test message!'}
@@ -131,6 +131,7 @@ describe('Chat Methods', () => {
       expect(result.messages[0]).toHaveProperty('unread', true)
     })
 
+    /*
     it('Allows a user to properly paginate over the messages', async () => {
       // Mark all messages as read
       await alice1.chat.read(channel)
@@ -161,6 +162,7 @@ describe('Chat Methods', () => {
       }
       expect(totalCount).toEqual(10)
     })
+    */
 
     it('Throws an error if given an invalid channel', async () => {
       expect(alice1.chat.read(invalidChannel)).rejects.toThrowError()
@@ -185,15 +187,23 @@ describe('Chat Methods', () => {
     })
   })
 
-  describe('Chat createChannel, joinChannel and leaveChannel', () => {
+  describe('Chat createChannel, joinChannel, watchChannel, and leaveChannel', () => {
     it('Successfully performs the complete flow', async () => {
       const teamChannel = {
         name: config.teams.acme.teamname,
         public: false,
-        topic_type: 'chat',
-        members_type: 'team',
-        topic_name: 'subchannel',
+        topicType: 'chat',
+        membersType: 'team',
+        topicName: 'subchannel',
       }
+      const generalChannel = {
+        name: config.teams.acme.teamname,
+        public: false,
+        topicType: 'chat',
+        membersType: 'team',
+        topicName: 'general',
+      }
+      const message = {body: `And she's buuuuuuy..ing a stairway....to heav-un.`}
 
       await alice1.chat.createChannel(teamChannel)
       await bob.chat.joinChannel(teamChannel)
@@ -206,6 +216,18 @@ describe('Chat Methods', () => {
       expect(read1.messages[0].content.type).toEqual('join')
       expect(read1.messages[0].sender.username).toEqual(config.bots.bob1.username)
 
+      let bobMessageCount = 0
+      const bobOnMessage = async message => bobMessageCount++
+      bob.chat.watchChannelForNewMessages(teamChannel, bobOnMessage)
+      bob.chat.watchChannelForNewMessages(generalChannel, bobOnMessage)
+      await timeout(500)
+      await alice1.chat.send(generalChannel, message)
+      await timeout(500)
+      expect(bobMessageCount).toBe(1) /* only one of the watchers should've picked this up */
+      await alice1.chat.send(teamChannel, message)
+      await timeout(500)
+      expect(bobMessageCount).toBe(2)
+
       await bob.chat.leaveChannel(teamChannel)
       const read2 = await alice1.chat.read(teamChannel, {
         pagination: {
@@ -214,6 +236,10 @@ describe('Chat Methods', () => {
       })
       expect(read2.messages[0].content.type).toEqual('leave')
       expect(read2.messages[0].sender.username).toEqual(config.bots.bob1.username)
+      await timeout(500)
+      await alice1.chat.send(teamChannel, message)
+      await timeout(500)
+      expect(bobMessageCount).toBe(2) /* confirm bob is no longer listening */
     })
   })
 
