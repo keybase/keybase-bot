@@ -90,9 +90,9 @@ describe('Chat Methods', () => {
     })
 
     it('Shows only messages of a specific topic type if given the option', async () => {
-      const conversations = await alice1.chat.list({topicType: 'DEV'})
+      const conversations = await alice1.chat.list({topicType: 'dev'})
       for (const conversation of conversations) {
-        expect(conversation).toHaveProperty('topicType', 'DEV')
+        expect(conversation.channel).toHaveProperty('topicType', 'dev')
       }
     })
   })
@@ -184,6 +184,91 @@ describe('Chat Methods', () => {
 
     it('Throws an error if given an invalid message', async () => {
       expect(alice1.chat.send(channel, invalidMessage)).rejects.toThrowError()
+    })
+  })
+
+  describe('Gets messages in correct channels', () => {
+    it(`Can act read/post in different channels concurrently`, async () => {
+      const channels = [
+        {
+          name: config.teams.acme.teamname,
+          topicName: 'general',
+          membersType: 'team',
+        },
+        {
+          name: config.teams.acme.teamname,
+          topicName: 'singularitarians',
+          membersType: 'team',
+        },
+        {name: `${config.bots.alice1.username},${config.bots.bob1.username}`},
+      ]
+      const okChecks = []
+      for (const channel of channels) {
+        if (channel.topicName && channel.topicName !== 'general') {
+          try {
+            await alice1.chat.createChannel(channel)
+          } catch (err) {
+            /* may already be made */
+          }
+          await bob.chat.joinChannel(channel)
+        }
+      }
+      await timeout(1000)
+      // concurrently watch and send to all of them
+      for (const i in channels) {
+        const channel = channels[i]
+        bob.chat.watchChannelForNewMessages(channel, message => {
+          if (message.content.text.body === `c${i} test`) {
+            if (okChecks[i]) {
+              throw new Error('Uh oh, duplicate! ' + JSON.stringify(message))
+            }
+            okChecks[i] = true
+          } else {
+            throw new Error('Got bad message: ' + JSON.stringify(message))
+          }
+        })
+        alice1.chat.send(channel, {body: `c${i} test`})
+      }
+      await timeout(2000)
+      for (let i in channels) {
+        expect(okChecks[i]).toBe(true)
+      }
+    })
+    it(`Can read and post even if own username missing from a DM channel name`, async () => {
+      const channelAlice = {name: config.bots.bob1.username}
+      const channelBob = {name: config.bots.alice1.username}
+      const body = 'Dearest Bob, how are you?'
+      let incoming = false
+      bob.chat.watchChannelForNewMessages(channelBob, message => (incoming = message))
+      await timeout(500)
+      await alice1.chat.send(channelAlice, {body})
+      await timeout(500)
+      expect(incoming.content.text.body).toBe(body)
+    })
+    it(`Can read and post with usernames in any order`, async () => {
+      const channel1 = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
+      const channel2 = {name: `${config.bots.bob1.username},${config.bots.alice1.username}`}
+      const channel3 = {name: `${channel2.name},${config.bots.charlie1.username}`}
+      const body = 'Total protonic reversal. That would be bad.'
+      let receipts = 0
+      const bobOnMessage = message => {
+        if (message.content.text.body === body) {
+          receipts++
+        }
+      }
+      bob.chat.watchChannelForNewMessages(channel1, bobOnMessage)
+      bob.chat.watchChannelForNewMessages(channel2, bobOnMessage)
+      await timeout(500)
+      await alice1.chat.send(channel1, {body})
+      await timeout(500)
+      expect(receipts).toBe(2)
+      await alice1.chat.send(channel2, {body})
+      await timeout(500)
+      expect(receipts).toBe(4)
+      // channel 3 should not be included by bob since it's not watched
+      await alice1.chat.send(channel3, {body})
+      await timeout(500)
+      expect(receipts).toBe(4)
     })
   })
 

@@ -568,6 +568,7 @@ A collection of types used by the Chat module.
 #### ChatChannel
 
 A Keybase chat channel. This can be a channel in a team, or just an informal channel between two users.
+name: the name of the team or comma-separated list of participants
 
 Type: {name: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), public: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), membersType: MembersType, topicType: TopicType?, topicName: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
 
