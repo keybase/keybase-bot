@@ -735,7 +735,7 @@ class Chat extends ClientBase {
    * @param message - The chat message to send.
    * @param options - An object of options that can be passed to the method.
    * @example
-   * const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topic_type: 'chat'}
+   * const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topicType: 'chat'}
    * const message = {body: 'Hello kbot!'}
    * bot.chat.send(channel, message).then(() => console.log('message sent!'))
    */
@@ -920,7 +920,7 @@ class Chat extends ClientBase {
    * @param options - Options for the listen method.
    * @example
    * // Reply to all messages between you and `kbot` with 'thanks!'
-   * const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topic_type: 'chat'}
+   * const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topicType: 'chat'}
    * const onMessage = message => {
    *   const channel = message.channel
    *   bot.chat.send(channel, {body: 'thanks!!!'})
@@ -963,6 +963,23 @@ class Chat extends ClientBase {
     this._chatListen(onMessage, onError, undefined, options);
   }
   /**
+   *
+   * @memberof Chat
+   * @ignore
+   * @param userWatching - this is a channel the user has requested to watch
+   * @param whatCameBack - a message has come back on a channel and we want to see if it matches
+   * @example
+   * this._channelMatch(channelUserWants, channelThatGotAMessage)
+   */
+
+
+  _channelMatch(userWatching, whatCameBack) {
+    const wantsPublic = userWatching.public === undefined ? false : userWatching.public;
+    const wantsTopicType = userWatching.topicType === undefined ? 'chat' : userWatching.topicType;
+    const wantsTopicName = userWatching.topicName === undefined ? 'general' : userWatching.topicName;
+    return whatCameBack.name === userWatching.name && whatCameBack.public === wantsPublic && whatCameBack.topicType === wantsTopicType && whatCameBack.topicName === wantsTopicName;
+  }
+  /**
    * Spawns the chat listen process and handles the calling of onMessage, onError, and filtering for a specific channel.
    * @memberof Chat
    * @ignore
@@ -1000,7 +1017,7 @@ class Chat extends ClientBase {
           throw new Error(messageObject.error);
         } else if ( // fire onMessage if it was from a different sender or at least a different device
         // from this sender. Bots can filter out their own messages from other devices.
-        (!channel || channel.name === messageObject.msg.channel.name) && this.username && this.devicename && (messageObject.msg.sender.username !== this.username.toLowerCase() || messageObject.msg.sender.deviceName !== this.devicename)) {
+        (!channel || this._channelMatch(channel, messageObject.msg.channel.topicName)) && this.username && this.devicename && (messageObject.msg.sender.username !== this.username.toLowerCase() || messageObject.msg.sender.deviceName !== this.devicename)) {
           onMessage(messageObject.msg);
         }
       } catch (error) {

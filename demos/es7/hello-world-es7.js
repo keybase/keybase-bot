@@ -8,7 +8,7 @@ async function main() {
     const paperkey = process.env.KB_PAPERKEY
     await bot.init(username, paperkey, {verbose: false})
     console.log(`Your bot is initialized. It is logged in as ${bot.myInfo().username}`)
-    const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topic_type: 'chat'}
+    const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topicType: 'chat'}
     const message = {
       body: `Hello kbot! This is ${bot.myInfo().username} saying hello from my device ${
         bot.myInfo().devicename
