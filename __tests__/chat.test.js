@@ -131,13 +131,13 @@ describe('Chat Methods', () => {
       expect(result.messages[0]).toHaveProperty('unread', true)
     })
 
-    /*
     it('Allows a user to properly paginate over the messages', async () => {
       // Mark all messages as read
       await alice1.chat.read(channel)
 
       // Prepare some new messages
-      for (let i = 0; i < 10; i++) {
+      const expectedCount = 10
+      for (let i = 0; i < expectedCount; i++) {
         await bob.chat.send(channel, message)
       }
 
@@ -155,14 +155,13 @@ describe('Chat Methods', () => {
         })
         totalCount += result.messages.length
 
-        if (result.pagination.last) {
+        if (totalCount >= expectedCount) {
           break
         }
         lastPagination = result.pagination
       }
       expect(totalCount).toEqual(10)
     })
-    */
 
     it('Throws an error if given an invalid channel', async () => {
       expect(alice1.chat.read(invalidChannel)).rejects.toThrowError()
