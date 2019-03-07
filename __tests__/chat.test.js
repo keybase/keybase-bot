@@ -229,7 +229,7 @@ describe('Chat Methods', () => {
         alice1.chat.send(channel, {body: `c${i} test`})
       }
       await timeout(2000)
-      for (let i in channels) {
+      for (const i in channels) {
         expect(okChecks[i]).toBe(true)
       }
     })
