@@ -178,7 +178,8 @@ const keybaseExec = (workingDir, homeDir, args, options = {
     runArgs.unshift('--home', homeDir);
   }
 
-  const child = child_process.spawn(path.join(workingDir, 'keybase'), runArgs);
+  const keybasePath = path.join(workingDir, 'keybase');
+  const child = child_process.spawn(keybasePath, runArgs);
   const stdOutBuffer = [];
   const stdErrBuffer = [];
 
@@ -1269,6 +1270,79 @@ class Wallet extends ClientBase {
 
 }
 
+/** The wallet module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase wallet api`. */
+class Team extends ClientBase {
+  /**
+   * Add a bunch of people with different privileges to a team
+   * @memberof Team
+   * @param additions - an array of the users to add, with privs
+   * @returns -
+   * @example
+   * bot.team.addMembers({"team": "phoenix", "emails": [{"email": "alice@keybase.io", "role": "writer"}, {"email": "cleo@keybase.io", "role": "admin"}], "usernames": [{"username": "frank", "role": "reader"}, {"username": "keybaseio@twitter", "role": "writer"}]}).then(res => console.log(res))
+   */
+  async addMembers(additions) {
+    await this._guardInitialized();
+    const options = additions;
+    const res = await this._runApiCommand({
+      apiName: 'team',
+      method: 'add-members',
+      options
+    });
+
+    if (!res) {
+      throw new Error('addMembers');
+    }
+
+    return res;
+  }
+  /**
+   * Remove someone from a team
+   * @memberof Team
+   * @param removal - object with the `team` name and `username`
+   * @returns -
+   * @example
+   * bot.team.removeMember({"team": "phoenix", "username": "frank"}).then(res => console.log(res))
+   */
+
+
+  async removeMember(removal) {
+    await this._guardInitialized();
+    const options = removal;
+    const res = await this._runApiCommand({
+      apiName: 'team',
+      method: 'remove-member',
+      options
+    });
+    return res;
+  }
+  /**
+   * List a team's members
+   * @memberof Team
+   * @param team - an object with the `team` name in it
+   * @returns -
+   * @example
+   * bot.team.listTeamMemberships({"team": "phoenix"}).then(res => console.log(res))
+   */
+
+
+  async listTeamMemberships(team) {
+    await this._guardInitialized();
+    const options = team;
+    const res = await this._runApiCommand({
+      apiName: 'team',
+      method: 'list-team-memberships',
+      options
+    });
+
+    if (!res) {
+      throw new Error('listTeamMemberships');
+    }
+
+    return res;
+  }
+
+}
+
 /** A Keybase bot. */
 class Bot {
   // where KB binary copied, and homeDir (if not existing svc)
@@ -1284,6 +1358,7 @@ class Bot {
     this._service = new Service(this._workingDir);
     this.chat = new Chat(this._workingDir);
     this.wallet = new Wallet(this._workingDir);
+    this.team = new Team(this._workingDir);
   }
   /**
    * Initialize your bot by starting an instance of the Keybase service and logging in using oneshot mode.
@@ -1357,6 +1432,7 @@ class Bot {
     if (info) {
       await this.chat._init(info.homeDir, options);
       await this.wallet._init(info.homeDir, options);
+      await this.team._init(info.homeDir, options);
     } else {
       throw new Error('Issue initializing bot.');
     }
