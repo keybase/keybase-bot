@@ -1312,10 +1312,7 @@ class Team extends ClientBase {
       apiName: 'team',
       method: 'remove-member',
       options
-    }); // if (!res) {
-    //   throw new Error('removeMembers')
-    //}
-
+    });
     return res;
   }
   /**
