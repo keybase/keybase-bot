@@ -49,6 +49,15 @@ describe('Team Methods', () => {
       expect(checkMembershipLevel(config.bots.bob1.username, list)).toBe('reader')
     })
 
+    it('Throws an error if Alice tries to add Bob twice', async () => {
+      expect(
+        alice1.team.addMembers({
+          team: teamName,
+          usernames: [{username: config.bots.bob1.username, role: 'reader'}],
+        })
+      ).rejects.toThrowError()
+    })
+
     it('Lets Alice remove Bob from her team', async () => {
       await alice1.team.removeMember({
         team: teamName,
