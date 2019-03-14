@@ -3,6 +3,7 @@ import fs from 'fs'
 import Bot from '../lib'
 import config from './tests.config.js'
 import {timeout} from '../lib/utils'
+import {pollFor} from './test-utils'
 import {promisify} from 'util'
 
 test('Chat methods with an uninitialized bot', () => {
@@ -228,10 +229,16 @@ describe('Chat Methods', () => {
         })
         alice1.chat.send(channel, {body: `c${i} test`})
       }
-      await timeout(2000)
-      for (const i in channels) {
-        expect(okChecks[i]).toBe(true)
+      const allChecksOk = () => {
+        for (const i in channels) {
+          if (!okChecks[i]) {
+            return false
+          }
+        }
+        return true
       }
+      await pollFor(allChecksOk)
+      expect(allChecksOk()).toBe(true)
     })
     it(`Can read and post even if own username missing from a DM channel name`, async () => {
       const channelAlice = {name: config.bots.bob1.username}
@@ -477,7 +484,7 @@ describe('Chat Methods', () => {
       await alice1.chat.send(teamChannel, {body: 'hello bob'})
       await bob.chat.send(teamChannel, {body: 'hello alice1'})
 
-      await timeout(3000)
+      await pollFor(() => ALICE_IS_SATISFIED && BOB_IS_SATISFIED)
       expect(ALICE_IS_SATISFIED).toBe(true)
       expect(BOB_IS_SATISFIED).toBe(true)
     })
@@ -524,13 +531,7 @@ describe('Chat Methods', () => {
       bot2.chat.watchAllChannelsForNewMessages(onMessageForBot(bot2))
       const message = {body: `${convoCode} 1`}
       await bot1.chat.send(directChannel, message)
-
-      while (true) {
-        await timeout(100)
-        if (highestReached === stopAt) {
-          break
-        }
-      }
+      await pollFor(() => highestReached === stopAt)
       expect(totalMessagesSeen).toBe(stopAt)
     }
 

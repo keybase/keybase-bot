@@ -983,38 +983,40 @@ class Chat extends ClientBase {
 
     return Array.from(s).sort().join(',');
   }
-  /**
-   *
+  /*
+   * NO LONGER USED BUT I AM HESITANT TO DROP THIS IN CASE
+   * WE NEED IT AGAIN. LEAVING FOR NOW. -cc
    * @memberof Chat
    * @ignore
    * @param userWatching - this is a channel the user has requested to watch, which may be incomplete
    * @param whatCameBack - a message has come back on a channel and we want to see if it matches
    * @example
    * this._channelMatch(channelUserWants, channelThatGotAMessage)
-   */
-
-
-  _channelMatch(userWatching, whatCameBack) {
-    const wantsPublic = userWatching.public === undefined ? false : userWatching.public;
-    const wantsTopicType = userWatching.topicType === undefined ? 'chat' : userWatching.topicType; // if we have a team, the names much match exactly
-
+   _channelMatch(userWatching: ChatChannel, whatCameBack: any): boolean {
+    const wantsPublic = userWatching.public === undefined ? false : userWatching.public
+    const wantsTopicType = userWatching.topicType === undefined ? 'chat' : userWatching.topicType
+    // if we have a team, the names much match exactly
     if (whatCameBack.membersType === 'team') {
       if (whatCameBack.name !== userWatching.name) {
-        return false;
+        return false
       }
-    } // with imp team, user could ask in any order, and they also might be forgetting themselves
+    }
+    // with imp team, user could ask in any order, and they also might be forgetting themselves
     else {
-        const nameWanted = this._normalizeNonTeamName(userWatching.name);
-
-        const nameGotten = this._normalizeNonTeamName(whatCameBack.name);
-
-        if (nameWanted !== nameGotten) {
-          return false;
-        }
+      const nameWanted = this._normalizeNonTeamName(userWatching.name)
+      const nameGotten = this._normalizeNonTeamName(whatCameBack.name)
+      if (nameWanted !== nameGotten) {
+        return false
       }
-
-    return whatCameBack.topicName === userWatching.topicName && whatCameBack.public === wantsPublic && whatCameBack.topicType === wantsTopicType;
+    }
+    return (
+      whatCameBack.topicName === userWatching.topicName &&
+      whatCameBack.public === wantsPublic &&
+      whatCameBack.topicType === wantsTopicType
+    )
   }
+   */
+
   /**
    * Spawns the chat listen process and handles the calling of onMessage, onError, and filtering for a specific channel.
    * @memberof Chat
@@ -1039,6 +1041,10 @@ class Chat extends ClientBase {
       args.push('--hide-exploding');
     }
 
+    if (channel) {
+      args.push('--filter-channel', JSON.stringify(formatAPIObjectInput(channel, 'chat')));
+    }
+
     const child = child_process.spawn(this._pathToKeybaseBinary(), args);
     this.spawnedProcesses.push(child);
     const lineReaderStdout = readline.createInterface({
@@ -1053,7 +1059,7 @@ class Chat extends ClientBase {
           throw new Error(messageObject.error);
         } else if ( // fire onMessage if it was from a different sender or at least a different device
         // from this sender. Bots can filter out their own messages from other devices.
-        (!channel || this._channelMatch(channel, messageObject.msg.channel)) && this.username && this.devicename && (messageObject.msg.sender.username !== this.username.toLowerCase() || messageObject.msg.sender.deviceName !== this.devicename)) {
+        this.username && this.devicename && (messageObject.msg.sender.username !== this.username.toLowerCase() || messageObject.msg.sender.deviceName !== this.devicename)) {
           onMessage(messageObject.msg);
         }
       } catch (error) {
