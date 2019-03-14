@@ -482,7 +482,7 @@ class Service {
       args.unshift('--enable-bot-lite-mode');
     }
 
-    const child = child_process.spawn('keybase', args, {
+    const child = child_process.spawn(path.join(this.workingDir, 'keybase'), args, {
       env: process.env
     }); // keep track of the subprocess' state
 
