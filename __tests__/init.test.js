@@ -4,11 +4,21 @@ import {startServiceManually, stopServiceManually} from './test-utils'
 import {randomTempDir} from '../lib/utils'
 
 describe('Keybase bot initialization', () => {
-  it('can init with a username and paperkey', async () => {
+  it('can init 2 users, with a username and paperkey', async () => {
     const alice = new Bot()
+    const bob = new Bot()
     await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
+    await bob.init(config.bots.bob1.username, config.bots.bob1.paperkey)
     expect(alice.myInfo().username).toBe(config.bots.alice1.username)
+    expect(bob.myInfo().username).toBe(config.bots.bob1.username)
+    const aliceStatus = await alice.status()
+    const bobStatus = await bob.status()
+    expect(aliceStatus.Username).toBe(config.bots.alice1.username)
+    expect(bobStatus.Username).toBe(config.bots.bob1.username)
+    expect(aliceStatus.LoggedIn).toBe(true)
+    expect(bobStatus.LoggedIn).toBe(true)
     await alice.deinit()
+    await bob.deinit()
   })
 
   it('throws an error if not given a username', async () => {
