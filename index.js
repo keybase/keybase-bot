@@ -964,58 +964,6 @@ class Chat extends ClientBase {
     this._chatListen(onMessage, onError, undefined, options);
   }
   /**
-   *
-   * @memberof Chat
-   * @ignore
-   * @param username - the user watching this chat
-   * @param name - their name of the chat, which may or may not include them
-   * @example
-   * this._normalizeNonTeamName('max', 'strib,chris') // chris,max,strib
-   */
-
-
-  _normalizeNonTeamName(name) {
-    const s = new Set(name.toLowerCase().split(','));
-
-    if (this.username) {
-      s.add(this.username.toLowerCase());
-    }
-
-    return Array.from(s).sort().join(',');
-  }
-  /**
-   *
-   * @memberof Chat
-   * @ignore
-   * @param userWatching - this is a channel the user has requested to watch, which may be incomplete
-   * @param whatCameBack - a message has come back on a channel and we want to see if it matches
-   * @example
-   * this._channelMatch(channelUserWants, channelThatGotAMessage)
-   */
-
-
-  _channelMatch(userWatching, whatCameBack) {
-    const wantsPublic = userWatching.public === undefined ? false : userWatching.public;
-    const wantsTopicType = userWatching.topicType === undefined ? 'chat' : userWatching.topicType; // if we have a team, the names much match exactly
-
-    if (whatCameBack.membersType === 'team') {
-      if (whatCameBack.name !== userWatching.name) {
-        return false;
-      }
-    } // with imp team, user could ask in any order, and they also might be forgetting themselves
-    else {
-        const nameWanted = this._normalizeNonTeamName(userWatching.name);
-
-        const nameGotten = this._normalizeNonTeamName(whatCameBack.name);
-
-        if (nameWanted !== nameGotten) {
-          return false;
-        }
-      }
-
-    return whatCameBack.topicName === userWatching.topicName && whatCameBack.public === wantsPublic && whatCameBack.topicType === wantsTopicType;
-  }
-  /**
    * Spawns the chat listen process and handles the calling of onMessage, onError, and filtering for a specific channel.
    * @memberof Chat
    * @ignore
@@ -1039,6 +987,10 @@ class Chat extends ClientBase {
       args.push('--hide-exploding');
     }
 
+    if (channel) {
+      args.push('--filter-channel', JSON.stringify(formatAPIObjectInput(channel, 'chat')));
+    }
+
     const child = child_process.spawn(this._pathToKeybaseBinary(), args);
     this.spawnedProcesses.push(child);
     const lineReaderStdout = readline.createInterface({
@@ -1053,7 +1005,7 @@ class Chat extends ClientBase {
           throw new Error(messageObject.error);
         } else if ( // fire onMessage if it was from a different sender or at least a different device
         // from this sender. Bots can filter out their own messages from other devices.
-        (!channel || this._channelMatch(channel, messageObject.msg.channel)) && this.username && this.devicename && (messageObject.msg.sender.username !== this.username.toLowerCase() || messageObject.msg.sender.deviceName !== this.devicename)) {
+        this.username && this.devicename && (messageObject.msg.sender.username !== this.username.toLowerCase() || messageObject.msg.sender.deviceName !== this.devicename)) {
           onMessage(messageObject.msg);
         }
       } catch (error) {
