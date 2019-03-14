@@ -964,26 +964,6 @@ class Chat extends ClientBase {
     this._chatListen(onMessage, onError, undefined, options);
   }
   /**
-   *
-   * @memberof Chat
-   * @ignore
-   * @param username - the user watching this chat
-   * @param name - their name of the chat, which may or may not include them
-   * @example
-   * this._normalizeNonTeamName('max', 'strib,chris') // chris,max,strib
-   */
-
-
-  _normalizeNonTeamName(name) {
-    const s = new Set(name.toLowerCase().split(','));
-
-    if (this.username) {
-      s.add(this.username.toLowerCase());
-    }
-
-    return Array.from(s).sort().join(',');
-  }
-  /**
    * Spawns the chat listen process and handles the calling of onMessage, onError, and filtering for a specific channel.
    * @memberof Chat
    * @ignore
