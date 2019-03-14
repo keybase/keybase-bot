@@ -176,6 +176,7 @@ const keybaseExec = (workingDir, homeDir, args, options = {
 
   if (homeDir) {
     runArgs.unshift('--home', homeDir);
+    runArgs.unshift('--pid-file', homeDir + '/pid');
   }
 
   const keybasePath = path.join(workingDir, 'keybase');
@@ -471,7 +472,9 @@ class Service {
     const args = ['service'];
 
     if (this.homeDir) {
-      args.unshift('--home', this.homeDir);
+      const homeDir = this.homeDir;
+      args.unshift('--home', homeDir);
+      args.unshift('--pid-file', homeDir + '/pid');
     }
 
     if (this.serviceLogFile) {
@@ -980,7 +983,9 @@ class Chat extends ClientBase {
     const args = ['chat', 'api-listen'];
 
     if (this.homeDir) {
-      args.unshift('--home', this.homeDir);
+      const homeDir = this.homeDir;
+      args.unshift('--home', homeDir);
+      args.unshift('--pid-file', homeDir + '/pid');
     }
 
     if (!options || options && options.hideExploding !== false) {
