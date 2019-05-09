@@ -533,7 +533,10 @@ class Service {
       } catch (e) {}
     }
 
-    const args = ['log', 'send', '--no-confirm'];
+    const feedback = `keybase-bot auto log send
+username: ${this.username || 'none'}
+initialized: ${this.initialized || 'false'}`;
+    const args = ['log', 'send', '--no-confirm', '--feedback', feedback];
 
     if (this.serviceLogFile) {
       args.unshift('--log-file', this.serviceLogFile);

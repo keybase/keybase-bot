@@ -198,6 +198,16 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
     - [Properties](#properties-18)
   - [PaymentBatchItem](#paymentbatchitem)
     - [Properties](#properties-19)
+- [Team](#team)
+  - [addMembers](#addmembers)
+    - [Parameters](#parameters-21)
+    - [Examples](#examples-24)
+  - [removeMember](#removemember)
+    - [Parameters](#parameters-22)
+    - [Examples](#examples-25)
+  - [listTeamMemberships](#listteammemberships)
+    - [Parameters](#parameters-23)
+    - [Examples](#examples-26)
 
 ### Bot
 
@@ -270,13 +280,14 @@ A collection of types used by the bot.
 
 Options for initializing the bot.
 
-Type: {verbose: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, botLite: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, disableTyping: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
+Type: {verbose: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, botLite: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, disableTyping: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, autoLogSendOnCrash: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?}
 
 ##### Properties
 
 - `verbose` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 - `botLite` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 - `disableTyping` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
+- `autoLogSendOnCrash` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
 
 #### BotInfo
 
@@ -964,6 +975,66 @@ Type: {recipient: [string](https://developer.mozilla.org/docs/Web/JavaScript/Ref
 - `recipient` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 - `amount` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 - `message` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
+
+### Team
+
+**Extends ClientBase**
+
+The wallet module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase wallet api`.
+
+#### addMembers
+
+Add a bunch of people with different privileges to a team
+
+##### Parameters
+
+- `additions` **AddMembersParam** an array of the users to add, with privs
+
+##### Examples
+
+```javascript
+bot.team
+  .addMembers({
+    team: 'phoenix',
+    emails: [{email: 'alice@keybase.io', role: 'writer'}, {email: 'cleo@keybase.io', role: 'admin'}],
+    usernames: [{username: 'frank', role: 'reader'}, {username: 'keybaseio@twitter', role: 'writer'}],
+  })
+  .then(res => console.log(res))
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;AddMembersResult>** \-
+
+#### removeMember
+
+Remove someone from a team
+
+##### Parameters
+
+- `removal` **RemoveMemberParam** object with the `team` name and `username`
+
+##### Examples
+
+```javascript
+bot.team.removeMember({team: 'phoenix', username: 'frank'}).then(res => console.log(res))
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;RemoveMemberResult>** \-
+
+#### listTeamMemberships
+
+List a team's members
+
+##### Parameters
+
+- `team` **ListTeamMembershipsParam** an object with the `team` name in it
+
+##### Examples
+
+```javascript
+bot.team.listTeamMemberships({team: 'phoenix'}).then(res => console.log(res))
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;ListTeamMembershipsResult>** \-
 
 ## Contributions
 
