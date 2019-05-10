@@ -341,6 +341,7 @@ class Service {
     this.verbose = false;
     this.botLite = true;
     this.disableTyping = true;
+    this.autoLogSendOnCrash = false;
   }
 
   async init(username, paperkey, options) {
@@ -358,9 +359,10 @@ class Service {
     }
 
     this.homeDir = this.workingDir;
-    this.serviceLogFile = path.join(this.homeDir, 'Library', 'Logs', 'keybase.service.log');
+    this.serviceLogFile = path.join(this.homeDir, 'logs', 'keybase.service.log');
     this.botLite = options ? Boolean(typeof options.botLite !== 'boolean' || options.botLite) : true;
-    this.disableTyping = options ? Boolean(typeof options.disableTyping !== 'boolean' || options.disableTyping) : true; // Unlike with clients we don't need to store the service, since it shuts down with ctrl stop
+    this.disableTyping = options ? Boolean(typeof options.disableTyping !== 'boolean' || options.disableTyping) : true;
+    this.autoLogSendOnCrash = options ? Boolean(typeof options.autoLogSendOnCrash === 'boolean' && options.autoLogSendOnCrash) : false; // Unlike with clients we don't need to store the service, since it shuts down with ctrl stop
 
     try {
       await this.startupService();
@@ -374,6 +376,7 @@ class Service {
       if (currentInfo && currentInfo.username && currentInfo.devicename) {
         this.initialized = 'paperkey';
         this.username = currentInfo.username;
+        this._paperkey = paperkey;
         this.devicename = currentInfo.devicename;
         this.verbose = options ? Boolean(options.verbose) : false;
       }
@@ -475,7 +478,7 @@ class Service {
     }
 
     if (this.serviceLogFile) {
-      args.unshift('-d', '--log-file', this.serviceLogFile);
+      args.unshift('--log-file', this.serviceLogFile);
     }
 
     if (this.botLite) {
@@ -487,8 +490,12 @@ class Service {
     }); // keep track of the subprocess' state
 
     this.running = true;
-    child.on('exit', code => {
+    child.on('exit', async code => {
       this.running = false;
+
+      if (code !== 0 && this.autoLogSendOnCrash) {
+        await this.logSend();
+      }
     });
     return new Promise(async (resolve, reject) => {
       child.on('close', code => {
@@ -509,6 +516,37 @@ class Service {
 
       resolve();
     });
+  }
+
+  async logSend() {
+    const initiallyRunning = this.running;
+
+    if (!initiallyRunning) {
+      try {
+        await this.startupService();
+
+        if (this.initialized === 'paperkey' && this.username) {
+          await keybaseExec(this.workingDir, this.homeDir, ['oneshot', '--username', this.username], {
+            stdinBuffer: this._paperkey
+          });
+        }
+      } catch (e) {}
+    }
+
+    const feedback = `keybase-bot auto log send
+username: ${this.username || 'none'}
+initialized: ${this.initialized || 'false'}`;
+    const args = ['log', 'send', '--no-confirm', '--feedback', feedback];
+
+    if (this.serviceLogFile) {
+      args.unshift('--log-file', this.serviceLogFile);
+    }
+
+    await keybaseExec(this.workingDir, this.homeDir, args);
+
+    if (!initiallyRunning) {
+      await this._killCustomService();
+    }
   }
 
 }
