@@ -950,6 +950,46 @@ class Chat extends ClientBase {
     }
   }
   /**
+   * Gets current unfurling settings
+   * @example
+   * bot.chat.getUnfurlSettings().then((mode) => console.log(mode))
+   */
+
+
+  async getUnfurlSettings() {
+    await this._guardInitialized();
+    const res = await this._runApiCommand({
+      apiName: 'chat',
+      method: 'getunfurlsettings',
+      options: {}
+    });
+
+    if (!res) {
+      throw new Error("Keybase chat get unfurl mode returned nothing.");
+    }
+
+    return res;
+  }
+  /**
+   * Sets the unfurling mode
+   * @example
+   * bot.chat.getUnfurlSettings().then((mode) => console.log(mode))
+   */
+
+
+  async setUnfurlSettings(mode) {
+    await this._guardInitialized();
+    const res = await this._runApiCommand({
+      apiName: 'chat',
+      method: 'setunfurlsettings',
+      options: mode
+    });
+
+    if (!res) {
+      throw new Error("Keybase chat set unfurl mode returned nothing.");
+    }
+  }
+  /**
    * Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel. Note that it receives messages your own bot posts, but from other devices. You can filter out your own messages by looking at a message's sender object.
    * Hides exploding messages by default.
    * @memberof Chat
