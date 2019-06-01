@@ -103,39 +103,47 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
   - [leaveChannel](#leavechannel)
     - [Parameters](#parameters-3)
     - [Examples](#examples-5)
-  - [list](#list)
-    - [Parameters](#parameters-4)
+  - [getUnfurlSettings](#getunfurlsettings)
     - [Examples](#examples-6)
-  - [listChannels](#listchannels)
-    - [Parameters](#parameters-5)
+  - [setUnfurlSettings](#setunfurlsettings)
+    - [Parameters](#parameters-4)
     - [Examples](#examples-7)
-  - [read](#read)
-    - [Parameters](#parameters-6)
+  - [loadFlip](#loadflip)
+    - [Parameters](#parameters-5)
     - [Examples](#examples-8)
-  - [send](#send)
-    - [Parameters](#parameters-7)
+  - [list](#list)
+    - [Parameters](#parameters-6)
     - [Examples](#examples-9)
-  - [createChannel](#createchannel)
-    - [Parameters](#parameters-8)
+  - [listChannels](#listchannels)
+    - [Parameters](#parameters-7)
     - [Examples](#examples-10)
-  - [attach](#attach)
-    - [Parameters](#parameters-9)
+  - [read](#read)
+    - [Parameters](#parameters-8)
     - [Examples](#examples-11)
-  - [download](#download)
-    - [Parameters](#parameters-10)
+  - [send](#send)
+    - [Parameters](#parameters-9)
     - [Examples](#examples-12)
-  - [react](#react)
-    - [Parameters](#parameters-11)
+  - [createChannel](#createchannel)
+    - [Parameters](#parameters-10)
     - [Examples](#examples-13)
-  - [delete](#delete)
-    - [Parameters](#parameters-12)
+  - [attach](#attach)
+    - [Parameters](#parameters-11)
     - [Examples](#examples-14)
-  - [watchChannelForNewMessages](#watchchannelfornewmessages)
-    - [Parameters](#parameters-13)
+  - [download](#download)
+    - [Parameters](#parameters-12)
     - [Examples](#examples-15)
-  - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
-    - [Parameters](#parameters-14)
+  - [react](#react)
+    - [Parameters](#parameters-13)
     - [Examples](#examples-16)
+  - [delete](#delete)
+    - [Parameters](#parameters-14)
+    - [Examples](#examples-17)
+  - [watchChannelForNewMessages](#watchchannelfornewmessages)
+    - [Parameters](#parameters-15)
+    - [Examples](#examples-18)
+  - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
+    - [Parameters](#parameters-16)
+    - [Examples](#examples-19)
 - [Chat Types](#chat-types)
   - [ChatChannel](#chatchannel)
     - [Properties](#properties-2)
@@ -163,25 +171,25 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
   - [OnError](#onerror)
 - [Wallet](#wallet)
   - [balances](#balances)
-    - [Examples](#examples-17)
-  - [history](#history)
-    - [Parameters](#parameters-15)
-    - [Examples](#examples-18)
-  - [details](#details)
-    - [Parameters](#parameters-16)
-    - [Examples](#examples-19)
-  - [lookup](#lookup)
-    - [Parameters](#parameters-17)
     - [Examples](#examples-20)
-  - [send](#send-1)
-    - [Parameters](#parameters-18)
+  - [history](#history)
+    - [Parameters](#parameters-17)
     - [Examples](#examples-21)
-  - [batch](#batch)
-    - [Parameters](#parameters-19)
+  - [details](#details)
+    - [Parameters](#parameters-18)
     - [Examples](#examples-22)
-  - [cancel](#cancel)
-    - [Parameters](#parameters-20)
+  - [lookup](#lookup)
+    - [Parameters](#parameters-19)
     - [Examples](#examples-23)
+  - [send](#send-1)
+    - [Parameters](#parameters-20)
+    - [Examples](#examples-24)
+  - [batch](#batch)
+    - [Parameters](#parameters-21)
+    - [Examples](#examples-25)
+  - [cancel](#cancel)
+    - [Parameters](#parameters-22)
+    - [Examples](#examples-26)
 - [Wallet Types](#wallet-types)
   - [Asset](#asset)
     - [Properties](#properties-13)
@@ -200,14 +208,14 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
     - [Properties](#properties-19)
 - [Team](#team)
   - [addMembers](#addmembers)
-    - [Parameters](#parameters-21)
-    - [Examples](#examples-24)
-  - [removeMember](#removemember)
-    - [Parameters](#parameters-22)
-    - [Examples](#examples-25)
-  - [listTeamMemberships](#listteammemberships)
     - [Parameters](#parameters-23)
-    - [Examples](#examples-26)
+    - [Examples](#examples-27)
+  - [removeMember](#removemember)
+    - [Parameters](#parameters-24)
+    - [Examples](#examples-28)
+  - [listTeamMemberships](#listteammemberships)
+    - [Parameters](#parameters-25)
+    - [Examples](#examples-29)
 
 ### Bot
 
@@ -355,6 +363,57 @@ bot.chat.listConvsOnName('team_name').then(async teamConversations => {
 ```
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
+#### getUnfurlSettings
+
+Gets current unfurling settings
+
+##### Examples
+
+```javascript
+bot.chat.getUnfurlSettings().then(mode => console.log(mode))
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;UnfurlMode>**
+
+#### setUnfurlSettings
+
+Sets the unfurling mode
+
+##### Parameters
+
+- `mode` **UnfurlMode** the new unfurl mode
+
+##### Examples
+
+```javascript
+bot.chat
+  .setUnfurlMode({
+    mode: 'always',
+  })
+  .then(mode => console.log('mode updated!'))
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
+#### loadFlip
+
+Loads a flip's details
+
+##### Parameters
+
+- `conversationID` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** conversation ID received in API listen.
+- `flipConversationID` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** flipConvID from the message summary.
+- `messageID` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** ID of the message in the conversation.
+- `gameID` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** gameID from the flip message contents.
+
+##### Examples
+
+```javascript
+// check demos/es7/poker-hands.js
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;FlipSummary>**
 
 #### list
 
