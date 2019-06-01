@@ -170,7 +170,8 @@ function formatAPIObjectOutput(obj, context) {
 
 const keybaseExec = (workingDir, homeDir, args, options = {
   stdinBuffer: undefined,
-  onStdOut: undefined
+  onStdOut: undefined,
+  timeout: undefined
 }) => {
   const runArgs = [...args];
 
@@ -205,8 +206,19 @@ const keybaseExec = (workingDir, homeDir, args, options = {
   child.stderr.on('data', chunk => {
     stdErrBuffer.push(chunk);
   });
+  let done = false;
+
+  if (options.timeout) {
+    setTimeout(() => {
+      if (!done) {
+        child.kill();
+      }
+    }, options.timeout);
+  }
+
   return new Promise((resolve, reject) => {
     child.on('close', code => {
+      done = true;
       let finalStdOut = null; // Pass back
 
       if (code) {
@@ -596,7 +608,8 @@ class ClientBase {
     const size = inputString.length;
     const output = await keybaseExec(this._workingDir, this.homeDir, [arg.apiName, 'api'], {
       stdinBuffer: Buffer.alloc(size, inputString, 'utf8'),
-      json: true
+      json: true,
+      timeout: arg.timeout
     });
 
     if (output.hasOwnProperty('error')) {
@@ -965,15 +978,18 @@ class Chat extends ClientBase {
     });
 
     if (!res) {
-      throw new Error("Keybase chat get unfurl mode returned nothing.");
+      throw new Error('Keybase chat get unfurl mode returned nothing.');
     }
 
     return res;
   }
   /**
    * Sets the unfurling mode
+   * @param mode - the new unfurl mode
    * @example
-   * bot.chat.getUnfurlSettings().then((mode) => console.log(mode))
+   * bot.chat.setUnfurlMode({
+   *   "mode": "always",
+   * }).then((mode) => console.log('mode updated!'))
    */
 
 
@@ -986,8 +1002,37 @@ class Chat extends ClientBase {
     });
 
     if (!res) {
-      throw new Error("Keybase chat set unfurl mode returned nothing.");
+      throw new Error('Keybase chat set unfurl mode returned nothing.');
     }
+  }
+  /**
+   * Loads a flip's details
+   * @param conversationID - conversation ID received in API listen.
+   * @param flipConversationID - flipConvID from the message summary.
+   * @param messageID - ID of the message in the conversation.
+   * @param gameID - gameID from the flip message contents.
+   */
+
+
+  async loadFlip(conversationID, flipConversationID, messageID, gameID) {
+    await this._guardInitialized();
+    const res = await this._runApiCommand({
+      apiName: 'chat',
+      method: 'loadflip',
+      options: {
+        "conversation_id": conversationID,
+        "flip_conversation_id": flipConversationID,
+        "msg_id": messageID,
+        "game_id": gameID
+      },
+      timeout: 2000
+    });
+
+    if (!res) {
+      throw new Error('Keybase chat load flip returned nothing.');
+    }
+
+    return res.status;
   }
   /**
    * Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel. Note that it receives messages your own bot posts, but from other devices. You can filter out your own messages by looking at a message's sender object.
