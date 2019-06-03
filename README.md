@@ -379,6 +379,10 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 #### setUnfurlSettings
 
 Sets the unfurling mode
+In Keybase, unfurling means generating previews for links that you're sending
+in chat messages. If the mode is set to always or the domain in the URL is
+present on the whitelist, the Keybase service will automatically send a preview
+to the message recipient in a background chat channel.
 
 ##### Parameters
 
