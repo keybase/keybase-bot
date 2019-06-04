@@ -563,6 +563,8 @@ initialized: ${this.initialized || 'false'}`;
 
 }
 
+var safeJSONStringify = (input => JSON.stringify(input).replace(/[\u007F-\uFFFF]/g, chr => "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).substr(-4)));
+
 const API_VERSIONS = {
   chat: 1,
   team: 1,
@@ -604,7 +606,7 @@ class ClientBase {
         options
       }
     };
-    const inputString = JSON.stringify(input);
+    const inputString = safeJSONStringify(input);
     const size = inputString.length;
     const output = await keybaseExec(this._workingDir, this.homeDir, [arg.apiName, 'api'], {
       stdinBuffer: Buffer.alloc(size, inputString, 'utf8'),
@@ -985,6 +987,10 @@ class Chat extends ClientBase {
   }
   /**
    * Sets the unfurling mode
+   * In Keybase, unfurling means generating previews for links that you're sending
+   * in chat messages. If the mode is set to always or the domain in the URL is
+   * present on the whitelist, the Keybase service will automatically send a preview
+   * to the message recipient in a background chat channel.
    * @param mode - the new unfurl mode
    * @example
    * bot.chat.setUnfurlMode({
@@ -1011,6 +1017,8 @@ class Chat extends ClientBase {
    * @param flipConversationID - flipConvID from the message summary.
    * @param messageID - ID of the message in the conversation.
    * @param gameID - gameID from the flip message contents.
+   * @example
+   * // check demos/es7/poker-hands.js
    */
 
 
@@ -1020,10 +1028,10 @@ class Chat extends ClientBase {
       apiName: 'chat',
       method: 'loadflip',
       options: {
-        "conversation_id": conversationID,
-        "flip_conversation_id": flipConversationID,
-        "msg_id": messageID,
-        "game_id": gameID
+        conversation_id: conversationID,
+        flip_conversation_id: flipConversationID,
+        msg_id: messageID,
+        game_id: gameID
       },
       timeout: 2000
     });
