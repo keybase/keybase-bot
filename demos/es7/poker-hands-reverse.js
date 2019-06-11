@@ -44,7 +44,8 @@ async function main() {
 
           if (msg.sender.username === info.username && msg.content.type === 'flip') {
             if (gameCache[msg.channel.name] === msg.content.flip.gameId) {
-              // We've already resolved this one
+              // We've already resolved this one. Flips executed locally can trigger
+              // multiple 'flip' notifications.
               return
             } else {
               gameCache[msg.channel.name] = msg.content.flip.gameId
