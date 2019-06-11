@@ -782,7 +782,7 @@ Options for the methods in the chat module that listen for new messages.
 Local messages are ones sent by your device. Including them in the output is
 useful for applications such as logging conversations, monitoring own flips
 and building tools that seamlessly integrate with a running client used by
-a user.
+the user.
 
 Type: {hideExploding: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), showLocal: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)}
 
