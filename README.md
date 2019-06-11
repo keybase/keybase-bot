@@ -167,6 +167,8 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
     - [Properties](#properties-11)
   - [ChatDeleteOptions](#chatdeleteoptions)
     - [Properties](#properties-12)
+  - [ListenOptions](#listenoptions)
+    - [Properties](#properties-13)
   - [OnMessage](#onmessage)
   - [OnError](#onerror)
 - [Wallet](#wallet)
@@ -192,20 +194,20 @@ This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want
     - [Examples](#examples-26)
 - [Wallet Types](#wallet-types)
   - [Asset](#asset)
-    - [Properties](#properties-13)
-  - [ExchangeRate](#exchangerate)
     - [Properties](#properties-14)
-  - [Balance](#balance)
+  - [ExchangeRate](#exchangerate)
     - [Properties](#properties-15)
-  - [Account](#account)
+  - [Balance](#balance)
     - [Properties](#properties-16)
-  - [Transaction](#transaction)
+  - [Account](#account)
     - [Properties](#properties-17)
+  - [Transaction](#transaction)
+    - [Properties](#properties-18)
   - [PaymentStatus](#paymentstatus)
   - [BatchResult](#batchresult)
-    - [Properties](#properties-18)
-  - [PaymentBatchItem](#paymentbatchitem)
     - [Properties](#properties-19)
+  - [PaymentBatchItem](#paymentbatchitem)
+    - [Properties](#properties-20)
 - [Team](#team)
   - [addMembers](#addmembers)
     - [Parameters](#parameters-23)
@@ -590,7 +592,7 @@ Hides exploding messages by default.
 - `channel` **[ChatChannel](#chatchannel)** The chat channel to watch.
 - `onMessage` **[OnMessage](#onmessage)** A callback that is triggered on every message your bot receives.
 - `onError` **[OnError](#onerror)** A callback that is triggered on any error that occurs while the method is executing.
-- `options` **ListenOptions** Options for the listen method.
+- `options` **[ListenOptions](#listenoptions)** Options for the listen method.
 
 ##### Examples
 
@@ -620,7 +622,7 @@ Hides exploding messages by default.
 
 - `onMessage` **[OnMessage](#onmessage)** A callback that is triggered on every message your bot receives.
 - `onError` **[OnError](#onerror)** A callback that is triggered on any error that occurs while the method is executing.
-- `options` **ListenOptions** Options for the listen method.
+- `options` **[ListenOptions](#listenoptions)** Options for the listen method.
 
 ##### Examples
 
@@ -773,6 +775,21 @@ Type: {conversationId: [string](https://developer.mozilla.org/docs/Web/JavaScrip
 ##### Properties
 
 - `conversationId` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
+
+#### ListenOptions
+
+Options for the methods in the chat module that listen for new messages.
+Local messages are ones sent by your device. Including them in the output is
+useful for applications such as logging conversations, monitoring own flips
+and building tools that seamlessly integrate with a running client used by
+the user.
+
+Type: {hideExploding: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), showLocal: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)}
+
+##### Properties
+
+- `hideExploding` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
+- `showLocal` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
 
 #### OnMessage
 

@@ -563,7 +563,7 @@ initialized: ${this.initialized || 'false'}`;
 
 }
 
-var safeJSONStringify = (input => JSON.stringify(input).replace(/[\u007F-\uFFFF]/g, chr => "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).substr(-4)));
+var safeJSONStringify = (input => JSON.stringify(input).replace(/[\u007F-\uFFFF]/g, chr => '\\u' + ('0000' + chr.charCodeAt(0).toString(16)).substr(-4)));
 
 const API_VERSIONS = {
   chat: 1,
@@ -1118,6 +1118,10 @@ class Chat extends ClientBase {
       args.push('--hide-exploding');
     }
 
+    if (options && options.showLocal === true) {
+      args.push('--local');
+    }
+
     if (channel) {
       args.push('--filter-channel', JSON.stringify(formatAPIObjectInput(channel, 'chat')));
     }
@@ -1136,7 +1140,7 @@ class Chat extends ClientBase {
           throw new Error(messageObject.error);
         } else if ( // fire onMessage if it was from a different sender or at least a different device
         // from this sender. Bots can filter out their own messages from other devices.
-        this.username && this.devicename && (messageObject.msg.sender.username !== this.username.toLowerCase() || messageObject.msg.sender.deviceName !== this.devicename)) {
+        options && options.showLocal || this.username && this.devicename && (messageObject.msg.sender.username !== this.username.toLowerCase() || messageObject.msg.sender.deviceName !== this.devicename)) {
           onMessage(messageObject.msg);
         }
       } catch (error) {

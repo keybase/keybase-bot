@@ -26,6 +26,7 @@ toc:
       - ChatAttachOptions
       - ChatDownloadOptions
       - ChatDeleteOptions
+      - ListenOptions
       - OnMessage
       - OnError
   - Wallet

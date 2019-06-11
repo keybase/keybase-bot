@@ -4,6 +4,7 @@ const Hand = require('./pokersolver.js').Hand
 
 const bot = new Bot()
 
+// Utilities for deck parsing
 const deck =
   '2s,3s,4s,5s,6s,7s,8s,9s,Ts,Js,Qs,Ks,As,2c,3c,4c,5c,6c,7c,8c,9c,Tc,Jc,Qc,Kc,Ac,2d,3d,4d,5d,6d,7d,8d,9d,Td,Jd,Qd,Kd,Ad,2h,3h,4h,5h,6h,7h,8h,9h,Th,Jh,Qh,Kh,Ah'
 const deckI2S = deck.split(',').reduce((prev, curr, ind) => {
@@ -11,7 +12,11 @@ const deckI2S = deck.split(',').reduce((prev, curr, ind) => {
   return prev
 }, {})
 
-// Tells the cards in user's poker flip
+// A very basic cache to prevent duplicate games. The key is the channel name,
+// the value is the last game ID.
+const gameCache = {}
+
+// Flips and tells the cards
 async function main() {
   try {
     const username = process.env.KB_USERNAME
@@ -32,7 +37,21 @@ async function main() {
             return
           }
 
-          if (msg.content.type === 'flip') {
+          if (msg.sender.username === info.username && msg.content.type !== 'flip') {
+            // Our own message
+            return
+          }
+
+          if (msg.sender.username === info.username && msg.content.type === 'flip') {
+            if (gameCache[msg.channel.name] === msg.content.flip.gameId) {
+              // We've already resolved this one. Flips executed locally can trigger
+              // multiple 'flip' notifications.
+              return
+            } else {
+              gameCache[msg.channel.name] = msg.content.flip.gameId
+            }
+
+            // Our flip, when flipping from the same machine expect the flip to
             let resolved
             while (!resolved) {
               try {
@@ -45,18 +64,19 @@ async function main() {
                 if (flip.phase === 2) {
                   resolved = true
 
-                  if (flip.resultInfo.typ !== 3 || !flip.resultInfo.hands.find(x => x.target === 'me')) {
+                  if (flip.resultInfo.typ !== 3 || !flip.resultInfo.hands.find(x => x.target === 'hand')) {
                     await bot.chat.send(msg.channel, {
-                      body: `Invalid flip type! Please do a /flip cards 5 me instead.`,
+                      body: `Invalid flip type! Expected /flip cards 5 hand.`,
                     })
                     return
                   }
 
-                  const myHand = flip.resultInfo.hands.find(x => x.target === 'me')
+                  const myHand = flip.resultInfo.hands.find(x => x.target === 'hand')
                   const hand = Hand.solve(myHand.hand.map(card => deckI2S[card]))
                   await bot.chat.send(msg.channel, {
-                    body: `You got ${hand.descr}.`,
+                    body: `You got ${hand.descr}!`,
                   })
+                  return
                 }
               } catch (err) {
                 console.log('flip fetch error', err)
@@ -65,14 +85,27 @@ async function main() {
             return
           }
 
+          if (msg.content.type === 'text' && msg.content.text.body.toLowerCase().includes('hand')) {
+            // Perform the flip
+            await bot.chat.send(msg.channel, {
+              body: `/flip cards 5 hand`,
+            })
+            return
+          }
+
           await bot.chat.send(msg.channel, {
-            body: `Hi ${msg.sender.username}! Do a /flip cards 5 me and I'll tell what's in your poker hand!`,
+            body: `Hi ${
+              msg.sender.username
+            }! Send "hand" to me and I'll flip and tell you what's in your hand!`,
           })
         } catch (err) {
           console.error(err)
         }
       },
-      e => console.error(e)
+      e => console.error(e),
+      {
+        showLocal: true,
+      }
     )
   } catch (error) {
     console.error(error)
