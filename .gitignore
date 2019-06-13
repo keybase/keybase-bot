@@ -2,3 +2,7 @@ node_modules/
 *.DS_Store
 __tests__/tests.config.js
 tests/tests.config.js
+__tests__/tests.config.ts
+tests/tests.config.ts
+yarn-error.log
+tsconfig.tsbuildinfo

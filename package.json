@@ -12,7 +12,7 @@
     "pgp",
     "gpg"
   ],
-  "main": "index.js",
+  "main": "lib/index.js",
   "homepage": "https://github.com/keybase/keybase-bot",
   "repository": "git@github.com:keybase/keybase-bot.git",
   "bugs": {
@@ -24,8 +24,6 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "index.js",
-    "index.js.map",
     "lib/*"
   ],
   "husky": {
@@ -35,8 +33,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "eslint --fix",
-      "flow focus-check"
+      "eslint --fix"
     ],
     "*.{js,json,md}": [
       "prettier --write",
@@ -45,8 +42,7 @@
   },
   "scripts": {
     "docs": "documentation readme lib/** --config documentation.yml --section=API",
-    "build": "rollup -c",
-    "dev": "rollup -c --watch",
+    "tsc": "tsc",
     "test": "jest --runInBand",
     "release": "standard-version"
   },
@@ -57,36 +53,31 @@
     "mkdirp": "0.5.1"
   },
   "devDependencies": {
-    "@babel/cli": "7.1.5",
-    "@babel/core": "7.2.0",
-    "@babel/preset-env": "7.1.6",
-    "@babel/preset-flow": "7.0.0",
-    "babel-core": "7.0.0-bridge.0",
-    "babel-eslint": "10.0.1",
-    "babel-jest": "23.6.0",
+    "@types/jest": "24.0.14",
+    "@types/lodash.camelcase": "4.3.6",
+    "@types/lodash.kebabcase": "4.1.6",
+    "@types/lodash.snakecase": "4.1.6",
+    "@types/mkdirp": "0.5.2",
     "documentation": "9.1.1",
     "eslint": "5.9.0",
     "eslint-config-prettier": "3.3.0",
     "eslint-config-standard": "12.0.0",
-    "eslint-plugin-babel": "5.3.0",
     "eslint-plugin-filenames": "1.3.2",
-    "eslint-plugin-flowtype": "3.2.0",
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-jsdoc": "3.14.1",
     "eslint-plugin-node": "8.0.0",
     "eslint-plugin-promise": "4.0.1",
     "eslint-plugin-standard": "4.0.0",
-    "flow-bin": "0.87.0",
-    "flow-typed": "2.5.1",
     "husky": "1.2.0",
-    "jest": "23.6.0",
+    "jest": "24.8.0",
     "lint-staged": "8.1.0",
     "mathjs": "5.2.3",
     "prettier": "1.15.3",
     "regenerator-runtime": "0.13.1",
     "rollup": "0.67.3",
-    "rollup-plugin-babel": "4.0.3",
     "rollup-plugin-node-resolve": "3.4.0",
-    "standard-version": "4.4.0"
+    "standard-version": "4.4.0",
+    "ts-jest": "24.0.2",
+    "typescript": "3.5.1"
   }
 }

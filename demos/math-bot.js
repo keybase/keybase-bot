@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const Bot = require('../index.js')
+const Bot = require('../lib/index.js')
 const mathjs = require('mathjs')
 
 //
