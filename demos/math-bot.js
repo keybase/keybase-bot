@@ -11,6 +11,7 @@ const mathjs = require('mathjs')
 //          /math sqrt(pi/2) * 3!`
 //
 
+console.log(Bot)
 const bot = new Bot()
 
 const msgReply = s => {

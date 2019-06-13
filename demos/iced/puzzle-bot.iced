@@ -7,7 +7,7 @@
 # that our bot library now deals in Promises, so we'll need to callbackify
 # any functions.
 
-Bot = require '../../index.js'
+Bot = require '../../lib/index.js'
 bot = new Bot()
 
 # --------------------------------------------------------------------------------

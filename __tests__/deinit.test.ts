@@ -3,7 +3,7 @@ import {exec} from 'child_process'
 import {promisify} from 'util'
 
 import Bot from '../lib'
-import config from './tests.config.js'
+import config from './tests.config'
 import {startServiceManually, stopServiceManually} from './test-utils'
 import {randomTempDir, timeout} from '../lib/utils'
 

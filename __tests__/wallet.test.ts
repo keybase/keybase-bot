@@ -1,6 +1,6 @@
 import crypto from 'crypto'
 import Bot from '../lib'
-import config from './tests.config.js'
+import config from './tests.config'
 import {timeout} from '../lib/utils'
 
 test('Wallet methods with an uninitialized bot', () => {

@@ -1,5 +1,5 @@
 import Bot from '../lib'
-import config from './tests.config.js'
+import config from './tests.config'
 import {publicPaperkeyLabel} from './test-utils'
 
 describe('bot.myInfo()', () => {

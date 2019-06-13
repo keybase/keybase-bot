@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const Bot = require('../../index.js')
+const Bot = require('../../lib/index.js')
 
 const bot = new Bot()
 
@@ -19,7 +19,7 @@ async function main() {
         try {
           console.log(msg)
 
-          if (msg.channel.membersType !== 'impteamnative') {
+          if (msg.channel.membersType !== 'impteamnative' && msg.channel.membersType !== 'impteamupgrade') {
             // Only react to direct messages.
             console.log(`Invalid type - ${msg.channel.membersType}`)
             return
@@ -37,9 +37,7 @@ async function main() {
           }
 
           await bot.chat.send(msg.channel, {
-            body: `Hi ${
-              msg.sender.username
-            }! I'm a proof of concept of a bot that invites users into an open team - in this case ${teamName}. Reply with "invite me" and I'll add you there!`,
+            body: `Hi ${msg.sender.username}! I'm a proof of concept of a bot that invites users into an open team - in this case ${teamName}. Reply with "invite me" and I'll add you there!`,
           })
         } catch (err) {
           console.error(err)

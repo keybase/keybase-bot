@@ -1,5 +1,5 @@
 import Bot from '../lib'
-import config from './tests.config.js'
+import config from './tests.config'
 
 test('Team methods with an uninitialized bot', () => {
   const alice1 = new Bot()

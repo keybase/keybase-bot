@@ -12,11 +12,11 @@ import {InitOptions} from './utils/options'
 
 /** A Keybase bot. */
 class Bot {
-  chat: ChatClient
-  wallet: WalletClient
-  team: TeamClient
-  _workingDir: string // where KB binary copied, and homeDir (if not existing svc)
-  _service: Service
+  public chat: ChatClient
+  public wallet: WalletClient
+  public team: TeamClient
+  private _workingDir: string // where KB binary copied, and homeDir (if not existing svc)
+  private _service: Service
 
   /**
    * Create a bot. Note you can't do much too exciting with your bot after you instantiate it; you have to initialize it first.
@@ -24,7 +24,7 @@ class Bot {
    * @example
    * const bot = new Bot()
    */
-  constructor() {
+  public constructor() {
     this._workingDir = randomTempDir()
     this._service = new Service(this._workingDir)
     this.chat = new ChatClient(this._workingDir)
@@ -41,7 +41,7 @@ class Bot {
    * @example
    * bot.init('username', 'paperkey')
    */
-  async init(username: string, paperkey: string, options?: InitOptions): Promise<void> {
+  public async init(username: string, paperkey: string, options?: InitOptions): Promise<void> {
     await this._prepWorkingDir()
     await this._service.init(username, paperkey, options)
     await this._initSubBots(options)
@@ -55,7 +55,7 @@ class Bot {
    * @example
    * bot.initFromRunningService()
    */
-  async initFromRunningService(homeDir?: string, options?: InitOptions): Promise<void> {
+  public async initFromRunningService(homeDir?: string, options?: InitOptions): Promise<void> {
     await this._prepWorkingDir()
     await this._service.initFromRunningService(homeDir, options)
     await this._initSubBots(options)
@@ -68,7 +68,7 @@ class Bot {
    * @example
    * const info = bot.myInfo()
    */
-  myInfo(): BotInfo | null {
+  public myInfo(): BotInfo | null {
     return this._service.myInfo()
   }
 
@@ -78,7 +78,7 @@ class Bot {
    * @example
    * bot.deinit()
    */
-  async deinit(): Promise<void> {
+  public async deinit(): Promise<void> {
     // Stop the clients first, so that they aren't trying to
     // talk to a deinit'ed service
 
@@ -87,14 +87,14 @@ class Bot {
     await rmdirRecursive(this._workingDir)
   }
 
-  async _prepWorkingDir(): Promise<void> {
+  private async _prepWorkingDir(): Promise<void> {
     const keybaseBinaryLocation = await whichKeybase()
     const destination = path.join(this._workingDir, 'keybase')
     await promisify(mkdirp)(this._workingDir)
     await promisify(copyFile)(keybaseBinaryLocation, destination)
   }
 
-  async _initSubBots(options?: InitOptions) {
+  private async _initSubBots(options?: InitOptions): Promise<void> {
     const info = this.myInfo()
     if (info) {
       await this.chat._init(info.homeDir, options)
@@ -106,4 +106,9 @@ class Bot {
   }
 }
 
-export default Bot
+// TODO: change this to an export default, but
+// we don't want to break existing uses of the bot without a version upgrade.
+// if this is changed to export default Bot, then commonJS require uses
+// will have to do Bot = require('keybase-bot').default, which
+
+export = Bot
