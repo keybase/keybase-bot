@@ -6,11 +6,10 @@
  */
 
 type TopicType = 'chat' | 'dev'
-
 type MembersType = 'team' | 'impteamnative' | 'kbfs' | 'impteamupgrade'
 type ChannelMention = 'none' | 'all' | 'here'
 
-type ChannelNameMention = {
+interface ChannelNameMention {
   name: string
   convID: string
 }
@@ -21,25 +20,25 @@ type ChannelNameMention = {
  * A Keybase chat channel. This can be a channel in a team, or just an informal channel between two users.
  * name: the name of the team or comma-separated list of participants
  */
-export type ChatChannel = {
+export interface ChatChannel {
   name: string
   public: boolean
-  membersType: MembersType
-  topicType?: TopicType
+  topicType: TopicType
+  membersType?: MembersType
   topicName?: string
 }
 
 /**
  * A chat message. The content goes in the `body` property!
  */
-export type ChatMessage = {
+export interface ChatMessage {
   body: string
 }
 
 /**
  * A chat conversation. This is essentially a chat channel plus some additional metadata.
  */
-export type ChatConversation = {
+export interface ChatConversation {
   id: string
   channel: ChatChannel
   unread: boolean
@@ -48,14 +47,14 @@ export type ChatConversation = {
   memberStatus: string
 }
 
-export type Pagination = {
+export interface Pagination {
   num: number
   next?: string
   previous?: string
   last?: boolean
 }
 
-export type TextContent = {
+export interface TextContent {
   type: 'text'
   text: {
     body: string // TODO: type this,
@@ -63,29 +62,29 @@ export type TextContent = {
   }
 }
 
-export type AssetMetadataImage = {
+export interface AssetMetadataImage {
   width: number
   height: number
 }
 
-export type AssetMetadataVideo = {
+export interface AssetMetadataVideo {
   width: number
   height: number
   durationMs: number
 }
 
-export type AssetMetadataAudio = {
+export interface AssetMetadataAudio {
   durationMs: number
 }
 
-export type AssetMetadata = {
+export interface AssetMetadata {
   assetType: number
   image?: AssetMetadataImage
   video?: AssetMetadataVideo
   audio?: AssetMetadataAudio
 }
 
-export type Asset = {
+export interface Asset {
   filename: string
   region: string
   endpoint: string
@@ -101,7 +100,7 @@ export type Asset = {
   metadata: AssetMetadata
 }
 
-export type AttachmentContent = {
+export interface AttachmentContent {
   type: 'attachment'
   attachment: {
     object: Asset
@@ -112,7 +111,7 @@ export type AttachmentContent = {
   }
 }
 
-export type ReactionContent = {
+export interface ReactionContent {
   type: 'reaction'
   reaction: {
     m: string
@@ -120,7 +119,7 @@ export type ReactionContent = {
   }
 }
 
-export type EditContent = {
+export interface EditContent {
   type: 'edit'
   edit: {
     messageId: number
@@ -128,7 +127,7 @@ export type EditContent = {
   }
 }
 
-export type DeleteContent = {
+export interface DeleteContent {
   type: 'delete'
   delete: {
     messageIDs: number[]
@@ -171,14 +170,14 @@ export type DeleteContent = {
 
 export type MessageContent = TextContent | AttachmentContent | ReactionContent | EditContent | DeleteContent
 
-export type MessageSender = {
+export interface MessageSender {
   deviceId: string
   deviceName?: string
   uid: string
   username?: string
 }
 
-export type MessageSummary = {
+export interface MessageSummary {
   id: number
   channel: ChatChannel
   sender: MessageSender
@@ -200,19 +199,19 @@ export type MessageSummary = {
   channelNameMentions?: ChannelNameMention[]
 }
 
-export type MessageNotification = {
+export interface MessageNotification {
   source: string
   msg: MessageSummary
   error: string
   pagination: Pagination
 }
 
-export type ReadResult = {
+export interface ReadResult {
   messages: MessageNotification[]
   pagination: Pagination
 }
 
-export type SendResult = {
+export interface SendResult {
   id: number
 }
 
@@ -223,12 +222,12 @@ export type SendResult = {
  * and building tools that seamlessly integrate with a running client used by
  * the user.
  */
-export type ListenOptions = {
+export interface ListenOptions {
   hideExploding: boolean
   showLocal: boolean
 }
 
-export type ChatOptionsSearch = {
+export interface ChatOptionsSearch {
   maxHits: number
   sentBy: string
   sentAfter?: string
@@ -240,7 +239,7 @@ export type ChatOptionsSearch = {
 /**
  * Options for the `list` method of the chat module.
  */
-export type ChatListOptions = {
+export interface ChatListOptions {
   failOffline?: boolean
   showErrors?: boolean
   topicType?: TopicType
@@ -250,7 +249,7 @@ export type ChatListOptions = {
 /**
  * Options for the `listChannels` method of the chat module.
  */
-export type ChatListChannelsOptions = {
+export interface ChatListChannelsOptions {
   topicType?: TopicType
   membersType?: MembersType
 }
@@ -258,7 +257,7 @@ export type ChatListChannelsOptions = {
 /**
  * Options for the `read` method of the chat module.
  */
-export type ChatReadOptions = {
+export interface ChatReadOptions {
   conversationId?: string
   failOffline?: boolean
   pagination?: Pagination
@@ -269,17 +268,17 @@ export type ChatReadOptions = {
 /**
  * Options for the `send` method of the chat module.
  */
-export type ChatSendOptions = {
+export interface ChatSendOptions {
   conversationId?: string
   nonblock?: boolean
-  membersType: MembersType
+  membersType?: MembersType
   confirmLumenSend?: boolean
 }
 
 /**
  * Options for the `attach` method of the chat module.
  */
-export type ChatAttachOptions = {
+export interface ChatAttachOptions {
   conversationId?: string
   title?: string
   preview?: string
@@ -288,7 +287,7 @@ export type ChatAttachOptions = {
 /**
  * Options for the `download` method of the chat module.
  */
-export type ChatDownloadOptions = {
+export interface ChatDownloadOptions {
   conversationId?: string
   preview?: string
   noStream?: boolean
@@ -297,49 +296,49 @@ export type ChatDownloadOptions = {
 /**
  * Options for the `delete` method of the chat module.
  */
-export type ChatDeleteOptions = {
+export interface ChatDeleteOptions {
   conversationId?: string
 }
 
 /**
  * Options for the `react` method of the chat module.
  */
-export type ChatReactOptions = {
+export interface ChatReactOptions {
   conversationId?: string
 }
 
-export type ChatEditOptions = {
+export interface ChatEditOptions {
   channel: ChatChannel
   conversationId?: string
   messageId: number
   message: ChatMessage
 }
 
-export type ChatOptionsReaction = {
+export interface ChatOptionsReaction {
   channel: ChatChannel
   conversationId?: string
   messageId: number
   message: ChatMessage
 }
 
-export type ChatOptionsSetStatus = {
+export interface ChatOptionsSetStatus {
   channel: ChatChannel
   conversationId?: string
   status: string
 }
 
-export type ChatOptionsMark = {
+export interface ChatOptionsMark {
   channel: ChatChannel
   conversationId?: string
   messageId: number
 }
 
-export type ChatOptionsSearchInbox = ChatOptionsSearch & {
+export interface ChatOptionsSearchInbox extends ChatOptionsSearch {
   query: string
   forceReindex?: boolean
 }
 
-export type ChatOptionsSearchRegexp = ChatOptionsSearchInbox & {
+export interface ChatOptionsSearchRegexp extends ChatOptionsSearchInbox {
   channel: ChatChannel
   conversationId?: string
   query: string
@@ -349,12 +348,12 @@ export type ChatOptionsSearchRegexp = ChatOptionsSearchInbox & {
 
 export type UnfurlModeKind = 'always' | 'never' | 'whitelisted'
 
-export type UnfurlMode = {
+export interface UnfurlMode {
   mode: UnfurlModeKind
   whitelist?: string[]
 }
 
-export type FlipParticipant = {
+export interface FlipParticipant {
   uid: string
   deviceID: string
   username: string
@@ -363,7 +362,7 @@ export type FlipParticipant = {
   reveal: string
 }
 
-export type FlipSummary = {
+export interface FlipSummary {
   gameID: string
   phase: number
   progressText: string

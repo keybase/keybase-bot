@@ -1,38 +1,39 @@
 export declare type TeamRole = 'writer' | 'reader' | 'admin' | 'owner';
-export declare type AddMemberEmailItem = {
+export declare type TeamRolePural = 'writers' | 'readers' | 'admins' | 'owners';
+export interface AddMemberEmailItem {
     email: string;
     role: TeamRole;
-};
-export declare type AddMemberUsernameItem = {
+}
+export interface AddMemberUsernameItem {
     username: string;
     role: TeamRole;
-};
-export declare type AddMembersParam = {
+}
+export interface AddMembersParam {
     team: string;
     emails?: AddMemberEmailItem[];
     usernames?: AddMemberUsernameItem[];
-};
-export declare type RemoveMemberParam = {
+}
+export interface RemoveMemberParam {
     team: string;
     username: string;
-};
-export declare type ListTeamMembershipsParam = {
+}
+export interface ListTeamMembershipsParam {
     team: string;
-};
+}
 export declare type AddMembersResult = any;
 export declare type RemoveMemberResult = any;
-export declare type UserVersionType = {
+export interface UserVersionType {
     uid: string;
     eldestSeqno: number;
-};
-export declare type MembershipItem = {
+}
+export interface MembershipItem {
     uv: UserVersionType;
     username: string;
     fullName: string;
     needsPuk: boolean;
     status: number;
-};
-export declare type ListTeamMembershipsResult = {
+}
+export interface ListTeamMembershipsResult {
     members: {
         owners: MembershipItem[];
         admins: MembershipItem[];
@@ -49,4 +50,4 @@ export declare type ListTeamMembershipsResult = {
         isShowcased: boolean;
         anyMemberShowcase: boolean;
     };
-};
+}

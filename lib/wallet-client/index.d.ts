@@ -41,7 +41,7 @@ declare class Wallet extends ClientBase {
      * _.isEqual(lookup1, lookup2) // => true
      */
     lookup(name: string): Promise<{
-        accountID: string;
+        accountId: string;
         username: string;
     }>;
     /**

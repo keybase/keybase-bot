@@ -1,37 +1,38 @@
 export type TeamRole = 'writer' | 'reader' | 'admin' | 'owner'
-export type TeamRolePurals = 'writers```
-export type AddMemberEmailItem = {
+export type TeamRolePural = 'writers' | 'readers' | 'admins' | 'owners'
+
+export interface AddMemberEmailItem {
   email: string
   role: TeamRole
 }
-export type AddMemberUsernameItem = {
+export interface AddMemberUsernameItem {
   username: string
   role: TeamRole
 }
 
-export type AddMembersParam = {
+export interface AddMembersParam {
   team: string
   emails?: AddMemberEmailItem[]
   usernames?: AddMemberUsernameItem[]
 }
 
-export type RemoveMemberParam = {
+export interface RemoveMemberParam {
   team: string
   username: string
 }
 
-export type ListTeamMembershipsParam = {
+export interface ListTeamMembershipsParam {
   team: string
 }
 
 export type AddMembersResult = any /* TODO: this */
 export type RemoveMemberResult = any /* TODO: this */
 
-export type UserVersionType = {
+export interface UserVersionType {
   uid: string
   eldestSeqno: number
 }
-export type MembershipItem = {
+export interface MembershipItem {
   uv: UserVersionType
   username: string
   fullName: string
@@ -39,7 +40,7 @@ export type MembershipItem = {
   status: number
 }
 
-export type ListTeamMembershipsResult = {
+export interface ListTeamMembershipsResult {
   members: {
     owners: MembershipItem[]
     admins: MembershipItem[]

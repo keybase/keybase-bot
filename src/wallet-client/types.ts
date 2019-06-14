@@ -8,7 +8,7 @@ export type PaymentStatus = 'none' | 'pending' | 'claimable' | 'completed' | 'er
 /**
  * An asset.
  */
-export type Asset = {
+export interface Asset {
   type: string
   code: string
   issuer: string
@@ -19,7 +19,7 @@ export type Asset = {
 /**
  * An exchange rate, which specifies a currency and the rate of exchange between an asset and that currency.
  */
-export type ExchangeRate = {
+export interface ExchangeRate {
   currency: string
   rate: string
 }
@@ -27,7 +27,7 @@ export type ExchangeRate = {
 /**
  * A balance.
  */
-export type Balance = {
+export interface Balance {
   asset: Asset
   amount: string
   limit: string
@@ -36,7 +36,7 @@ export type Balance = {
 /**
  * An account, with money inside!
  */
-export type Account = {
+export interface Account {
   accountId: string
   name: string
   isPrimary: boolean
@@ -47,34 +47,43 @@ export type Account = {
 /**
  * A transaction, where a user sends money to another user.
  */
-export type Transaction = {
+export interface Transaction {
   txId: string
   time: number
   status: PaymentStatus
   statusDetail: string
   amount: string
-  asset: Asset
+  asset: any
   displayAmount: string
   displayCurrency: string
-  fromStellar: string
-  toStellar: string
-  fromUsername: string
-  toUsername: string
+  sourceAmountMax: string
+  sourceAmountActual: string
+  sourceAsset: any
+  isAdvanced: boolean
+  summaryAdvanced: string
+  operations: null | any[]
+  fromStellar: void | string
+  toStellar: void | string
+  fromUsername: void | string
+  toUsername: void | string
   note: string
   noteErr: string
   unread: boolean
+  publicNote: string
+  publicNoteType: string
+  feeChargedDescription: string
 }
 
 /**
  * In batch sends, one individual send
  */
-export type PaymentBatchItem = {
+export interface PaymentBatchItem {
   recipient: string
   amount: string
   message?: string
 }
 
-export type BatchItemResult = {
+export interface BatchItemResult {
   username: string
   startTime: number
   submittedTime: number
@@ -88,7 +97,7 @@ export type BatchItemResult = {
 /**
  * A batch send result
  */
-export type BatchResult = {
+export interface BatchResult {
   payments: BatchItemResult[]
   startTime: number
   preparedTime: number
@@ -106,31 +115,6 @@ export type BatchResult = {
   avgErrorDurationMs: number
 }
 
-export type HistoryResultItem = {
-  payment: {
-    txID: string
-    time: number
-    status: PaymentStatus
-    statusDetail: string
-    amount: string
-    asset: any
-    displayAmount: string
-    displayCurrency: string
-    sourceAmountMax: string
-    sourceAmountActual: string
-    sourceAsset: any
-    isAdvanced: boolean
-    summaryAdvanced: string
-    operations: null | any[]
-    fromStellar: void | string
-    toStellar: void | string
-    fromUsername: void | string
-    toUsername: void | string
-    note: string
-    noteErr: string
-    unread: boolean
-    publicNote: string
-    publicNoteType: string
-    feeChargedDescription: string
-  }
+export interface HistoryResultItem {
+  payment: Transaction
 }

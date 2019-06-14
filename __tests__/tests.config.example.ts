@@ -1,10 +1,10 @@
 /*
  * if you'd like to run any of the tests in this directory,
- * save this file as `tests.config.js` and put in real usernames and paperkeys
+ * save this file as `tests.config.ts` and put in real usernames and paperkeys
  * for each of the participants here.
  */
 
-module.exports = {
+export = {
   bots: {
     alice1: {
       // Alice should have an active Stellar account with a little bit of XLM in it
