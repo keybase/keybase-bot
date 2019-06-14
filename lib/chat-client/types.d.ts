@@ -11,8 +11,8 @@ interface ChannelNameMention {
  */
 export interface ChatChannel {
     name: string;
-    public: boolean;
-    topicType: TopicType;
+    public?: boolean;
+    topicType?: TopicType;
     membersType?: MembersType;
     topicName?: string;
 }
@@ -116,6 +116,19 @@ export interface MessageSender {
     uid: string;
     username?: string;
 }
+export interface ReactionTiming {
+    ctime: number;
+    reactionMsgId: number;
+}
+export interface ReactionByUsers {
+    [key: string]: ReactionTiming;
+}
+export interface ReactionLookup {
+    [key: string]: ReactionByUsers;
+}
+export interface MessageReactionSummary {
+    reactions: ReactionLookup;
+}
 export interface MessageSummary {
     id: number;
     channel: ChatChannel;
@@ -131,7 +144,7 @@ export interface MessageSummary {
     isEphemeral?: boolean;
     isEphemeralExpired?: boolean;
     ETime?: number;
-    reactions?: any[];
+    reactions?: MessageReactionSummary;
     hasPairwiseMacs?: boolean;
     atMentionUsernames?: string[];
     channelMention?: ChannelMention;
@@ -144,7 +157,7 @@ export interface MessageNotification {
     pagination: Pagination;
 }
 export interface ReadResult {
-    messages: MessageNotification[];
+    messages: MessageSummary[];
     pagination: Pagination;
 }
 export interface SendResult {
@@ -286,6 +299,6 @@ export interface FlipSummary {
     commitmentVisualization: string;
     revealVisualization: string;
     participants: FlipParticipant[];
-    resultInfo: Object;
+    resultInfo: Record<string, any>;
 }
 export {};

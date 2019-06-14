@@ -92,7 +92,7 @@ declare class Chat extends ClientBase {
      * @example
      * bot.chat.attach(channel, '/Users/nathan/my_picture.png').then(() => console.log('Sent a picture!'))
      */
-    attach(channel: ChatChannel, filename: string, options: ChatAttachOptions): Promise<SendResult>;
+    attach(channel: ChatChannel, filename: string, options?: ChatAttachOptions): Promise<SendResult>;
     /**
      * Download a file send via Keybase chat.
      * @memberof Chat
@@ -103,7 +103,7 @@ declare class Chat extends ClientBase {
      * @example
      * bot.chat.download(channel, 325, '/Users/nathan/Downloads/file.png')
      */
-    download(channel: ChatChannel, messageId: number, output: string, options: ChatDownloadOptions): Promise<void>;
+    download(channel: ChatChannel, messageId: number, output: string, options?: ChatDownloadOptions): Promise<void>;
     /**
      * Reacts to a given message in a channel. Messages have messageId's associated with
      * them, which you can learn in `bot.chat.read`.
@@ -208,6 +208,6 @@ declare class Chat extends ClientBase {
      * @example
      * this._chatListen(onMessage, onError)
      */
-    _chatListen(onMessage: OnMessage, onError?: OnError, channel?: ChatChannel, options?: ListenOptions): void;
+    private _chatListen;
 }
 export default Chat;

@@ -1,6 +1,6 @@
 {
   "bracketSpacing": false,
-  "printWidth": 110,
+  "printWidth": 140,
   "semi": false,
   "singleQuote": true,
   "tabWidth": 2,
@@ -9,7 +9,7 @@
     {
       "files": "*.json",
       "options": {
-        "printWidth": 100
+        "printWidth": 140
       }
     }
   ]

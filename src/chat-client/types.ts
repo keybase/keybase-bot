@@ -14,16 +14,14 @@ interface ChannelNameMention {
   convID: string
 }
 
-// Note: there doesn't seem to be a way to document the properties of Flow types. See https://github.com/documentationjs/documentation/issues/742
-
 /**
  * A Keybase chat channel. This can be a channel in a team, or just an informal channel between two users.
  * name: the name of the team or comma-separated list of participants
  */
 export interface ChatChannel {
   name: string
-  public: boolean
-  topicType: TopicType
+  public?: boolean
+  topicType?: TopicType
   membersType?: MembersType
   topicName?: string
 }
@@ -177,6 +175,23 @@ export interface MessageSender {
   username?: string
 }
 
+export interface ReactionTiming {
+  ctime: number
+  reactionMsgId: number
+}
+export interface ReactionByUsers {
+  // keyed by username (e.g. 'chris')
+  [key: string]: ReactionTiming
+}
+export interface ReactionLookup {
+  // keyed by reaction (e.g., 'pizza')
+  [key: string]: ReactionByUsers
+}
+
+export interface MessageReactionSummary {
+  reactions: ReactionLookup
+}
+
 export interface MessageSummary {
   id: number
   channel: ChatChannel
@@ -192,7 +207,7 @@ export interface MessageSummary {
   isEphemeral?: boolean
   isEphemeralExpired?: boolean
   ETime?: number
-  reactions?: any[]
+  reactions?: MessageReactionSummary
   hasPairwiseMacs?: boolean
   atMentionUsernames?: string[]
   channelMention?: ChannelMention
@@ -207,7 +222,7 @@ export interface MessageNotification {
 }
 
 export interface ReadResult {
-  messages: MessageNotification[]
+  messages: MessageSummary[]
   pagination: Pagination
 }
 
@@ -370,5 +385,5 @@ export interface FlipSummary {
   commitmentVisualization: string
   revealVisualization: string
   participants: FlipParticipant[]
-  resultInfo: Object
+  resultInfo: Record<string, any>
 }

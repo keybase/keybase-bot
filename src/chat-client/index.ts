@@ -39,7 +39,7 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.list({unreadOnly: true}).then(chatConversations => console.log(chatConversations))
    */
-  async list(options?: ChatListOptions): Promise<ChatConversation[]> {
+  public async list(options?: ChatListOptions): Promise<ChatConversation[]> {
     await this._guardInitialized()
     const res = await this._runApiCommand({apiName: 'chat', method: 'list', options})
     if (!res) {
@@ -57,7 +57,7 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.listChannels('team_name').then(chatConversations => console.log(chatConversations))
    */
-  async listChannels(name: string, options?: ChatListChannelsOptions): Promise<ChatConversation[]> {
+  public async listChannels(name: string, options?: ChatListChannelsOptions): Promise<ChatConversation[]> {
     await this._guardInitialized()
     const optionsWithDefaults = {
       ...options,
@@ -84,7 +84,7 @@ class Chat extends ClientBase {
    * @example
    * alice.chat.read(channel).then(messages => console.log(messages))
    */
-  async read(channel: ChatChannel, options?: ChatReadOptions): Promise<ReadResult> {
+  public async read(channel: ChatChannel, options?: ChatReadOptions): Promise<ReadResult> {
     await this._guardInitialized()
     const optionsWithDefaults = {
       ...options,
@@ -116,7 +116,7 @@ class Chat extends ClientBase {
    *  }
    * })
    */
-  async joinChannel(channel: ChatChannel): Promise<void> {
+  public async joinChannel(channel: ChatChannel): Promise<void> {
     await this._guardInitialized()
     const res = await this._runApiCommand({
       apiName: 'chat',
@@ -143,7 +143,7 @@ class Chat extends ClientBase {
    *  }
    * })
    */
-  async leaveChannel(channel: ChatChannel): Promise<void> {
+  public async leaveChannel(channel: ChatChannel): Promise<void> {
     await this._guardInitialized()
     const res = await this._runApiCommand({
       apiName: 'chat',
@@ -168,7 +168,7 @@ class Chat extends ClientBase {
    * const message = {body: 'Hello kbot!'}
    * bot.chat.send(channel, message).then(() => console.log('message sent!'))
    */
-  async send(channel: ChatChannel, message: ChatMessage, options?: ChatSendOptions): Promise<SendResult> {
+  public async send(channel: ChatChannel, message: ChatMessage, options?: ChatSendOptions): Promise<SendResult> {
     await this._guardInitialized()
     const args = {
       ...options,
@@ -194,7 +194,7 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.createChannel(channel).then(() => console.log('conversation created'))
    */
-  async createChannel(channel: ChatChannel): Promise<void> {
+  public async createChannel(channel: ChatChannel): Promise<void> {
     await this._guardInitialized()
     const args = {
       channel,
@@ -218,7 +218,7 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.attach(channel, '/Users/nathan/my_picture.png').then(() => console.log('Sent a picture!'))
    */
-  async attach(channel: ChatChannel, filename: string, options: ChatAttachOptions): Promise<SendResult> {
+  public async attach(channel: ChatChannel, filename: string, options?: ChatAttachOptions): Promise<SendResult> {
     await this._guardInitialized()
     const args = {...options, channel, filename}
     const res = await this._runApiCommand({apiName: 'chat', method: 'attach', options: args})
@@ -239,7 +239,7 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.download(channel, 325, '/Users/nathan/Downloads/file.png')
    */
-  async download(channel: ChatChannel, messageId: number, output: string, options: ChatDownloadOptions) {
+  public async download(channel: ChatChannel, messageId: number, output: string, options?: ChatDownloadOptions): Promise<void> {
     await this._guardInitialized()
     const args = {...options, channel, messageId, output}
     const res = await this._runApiCommand({apiName: 'chat', method: 'download', options: args})
@@ -259,12 +259,7 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.react(channel, 314, ':+1:').then(() => console.log('Thumbs up!'))
    */
-  async react(
-    channel: ChatChannel,
-    messageId: number,
-    reaction: string,
-    options?: ChatReactOptions
-  ): Promise<SendResult> {
+  public async react(channel: ChatChannel, messageId: number, reaction: string, options?: ChatReactOptions): Promise<SendResult> {
     await this._guardInitialized()
     const args = {
       ...options,
@@ -291,7 +286,7 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.delete(channel, 314).then(() => console.log('message deleted!'))
    */
-  async delete(channel: ChatChannel, messageId: number, options?: ChatDeleteOptions): Promise<void> {
+  public async delete(channel: ChatChannel, messageId: number, options?: ChatDeleteOptions): Promise<void> {
     await this._guardInitialized()
     const args = {
       ...options,
@@ -309,7 +304,7 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.getUnfurlSettings().then((mode) => console.log(mode))
    */
-  async getUnfurlSettings(): Promise<UnfurlMode> {
+  public async getUnfurlSettings(): Promise<UnfurlMode> {
     await this._guardInitialized()
     const res = await this._runApiCommand({apiName: 'chat', method: 'getunfurlsettings', options: {}})
     if (!res) {
@@ -330,7 +325,7 @@ class Chat extends ClientBase {
    *   "mode": "always",
    * }).then((mode) => console.log('mode updated!'))
    */
-  async setUnfurlSettings(mode: UnfurlMode): Promise<void> {
+  public async setUnfurlSettings(mode: UnfurlMode): Promise<void> {
     await this._guardInitialized()
     const res = await this._runApiCommand({apiName: 'chat', method: 'setunfurlsettings', options: mode})
     if (!res) {
@@ -347,12 +342,7 @@ class Chat extends ClientBase {
    * @example
    * // check demos/es7/poker-hands.js
    */
-  async loadFlip(
-    conversationID: string,
-    flipConversationID: string,
-    messageID: number,
-    gameID: string
-  ): Promise<FlipSummary> {
+  public async loadFlip(conversationID: string, flipConversationID: string, messageID: number, gameID: string): Promise<FlipSummary> {
     await this._guardInitialized()
     const res = await this._runApiCommand({
       apiName: 'chat',
@@ -388,7 +378,7 @@ class Chat extends ClientBase {
    * }
    * bot.chat.watchChannelForNewMessages(channel, onMessage)
    */
-  async watchChannelForNewMessages(
+  public async watchChannelForNewMessages(
     channel: ChatChannel,
     onMessage: OnMessage,
     onError?: OnError,
@@ -419,11 +409,7 @@ class Chat extends ClientBase {
    * bot.chat.watchAllChannelsForNewMessages(onMessage)
    *
    */
-  async watchAllChannelsForNewMessages(
-    onMessage: OnMessage,
-    onError?: OnError,
-    options?: ListenOptions
-  ): Promise<void> {
+  public async watchAllChannelsForNewMessages(onMessage: OnMessage, onError?: OnError, options?: ListenOptions): Promise<void> {
     await this._guardInitialized()
     this._chatListen(onMessage, onError, undefined, options)
   }
@@ -439,7 +425,7 @@ class Chat extends ClientBase {
    * @example
    * this._chatListen(onMessage, onError)
    */
-  _chatListen(onMessage: OnMessage, onError?: OnError, channel?: ChatChannel, options?: ListenOptions): void {
+  private _chatListen(onMessage: OnMessage, onError?: OnError, channel?: ChatChannel, options?: ListenOptions): void {
     const args = ['chat', 'api-listen']
     if (this.homeDir) {
       args.unshift('--home', this.homeDir)
@@ -457,7 +443,7 @@ class Chat extends ClientBase {
     this.spawnedProcesses.push(child)
 
     const lineReaderStdout = readline.createInterface({input: child.stdout})
-    const onLine = (line: string) => {
+    const onLine = (line: string): void => {
       try {
         const messageObject: MessageNotification = formatAPIObjectOutput(JSON.parse(line))
         if (messageObject.hasOwnProperty('error')) {
@@ -468,8 +454,7 @@ class Chat extends ClientBase {
           (options && options.showLocal) ||
           (this.username &&
             this.devicename &&
-            (messageObject.msg.sender.username !== this.username.toLowerCase() ||
-              messageObject.msg.sender.deviceName !== this.devicename))
+            (messageObject.msg.sender.username !== this.username.toLowerCase() || messageObject.msg.sender.deviceName !== this.devicename))
         ) {
           onMessage(messageObject.msg)
         }

@@ -5,24 +5,33 @@ import config from './tests.config'
 import {timeout} from '../lib/utils'
 import {pollFor} from './test-utils'
 import {promisify} from 'util'
+import {ChatChannel, ReadResult, MessageSummary} from '../lib/chat-client/types'
+import {OnMessage} from '../lib/chat-client'
 
-test('Chat methods with an uninitialized bot', () => {
+test('Chat methods with an uninitialized bot', (): void => {
   const alice1 = new Bot()
   const channel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
   const message = {body: 'Testing!'}
 
+  // @ts-ignore because it intentionally has bar arguments
   expect(alice1.chat.list()).rejects.toThrowError()
+
+  // @ts-ignore because it intentionally has bar arguments
   expect(alice1.chat.read()).rejects.toThrowError()
+
+  // @ts-ignore because it intentionally has bar arguments
   expect(alice1.chat.send(channel, message)).rejects.toThrowError()
+
+  // @ts-ignore because it intentionally has bar arguments
   expect(alice1.chat.delete(channel, 314)).rejects.toThrowError()
 })
 
-describe('Chat Methods', () => {
+describe('Chat Methods', (): void => {
   const alice1 = new Bot()
   const alice2 = new Bot()
   const bob = new Bot()
-  const channel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
-  const teamChannel = {
+  const channel: ChatChannel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
+  const teamChannel: ChatChannel = {
     name: config.teams.acme.teamname,
     public: false,
     topicType: 'chat',
@@ -62,19 +71,23 @@ describe('Chat Methods', () => {
     unread: expect.any(Boolean),
   })
 
-  beforeAll(async () => {
-    await alice1.init(config.bots.alice1.username, config.bots.alice1.paperkey)
-    await alice2.init(config.bots.alice2.username, config.bots.alice2.paperkey)
-    await bob.init(config.bots.bob1.username, config.bots.bob1.paperkey)
-  })
-  afterAll(async () => {
-    await alice1.deinit()
-    await alice2.deinit()
-    await bob.deinit()
-  })
+  beforeAll(
+    async (): Promise<void> => {
+      await alice1.init(config.bots.alice1.username, config.bots.alice1.paperkey)
+      await alice2.init(config.bots.alice2.username, config.bots.alice2.paperkey)
+      await bob.init(config.bots.bob1.username, config.bots.bob1.paperkey)
+    }
+  )
+  afterAll(
+    async (): Promise<void> => {
+      await alice1.deinit()
+      await alice2.deinit()
+      await bob.deinit()
+    }
+  )
 
-  describe('Chat list', () => {
-    it('Returns all chat conversations in an array', async () => {
+  describe('Chat list', (): void => {
+    it('Returns all chat conversations in an array', async (): Promise<void> => {
       const conversations = await alice1.chat.list()
 
       expect(Array.isArray(conversations)).toBe(true)
@@ -83,14 +96,14 @@ describe('Chat Methods', () => {
       }
     })
 
-    it('Shows only unread messages if given the option', async () => {
+    it('Shows only unread messages if given the option', async (): Promise<void> => {
       const conversations = await alice1.chat.list({unreadOnly: true})
       for (const conversation of conversations) {
         expect(conversation).toHaveProperty('unread', true)
       }
     })
 
-    it('Shows only messages of a specific topic type if given the option', async () => {
+    it('Shows only messages of a specific topic type if given the option', async (): Promise<void> => {
       const conversations = await alice1.chat.list({topicType: 'dev'})
       for (const conversation of conversations) {
         expect(conversation.channel).toHaveProperty('topicType', 'dev')
@@ -98,8 +111,8 @@ describe('Chat Methods', () => {
     })
   })
 
-  describe('Chat read', () => {
-    it('Retrieves all messages in a conversation', async () => {
+  describe('Chat read', (): void => {
+    it('Retrieves all messages in a conversation', async (): Promise<void> => {
       const result = await alice1.chat.read(channel)
       expect(Array.isArray(result.messages)).toBe(true)
       for (const message of result.messages) {
@@ -107,7 +120,7 @@ describe('Chat Methods', () => {
       }
     })
 
-    it('Shows only unread messages if given the option', async () => {
+    it('Shows only unread messages if given the option', async (): Promise<void> => {
       await bob.chat.send(channel, message)
       const result = await alice1.chat.read(channel, {unreadOnly: true})
       expect(Array.isArray(result.messages)).toBe(true)
@@ -116,7 +129,7 @@ describe('Chat Methods', () => {
       }
     })
 
-    it("Doesn't mark messages read on peek", async () => {
+    it("Doesn't mark messages read on peek", async (): Promise<void> => {
       // No peeking: message should be unread on first read, and read on subsequent reads
       await bob.chat.send(channel, message)
       let result = await alice1.chat.read(channel)
@@ -132,7 +145,7 @@ describe('Chat Methods', () => {
       expect(result.messages[0]).toHaveProperty('unread', true)
     })
 
-    it('Allows a user to properly paginate over the messages', async () => {
+    it('Allows a user to properly paginate over the messages', async (): Promise<void> => {
       // Mark all messages as read
       await alice1.chat.read(channel)
 
@@ -146,7 +159,7 @@ describe('Chat Methods', () => {
       let totalCount = 0
       let lastPagination
       while (true) {
-        const result = await alice1.chat.read(channel, {
+        const result: ReadResult = await alice1.chat.read(channel, {
           peek: true,
           unreadOnly: true,
           pagination: {
@@ -164,32 +177,37 @@ describe('Chat Methods', () => {
       expect(totalCount).toEqual(10)
     })
 
-    it('Throws an error if given an invalid channel', async () => {
+    it('Throws an error if given an invalid channel', async (): Promise<void> => {
       expect(alice1.chat.read(invalidChannel)).rejects.toThrowError()
     })
   })
 
-  describe('Chat send', () => {
-    it('Sends a message to a certain channel and returns an empty promise', async () => {
+  describe('Chat send', (): void => {
+    it('Sends a message to a certain channel and returns an empty promise', async (): Promise<void> => {
       await alice1.chat.send(channel, message)
 
       const result = await alice1.chat.read(channel, {peek: true})
       expect(result.messages[0].sender.username).toEqual(alice1.myInfo().username)
-      expect(result.messages[0].content.text.body).toEqual(message.body)
+      if (result.messages[0].content.type === 'text') {
+        expect(result.messages[0].content.text.body).toEqual(message.body)
+      } else {
+        expect(false).toBe(true)
+      }
     })
 
-    it('Throws an error if given an invalid channel', async () => {
+    it('Throws an error if given an invalid channel', async (): Promise<void> => {
       expect(alice1.chat.send(invalidChannel, message)).rejects.toThrowError()
     })
 
-    it('Throws an error if given an invalid message', async () => {
+    it('Throws an error if given an invalid message', async (): Promise<void> => {
+      // @ts-ignore intentionally bad formatted message
       expect(alice1.chat.send(channel, invalidMessage)).rejects.toThrowError()
     })
   })
 
-  describe('Gets messages in correct channels', () => {
-    it(`Can act read/post in different channels concurrently`, async () => {
-      const channels = [
+  describe('Gets messages in correct channels', (): void => {
+    it(`Can act read/post in different channels concurrently`, async (): Promise<void> => {
+      const channels: ChatChannel[] = [
         {
           name: config.teams.acme.teamname,
           topicName: 'general',
@@ -202,7 +220,7 @@ describe('Chat Methods', () => {
         },
         {name: `${config.bots.alice1.username},${config.bots.bob1.username}`},
       ]
-      const okChecks = []
+      const okChecks: any[] = []
       for (const channel of channels) {
         if (channel.topicName && channel.topicName !== 'general') {
           try {
@@ -217,19 +235,25 @@ describe('Chat Methods', () => {
       // concurrently watch and send to all of them
       for (const i in channels) {
         const channel = channels[i]
-        bob.chat.watchChannelForNewMessages(channel, message => {
-          if (message.content.text.body === `c${i} test`) {
-            if (okChecks[i]) {
-              throw new Error('Uh oh, duplicate! ' + JSON.stringify(message))
+        bob.chat.watchChannelForNewMessages(
+          channel,
+          (message): void => {
+            if (message.content.type !== 'text') {
+              throw new Error('Expected text type')
             }
-            okChecks[i] = true
-          } else {
-            throw new Error('Got bad message: ' + JSON.stringify(message))
+            if (message.content.text.body === `c${i} test`) {
+              if (okChecks[i]) {
+                throw new Error('Uh oh, duplicate! ' + JSON.stringify(message))
+              }
+              okChecks[i] = true
+            } else {
+              throw new Error('Got bad message: ' + JSON.stringify(message))
+            }
           }
-        })
+        )
         alice1.chat.send(channel, {body: `c${i} test`})
       }
-      const allChecksOk = () => {
+      const allChecksOk = (): boolean => {
         for (const i in channels) {
           if (!okChecks[i]) {
             return false
@@ -240,25 +264,32 @@ describe('Chat Methods', () => {
       await pollFor(allChecksOk)
       expect(allChecksOk()).toBe(true)
     })
-    it(`Can read and post even if own username missing from a DM channel name`, async () => {
+    it(`Can read and post even if own username missing from a DM channel name`, async (): Promise<void> => {
       const channelAlice = {name: config.bots.bob1.username}
       const channelBob = {name: config.bots.alice1.username}
       const body = 'Dearest Bob, how are you?'
-      let incoming = false
-      bob.chat.watchChannelForNewMessages(channelBob, message => (incoming = message))
+      let incoming: any = null
+      const watcher: OnMessage = (message: MessageSummary): void => {
+        incoming = message
+      }
+      bob.chat.watchChannelForNewMessages(channelBob, watcher)
       await timeout(500)
       await alice1.chat.send(channelAlice, {body})
       await timeout(500)
-      expect(incoming.content.text.body).toBe(body)
+      if (incoming.content.type !== 'text') {
+        throw new Error('got a bad message')
+      } else {
+        expect(incoming.content.text.body).toBe(body)
+      }
     })
-    it(`Can read and post with usernames in any order`, async () => {
+    it(`Can read and post with usernames in any order`, async (): Promise<void> => {
       const channel1 = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
       const channel2 = {name: `${config.bots.bob1.username},${config.bots.alice1.username}`}
       const channel3 = {name: `${channel2.name},${config.bots.charlie1.username}`}
       const body = 'Total protonic reversal. That would be bad.'
       let receipts = 0
-      const bobOnMessage = message => {
-        if (message.content.text.body === body) {
+      const bobOnMessage = (message: MessageSummary): void => {
+        if (message.content.type === 'text' && message.content.text.body === body) {
           receipts++
         }
       }
@@ -278,16 +309,16 @@ describe('Chat Methods', () => {
     })
   })
 
-  describe('Chat createChannel, joinChannel, watchChannel, and leaveChannel', () => {
-    it('Successfully performs the complete flow', async () => {
-      const teamChannel = {
+  describe('Chat createChannel, joinChannel, watchChannel, and leaveChannel', (): void => {
+    it('Successfully performs the complete flow', async (): Promise<void> => {
+      const teamChannel: ChatChannel = {
         name: config.teams.acme.teamname,
         public: false,
         topicType: 'chat',
         membersType: 'team',
         topicName: 'subchannel',
       }
-      const generalChannel = {
+      const generalChannel: ChatChannel = {
         name: config.teams.acme.teamname,
         public: false,
         topicType: 'chat',
@@ -308,7 +339,9 @@ describe('Chat Methods', () => {
       expect(read1.messages[0].sender.username).toEqual(config.bots.bob1.username)
 
       let bobMessageCount = 0
-      const bobOnMessage = async message => bobMessageCount++
+      const bobOnMessage = async (): Promise<void> => {
+        bobMessageCount++
+      }
       bob.chat.watchChannelForNewMessages(teamChannel, bobOnMessage)
       bob.chat.watchChannelForNewMessages(generalChannel, bobOnMessage)
       await timeout(500)
@@ -334,8 +367,8 @@ describe('Chat Methods', () => {
     })
   })
 
-  describe('Chat react', () => {
-    it('Allows a user to react to a valid message', async () => {
+  describe('Chat react', (): void => {
+    it('Allows a user to react to a valid message', async (): Promise<void> => {
       await alice1.chat.send(channel, message)
       let result = await alice1.chat.read(channel, {peek: true})
       const messageToReactTo = result.messages[0]
@@ -358,15 +391,19 @@ describe('Chat Methods', () => {
     // it("Throws an error if it cannot react to a message (e.g., it's not a reactable message type")
   })
 
-  describe('Chat attach', () => {
+  describe('Chat attach', (): void => {
     const attachmentLocation = '/tmp/kb-attachment.txt'
-    beforeAll(async () => {
-      await promisify(fs.writeFile)(attachmentLocation, 'This is a test file!')
-    })
-    afterAll(async () => {
-      await promisify(fs.unlink)(attachmentLocation)
-    })
-    it('Attaches and sends a file on the filesystem', async () => {
+    beforeAll(
+      async (): Promise<void> => {
+        await promisify(fs.writeFile)(attachmentLocation, 'This is a test file!')
+      }
+    )
+    afterAll(
+      async (): Promise<void> => {
+        await promisify(fs.unlink)(attachmentLocation)
+      }
+    )
+    it('Attaches and sends a file on the filesystem', async (): Promise<void> => {
       await alice1.chat.attach(channel, attachmentLocation)
       const result = await alice1.chat.read(channel)
       expect(result.messages[0].sender.username).toEqual(alice1.myInfo().username)
@@ -381,9 +418,9 @@ describe('Chat Methods', () => {
     })
   })
 
-  describe('Chat download', () => {
+  describe('Chat download', (): void => {
     const downloadLocation = '/tmp/kb-downloaded-file'
-    it('Downloads a file and saves it on the filesystem', async () => {
+    it('Downloads a file and saves it on the filesystem', async (): Promise<void> => {
       // Send a file
       const attachmentLocation = '/tmp/kb-attachment.txt'
       const attachmentContent = 'Test attachment file'
@@ -400,20 +437,20 @@ describe('Chat Methods', () => {
       await promisify(fs.unlink)(attachmentLocation)
       await promisify(fs.unlink)(downloadLocation)
     })
-    it('Throws an errow if given an invalid channel', async () => {
+    it('Throws an errow if given an invalid channel', async (): Promise<void> => {
       const result = await alice1.chat.read(channel)
       const attachments = result.messages.filter(message => message.content.type === 'attachment')
       expect(alice1.chat.download(invalidChannel, attachments[0].id, downloadLocation)).rejects.toThrowError()
     })
-    it('Throws an error if given a non-attachment message', async () => {
+    it('Throws an error if given a non-attachment message', async (): Promise<void> => {
       await alice1.chat.send(channel, message)
       const result = await alice1.chat.read(channel)
       expect(alice1.chat.download(channel, result.messages[0].id, '/tmp/attachment')).rejects.toThrowError()
     })
   })
 
-  describe('Chat delete', () => {
-    it('Deletes a message to a certain channel and returns an empty promise', async () => {
+  describe('Chat delete', (): void => {
+    it('Deletes a message to a certain channel and returns an empty promise', async (): Promise<void> => {
       await alice1.chat.send(channel, message)
 
       // Send a message
@@ -421,7 +458,11 @@ describe('Chat Methods', () => {
         peek: true,
       })
       expect(result.messages[0].sender.username).toEqual(alice1.myInfo().username)
-      expect(result.messages[0].content.text.body).toEqual(message.body)
+      if (result.messages[0].content.type !== 'text') {
+        throw new Error('Expected text type but got something else')
+      } else {
+        expect(result.messages[0].content.text.body).toEqual(message.body)
+      }
 
       const {id} = result.messages[0]
       await alice1.chat.delete(channel, id)
@@ -431,12 +472,16 @@ describe('Chat Methods', () => {
         peek: true,
       })
       expect(newResult.messages[0].id).toEqual(id + 1)
-      expect(newResult.messages[0].content.delete.messageIDs).toContain(id)
-      expect(newResult.messages[0].content.delete.messageIDs).toHaveLength(1)
+      if (newResult.messages[0].content.type !== 'delete') {
+        throw new Error('expected delete message type')
+      } else {
+        expect(newResult.messages[0].content.delete.messageIDs).toContain(id)
+        expect(newResult.messages[0].content.delete.messageIDs).toHaveLength(1)
+      }
       expect(newResult.messages[1].id).toEqual(id - 1)
     })
 
-    it('Throws an error if given an invalid channel', async () => {
+    it('Throws an error if given an invalid channel', async (): Promise<void> => {
       await alice1.chat.send(channel, message)
       const result = await alice1.chat.read(channel, {
         peek: true,
@@ -445,8 +490,8 @@ describe('Chat Methods', () => {
       expect(alice1.chat.delete(invalidChannel, id)).rejects.toThrowError()
     })
 
-    it('Throws an error if given an invalid id', async () => {
-      expect(alice1.chat.send(channel, -1)).rejects.toThrowError()
+    it('Throws an error if given an invalid id', async (): Promise<void> => {
+      expect(alice1.chat.delete(channel, -1)).rejects.toThrowError()
     })
 
     /*
@@ -466,52 +511,61 @@ describe('Chat Methods', () => {
     */
   })
 
-  describe('watchChannelForNewMessages', () => {
-    it('Can have bots say hello to each other in a team', async () => {
+  describe('watchChannelForNewMessages', (): void => {
+    it('Can have bots say hello to each other in a team', async (): Promise<void> => {
       let ALICE_IS_SATISFIED = false
       let BOB_IS_SATISFIED = false
 
-      alice1.chat.watchChannelForNewMessages(teamChannel, message => {
-        if (message.content.type === 'text' && message.content.text.body === 'hello alice1') {
-          ALICE_IS_SATISFIED = true
+      alice1.chat.watchChannelForNewMessages(
+        teamChannel,
+        (message): void => {
+          if (message.content.type === 'text' && message.content.text.body === 'hello alice1') {
+            ALICE_IS_SATISFIED = true
+          }
         }
-      })
-      bob.chat.watchChannelForNewMessages(teamChannel, message => {
-        if (message.content.type === 'text' && message.content.text.body === 'hello bob') {
-          BOB_IS_SATISFIED = true
+      )
+      bob.chat.watchChannelForNewMessages(
+        teamChannel,
+        (message): void => {
+          if (message.content.type === 'text' && message.content.text.body === 'hello bob') {
+            BOB_IS_SATISFIED = true
+          }
         }
-      })
+      )
       await alice1.chat.send(teamChannel, {body: 'hello bob'})
       await bob.chat.send(teamChannel, {body: 'hello alice1'})
 
-      await pollFor(() => ALICE_IS_SATISFIED && BOB_IS_SATISFIED)
+      await pollFor((): boolean => ALICE_IS_SATISFIED && BOB_IS_SATISFIED)
       expect(ALICE_IS_SATISFIED).toBe(true)
       expect(BOB_IS_SATISFIED).toBe(true)
     })
 
-    it("Doesn't pick up its own messages from the same device", async () => {
+    it("Doesn't pick up its own messages from the same device", async (): Promise<void> => {
       const messageText = 'Ever thus to deadbeats, Lebowski'
       let noticedMessages = 0
-      alice1.chat.watchChannelForNewMessages(teamChannel, message => {
-        if (message.content.type === 'text' && message.content.text.body === messageText) {
-          noticedMessages++
+      alice1.chat.watchChannelForNewMessages(
+        teamChannel,
+        (message): void => {
+          if (message.content.type === 'text' && message.content.text.body === messageText) {
+            noticedMessages++
+          }
         }
-      })
+      )
       await alice1.chat.send(teamChannel, {body: messageText})
       await timeout(3000)
       expect(noticedMessages).toBe(0)
     })
   })
 
-  describe('watchAllChannelsForNewMessages', async () => {
-    const testTwoBotsCounting = async (bot1, bot2) => {
+  describe('watchAllChannelsForNewMessages', (): void => {
+    const testTwoBotsCounting = async (bot1: Bot, bot2: Bot): Promise<void> => {
       const stopAt = 10
       const convoCode = crypto.randomBytes(8).toString('hex')
       const directChannel = {name: `${bot1.myInfo().username},${bot2.myInfo().username}`}
       let totalMessagesSeen = 0
       let highestReached = 0
-      const onMessageForBot = bot => {
-        const onMessage = async message => {
+      const onMessageForBot = (bot: Bot): any => {
+        const onMessage = async (message: MessageSummary): Promise<void> => {
           if (message.content.type === 'text') {
             const body = message.content.text.body
             if (body.indexOf(convoCode) !== -1) {
@@ -531,11 +585,11 @@ describe('Chat Methods', () => {
       bot2.chat.watchAllChannelsForNewMessages(onMessageForBot(bot2))
       const message = {body: `${convoCode} 1`}
       await bot1.chat.send(directChannel, message)
-      await pollFor(() => highestReached === stopAt)
+      await pollFor((): boolean => highestReached === stopAt)
       expect(totalMessagesSeen).toBe(stopAt)
     }
 
-    it('can have 2 users count together', async () => testTwoBotsCounting(alice1, bob))
-    it('can have 1 user count across 2 devices', async () => testTwoBotsCounting(alice1, alice2))
+    it('can have 2 users count together', async (): Promise<void> => testTwoBotsCounting(alice1, bob))
+    it('can have 1 user count across 2 devices', async (): Promise<void> => testTwoBotsCounting(alice1, alice2))
   })
 })
