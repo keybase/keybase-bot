@@ -235,22 +235,19 @@ describe('Chat Methods', (): void => {
       // concurrently watch and send to all of them
       for (const i in channels) {
         const channel = channels[i]
-        bob.chat.watchChannelForNewMessages(
-          channel,
-          (message): void => {
-            if (message.content.type !== 'text') {
-              throw new Error('Expected text type')
-            }
-            if (message.content.text.body === `c${i} test`) {
-              if (okChecks[i]) {
-                throw new Error('Uh oh, duplicate! ' + JSON.stringify(message))
-              }
-              okChecks[i] = true
-            } else {
-              throw new Error('Got bad message: ' + JSON.stringify(message))
-            }
+        bob.chat.watchChannelForNewMessages(channel, (message): void => {
+          if (message.content.type !== 'text') {
+            throw new Error('Expected text type')
           }
-        )
+          if (message.content.text.body === `c${i} test`) {
+            if (okChecks[i]) {
+              throw new Error('Uh oh, duplicate! ' + JSON.stringify(message))
+            }
+            okChecks[i] = true
+          } else {
+            throw new Error('Got bad message: ' + JSON.stringify(message))
+          }
+        })
         alice1.chat.send(channel, {body: `c${i} test`})
       }
       const allChecksOk = (): boolean => {
@@ -516,22 +513,16 @@ describe('Chat Methods', (): void => {
       let ALICE_IS_SATISFIED = false
       let BOB_IS_SATISFIED = false
 
-      alice1.chat.watchChannelForNewMessages(
-        teamChannel,
-        (message): void => {
-          if (message.content.type === 'text' && message.content.text.body === 'hello alice1') {
-            ALICE_IS_SATISFIED = true
-          }
+      alice1.chat.watchChannelForNewMessages(teamChannel, (message): void => {
+        if (message.content.type === 'text' && message.content.text.body === 'hello alice1') {
+          ALICE_IS_SATISFIED = true
         }
-      )
-      bob.chat.watchChannelForNewMessages(
-        teamChannel,
-        (message): void => {
-          if (message.content.type === 'text' && message.content.text.body === 'hello bob') {
-            BOB_IS_SATISFIED = true
-          }
+      })
+      bob.chat.watchChannelForNewMessages(teamChannel, (message): void => {
+        if (message.content.type === 'text' && message.content.text.body === 'hello bob') {
+          BOB_IS_SATISFIED = true
         }
-      )
+      })
       await alice1.chat.send(teamChannel, {body: 'hello bob'})
       await bob.chat.send(teamChannel, {body: 'hello alice1'})
 
@@ -543,14 +534,11 @@ describe('Chat Methods', (): void => {
     it("Doesn't pick up its own messages from the same device", async (): Promise<void> => {
       const messageText = 'Ever thus to deadbeats, Lebowski'
       let noticedMessages = 0
-      alice1.chat.watchChannelForNewMessages(
-        teamChannel,
-        (message): void => {
-          if (message.content.type === 'text' && message.content.text.body === messageText) {
-            noticedMessages++
-          }
+      alice1.chat.watchChannelForNewMessages(teamChannel, (message): void => {
+        if (message.content.type === 'text' && message.content.text.body === messageText) {
+          noticedMessages++
         }
-      )
+      })
       await alice1.chat.send(teamChannel, {body: messageText})
       await timeout(3000)
       expect(noticedMessages).toBe(0)

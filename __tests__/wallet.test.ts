@@ -58,9 +58,7 @@ describe('Wallet Methods', (): void => {
   })
 
   describe('Wallet history', (): void => {
-    it('Provides the details of all transactions involving the specified account', async (): Promise<
-      void
-    > => {
+    it('Provides the details of all transactions involving the specified account', async (): Promise<void> => {
       const accounts = await alice1.wallet.balances()
       const transactions = await alice1.wallet.history(accounts[0].accountId)
       expect(Array.isArray(transactions)).toBe(true)
@@ -123,6 +121,7 @@ describe('Wallet Methods', (): void => {
         {recipient: config.bots.alice2.username, amount: '0.02'},
         {recipient: config.bots.charlie1.username, amount: '0.03'}, // should fail since not enough for relay
       ])
+      console.log(batchRes)
       expect(batchRes.countSuccess).toBe(2)
       expect(batchRes.countError).toBe(1)
     })
@@ -192,9 +191,7 @@ describe('Wallet Methods', (): void => {
   })
 
   describe('Wallet cancel', (): void => {
-    it('Successfully cancels transactions if the recipient is a user who has not set up their account', async (): Promise<
-      void
-    > => {
+    it('Successfully cancels transactions if the recipient is a user who has not set up their account', async (): Promise<void> => {
       const res = await alice1.wallet.send(config.bots.charlie1.username, '3')
       expect(res.status).toBe('Claimable')
       await alice1.wallet.cancel(res.txId)

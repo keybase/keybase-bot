@@ -1,6 +1,6 @@
 import Bot from '../lib'
 import config from './tests.config'
-import {ListTeamMembershipsResult, TeamRole} from '../lib/team-client/types'
+import {ListTeamMembershipsResult, TeamRole, TeamRolePlural} from '../lib/team-client/types'
 import { isTemplateMiddleOrTemplateTail } from 'typescript';
 
 test('Team methods with an uninitialized bot', (): void => {
@@ -9,7 +9,7 @@ test('Team methods with an uninitialized bot', (): void => {
   expect(alice1.team.listTeamMemberships(options)).rejects.toThrowError()
 })
 
-function pluralizeRole(r: TeamRole): 'owners' | 'admins' | 'writers' | 'readers' {
+function pluralizeRole(r: TeamRole): TeamRolePlural {
   switch(r) {
     case 'owner': return 'owners';
     case 'admin': return 'admins';
