@@ -1,4 +1,4 @@
-export declare type TeamRole = "writer" | "reader" | "admin" | "owner";
+export declare type TeamRole = 'writer' | 'reader' | 'admin' | 'owner';
 export declare type AddMemberEmailItem = {
     email: string;
     role: TeamRole;
@@ -33,10 +33,12 @@ export declare type MembershipItem = {
     status: number;
 };
 export declare type ListTeamMembershipsResult = {
-    owners: MembershipItem[];
-    admins: MembershipItem[];
-    writers: MembershipItem[];
-    readers: MembershipItem[];
+    members: {
+        owners: MembershipItem[];
+        admins: MembershipItem[];
+        writers: MembershipItem[];
+        readers: MembershipItem[];
+    };
     keyGeneration: number;
     annotatedActiveInvites: any;
     settings: {

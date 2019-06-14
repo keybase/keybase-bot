@@ -1,46 +1,60 @@
 import Bot from '../lib'
 import config from './tests.config'
+import {ListTeamMembershipsResult, TeamRole} from '../lib/team-client/types'
+import { isTemplateMiddleOrTemplateTail } from 'typescript';
 
-test('Team methods with an uninitialized bot', () => {
+test('Team methods with an uninitialized bot', (): void => {
   const alice1 = new Bot()
   const options = {team: config.teams.alices_playground.teamname}
   expect(alice1.team.listTeamMemberships(options)).rejects.toThrowError()
 })
 
-function checkMembershipLevel(username, teamListResult) {
-  for (const priv of ['owner', 'admin', 'writer', 'reader']) {
-    for (const user of teamListResult.members[priv + 's']) {
+function pluralizeRole(r: TeamRole): 'owners' | 'admins' | 'writers' | 'readers' {
+  switch(r) {
+    case 'owner': return 'owners';
+    case 'admin': return 'admins';
+    case 'reader': return 'readers';
+    default: return 'writers';
+}
+
+function checkMembershipLevel(username: string, teamListResult: ListTeamMembershipsResult): TeamRole | null {
+  for (const role:TeamRole of ['owner', 'admin', 'writer', 'reader']) {
+    for (const user of teamListResult.members[pluralizeRole(role)]) {
       if (user.username === username) {
-        return priv
+        return role
       }
     }
   }
   return null
 }
 
-describe('Team Methods', () => {
+describe('Team Methods', (): void => {
   const alice1 = new Bot()
   const bob1 = new Bot()
 
-  beforeAll(async () => {
-    await alice1.init(config.bots.alice1.username, config.bots.alice1.paperkey)
-    await bob1.init(config.bots.bob1.username, config.bots.bob1.paperkey)
-  })
-  afterAll(async () => {
-    await alice1.deinit()
-    await bob1.deinit()
-  })
+  beforeAll(
+    async (): Promise<void> => {
+      await alice1.init(config.bots.alice1.username, config.bots.alice1.paperkey)
+      await bob1.init(config.bots.bob1.username, config.bots.bob1.paperkey)
+    }
+  )
+  afterAll(
+    async (): Promise<void> => {
+      await alice1.deinit()
+      await bob1.deinit()
+    }
+  )
 
-  describe('Team list', () => {
+  describe('Team list', (): void => {
     const teamName = config.teams.alices_playground.teamname
 
-    it('Returns members of a team', async () => {
+    it('Returns members of a team', async (): Promise<void> => {
       const list = await alice1.team.listTeamMemberships({team: teamName})
       expect(checkMembershipLevel(config.bots.alice1.username, list)).toBeTruthy()
       expect(checkMembershipLevel(config.bots.bob1.username, list)).toBe(null)
     })
 
-    it('Lets Alice add Bob to her team', async () => {
+    it('Lets Alice add Bob to her team', async (): Promise<void> => {
       await alice1.team.addMembers({
         team: teamName,
         usernames: [{username: config.bots.bob1.username, role: 'reader'}],
@@ -49,7 +63,7 @@ describe('Team Methods', () => {
       expect(checkMembershipLevel(config.bots.bob1.username, list)).toBe('reader')
     })
 
-    it('Throws an error if Alice tries to add Bob twice', async () => {
+    it('Throws an error if Alice tries to add Bob twice', async (): Promise<void> => {
       expect(
         alice1.team.addMembers({
           team: teamName,
@@ -58,7 +72,7 @@ describe('Team Methods', () => {
       ).rejects.toThrowError()
     })
 
-    it('Lets Alice remove Bob from her team', async () => {
+    it('Lets Alice remove Bob from her team', async (): Promise<void> => {
       await alice1.team.removeMember({
         team: teamName,
         username: config.bots.bob1.username,
@@ -67,7 +81,7 @@ describe('Team Methods', () => {
       expect(checkMembershipLevel(config.bots.bob1.username, list)).toBe(null)
     })
 
-    it('Throws an error if Bob tries to do things in Alice team', async () => {
+    it('Throws an error if Bob tries to do things in Alice team', async (): Promise<void> => {
       expect(bob1.team.listTeamMemberships({team: teamName})).rejects.toThrowError()
       expect(
         bob1.team.addMembers({
