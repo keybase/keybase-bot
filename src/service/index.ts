@@ -5,21 +5,21 @@ import {InitOptions} from '../utils/options'
 import path from 'path'
 
 class Service {
-  initialized: false | 'paperkey' | 'runningService'
-  running: boolean
-  username: void | string
-  devicename: void | string
-  homeDir: void | string
-  verbose: boolean
-  botLite: boolean
-  disableTyping: boolean
-  serviceLogFile: void | string
-  workingDir: string
-  autoLogSendOnCrash: boolean
+  public initialized: false | 'paperkey' | 'runningService'
+  public running: boolean
+  public username: void | string
+  public devicename: void | string
+  public homeDir: void | string
+  public verbose: boolean
+  public botLite: boolean
+  public disableTyping: boolean
+  public serviceLogFile: void | string
+  public workingDir: string
+  public autoLogSendOnCrash: boolean
 
-  _paperkey: void | string
+  private _paperkey: void | string
 
-  constructor(workingDir: string) {
+  public constructor(workingDir: string) {
     this.workingDir = workingDir
     this.initialized = false
     this.verbose = false
@@ -28,7 +28,7 @@ class Service {
     this.autoLogSendOnCrash = false
   }
 
-  async init(username: string, paperkey: string, options?: InitOptions): Promise<void> {
+  public async init(username: string, paperkey: string, options?: InitOptions): Promise<void> {
     if (!username || typeof username !== 'string') {
       throw new Error(`Please provide a username to initialize the bot. Got: ${JSON.stringify(username)}`)
     }
@@ -82,7 +82,7 @@ class Service {
     }
   }
 
-  async initFromRunningService(homeDir?: string, options?: InitOptions) {
+  public async initFromRunningService(homeDir?: string, options?: InitOptions): Promise<void> {
     if (this.initialized) {
       throw new Error('Cannot initialize an already initialized bot.')
     }
@@ -97,7 +97,7 @@ class Service {
     }
   }
 
-  async _killCustomService(): Promise<void> {
+  private async _killCustomService(): Promise<void> {
     // these 2 commands might be unnecessary; since the service was `spawn`ed not detached
     // they will also shutdown via SIGINT. We don't want to make service detached because it'd be nice for
     // them to auto-shutdown if the user kills the process
@@ -122,7 +122,7 @@ class Service {
     }
   }
 
-  async deinit(): Promise<void> {
+  public async deinit(): Promise<void> {
     if (!this.initialized) {
       throw new Error('Cannot deinitialize an uninitialized bot.')
     }
@@ -133,7 +133,7 @@ class Service {
     this.initialized = false
   }
 
-  myInfo(): BotInfo | null {
+  public myInfo(): BotInfo | null {
     if (this.username && this.devicename) {
       return {
         username: this.username,
@@ -154,7 +154,7 @@ class Service {
    * @example
    * service.startupService()
    */
-  async startupService(): Promise<void> {
+  public async startupService(): Promise<void> {
     const args = ['service']
     if (this.homeDir) {
       args.unshift('--home', this.homeDir)
@@ -170,33 +170,38 @@ class Service {
 
     // keep track of the subprocess' state
     this.running = true
-    child.on('exit', async code => {
-      this.running = false
-      if (code !== 0 && this.autoLogSendOnCrash) {
-        await this.logSend()
-      }
-    })
-
-    return new Promise(async (resolve, reject) => {
-      child.on('close', code => {
-        // any code here including 0 is bad here, if it happens before resolve
-        //, since this service should stay running
-        reject(new Error(`keybase service exited with code ${code} (${this.workingDir})`))
-      })
-
-      // Wait for the service to start up - give it 10s.
-      let i = 0
-      while (!(await pingKeybaseService(this.workingDir, this.homeDir))) {
-        await timeout(100)
-        if (++i >= 100) {
-          throw new Error("Couldn't start up service fast enough")
+    child.on(
+      'exit',
+      async (code): Promise<void> => {
+        this.running = false
+        if (code !== 0 && this.autoLogSendOnCrash) {
+          await this.logSend()
         }
       }
-      resolve()
-    })
+    )
+
+    return new Promise(
+      async (resolve, reject): Promise<void> => {
+        child.on('close', (code): void => {
+          // any code here including 0 is bad here, if it happens before resolve
+          //, since this service should stay running
+          reject(new Error(`keybase service exited with code ${code} (${this.workingDir})`))
+        })
+
+        // Wait for the service to start up - give it 10s.
+        let i = 0
+        while (!(await pingKeybaseService(this.workingDir, this.homeDir))) {
+          await timeout(100)
+          if (++i >= 100) {
+            throw new Error("Couldn't start up service fast enough")
+          }
+        }
+        resolve()
+      }
+    )
   }
 
-  async logSend(): Promise<void> {
+  public async logSend(): Promise<void> {
     const initiallyRunning = this.running
     if (!initiallyRunning) {
       try {

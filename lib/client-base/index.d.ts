@@ -1,13 +1,13 @@
 /// <reference types="node" />
 import { ChildProcess } from 'child_process';
-import { InitOptions } from '../utils/options';
 import { API_TYPES } from '../constants';
-export declare type ApiCommandArg = {
+import { InitOptions } from '../utils/options';
+export interface ApiCommandArg {
     apiName: API_TYPES;
     method: string;
-    options?: Object;
+    options?: object;
     timeout?: number;
-};
+}
 /**
  * A Client base.
  * @ignore
@@ -18,13 +18,14 @@ declare class ClientBase {
     devicename: void | string;
     homeDir: void | string;
     verbose: boolean;
-    spawnedProcesses: ChildProcess[];
-    _workingDir: string;
+    protected _spawnedProcesses: ChildProcess[];
+    private _workingDir;
+    private _initializedWithOptions;
     constructor(workingDir: string);
     _init(homeDir: void | string, options?: InitOptions): Promise<void>;
     _deinit(): Promise<void>;
-    _runApiCommand(arg: ApiCommandArg): Promise<any>;
-    _guardInitialized(): Promise<void>;
-    _pathToKeybaseBinary(): string;
+    protected _runApiCommand(arg: ApiCommandArg): Promise<any>;
+    protected _guardInitialized(): Promise<void>;
+    protected _pathToKeybaseBinary(): string;
 }
 export default ClientBase;

@@ -1,14 +1,14 @@
 import {ChildProcess} from 'child_process'
 import {formatAPIObjectInput, formatAPIObjectOutput, keybaseExec, keybaseStatus} from '../utils'
-import {InitOptions} from '../utils/options'
 import safeJSONStringify from '../utils/safeJSONStringify'
 import {API_VERSIONS, API_TYPES} from '../constants'
 import path from 'path'
+import {InitOptions} from '../utils/options'
 
-export type ApiCommandArg = {
+export interface ApiCommandArg {
   apiName: API_TYPES
   method: string
-  options?: Object
+  options?: object
   timeout?: number
 }
 
@@ -17,36 +17,40 @@ export type ApiCommandArg = {
  * @ignore
  */
 class ClientBase {
-  initialized: boolean
-  username: void | string
-  devicename: void | string
-  homeDir: void | string
-  verbose: boolean
-  spawnedProcesses: ChildProcess[]
-  _workingDir: string
+  public initialized: boolean
+  public username: void | string
+  public devicename: void | string
+  public homeDir: void | string
+  public verbose: boolean
+  protected _spawnedProcesses: ChildProcess[]
+  private _workingDir: string
+  private _initializedWithOptions: InitOptions
 
-  constructor(workingDir: string) {
+  public constructor(workingDir: string) {
     this._workingDir = workingDir
     this.initialized = false
     this.verbose = false
-    this.spawnedProcesses = []
+    this._spawnedProcesses = []
   }
 
-  async _init(homeDir: void | string, options?: InitOptions): Promise<void> {
+  public async _init(homeDir: void | string, options?: InitOptions): Promise<void> {
     const initBotInfo = await keybaseStatus(this._workingDir, homeDir)
     this.homeDir = homeDir
     this.username = initBotInfo.username
     this.devicename = initBotInfo.devicename
     this.initialized = true
+    if (options) {
+      this._initializedWithOptions = options
+    }
   }
 
-  async _deinit(): Promise<void> {
-    for (const child of this.spawnedProcesses) {
+  public async _deinit(): Promise<void> {
+    for (const child of this._spawnedProcesses) {
       child.kill()
     }
   }
 
-  async _runApiCommand(arg: ApiCommandArg): Promise<any> {
+  protected async _runApiCommand(arg: ApiCommandArg): Promise<any> {
     const options = arg.options ? formatAPIObjectInput(arg.options, arg.apiName) : undefined
     const input = {
       method: arg.method,
@@ -72,12 +76,12 @@ class ClientBase {
     return res
   }
 
-  async _guardInitialized(): Promise<void> {
+  protected async _guardInitialized(): Promise<void> {
     if (!this.initialized) {
       throw new Error('The client is not yet initialized.')
     }
   }
-  _pathToKeybaseBinary(): string {
+  protected _pathToKeybaseBinary(): string {
     return path.join(this._workingDir, 'keybase')
   }
 }

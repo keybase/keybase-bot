@@ -1,16 +1,9 @@
 {
   "bracketSpacing": false,
-  "printWidth": 140,
+  "printWidth": 110,
   "semi": false,
   "singleQuote": true,
   "tabWidth": 2,
   "trailingComma": "es5",
-  "overrides": [
-    {
-      "files": "*.json",
-      "options": {
-        "printWidth": 140
-      }
-    }
-  ]
+  "overrides": []
 }

@@ -18,7 +18,7 @@ class Team extends ClientBase {
    * @example
    * bot.team.addMembers({"team": "phoenix", "emails": [{"email": "alice@keybase.io", "role": "writer"}, {"email": "cleo@keybase.io", "role": "admin"}], "usernames": [{"username": "frank", "role": "reader"}, {"username": "keybaseio@twitter", "role": "writer"}]}).then(res => console.log(res))
    */
-  async addMembers(additions: AddMembersParam): Promise<AddMembersResult> {
+  public async addMembers(additions: AddMembersParam): Promise<AddMembersResult> {
     await this._guardInitialized()
     const options = additions
     const res = await this._runApiCommand({apiName: 'team', method: 'add-members', options})
@@ -36,7 +36,7 @@ class Team extends ClientBase {
    * @example
    * bot.team.removeMember({"team": "phoenix", "username": "frank"}).then(res => console.log(res))
    */
-  async removeMember(removal: RemoveMemberParam): Promise<RemoveMemberResult> {
+  public async removeMember(removal: RemoveMemberParam): Promise<RemoveMemberResult> {
     await this._guardInitialized()
     const options = removal
     const res = await this._runApiCommand({apiName: 'team', method: 'remove-member', options})
@@ -51,7 +51,7 @@ class Team extends ClientBase {
    * @example
    * bot.team.listTeamMemberships({"team": "phoenix"}).then(res => console.log(res))
    */
-  async listTeamMemberships(team: ListTeamMembershipsParam): Promise<ListTeamMembershipsResult> {
+  public async listTeamMemberships(team: ListTeamMembershipsParam): Promise<ListTeamMembershipsResult> {
     await this._guardInitialized()
     const options = team
     const res = await this._runApiCommand({apiName: 'team', method: 'list-team-memberships', options})

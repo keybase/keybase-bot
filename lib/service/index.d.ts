@@ -12,11 +12,11 @@ declare class Service {
     serviceLogFile: void | string;
     workingDir: string;
     autoLogSendOnCrash: boolean;
-    _paperkey: void | string;
+    private _paperkey;
     constructor(workingDir: string);
     init(username: string, paperkey: string, options?: InitOptions): Promise<void>;
     initFromRunningService(homeDir?: string, options?: InitOptions): Promise<void>;
-    _killCustomService(): Promise<void>;
+    private _killCustomService;
     deinit(): Promise<void>;
     myInfo(): BotInfo | null;
     /**
