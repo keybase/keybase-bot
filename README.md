@@ -1,11 +1,11 @@
 # keybase-bot
 
+Keybase bot-scripting for Node.js - now written all in TypeScript! Send encrypted data all over this world.
+
 [![npm](https://img.shields.io/npm/v/keybase-bot.svg)](https://www.npmjs.com/package/keybase-bot)
 [![Travis CI](https://travis-ci.org/keybase/keybase-bot.svg?branch=master)](https://travis-ci.org/keybase/keybase-bot)
 
-Script Keybase functionality in Node.js.
-
-This module is a side-project/work in progress and may change or have crashes, but feel free to play with it. As long as you have a Keybase account, you can use this module to script basic Keybase commands.
+This module is a side-project/work in progress and may change or have crashes, but feel free to play with it. As long as you have a Keybase account, you can use this module to script basic Keybase commands such as sending and reading messages and attachments, managing teams, and even sending Lumens on the Stellar network.
 
 - [Installation](#installation)
 - [Hello World](#hello-world)
@@ -14,9 +14,9 @@ This module is a side-project/work in progress and may change or have crashes, b
 
 ## Installation
 
-1.  Install Node.js 8 or above. You can do this [directly from the Node.js website](https://nodejs.org/en/download) or [via your favorite package manager](https://nodejs.org/en/download/package-manager/).
+1.  Install Node.js 8 or above.
 2.  Make sure that you have Keybase [installed](https://keybase.io/download) and running.
-3.  Install `keybase-bot`. You can do this using either [npm](https://www.npmjs.com) or [Yarn](https://yarnpkg.com).
+3.  Install `keybase-bot`.
     ```bash
     npm install keybase-bot
     # or
@@ -29,7 +29,7 @@ You're ready to make your first Keybase bot!
 
 Let's make a bot that says hello to the Keybase user [kbot](https://keybase.io/kbot).
 
-We recommend either creating a dedicated Keybase account for the bot, or if you decide to reuse your own account at the very least create a dedicated paperkey so you can revoke it later if needed.
+We recommend either creating a dedicated Keybase account for the bot, or if you decide to reuse your own account at the very least create a dedicated paperkey so you can revoke it later if the machines rise up.
 
 ```javascript
 const Bot = require('keybase-bot')
@@ -71,6 +71,10 @@ node <my-awesome-file-name>.js
 ```
 
 This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want to take a look in there. There are also some other cool bots in the demos directory, including a bot that tells you how many unread messages you have and a bot that does math for you and your friends. You can write a bot in any language that can compile to JavaScript and run on Node.js. We have some ES7+ (with `async/await`) demos in [`demos/ES7`](demos/es7) and even a bot in [Iced CoffeeScript](http://maxtaco.github.io/coffee-script/)! (in [`demos/iced`](demos/iced))
+
+## Development
+
+All the source of this library is now written in TypeScript. If you're working on the library, please use `yarn` to install the necessary modules, and then run `yarn build` to build the JavaScript library files. Finally, make a test config file in `__tests__/` (look at `__tests__/test.config.ts` as an example) and run `yarn test`. If everything passes, you haven't broken everything horribly.
 
 ## API
 
