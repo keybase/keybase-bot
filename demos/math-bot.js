@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const Bot = require('../index.js')
+const Bot = require('../lib/index.js')
 const mathjs = require('mathjs')
 
 //
@@ -23,8 +23,7 @@ const msgReply = s => {
     a2 = Math.floor(Math.random() * 10)
     b2 = Math.floor(Math.random() * 10)
     eqn = '(' + a1 + ' + ' + b1 + 'i) * (' + a2 + ' + ' + b2 + 'i)'
-    ans =
-      "Sorry, I can't do that math. Did you know " + eqn + ' = ' + mathjs['eval'](eqn).toString() + '? True.'
+    ans = "Sorry, I can't do that math. Did you know " + eqn + ' = ' + mathjs['eval'](eqn).toString() + '? True.'
   }
   return ans
 }

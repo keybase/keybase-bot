@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const Bot = require('../../index.js')
+const Bot = require('../../lib/index.js')
 const Hand = require('./pokersolver.js').Hand
 
 const bot = new Bot()
@@ -94,9 +94,7 @@ async function main() {
           }
 
           await bot.chat.send(msg.channel, {
-            body: `Hi ${
-              msg.sender.username
-            }! Send "hand" to me and I'll flip and tell you what's in your hand!`,
+            body: `Hi ${msg.sender.username}! Send "hand" to me and I'll flip and tell you what's in your hand!`,
           })
         } catch (err) {
           console.error(err)
