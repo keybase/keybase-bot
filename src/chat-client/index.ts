@@ -1,4 +1,3 @@
-// @flow
 import {spawn} from 'child_process'
 import readline from 'readline'
 import ClientBase from '../client-base'

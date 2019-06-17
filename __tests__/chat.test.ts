@@ -220,7 +220,7 @@ describe('Chat Methods', (): void => {
         },
         {name: `${config.bots.alice1.username},${config.bots.bob1.username}`},
       ]
-      const okChecks: any[] = []
+      const okChecks: boolean[] = []
       for (const channel of channels) {
         if (channel.topicName && channel.topicName !== 'general') {
           try {

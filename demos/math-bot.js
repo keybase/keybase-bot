@@ -11,7 +11,6 @@ const mathjs = require('mathjs')
 //          /math sqrt(pi/2) * 3!`
 //
 
-console.log(Bot)
 const bot = new Bot()
 
 const msgReply = s => {
@@ -24,8 +23,7 @@ const msgReply = s => {
     a2 = Math.floor(Math.random() * 10)
     b2 = Math.floor(Math.random() * 10)
     eqn = '(' + a1 + ' + ' + b1 + 'i) * (' + a2 + ' + ' + b2 + 'i)'
-    ans =
-      "Sorry, I can't do that math. Did you know " + eqn + ' = ' + mathjs['eval'](eqn).toString() + '? True.'
+    ans = "Sorry, I can't do that math. Did you know " + eqn + ' = ' + mathjs['eval'](eqn).toString() + '? True.'
   }
   return ans
 }

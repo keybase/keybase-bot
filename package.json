@@ -35,14 +35,15 @@
     "*.ts": [
       "eslint --fix"
     ],
-    "*.{json,md}": [
+    "*.{json,md,ts}": [
       "prettier --write",
       "git add"
     ]
   },
   "scripts": {
     "docs": "documentation readme lib/** --config documentation.yml --section=API",
-    "tsc": "tsc",
+    "build": "tsc",
+    "dev": "tsc --watch",
     "test": "jest --runInBand",
     "release": "standard-version"
   },
