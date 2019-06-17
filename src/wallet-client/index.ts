@@ -100,12 +100,7 @@ class Wallet extends ClientBase {
    * bot.wallet.send('nathunsmitty', '3.50', 'USD') // Send $3.50 worth of lumens to Keybase user `nathunsmitty`
    * bot.wallet.send('nathunsmitty', '3.50', 'USD', 'Shut up and take my money!') // Send $3.50 worth of lumens to Keybase user `nathunsmitty` with a memo
    */
-  public async send(
-    recipient: string,
-    amount: string,
-    currency?: string,
-    message?: string
-  ): Promise<Transaction> {
+  public async send(recipient: string, amount: string, currency?: string, message?: string): Promise<Transaction> {
     await this._guardInitialized()
     const options = {recipient, amount, currency, message}
     const res = await this._runApiCommand({apiName: 'wallet', method: 'send', options})

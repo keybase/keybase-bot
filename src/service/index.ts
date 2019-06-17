@@ -43,12 +43,8 @@ class Service {
     this.homeDir = this.workingDir
     this.serviceLogFile = path.join(this.homeDir, 'logs', 'keybase.service.log')
     this.botLite = options ? Boolean(typeof options.botLite !== 'boolean' || options.botLite) : true
-    this.disableTyping = options
-      ? Boolean(typeof options.disableTyping !== 'boolean' || options.disableTyping)
-      : true
-    this.autoLogSendOnCrash = options
-      ? Boolean(typeof options.autoLogSendOnCrash === 'boolean' && options.autoLogSendOnCrash)
-      : false
+    this.disableTyping = options ? Boolean(typeof options.disableTyping !== 'boolean' || options.disableTyping) : true
+    this.autoLogSendOnCrash = options ? Boolean(typeof options.autoLogSendOnCrash === 'boolean' && options.autoLogSendOnCrash) : false
     // Unlike with clients we don't need to store the service, since it shuts down with ctrl stop
     try {
       await this.startupService()
@@ -57,12 +53,7 @@ class Service {
       })
 
       // Set the typing notification settings for the bot
-      await keybaseExec(this.workingDir, this.homeDir, [
-        'chat',
-        'notification-settings',
-        'disable-typing',
-        this.disableTyping.toString(),
-      ])
+      await keybaseExec(this.workingDir, this.homeDir, ['chat', 'notification-settings', 'disable-typing', this.disableTyping.toString()])
 
       const currentInfo = await keybaseStatus(this.workingDir, this.homeDir)
 

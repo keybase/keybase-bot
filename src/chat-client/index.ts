@@ -99,7 +99,7 @@ class Chat extends ClientBase {
     // Pagination gets passed as-is, while the messages get cleaned up
     return {
       pagination: res.pagination,
-      messages: res.messages.map((message: MessageNotification) => message.msg),
+      messages: res.messages.map((message: MessageNotification): MessageSummary => message.msg),
     }
   }
 
@@ -168,11 +168,7 @@ class Chat extends ClientBase {
    * const message = {body: 'Hello kbot!'}
    * bot.chat.send(channel, message).then(() => console.log('message sent!'))
    */
-  public async send(
-    channel: ChatChannel,
-    message: ChatMessage,
-    options?: ChatSendOptions
-  ): Promise<SendResult> {
+  public async send(channel: ChatChannel, message: ChatMessage, options?: ChatSendOptions): Promise<SendResult> {
     await this._guardInitialized()
     const args = {
       ...options,
@@ -222,11 +218,7 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.attach(channel, '/Users/nathan/my_picture.png').then(() => console.log('Sent a picture!'))
    */
-  public async attach(
-    channel: ChatChannel,
-    filename: string,
-    options?: ChatAttachOptions
-  ): Promise<SendResult> {
+  public async attach(channel: ChatChannel, filename: string, options?: ChatAttachOptions): Promise<SendResult> {
     await this._guardInitialized()
     const args = {...options, channel, filename}
     const res = await this._runApiCommand({apiName: 'chat', method: 'attach', options: args})
@@ -246,12 +238,7 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.download(channel, 325, '/Users/nathan/Downloads/file.png')
    */
-  public async download(
-    channel: ChatChannel,
-    messageId: number,
-    output: string,
-    options?: ChatDownloadOptions
-  ): Promise<void> {
+  public async download(channel: ChatChannel, messageId: number, output: string, options?: ChatDownloadOptions): Promise<void> {
     await this._guardInitialized()
     const args = {...options, channel, messageId, output}
     const res = await this._runApiCommand({apiName: 'chat', method: 'download', options: args})
@@ -271,12 +258,7 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.react(channel, 314, ':+1:').then(() => console.log('Thumbs up!'))
    */
-  public async react(
-    channel: ChatChannel,
-    messageId: number,
-    reaction: string,
-    options?: ChatReactOptions
-  ): Promise<SendResult> {
+  public async react(channel: ChatChannel, messageId: number, reaction: string, options?: ChatReactOptions): Promise<SendResult> {
     await this._guardInitialized()
     const args = {
       ...options,
@@ -359,12 +341,7 @@ class Chat extends ClientBase {
    * @example
    * // check demos/es7/poker-hands.js
    */
-  public async loadFlip(
-    conversationID: string,
-    flipConversationID: string,
-    messageID: number,
-    gameID: string
-  ): Promise<FlipSummary> {
+  public async loadFlip(conversationID: string, flipConversationID: string, messageID: number, gameID: string): Promise<FlipSummary> {
     await this._guardInitialized()
     const res = await this._runApiCommand({
       apiName: 'chat',
@@ -426,11 +403,7 @@ class Chat extends ClientBase {
    * bot.chat.watchAllChannelsForNewMessages(onMessage)
    *
    */
-  public async watchAllChannelsForNewMessages(
-    onMessage: OnMessage,
-    onError?: OnError,
-    options?: ListenOptions
-  ): Promise<void> {
+  public async watchAllChannelsForNewMessages(onMessage: OnMessage, onError?: OnError, options?: ListenOptions): Promise<void> {
     await this._guardInitialized()
     this._chatListen(onMessage, onError, undefined, options)
   }
@@ -446,12 +419,7 @@ class Chat extends ClientBase {
    * @example
    * this._chatListen(onMessage, onError)
    */
-  private _chatListen(
-    onMessage: OnMessage,
-    onError?: OnError,
-    channel?: ChatChannel,
-    options?: ListenOptions
-  ): void {
+  private _chatListen(onMessage: OnMessage, onError?: OnError, channel?: ChatChannel, options?: ListenOptions): void {
     const args = ['chat', 'api-listen']
     if (this.homeDir) {
       args.unshift('--home', this.homeDir)
@@ -480,8 +448,7 @@ class Chat extends ClientBase {
           (options && options.showLocal) ||
           (this.username &&
             this.devicename &&
-            (messageObject.msg.sender.username !== this.username.toLowerCase() ||
-              messageObject.msg.sender.deviceName !== this.devicename))
+            (messageObject.msg.sender.username !== this.username.toLowerCase() || messageObject.msg.sender.deviceName !== this.devicename))
         ) {
           onMessage(messageObject.msg)
         }
