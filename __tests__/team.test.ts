@@ -4,7 +4,7 @@ import {ListTeamMembershipsResult, TeamRole, TeamRolePlural} from '../lib/team-c
 
 test('Team methods with an uninitialized bot', (): void => {
   const alice1 = new Bot()
-  const options = {team: config.teams.alices_playground.teamname}
+  const options = {team: config.teams.alicesPlayground.teamname}
   expect(alice1.team.listTeamMemberships(options)).rejects.toThrowError()
 })
 
@@ -51,7 +51,7 @@ describe('Team Methods', (): void => {
   )
 
   describe('Team list', (): void => {
-    const teamName = config.teams.alices_playground.teamname
+    const teamName = config.teams.alicesPlayground.teamname
 
     it('Returns members of a team', async (): Promise<void> => {
       const list = await alice1.team.listTeamMemberships({team: teamName})
