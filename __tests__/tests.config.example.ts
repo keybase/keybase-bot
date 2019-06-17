@@ -12,8 +12,8 @@ export = {
       paperkey: 'foo bar car...',
     },
     alice2: {
-      username: 'alice' /* should be the same as alice1 */,
-      paperkey: 'yo there paperkey...',
+      username: 'alice' /* should be the same username as alice1, but... */,
+      paperkey: 'yo there paperkey...' /* ...this should be a DIFFERENT paperkey */,
     },
     bob1: {
       // Bob should have an active Stellar account with a little bit of XLM in it
@@ -30,7 +30,7 @@ export = {
     acme: {
       teamname: 'someteam' /* a real team that you add your alice1, alice2, and bob1 all into */,
     },
-    alices_playground: {
+    alicesPlayground: {
       teamname: 'someteam2' /* a team with alice in it AS ADMIN, but bob or charlie not in team */,
     },
   },
