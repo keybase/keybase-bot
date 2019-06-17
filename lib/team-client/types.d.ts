@@ -1,5 +1,5 @@
 export declare type TeamRole = 'writer' | 'reader' | 'admin' | 'owner';
-export declare type TeamRolePural = 'writers' | 'readers' | 'admins' | 'owners';
+export declare type TeamRolePlural = 'writers' | 'readers' | 'admins' | 'owners';
 export interface AddMemberEmailItem {
     email: string;
     role: TeamRole;

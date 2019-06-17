@@ -1,7 +1,6 @@
 import Bot from '../lib'
 import config from './tests.config'
 import {ListTeamMembershipsResult, TeamRole, TeamRolePlural} from '../lib/team-client/types'
-import { isTemplateMiddleOrTemplateTail } from 'typescript';
 
 test('Team methods with an uninitialized bot', (): void => {
   const alice1 = new Bot()
@@ -10,15 +9,21 @@ test('Team methods with an uninitialized bot', (): void => {
 })
 
 function pluralizeRole(r: TeamRole): TeamRolePlural {
-  switch(r) {
-    case 'owner': return 'owners';
-    case 'admin': return 'admins';
-    case 'reader': return 'readers';
-    default: return 'writers';
+  switch (r) {
+    case 'owner':
+      return 'owners'
+    case 'admin':
+      return 'admins'
+    case 'reader':
+      return 'readers'
+    default:
+      return 'writers'
+  }
 }
 
 function checkMembershipLevel(username: string, teamListResult: ListTeamMembershipsResult): TeamRole | null {
-  for (const role:TeamRole of ['owner', 'admin', 'writer', 'reader']) {
+  const possibleRoles: TeamRole[] = ['owner', 'admin', 'writer', 'reader']
+  for (const role of possibleRoles) {
     for (const user of teamListResult.members[pluralizeRole(role)]) {
       if (user.username === username) {
         return role
@@ -89,9 +94,7 @@ describe('Team Methods', (): void => {
           usernames: [{username: config.bots.bob1.username, role: 'reader'}],
         })
       ).rejects.toThrowError()
-      expect(
-        bob1.team.removeMember({team: teamName, username: config.bots.bob1.username})
-      ).rejects.toThrowError()
+      expect(bob1.team.removeMember({team: teamName, username: config.bots.bob1.username})).rejects.toThrowError()
     })
   })
 })
