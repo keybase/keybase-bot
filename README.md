@@ -1133,7 +1133,7 @@ That's it. We accept changes via Pull Requests; please make sure that any change
 We run tests using [Jest](https://jestjs.io/). All tests are run against actual Keybase processes that are created and destroyed during testing and ping the actual Keybase server to do things like send messages and XLM. To facilitate this, the tests read a file in `__tests__/test.config.ts` that contains usernames, paperkeys, and team names that are used during testing. You'll need three test Keybase accounts, two teams, and some Stellar Lumens to run all tests.
 
 1. Copy `__tests__/test.config.example.ts` as `__tests__/test.config.ts`. Note that `__tests__/test.config.ts` should **NOT** be version controlled, as it will contain paper keys!
-2. Edit `__tests__/test.config.example.ts` as it specifies, replacing the placeholder values with actual usernames, paperkeys, and team names.
+2. Edit `__tests__/test.config.ts` as it specifies, replacing the placeholder values with actual usernames, paperkeys, and team names.
 3. Run `yarn test`. Everything should pass!
 
 ### Release
