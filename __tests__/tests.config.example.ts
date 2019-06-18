@@ -13,7 +13,7 @@ export = {
     },
     alice2: {
       username: 'alice' /* should be the same username as alice1, but... */,
-      paperkey: 'yo there paperkey...' /* ...this should be a DIFFERENT paperkey */,
+      paperkey: 'yo there paperkey...' /* ...this should be a DIFFERENT paperkey than the one for alice1 */,
     },
     bob1: {
       // Bob should have an active Stellar account with a little bit of XLM in it

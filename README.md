@@ -44,9 +44,7 @@ bot
 
     const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topicType: 'chat'}
     const message = {
-      body: `Hello kbot! This is ${bot.myInfo().username} saying hello from my device ${
-        bot.myInfo().devicename
-      }`,
+      body: `Hello kbot! This is ${bot.myInfo().username} saying hello from my device ${bot.myInfo().devicename}`,
     }
 
     bot.chat
@@ -836,9 +834,7 @@ Provides a list of all transactions in a single account.
 ##### Examples
 
 ```javascript
-bot.wallet
-  .history('GDUKZH6Q3U5WQD4PDGZXYLJE3P76BDRDWPSALN4OUFEESI2QL5UZHCK')
-  .then(transactions => console.log(transactions))
+bot.wallet.history('GDUKZH6Q3U5WQD4PDGZXYLJE3P76BDRDWPSALN4OUFEESI2QL5UZHCK').then(transactions => console.log(transactions))
 ```
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Transaction](#transaction)>>** An array of transactions related to the account.
@@ -854,9 +850,7 @@ Get details about a particular transaction
 ##### Examples
 
 ```javascript
-bot.wallet
-  .details('e5334601b9dc2a24e031ffeec2fce37bb6a8b4b51fc711d16dec04d3e64976c4')
-  .then(details => console.log(details))
+bot.wallet.details('e5334601b9dc2a24e031ffeec2fce37bb6a8b4b51fc711d16dec04d3e64976c4').then(details => console.log(details))
 ```
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Transaction](#transaction)>** An object of details about the transaction specified.
@@ -1133,6 +1127,14 @@ Make sure that you have Node, Yarn, and the Keybase application installed. We al
 5.  Build the docs for the bot with `yarn docs`.
 
 That's it. We accept changes via Pull Requests; please make sure that any changes you make build successfully and pass Flow, Prettier, and ESLint checks. We'd also really appreciate it if your PR could follow the [Conventional Commit](https://www.conventionalcommits.org) specification. If you're adding a new feature, please add/update tests, demos, documentation, and whatever else makes sense to go with it. If you have any questions about contributing, please feel free to ask a maintainer!
+
+### Running Tests
+
+We run tests using [Jest](https://jestjs.io/). All tests are run against actual Keybase processes that are created and destroyed during testing and ping the actual Keybase server to do things like send messages and XLM. To facilitate this, the tests read a file in `__tests__/test.config.ts` that contains usernames, paperkeys, and team names that are used during testing. You'll need three test Keybase accounts, two teams, and some Stellar Lumens to run all tests.
+
+1. Copy `__tests__/test.config.example.ts` as `__tests__/test.config.ts`. Note that `__tests__/test.config.ts` should **NOT** be version controlled, as it will contain paper keys!
+2. Edit `__tests__/test.config.ts` as it specifies, replacing the placeholder values with actual usernames, paperkeys, and team names.
+3. Run `yarn test`. Everything should pass!
 
 ### Release
 
