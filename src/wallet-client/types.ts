@@ -14,6 +14,8 @@ export interface Asset {
   issuer: string
   verifiedDomain: string
   issuerName: string
+  desc: string
+  infoUrl: string
 }
 
 /**
@@ -53,15 +55,15 @@ export interface Transaction {
   status: PaymentStatus
   statusDetail: string
   amount: string
-  asset: any
+  asset: Asset
   displayAmount: string
   displayCurrency: string
   sourceAmountMax: string
   sourceAmountActual: string
-  sourceAsset: any
+  sourceAsset: Asset
   isAdvanced: boolean
   summaryAdvanced: string
-  operations: null | any[]
+  operations: null | string[]
   fromStellar: void | string
   toStellar: void | string
   fromUsername: void | string

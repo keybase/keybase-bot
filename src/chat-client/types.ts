@@ -52,11 +52,21 @@ export interface Pagination {
   last?: boolean
 }
 
+export interface TextPayment {
+  username: string
+  paymentText: string
+  result: {
+    resultTyp: number
+    sent: string
+  }
+}
+
 export interface TextContent {
   type: 'text'
   text: {
-    body: string // TODO: type this,
-    payments: any[]
+    // TODO: There are some more properties in this body that could be typed
+    body: string
+    payments: null | TextPayment[]
   }
 }
 
@@ -132,6 +142,13 @@ export interface DeleteContent {
   }
 }
 
+export interface SendPaymentContent {
+  type: 'sendpayment'
+  sendPayment: {
+    paymentId: string
+  }
+}
+
 /*
   TODO contents:
   Delete
@@ -166,7 +183,7 @@ export interface DeleteContent {
   | 'unfurl'
 */
 
-export type MessageContent = TextContent | AttachmentContent | ReactionContent | EditContent | DeleteContent
+export type MessageContent = TextContent | AttachmentContent | ReactionContent | EditContent | DeleteContent | SendPaymentContent
 
 export interface MessageSender {
   deviceId: string
