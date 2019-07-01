@@ -115,9 +115,7 @@ describe('Wallet Methods', (): void => {
       expect(transactions[0]).toHaveProperty('note', note)
     })
     it('Sends money in batches', async (): Promise<void> => {
-      // TODO: REmove this and reenable test when fixed on client side
       expect(true).toBe(true)
-      /*
       const batchId = crypto.randomBytes(8).toString('hex')
       const batchRes = await alice1.wallet.batch(batchId, [
         {recipient: config.bots.bob1.username, amount: '0.01', message: 'hi bob'},
@@ -126,7 +124,6 @@ describe('Wallet Methods', (): void => {
       ])
       expect(batchRes.countSuccess).toBe(2)
       expect(batchRes.countError).toBe(1)
-      */
     })
     it('Sends money from chat when option set', async (): Promise<void> => {
       const channel: ChatChannel = {name: recipient, public: false, topicType: 'chat'}
