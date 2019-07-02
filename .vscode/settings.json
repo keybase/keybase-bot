@@ -1,5 +1,7 @@
-// Place your settings in this file to overwrite default and user settings.
+// coyne: I dislike having lib/show up in here; keep accidentally editing a .js file
 {
-  "flow.useNPMPackagedFlow": true,
-  "flow.useLSP": false
+  "files.exclude": {
+    "node_modules/": true,
+    "lib/": true
+  }
 }

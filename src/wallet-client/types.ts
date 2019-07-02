@@ -93,7 +93,7 @@ export interface BatchItemResult {
   txId: string
   status: number
   statusDescription: string
-  error: null | string
+  error?: string
 }
 
 /**
@@ -103,18 +103,24 @@ export interface BatchResult {
   payments: BatchItemResult[]
   startTime: number
   preparedTime: number
-  allSubmittedTime: number
   endTime: number
+  allSubmittedTime: number
+  allCompleteTime: number
   overallDurationMs: number
   prepareDurationMs: number
   submitDurationMs: number
-  waitDurationMs: number
+  countDirect: number
   countSuccess: number
   countError: number
   countPending: number
+  countRelay: number
   avgDurationMs: number
+  avgRelayDurationMs: number
   avgSuccessDurationMs: number
+  avgDirectDurationMs: number
   avgErrorDurationMs: number
+  waitChatDurationMs: number
+  waitPaymentsDurationMs: number
 }
 
 export interface HistoryResultItem {
