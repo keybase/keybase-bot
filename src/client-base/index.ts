@@ -4,6 +4,7 @@ import safeJSONStringify from '../utils/safeJSONStringify'
 import {API_VERSIONS, API_TYPES} from '../constants'
 import path from 'path'
 import {InitOptions} from '../utils/options'
+import Bot from '../index'
 
 export interface ApiCommandArg {
   apiName: API_TYPES
@@ -25,8 +26,10 @@ class ClientBase {
   protected _spawnedProcesses: ChildProcess[]
   private _workingDir: string
   private _initializedWithOptions: InitOptions
+  protected _bot: Bot
 
-  public constructor(workingDir: string) {
+  public constructor(bot: Bot, workingDir: string) {
+    this._bot = bot
     this._workingDir = workingDir
     this.initialized = false
     this.verbose = false
@@ -35,6 +38,7 @@ class ClientBase {
 
   public async _init(homeDir: void | string, options?: InitOptions): Promise<void> {
     const initBotInfo = await keybaseStatus(this._workingDir, homeDir)
+    this._bot.debugLog(`My workingDir=${this._workingDir} and my homeDir=${this.homeDir}`)
     this.homeDir = homeDir
     this.username = initBotInfo.username
     this.devicename = initBotInfo.devicename

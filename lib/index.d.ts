@@ -10,6 +10,9 @@ declare class Bot {
     team: TeamClient;
     private _workingDir;
     private _service;
+    private _adminDebugDirectory?;
+    private _botId;
+    private _initStatus;
     /**
      * Create a bot. Note you can't do much too exciting with your bot after you instantiate it; you have to initialize it first.
      * @memberof Bot
@@ -51,7 +54,22 @@ declare class Bot {
      * bot.deinit()
      */
     deinit(): Promise<void>;
+    /**
+     * If bot is initialized with an optional directory `adminDebugDirectory`, this will write that string into a file in there
+     * This function is also called automatically when in adminDebug mode, and will record plaintexts of messages into that directory,
+     * so use wisely.
+     * @memberof Bot
+     * @example
+     * bot.log("My bot is ready to go.")
+     */
+    debugLog(text: string, infoOrErr?: 'I' | 'E'): Promise<void>;
+    readonly botId: string;
+    readonly adminDebugFilename: string | null;
+    readonly adminDebugDirectory: string | null;
+    readonly serviceLogLocation: string;
     private _prepWorkingDir;
+    private _maybePrepDebugDir;
+    private _maybeLogCopyLoop;
     private _initSubBots;
 }
 export = Bot;

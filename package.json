@@ -41,11 +41,15 @@
     ]
   },
   "scripts": {
+    "modules": "yarn --frozen-lockfile --prefer-offline",
+    "modules-prod": "yarn --frozen-lockfile --prefer-offline --prod",
     "docs": "documentation readme lib/** --config documentation.yml --section=API",
-    "build": "tsc",
     "dev": "tsc --watch",
     "test": "jest --runInBand",
-    "release": "standard-version"
+    "release": "standard-version",
+    "build": "rm -rf lib/ && tsc",
+    "clean": "rm -rf lib/",
+    "send": "node ./lib/send.js"
   },
   "dependencies": {
     "@typescript-eslint/parser": "1.10.2",

@@ -1,5 +1,6 @@
 import { BotInfo } from '../utils/keybaseStatus';
 import { InitOptions } from '../utils/options';
+import Bot from '../index';
 declare class Service {
     initialized: false | 'paperkey' | 'runningService';
     running: boolean;
@@ -13,7 +14,8 @@ declare class Service {
     workingDir: string;
     autoLogSendOnCrash: boolean;
     private _paperkey;
-    constructor(workingDir: string);
+    private _bot;
+    constructor(bot: Bot, workingDir: string);
     init(username: string, paperkey: string, options?: InitOptions): Promise<void>;
     initFromRunningService(homeDir?: string, options?: InitOptions): Promise<void>;
     private _killCustomService;

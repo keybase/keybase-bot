@@ -89,6 +89,15 @@ describe('Keybase bot deinitialization', (): void => {
     expect(await doesFileOrDirectoryExist(homeDir)).toBe(false)
   })
 
+  it('handles double deinits gracefully', async (): Promise<void> => {
+    const alice = new Bot()
+    await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
+    const homeDir = alice.myInfo().homeDir || '--nonsense-dir-'
+    await alice.deinit()
+    await alice.deinit()
+    expect(await doesFileOrDirectoryExist(homeDir)).toBe(false)
+  })
+
   it('does not remove its home directory if initialized from a running service', async (): Promise<void> => {
     const homeDir = randomTempDir()
     await startServiceManually(homeDir, config.bots.alice1.username, config.bots.alice1.paperkey)

@@ -3,6 +3,7 @@ import {spawn} from 'child_process'
 import {BotInfo} from '../utils/keybaseStatus'
 import {InitOptions} from '../utils/options'
 import path from 'path'
+import Bot from '../index'
 
 class Service {
   public initialized: false | 'paperkey' | 'runningService'
@@ -18,8 +19,10 @@ class Service {
   public autoLogSendOnCrash: boolean
 
   private _paperkey: void | string
+  private _bot: Bot
 
-  public constructor(workingDir: string) {
+  public constructor(bot: Bot, workingDir: string) {
+    this._bot = bot
     this.workingDir = workingDir
     this.initialized = false
     this.verbose = false
