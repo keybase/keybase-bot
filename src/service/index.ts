@@ -93,7 +93,7 @@ class Service {
     // they will also shutdown via SIGINT. We don't want to make service detached because it'd be nice for
     // them to auto-shutdown if the user kills the process
     try {
-      await keybaseExec(this.workingDir, this.homeDir, ['logout'])
+      await keybaseExec(this.workingDir, this.homeDir, ['logout', '--force'])
     } catch (e) {}
     try {
       await keybaseExec(this.workingDir, this.homeDir, ['ctl', 'stop', '--shutdown'])

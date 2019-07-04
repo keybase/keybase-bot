@@ -9,7 +9,8 @@
     //"incremental": true,
     "rootDir": "src/",
     "outDir": "lib",
-    "declaration": true
+    "declaration": true,
+    "lib": ["es6"]
   },
   "include": ["src/*"],
   "exclude": ["__tests__"]
