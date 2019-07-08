@@ -2,7 +2,7 @@
 import { ChildProcess } from 'child_process';
 import { API_TYPES } from '../constants';
 import { InitOptions } from '../utils/options';
-import Bot from '../index';
+import { AdminDebugLogger } from '../utils/adminDebugLogger';
 export interface ApiCommandArg {
     apiName: API_TYPES;
     method: string;
@@ -22,8 +22,8 @@ declare class ClientBase {
     protected _spawnedProcesses: ChildProcess[];
     private _workingDir;
     private _initializedWithOptions;
-    protected _bot: Bot;
-    constructor(bot: Bot, workingDir: string);
+    protected _adminDebugLogger: AdminDebugLogger;
+    constructor(workingDir: string, adminDebugLogger: AdminDebugLogger);
     _init(homeDir: void | string, options?: InitOptions): Promise<void>;
     _deinit(): Promise<void>;
     protected _runApiCommand(arg: ApiCommandArg): Promise<any>;

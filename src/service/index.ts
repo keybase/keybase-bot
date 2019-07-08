@@ -3,7 +3,7 @@ import {spawn} from 'child_process'
 import {BotInfo} from '../utils/keybaseStatus'
 import {InitOptions} from '../utils/options'
 import path from 'path'
-import Bot from '../index'
+import {AdminDebugLogger} from '../utils/adminDebugLogger'
 
 class Service {
   public initialized: false | 'paperkey' | 'runningService'
@@ -17,12 +17,11 @@ class Service {
   public serviceLogFile: void | string
   public workingDir: string
   public autoLogSendOnCrash: boolean
-
   private _paperkey: void | string
-  private _bot: Bot
+  protected _adminDebugLogger: AdminDebugLogger
 
-  public constructor(bot: Bot, workingDir: string) {
-    this._bot = bot
+  public constructor(workingDir: string, adminDebugLogger: AdminDebugLogger) {
+    this._adminDebugLogger = adminDebugLogger
     this.workingDir = workingDir
     this.initialized = false
     this.verbose = false

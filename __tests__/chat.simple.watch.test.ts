@@ -30,11 +30,11 @@ describe('Chat Methods', (): void => {
     let done = false
     const directChannel = {name: `${bob.myInfo().username},${alice.myInfo().username}`}
     bob.chat.watchAllChannelsForNewMessages((message: MessageSummary): void => {
-      bob.debugLog(`I Got a message ${JSON.stringify(message)}`)
+      bob.adminDebugLogInfo(`I Got a message ${JSON.stringify(message)}`)
       done = true
     })
     alice.chat.watchAllChannelsForNewMessages((message: MessageSummary): void => {
-      alice.debugLog(`I Got a message ${JSON.stringify(message)}`)
+      alice.adminDebugLogInfo(`I Got a message ${JSON.stringify(message)}`)
     })
     alice.chat.send(directChannel, {body: `HI THERE ALICE, THIS IS BOB AND THE TIME IS ${new Date().toISOString()}`})
     await pollFor((): boolean => done)

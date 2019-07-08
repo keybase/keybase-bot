@@ -4,14 +4,14 @@ import WalletClient from './wallet-client'
 import TeamClient from './team-client'
 import {BotInfo} from './utils/keybaseStatus'
 import mkdirp from 'mkdirp'
-import {whichKeybase, rmdirRecursive, timeout} from './utils'
+import {whichKeybase, rmdirRecursive} from './utils'
 import {promisify} from 'util'
 import {copyFile} from 'fs'
 import path from 'path'
 import {InitOptions} from './utils/options'
+import {AdminDebugLogger} from './utils/adminDebugLogger'
 import crypto from 'crypto'
 import os from 'os'
-import fs from 'fs'
 
 /** A Keybase bot. */
 class Bot {
@@ -20,9 +20,9 @@ class Bot {
   public team: TeamClient
   private _workingDir: string // where KB binary copied, and homeDir (if not existing svc)
   private _service: Service
-  private _adminDebugDirectory?: string
   private _botId: string
   private _initStatus: 'preinit' | 'initializing' | 'initialized' | 'deinitializing' | 'deinitialized'
+  private _adminDebugLogger?: AdminDebugLogger
 
   /**
    * Create a bot. Note you can't do much too exciting with your bot after you instantiate it; you have to initialize it first.
@@ -33,10 +33,11 @@ class Bot {
   public constructor() {
     this._botId = crypto.randomBytes(16).toString('hex')
     this._workingDir = path.join(os.tmpdir(), `keybase_bot_${this._botId}`)
-    this._service = new Service(this, this._workingDir)
-    this.chat = new ChatClient(this, this._workingDir)
-    this.wallet = new WalletClient(this, this._workingDir)
-    this.team = new TeamClient(this, this._workingDir)
+    this._service = new Service(this._workingDir, this._adminDebugLogger)
+    this._adminDebugLogger = new AdminDebugLogger(this._botId)
+    this.chat = new ChatClient(this._workingDir, this._adminDebugLogger)
+    this.wallet = new WalletClient(this._workingDir, this._adminDebugLogger)
+    this.team = new TeamClient(this._workingDir, this._adminDebugLogger)
     this._initStatus = 'preinit'
   }
 
@@ -52,12 +53,13 @@ class Bot {
   public async init(username: string, paperkey: string, options?: InitOptions): Promise<void> {
     this._beginInitState()
     await this._prepWorkingDir()
-    await this._maybePrepDebugDir(options)
     await this._service.init(username, paperkey, options)
     await this._initSubBots(options)
-    this._maybeLogCopyLoop(options)
+    if (options && options.adminDebugDirectory && this._service.serviceLogFile) {
+      await this._adminDebugLogger.init(options.adminDebugDirectory, this._service.serviceLogFile)
+    }
     this._initStatus = 'initialized'
-    this.debugLog('initialized')
+    this._adminDebugLogger.info('initialized')
   }
 
   /**
@@ -71,11 +73,12 @@ class Bot {
   public async initFromRunningService(homeDir?: string, options?: InitOptions): Promise<void> {
     this._beginInitState()
     await this._prepWorkingDir()
-    await this._maybePrepDebugDir(options)
+    if (options && options.adminDebugDirectory && this._service.serviceLogFile) {
+      await this._adminDebugLogger.init(options.adminDebugDirectory, this._service.serviceLogFile)
+    }
     await this._service.initFromRunningService(homeDir, options)
     await this._initSubBots(options)
-    await this._maybeLogCopyLoop(options)
-    this.debugLog('initialized')
+    this._adminDebugLogger.info('initialized')
   }
 
   private _beginInitState(): void {
@@ -83,7 +86,7 @@ class Bot {
       throw new Error(`tried to init, but state is already ${this._initStatus}`)
     }
     this._initStatus = 'initializing'
-    this.debugLog('beginning initialization')
+    this._adminDebugLogger.info('beginning initialization')
   }
 
   /**
@@ -107,31 +110,41 @@ class Bot {
     // Stop the clients first, so that they aren't trying to
     // talk to a deinit'ed service
     if (this._initStatus === 'deinitializing' || this._initStatus === 'deinitialized') {
-      this.debugLog('Trying to deinitialize, but already called', 'I')
+      this._adminDebugLogger.info('Trying to deinitialize, but already called')
     } else {
       this._initStatus = 'deinitializing'
-      this.debugLog('beginning deinit')
+      this._adminDebugLogger.info('beginning deinit')
       await this.chat._deinit()
       await this._service.deinit()
       await rmdirRecursive(this._workingDir)
-      this.debugLog('finished deinit')
+      this._adminDebugLogger.info('finished deinit')
+      this._adminDebugLogger.deinit()
       this._initStatus = 'deinitialized'
     }
   }
 
   /**
-   * If bot is initialized with an optional directory `adminDebugDirectory`, this will write that string into a file in there
-   * This function is also called automatically when in adminDebug mode, and will record plaintexts of messages into that directory,
-   * so use wisely.
+   * If bot is initialized with an optional directory `adminDebugDirectory`, this will let you write info text into it.
    * @memberof Bot
    * @example
-   * bot.debugLog("My bot is ready to go.")
+   * bot.adminDebugLogInfo('My bot is ready to go.')
    */
-  public async debugLog(text: string, infoOrErr?: 'I' | 'E'): Promise<void> {
-    if (this.adminDebugDirectory) {
-      const code = infoOrErr ? infoOrErr : 'I'
-      const line = `${new Date().toISOString()} [${code}] ${text}\n`
-      await promisify(fs.appendFile)(this.adminDebugFilename, line, 'utf-8')
+
+  public async adminDebugLogInfo(text: string): Promise<void> {
+    if (this._adminDebugLogger) {
+      this._adminDebugLogger.info(text)
+    }
+  }
+  /**
+   * If bot is initialized with an optional directory `adminDebugDirectory`, this will let you write error text into it.
+   * @memberof Bot
+   * @example
+   * bot.adminDebugLogInfo("My bot is ready to go.")
+   */
+
+  public async adminDebugLogError(text: string): Promise<void> {
+    if (this._adminDebugLogger) {
+      this._adminDebugLogger.error(text)
     }
   }
 
@@ -139,17 +152,6 @@ class Bot {
     return this._botId
   }
 
-  public get adminDebugFilename(): string | null {
-    if (this.adminDebugDirectory) {
-      return path.join(this.adminDebugDirectory, `keybase_bot_${this._botId}.log`)
-    } else {
-      return null
-    }
-  }
-
-  public get adminDebugDirectory(): string | null {
-    return this._adminDebugDirectory || null
-  }
   public get serviceLogLocation(): string {
     if (this._service.serviceLogFile) {
       return this._service.serviceLogFile
@@ -163,29 +165,6 @@ class Bot {
     const destination = path.join(this._workingDir, 'keybase')
     await promisify(mkdirp)(this._workingDir)
     await promisify(copyFile)(keybaseBinaryLocation, destination)
-  }
-
-  private async _maybePrepDebugDir(options?: InitOptions): Promise<void> {
-    if (options && options.adminDebugDirectory) {
-      this._adminDebugDirectory = options.adminDebugDirectory
-      await promisify(mkdirp)(this._adminDebugDirectory)
-    }
-  }
-
-  private async _maybeLogCopyLoop(options?: InitOptions): Promise<void> {
-    // should do something with streams here, but for now when running in admindebug mode,
-    // I'll just copy the logs over, taking a break after each copy.
-    if (options && options.adminDebugDirectory) {
-      while (this._initStatus !== 'deinitialized') {
-        try {
-          const destination = path.join(options.adminDebugDirectory, path.basename(this.serviceLogLocation))
-          await promisify(copyFile)(this.serviceLogLocation, destination)
-        } catch (e) {
-          this.debugLog(`Couldn't copy service log. ${e.toString()}`, 'E')
-        }
-        await timeout(1000)
-      }
-    }
   }
 
   private async _initSubBots(options?: InitOptions): Promise<void> {
