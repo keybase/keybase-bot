@@ -122,7 +122,7 @@ export interface AttachmentContent {
 export interface ReactionContent {
   type: 'reaction'
   reaction: {
-    m: string
+    m: number
     b: string
   }
 }
