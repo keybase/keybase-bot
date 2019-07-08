@@ -10,6 +10,9 @@ declare class Bot {
     team: TeamClient;
     private _workingDir;
     private _service;
+    private _botId;
+    private _initStatus;
+    private _adminDebugLogger?;
     /**
      * Create a bot. Note you can't do much too exciting with your bot after you instantiate it; you have to initialize it first.
      * @memberof Bot
@@ -36,6 +39,7 @@ declare class Bot {
      * bot.initFromRunningService()
      */
     initFromRunningService(homeDir?: string, options?: InitOptions): Promise<void>;
+    private _beginInitState;
     /**
      * Get info about your bot!
      * @memberof Bot
@@ -51,6 +55,22 @@ declare class Bot {
      * bot.deinit()
      */
     deinit(): Promise<void>;
+    /**
+     * If bot is initialized with an optional directory `adminDebugDirectory`, this will let you write info text into it.
+     * @memberof Bot
+     * @example
+     * bot.adminDebugLogInfo('My bot is ready to go.')
+     */
+    adminDebugLogInfo(text: string): Promise<void>;
+    /**
+     * If bot is initialized with an optional directory `adminDebugDirectory`, this will let you write error text into it.
+     * @memberof Bot
+     * @example
+     * bot.adminDebugLogInfo("My bot is ready to go.")
+     */
+    adminDebugLogError(text: string): Promise<void>;
+    readonly botId: string;
+    readonly serviceLogLocation: string;
     private _prepWorkingDir;
     private _initSubBots;
 }

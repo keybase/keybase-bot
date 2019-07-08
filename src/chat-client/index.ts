@@ -174,6 +174,7 @@ class Chat extends ClientBase {
       channel,
       message,
     }
+    this._adminDebugLogger.info(`sending message "${message.body}" in channel ${JSON.stringify(channel)}`)
     const res = await this._runApiCommand({
       apiName: 'chat',
       method: 'send',
@@ -182,7 +183,7 @@ class Chat extends ClientBase {
     if (!res) {
       throw new Error('Keybase chat send returned nothing')
     }
-
+    this._adminDebugLogger.info(`message sent with id ${res.id}`)
     return {id: res.id}
   }
 
@@ -434,9 +435,28 @@ class Chat extends ClientBase {
     }
     const child = spawn(this._pathToKeybaseBinary(), args)
     this._spawnedProcesses.push(child)
+    const cmdSample = this._pathToKeybaseBinary() + ' ' + args.join(' ')
+    this._adminDebugLogger.info(`beginning listen on channel=${JSON.stringify(channel || 'ALL')} using ${cmdSample}`)
+    child.on('error', (err: Error): void => {
+      this._adminDebugLogger.error(`got listen error ${err.message}`)
+    })
+    child.on('exit', (): void => {
+      this._adminDebugLogger.info(`got listen exit`)
+    })
+    child.on('close', (): void => {
+      this._adminDebugLogger.info(`got listen close`)
+    })
+    child.on('disconnect', (): void => {
+      this._adminDebugLogger.info(`got listen disconnect`)
+    })
+    const lineReaderStderr = readline.createInterface({input: child.stderr})
+    lineReaderStderr.on('line', (line: string): void => {
+      this._adminDebugLogger.error(`stderr from listener: ${line}`)
+    })
 
     const lineReaderStdout = readline.createInterface({input: child.stdout})
     const onLine = (line: string): void => {
+      this._adminDebugLogger.info(`stdout from listener: ${line}`)
       try {
         const messageObject: MessageNotification = formatAPIObjectOutput(JSON.parse(line))
         if (messageObject.hasOwnProperty('error')) {

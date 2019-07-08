@@ -4,11 +4,14 @@ import WalletClient from './wallet-client'
 import TeamClient from './team-client'
 import {BotInfo} from './utils/keybaseStatus'
 import mkdirp from 'mkdirp'
-import {randomTempDir, whichKeybase, rmdirRecursive} from './utils'
+import {whichKeybase, rmdirRecursive} from './utils'
 import {promisify} from 'util'
 import {copyFile} from 'fs'
 import path from 'path'
 import {InitOptions} from './utils/options'
+import {AdminDebugLogger} from './utils/adminDebugLogger'
+import crypto from 'crypto'
+import os from 'os'
 
 /** A Keybase bot. */
 class Bot {
@@ -17,6 +20,9 @@ class Bot {
   public team: TeamClient
   private _workingDir: string // where KB binary copied, and homeDir (if not existing svc)
   private _service: Service
+  private _botId: string
+  private _initStatus: 'preinit' | 'initializing' | 'initialized' | 'deinitializing' | 'deinitialized'
+  private _adminDebugLogger?: AdminDebugLogger
 
   /**
    * Create a bot. Note you can't do much too exciting with your bot after you instantiate it; you have to initialize it first.
@@ -25,11 +31,14 @@ class Bot {
    * const bot = new Bot()
    */
   public constructor() {
-    this._workingDir = randomTempDir()
-    this._service = new Service(this._workingDir)
-    this.chat = new ChatClient(this._workingDir)
-    this.wallet = new WalletClient(this._workingDir)
-    this.team = new TeamClient(this._workingDir)
+    this._botId = crypto.randomBytes(16).toString('hex')
+    this._workingDir = path.join(os.tmpdir(), `keybase_bot_${this._botId}`)
+    this._service = new Service(this._workingDir, this._adminDebugLogger)
+    this._adminDebugLogger = new AdminDebugLogger(this._botId)
+    this.chat = new ChatClient(this._workingDir, this._adminDebugLogger)
+    this.wallet = new WalletClient(this._workingDir, this._adminDebugLogger)
+    this.team = new TeamClient(this._workingDir, this._adminDebugLogger)
+    this._initStatus = 'preinit'
   }
 
   /**
@@ -42,9 +51,15 @@ class Bot {
    * bot.init('username', 'paperkey')
    */
   public async init(username: string, paperkey: string, options?: InitOptions): Promise<void> {
+    this._beginInitState()
     await this._prepWorkingDir()
     await this._service.init(username, paperkey, options)
     await this._initSubBots(options)
+    if (options && options.adminDebugDirectory && this._service.serviceLogFile) {
+      await this._adminDebugLogger.init(options.adminDebugDirectory, this._service.serviceLogFile)
+    }
+    this._initStatus = 'initialized'
+    this._adminDebugLogger.info('initialized')
   }
 
   /**
@@ -56,9 +71,22 @@ class Bot {
    * bot.initFromRunningService()
    */
   public async initFromRunningService(homeDir?: string, options?: InitOptions): Promise<void> {
+    this._beginInitState()
     await this._prepWorkingDir()
+    if (options && options.adminDebugDirectory && this._service.serviceLogFile) {
+      await this._adminDebugLogger.init(options.adminDebugDirectory, this._service.serviceLogFile)
+    }
     await this._service.initFromRunningService(homeDir, options)
     await this._initSubBots(options)
+    this._adminDebugLogger.info('initialized')
+  }
+
+  private _beginInitState(): void {
+    if (this._initStatus !== 'preinit') {
+      throw new Error(`tried to init, but state is already ${this._initStatus}`)
+    }
+    this._initStatus = 'initializing'
+    this._adminDebugLogger.info('beginning initialization')
   }
 
   /**
@@ -81,10 +109,55 @@ class Bot {
   public async deinit(): Promise<void> {
     // Stop the clients first, so that they aren't trying to
     // talk to a deinit'ed service
+    if (this._initStatus === 'deinitializing' || this._initStatus === 'deinitialized') {
+      this._adminDebugLogger.info('Trying to deinitialize, but already called')
+    } else {
+      this._initStatus = 'deinitializing'
+      this._adminDebugLogger.info('beginning deinit')
+      await this.chat._deinit()
+      await this._service.deinit()
+      await rmdirRecursive(this._workingDir)
+      this._adminDebugLogger.info('finished deinit')
+      this._adminDebugLogger.deinit()
+      this._initStatus = 'deinitialized'
+    }
+  }
 
-    await this.chat._deinit()
-    await this._service.deinit()
-    await rmdirRecursive(this._workingDir)
+  /**
+   * If bot is initialized with an optional directory `adminDebugDirectory`, this will let you write info text into it.
+   * @memberof Bot
+   * @example
+   * bot.adminDebugLogInfo('My bot is ready to go.')
+   */
+
+  public async adminDebugLogInfo(text: string): Promise<void> {
+    if (this._adminDebugLogger) {
+      this._adminDebugLogger.info(text)
+    }
+  }
+  /**
+   * If bot is initialized with an optional directory `adminDebugDirectory`, this will let you write error text into it.
+   * @memberof Bot
+   * @example
+   * bot.adminDebugLogInfo("My bot is ready to go.")
+   */
+
+  public async adminDebugLogError(text: string): Promise<void> {
+    if (this._adminDebugLogger) {
+      this._adminDebugLogger.error(text)
+    }
+  }
+
+  public get botId(): string {
+    return this._botId
+  }
+
+  public get serviceLogLocation(): string {
+    if (this._service.serviceLogFile) {
+      return this._service.serviceLogFile
+    } else {
+      throw new Error('service does not have a log file location. initialized yet?')
+    }
   }
 
   private async _prepWorkingDir(): Promise<void> {

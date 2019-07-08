@@ -4,7 +4,7 @@ import keybaseExec from '../utils/keybaseExec'
  * Useful information like the username, device, home directory of your bot and
  * configuration options.
  */
-export type BotInfo = {
+export interface BotInfo {
   username: string
   devicename: string
   homeDir: void | string

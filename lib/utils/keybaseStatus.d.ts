@@ -2,13 +2,13 @@
  * Useful information like the username, device, home directory of your bot and
  * configuration options.
  */
-export declare type BotInfo = {
+export interface BotInfo {
     username: string;
     devicename: string;
     homeDir: void | string;
     botLite?: boolean;
     disableTyping?: boolean;
-};
+}
 /**
  * Returns { username, devicename, homeDir } from `keybase status --json`.
  * @ignore
