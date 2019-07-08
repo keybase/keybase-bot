@@ -125,7 +125,7 @@ class Bot {
    * so use wisely.
    * @memberof Bot
    * @example
-   * bot.log("My bot is ready to go.")
+   * bot.debugLog("My bot is ready to go.")
    */
   public async debugLog(text: string, infoOrErr?: 'I' | 'E'): Promise<void> {
     if (this.adminDebugDirectory) {
