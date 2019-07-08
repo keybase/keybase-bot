@@ -39,6 +39,7 @@ declare class Bot {
      * bot.initFromRunningService()
      */
     initFromRunningService(homeDir?: string, options?: InitOptions): Promise<void>;
+    private _beginInitState;
     /**
      * Get info about your bot!
      * @memberof Bot

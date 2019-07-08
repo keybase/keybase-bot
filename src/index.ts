@@ -50,11 +50,7 @@ class Bot {
    * bot.init('username', 'paperkey')
    */
   public async init(username: string, paperkey: string, options?: InitOptions): Promise<void> {
-    this.debugLog('beginning initialization')
-    if (this._initStatus !== 'preinit') {
-      throw new Error(`tried to init, but state is already ${this._initStatus}`)
-    }
-    this._initStatus = 'initializing'
+    this._beginInitState()
     await this._prepWorkingDir()
     await this._maybePrepDebugDir(options)
     await this._service.init(username, paperkey, options)
@@ -73,13 +69,21 @@ class Bot {
    * bot.initFromRunningService()
    */
   public async initFromRunningService(homeDir?: string, options?: InitOptions): Promise<void> {
-    this.debugLog('beginning initialization from running service')
+    this._beginInitState()
     await this._prepWorkingDir()
     await this._maybePrepDebugDir(options)
     await this._service.initFromRunningService(homeDir, options)
     await this._initSubBots(options)
     await this._maybeLogCopyLoop(options)
     this.debugLog('initialized')
+  }
+
+  private _beginInitState(): void {
+    if (this._initStatus !== 'preinit') {
+      throw new Error(`tried to init, but state is already ${this._initStatus}`)
+    }
+    this._initStatus = 'initializing'
+    this.debugLog('beginning initialization')
   }
 
   /**
@@ -102,17 +106,17 @@ class Bot {
   public async deinit(): Promise<void> {
     // Stop the clients first, so that they aren't trying to
     // talk to a deinit'ed service
-    //if (this._initStatus === 'deinitializing' || this._initStatus === 'deinitialized') {
-    //  this.debugLog('Trying to deinitialize, but already called', 'I')
-    //} else {
-    //  this._initStatus = 'deinitializing'
-    //  this.debugLog('beginning deinit')
-    //  await this.chat._deinit()
-    //  await this._service.deinit()
-    //  await rmdirRecursive(this._workingDir)
-    //  this.debugLog('finished deinit')
-    //  this._initStatus = 'deinitialized'
-    //}
+    if (this._initStatus === 'deinitializing' || this._initStatus === 'deinitialized') {
+      this.debugLog('Trying to deinitialize, but already called', 'I')
+    } else {
+      this._initStatus = 'deinitializing'
+      this.debugLog('beginning deinit')
+      await this.chat._deinit()
+      await this._service.deinit()
+      await rmdirRecursive(this._workingDir)
+      this.debugLog('finished deinit')
+      this._initStatus = 'deinitialized'
+    }
   }
 
   /**

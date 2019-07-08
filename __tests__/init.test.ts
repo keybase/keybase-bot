@@ -51,10 +51,8 @@ describe('Keybase bot initialization', (): void => {
     await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
     await expect(alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)).rejects.toThrowError()
     await alice.deinit()
-
     const homeDir = randomTempDir()
     await startServiceManually(homeDir, config.bots.bob1.username, config.bots.bob1.paperkey)
-    await alice.initFromRunningService(homeDir)
     await expect(alice.initFromRunningService(homeDir)).rejects.toThrowError()
     await alice.deinit()
     await stopServiceManually(homeDir)
