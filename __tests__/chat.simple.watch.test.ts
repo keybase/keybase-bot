@@ -1,8 +1,13 @@
 import Bot from '../lib'
 import config from './tests.config'
 import {pollFor} from './test-utils'
-import {MessageSummary, ChatReadOptions} from '../lib/chat-client/types'
-import {timeout} from '../lib/utils'
+import {MessageSummary} from '../lib/chat-client/types'
+
+//
+// Coyne: I created this test specifically as a standalone because we have been hacing an issue
+// where a freshly initialized bot isn't outputting on calls to watchAllChannelsForNewMessages()
+// this should pass when that is fixed. It's also in chat.test.ts, but that's full of tests. We
+// can delete this file once all tests are passing.
 
 describe('Chat Methods', (): void => {
   const alice = new Bot()
