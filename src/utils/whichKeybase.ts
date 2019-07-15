@@ -1,7 +1,7 @@
-import {exec} from 'child_process'
+import which from 'which'
 import {promisify} from 'util'
 
-const aExec = promisify(exec)
+const aWhich = promisify(which)
 
 /**
  * Returns the full path to the keybase binary or throws an error
@@ -10,12 +10,11 @@ const aExec = promisify(exec)
  * whichKeybase().then((path) => console.log(path))
  */
 async function whichKeybase(): Promise<string> {
-  const {stdout} = await aExec('which keybase')
-  if (!stdout || !stdout.trim().length) {
+  const path = await aWhich('keybase')
+  if (!path) {
     throw new Error('Could not find keybase binary')
   }
-  const res = stdout.trim()
-  return res
+  return path
 }
 
 export default whichKeybase
