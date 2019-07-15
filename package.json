@@ -41,7 +41,7 @@
     ]
   },
   "scripts": {
-    "docs": "documentation readme src/index.ts --config documentation.yml --section=API",
+    "docs": "documentation readme 'src/**/*.ts' --config documentation.yml --section=API",
     "build": "tsc",
     "dev": "tsc --watch",
     "test": "jest --runInBand",
@@ -71,7 +71,7 @@
     "eslint-plugin-prettier": "3.1.0",
     "eslint-plugin-promise": "4.0.1",
     "eslint-plugin-standard": "4.0.0",
-    "documentation": "11.0.1",
+    "documentation": "12.0.1",
     "husky": "1.2.0",
     "jest": "24.8.0",
     "lint-staged": "8.1.0",
