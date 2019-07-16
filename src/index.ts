@@ -164,6 +164,7 @@ class Bot {
     if (!keybaseBinaryLocation) {
       keybaseBinaryLocation = await whichKeybase()
     }
+    console.log(keybaseBinaryLocation)
     const destination = path.join(this._workingDir, 'keybase')
     await promisify(mkdirp)(this._workingDir)
     await promisify(copyFile)(keybaseBinaryLocation, destination)
