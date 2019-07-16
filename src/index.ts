@@ -52,7 +52,7 @@ class Bot {
    */
   public async init(username: string, paperkey: string, options?: InitOptions): Promise<void> {
     this._beginInitState()
-    await this._prepWorkingDir()
+    await this._prepWorkingDir(options.keybaseBinaryLocation)
     await this._service.init(username, paperkey, options)
     await this._initSubBots(options)
     if (options && options.adminDebugDirectory && this._service.serviceLogFile) {
@@ -161,11 +161,9 @@ class Bot {
   }
 
   private async _prepWorkingDir(keybaseBinaryLocation?: string): Promise<void> {
-    console.log('pre', keybaseBinaryLocation)
     if (!keybaseBinaryLocation) {
       keybaseBinaryLocation = await whichKeybase()
     }
-    console.log('post', keybaseBinaryLocation)
     const destination = path.join(this._workingDir, 'keybase')
     await promisify(mkdirp)(this._workingDir)
     await promisify(copyFile)(keybaseBinaryLocation, destination)
