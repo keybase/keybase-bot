@@ -12,4 +12,6 @@ export interface InitOptions {
   // Copies the service log to a dedicated directory so it survives after bot shutdown
   // and also records its own actions
   adminDebugDirectory?: string
+  // Overrides the path to the keybase binary
+  keybaseBinaryLocation?: string
 }
