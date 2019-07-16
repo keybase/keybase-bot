@@ -161,10 +161,11 @@ class Bot {
   }
 
   private async _prepWorkingDir(keybaseBinaryLocation?: string): Promise<void> {
+    console.log('pre', keybaseBinaryLocation)
     if (!keybaseBinaryLocation) {
       keybaseBinaryLocation = await whichKeybase()
     }
-    console.log(keybaseBinaryLocation)
+    console.log('post', keybaseBinaryLocation)
     const destination = path.join(this._workingDir, 'keybase')
     await promisify(mkdirp)(this._workingDir)
     await promisify(copyFile)(keybaseBinaryLocation, destination)
