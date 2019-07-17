@@ -7,4 +7,5 @@ export interface InitOptions {
     disableTyping?: boolean;
     autoLogSendOnCrash?: boolean;
     adminDebugDirectory?: string;
+    keybaseBinaryLocation?: string;
 }
