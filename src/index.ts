@@ -52,7 +52,7 @@ class Bot {
    */
   public async init(username: string, paperkey: string, options?: InitOptions): Promise<void> {
     this._beginInitState()
-    await this._prepWorkingDir(options.keybaseBinaryLocation)
+    await this._prepWorkingDir(options ? options.keybaseBinaryLocation : undefined)
     await this._service.init(username, paperkey, options)
     await this._initSubBots(options)
     if (options && options.adminDebugDirectory && this._service.serviceLogFile) {
@@ -72,7 +72,7 @@ class Bot {
    */
   public async initFromRunningService(homeDir?: string, options?: InitOptions): Promise<void> {
     this._beginInitState()
-    await this._prepWorkingDir(options.keybaseBinaryLocation)
+    await this._prepWorkingDir(options ? options.keybaseBinaryLocation : undefined)
     if (options && options.adminDebugDirectory && this._service.serviceLogFile) {
       await this._adminDebugLogger.init(options.adminDebugDirectory, this._service.serviceLogFile)
     }
