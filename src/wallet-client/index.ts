@@ -1,5 +1,13 @@
+import {spawn} from 'child_process'
+import readline from 'readline'
 import ClientBase from '../client-base'
+import {formatAPIObjectOutput} from '../utils'
 import {Account, Transaction, PaymentBatchItem, BatchResult, HistoryResultItem} from './types'
+
+/** A function to call when a message is received. */
+export type OnTransaction = (transaction: Transaction) => void | Promise<void>
+/** A function to call when an error occurs. */
+export type OnError = (error: Error) => void | Promise<void>
 
 /** The wallet module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase wallet api`. */
 class Wallet extends ClientBase {
@@ -145,6 +153,84 @@ class Wallet extends ClientBase {
     if (!res) {
       throw new Error('Keybase wallet cancel returned nothing.')
     }
+  }
+
+  /**
+   * Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel. Note that it receives messages your own bot posts, but from other devices. You can filter out your own messages by looking at a message's sender object.
+   * Hides exploding messages by default.
+   * @memberof Wallet
+   * @param onMessage - A callback that is triggered on every message your bot receives.
+   * @param onError - A callback that is triggered on any error that occurs while the method is executing.
+   * @param options - Options for the listen method.
+   * @example
+   * // Reply to all messages between you and `kbot` with 'thanks!'
+   * const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topicType: 'chat'}
+   * const onMessage = message => {
+   *   const channel = message.channel
+   *   bot.chat.send(channel, {body: 'thanks!!!'})
+   * }
+   * bot.chat.watchChannelForNewMessages(channel, onMessage)
+   */
+  public async watchForNewTransactions(onTransaction: OnTransaction, onError?: OnError): Promise<void> {
+    await this._guardInitialized()
+    this._transactionListen(onTransaction, onError)
+  }
+
+  /**
+   * Spawns the chat listen process for wallet notifications and handles the calling of onTransaction and onError.
+   * @memberof Wallet
+   * @ignore
+   * @param onTransaction - A callback that is triggered on every transaction your bot receives.
+   * @param onError - A callback that is triggered on any error that occurs while the method is executing.
+   * @example
+   * this._transactionListen(onTransaction, onError)
+   */
+  private _transactionListen(onTransaction: OnTransaction, onError?: OnError): void {
+    const args = ['chat', 'api-listen']
+    if (this.homeDir) {
+      args.unshift('--home', this.homeDir)
+    }
+
+    const child = spawn(this._pathToKeybaseBinary(), args)
+    this._spawnedProcesses.push(child)
+    const cmdSample = this._pathToKeybaseBinary() + ' ' + args.join(' ')
+    this._adminDebugLogger.info(`beginning listen for wallet notifications using ${cmdSample}`)
+    child.on('error', (err: Error): void => {
+      this._adminDebugLogger.error(`got listen error ${err.message}`)
+    })
+    child.on('exit', (): void => {
+      this._adminDebugLogger.info(`got listen exit`)
+    })
+    child.on('close', (): void => {
+      this._adminDebugLogger.info(`got listen close`)
+    })
+    child.on('disconnect', (): void => {
+      this._adminDebugLogger.info(`got listen disconnect`)
+    })
+    const lineReaderStderr = readline.createInterface({input: child.stderr})
+    lineReaderStderr.on('line', (line: string): void => {
+      this._adminDebugLogger.error(`stderr from listener: ${line}`)
+    })
+
+    const lineReaderStdout = readline.createInterface({input: child.stdout})
+    const onLine = (line: string): void => {
+      this._adminDebugLogger.info(`stdout from listener: ${line}`)
+      try {
+        const transactionNotification: any = formatAPIObjectOutput(JSON.parse(line))
+        if (transactionNotification.type === 'wallet') {
+          if (transactionNotification.hasOwnProperty('error')) {
+            throw new Error(transactionNotification.error)
+          } else {
+            onTransaction(transactionNotification.notification)
+          }
+        }
+      } catch (error) {
+        if (onError) {
+          onError(error)
+        }
+      }
+    }
+    lineReaderStdout.on('line', onLine)
   }
 }
 
