@@ -341,7 +341,7 @@ export interface AdvertisementsLookup {
     conversationID?: string;
 }
 export interface AdvertisementsListCommand extends AdvertisedCommand {
-    username: String;
+    username: string;
 }
 export interface AdvertisementsList {
     commands: AdvertisementsListCommand[];

@@ -436,7 +436,7 @@ export interface AdvertisementsLookup {
 }
 
 export interface AdvertisementsListCommand extends AdvertisedCommand {
-  username: String
+  username: string
 }
 
 export interface AdvertisementsList {
