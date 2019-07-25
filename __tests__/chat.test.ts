@@ -508,6 +508,36 @@ describe('Chat Methods', (): void => {
     */
   })
 
+  describe('Command advertisements', (): void => {
+    it('Should be able to clear, publish and then lookup', async (): Promise<void> => {
+      await alice1.chat.clearCommands()
+      await alice1.chat.advertiseCommands({
+        advertisements: [
+          {
+            type: 'public',
+            commands: [
+              {
+                name: '!helloworld',
+                description: 'sample description',
+                usage: 'test',
+              },
+            ],
+          },
+        ],
+      })
+
+      const list = await bob.chat.listCommands({
+        channel: channel,
+      })
+      expect(list.commands).toContain({
+        name: '!helloworld',
+        description: 'sample description',
+        usage: 'test',
+        username: alice1.myInfo().username,
+      })
+    })
+  })
+
   describe('watchChannelForNewMessages', (): void => {
     it('Can have bots say hello to each other in a team', async (): Promise<void> => {
       let ALICE_IS_SATISFIED = false

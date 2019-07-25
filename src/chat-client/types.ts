@@ -8,8 +8,9 @@
 type TopicType = 'chat' | 'dev'
 type MembersType = 'team' | 'impteamnative' | 'kbfs' | 'impteamupgrade'
 type ChannelMention = 'none' | 'all' | 'here'
+type AdvertisementType = 'public' | 'teamconvs' | 'teammembers'
 
-interface ChannelNameMention {
+export interface ChannelNameMention {
   name: string
   convID: string
 }
@@ -403,4 +404,41 @@ export interface FlipSummary {
   revealVisualization: string
   participants: FlipParticipant[]
   resultInfo: Record<string, any>
+}
+
+export interface CommandExtendedDescription {
+  title: string
+  desktopBody: string
+  mobileBody: string
+}
+
+export interface AdvertisedCommand {
+  name: string
+  description: string
+  usage: string
+  extendedDescription?: CommandExtendedDescription
+}
+
+export interface AdvertisementBundle {
+  type: AdvertisementType
+  commands: AdvertisedCommand[]
+  teamName?: string
+}
+
+export interface Advertisement {
+  alias?: string
+  advertisements: AdvertisementBundle[]
+}
+
+export interface AdvertisementsLookup {
+  channel: ChatChannel
+  conversationID?: string
+}
+
+export interface AdvertisementsListCommand extends AdvertisedCommand {
+  username: String
+}
+
+export interface AdvertisementsList {
+  commands: AdvertisementsListCommand[]
 }

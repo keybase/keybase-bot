@@ -3,6 +3,9 @@ import readline from 'readline'
 import ClientBase from '../client-base'
 import {formatAPIObjectOutput, formatAPIObjectInput} from '../utils'
 import {
+  Advertisement,
+  AdvertisementsList,
+  AdvertisementsLookup,
   ChatConversation,
   ChatChannel,
   ChatMessage,
@@ -353,6 +356,49 @@ class Chat extends ClientBase {
       throw new Error('Keybase chat load flip returned nothing.')
     }
     return res.status
+  }
+
+  /**
+   * Publishes a commands advertisement which is shown in the "!" chat autocomplete.
+   * @param advertisement - details of the advertisement
+   * @example
+   * // check demos/es7/advertised-echo.js
+   */
+  public async advertiseCommands(advertisement: Advertisement): Promise<void> {
+    await this._guardInitialized()
+    const res = await this._runApiCommand({apiName: 'chat', method: 'advertisecommands', options: advertisement})
+    if (!res) {
+      throw new Error('Keybase chat advertise commands returned nothing.')
+    }
+  }
+
+  /**
+   * Clears all published commands advertisements.
+   * @param advertisement - advertisement parameters
+   * @example
+   * // check demos/es7/advertised-echo.js
+   */
+  public async clearCommands(): Promise<void> {
+    await this._guardInitialized()
+    const res = await this._runApiCommand({apiName: 'chat', method: 'clearcommands'})
+    if (!res) {
+      throw new Error('Keybase chat clear commands returned nothing.')
+    }
+  }
+
+  /**
+   * Lists all published command advertisements, either all or for a certain channel.
+   * @param lookup - either conversation id or channel
+   * @example
+   * // check demos/es7/advertised-echo.js
+   */
+  public async listCommands(lookup: AdvertisementsLookup): Promise<AdvertisementsList> {
+    await this._guardInitialized()
+    const res = await this._runApiCommand({apiName: 'chat', method: 'listcommands', options: lookup})
+    if (!res) {
+      throw new Error('Keybase chat list commands returned nothing.')
+    }
+    return res
   }
 
   /**
