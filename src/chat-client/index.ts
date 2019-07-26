@@ -398,7 +398,9 @@ class Chat extends ClientBase {
     if (!res) {
       throw new Error('Keybase chat list commands returned nothing.')
     }
-    return res
+    return {
+      commands: res && res.commands ? res.commands : [],
+    }
   }
 
   /**

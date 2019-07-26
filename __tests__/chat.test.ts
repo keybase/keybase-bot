@@ -526,15 +526,21 @@ describe('Chat Methods', (): void => {
         ],
       })
 
-      const list = await bob.chat.listCommands({
+      const listBeforeClear = await bob.chat.listCommands({
         channel: channel,
       })
-      expect(list.commands).toContain({
+      expect(listBeforeClear.commands).toContainEqual({
         name: '!helloworld',
         description: 'sample description',
         usage: 'test',
         username: alice1.myInfo().username,
       })
+
+      await alice1.chat.clearCommands()
+      const listAfterClear = await bob.chat.listCommands({
+        channel: channel,
+      })
+      expect(listAfterClear.commands.length).toBe(0)
     })
   })
 
