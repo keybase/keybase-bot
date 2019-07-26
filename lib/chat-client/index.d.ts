@@ -161,21 +161,48 @@ declare class Chat extends ClientBase {
      * Publishes a commands advertisement which is shown in the "!" chat autocomplete.
      * @param advertisement - details of the advertisement
      * @example
-     * // check demos/es7/advertised-echo.js
+     * await bot.chat.advertiseCommands({
+     *   advertisements: [
+     *     {
+     *       type: 'public',
+     *       commands: [
+     *         {
+     *           name: '!echo',
+     *           description: 'Sends out your message to the current channel.',
+     *           usage: '[your text]',
+     *         },
+     *       ]
+     *     }
+     *   ],
+     * })
      */
     advertiseCommands(advertisement: Advertisement): Promise<void>;
     /**
      * Clears all published commands advertisements.
      * @param advertisement - advertisement parameters
      * @example
-     * // check demos/es7/advertised-echo.js
+     * await bot.chat.clearCommands()
      */
     clearCommands(): Promise<void>;
     /**
-     * Lists all published command advertisements, either all or for a certain channel.
+     * Lists all commands advertised in a channel.
      * @param lookup - either conversation id or channel
      * @example
-     * // check demos/es7/advertised-echo.js
+     * const commandsList = await bot.chat.listCommands({
+     *   channel: channel,
+     * })
+     * console.log(commandsList)
+     * // prints out something like:
+     * // {
+     * //   commands: [
+     * //     {
+     * //       name: '!helloworld',
+     * //       description: 'sample description',
+     * //       usage: '[command arguments]',
+     * //       username: 'userwhopublished',
+     * //     }
+     * //   ]
+     * // }
      */
     listCommands(lookup: AdvertisementsLookup): Promise<AdvertisementsList>;
     /**
