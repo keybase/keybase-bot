@@ -212,4 +212,20 @@ describe('Wallet Methods', (): void => {
       expect(alice1.wallet.cancel(res.txId)).rejects.toThrowError()
     })
   })
+
+  describe('watchForNewTransactions', async (): Promise<void> => {
+    const onTransaction = (transaction): void => console.log(transaction)
+
+    alice1.wallet.watchForNewTransactions(onTransaction)
+    bob.wallet.watchForNewTransactions(onTransaction)
+
+    const amount = '0.01'
+    const currency = 'USD'
+
+    for (let i = 0; i < 4; i++) {
+      const note = crypto.randomBytes(8).toString('hex')
+      if (i % 2 === 0) await alice1.wallet.send(config.bots.bob1.username, amount, currency, note)
+      else await bob.wallet.send(config.bots.alice1.username, amount, currency, note)
+    }
+  })
 })

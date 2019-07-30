@@ -1,5 +1,9 @@
 import ClientBase from '../client-base';
 import { Account, Transaction, PaymentBatchItem, BatchResult } from './types';
+/** A function to call when a message is received. */
+export declare type OnTransaction = (transaction: Transaction) => void | Promise<void>;
+/** A function to call when an error occurs. */
+export declare type OnError = (error: Error) => void | Promise<void>;
 /** The wallet module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase wallet api`. */
 declare class Wallet extends ClientBase {
     /**
@@ -78,5 +82,32 @@ declare class Wallet extends ClientBase {
      * bot.wallet.cancel('e5334601b9dc2a24e031ffeec2fce37bb6a8b4b51fc711d16dec04d3e64976c4').then(() => console.log('Transaction successfully canceled!'))
      */
     cancel(transactionId: string): Promise<void>;
+    /**
+     * Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel. Note that it receives messages your own bot posts, but from other devices. You can filter out your own messages by looking at a message's sender object.
+     * Hides exploding messages by default.
+     * @memberof Wallet
+     * @param onMessage - A callback that is triggered on every message your bot receives.
+     * @param onError - A callback that is triggered on any error that occurs while the method is executing.
+     * @param options - Options for the listen method.
+     * @example
+     * // Reply to all messages between you and `kbot` with 'thanks!'
+     * const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topicType: 'chat'}
+     * const onMessage = message => {
+     *   const channel = message.channel
+     *   bot.chat.send(channel, {body: 'thanks!!!'})
+     * }
+     * bot.chat.watchChannelForNewMessages(channel, onMessage)
+     */
+    watchForNewTransactions(onTransaction: OnTransaction, onError?: OnError): Promise<void>;
+    /**
+     * Spawns the chat listen process for wallet notifications and handles the calling of onTransaction and onError.
+     * @memberof Wallet
+     * @ignore
+     * @param onTransaction - A callback that is triggered on every transaction your bot receives.
+     * @param onError - A callback that is triggered on any error that occurs while the method is executing.
+     * @example
+     * this._transactionListen(onTransaction, onError)
+     */
+    private _transactionListen;
 }
 export default Wallet;
