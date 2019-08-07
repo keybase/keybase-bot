@@ -1,5 +1,5 @@
 import ClientBase from '../client-base';
-import { ChatConversation, ChatChannel, ChatMessage, MessageSummary, ListenOptions, ReadResult, SendResult, ChatListOptions, ChatListChannelsOptions, ChatReadOptions, ChatSendOptions, ChatAttachOptions, ChatDownloadOptions, ChatDeleteOptions, ChatReactOptions, UnfurlMode, FlipSummary } from './types';
+import { Advertisement, AdvertisementsList, AdvertisementsLookup, ChatConversation, ChatChannel, ChatMessage, MessageSummary, ListenOptions, ReadResult, SendResult, ChatListOptions, ChatListChannelsOptions, ChatReadOptions, ChatSendOptions, ChatAttachOptions, ChatDownloadOptions, ChatDeleteOptions, ChatReactOptions, UnfurlMode, FlipSummary } from './types';
 /** A function to call when a message is received. */
 export declare type OnMessage = (message: MessageSummary) => void | Promise<void>;
 /** A function to call when an error occurs. */
@@ -157,6 +157,54 @@ declare class Chat extends ClientBase {
      * // check demos/es7/poker-hands.js
      */
     loadFlip(conversationID: string, flipConversationID: string, messageID: number, gameID: string): Promise<FlipSummary>;
+    /**
+     * Publishes a commands advertisement which is shown in the "!" chat autocomplete.
+     * @param advertisement - details of the advertisement
+     * @example
+     * await bot.chat.advertiseCommands({
+     *   advertisements: [
+     *     {
+     *       type: 'public',
+     *       commands: [
+     *         {
+     *           name: '!echo',
+     *           description: 'Sends out your message to the current channel.',
+     *           usage: '[your text]',
+     *         },
+     *       ]
+     *     }
+     *   ],
+     * })
+     */
+    advertiseCommands(advertisement: Advertisement): Promise<void>;
+    /**
+     * Clears all published commands advertisements.
+     * @param advertisement - advertisement parameters
+     * @example
+     * await bot.chat.clearCommands()
+     */
+    clearCommands(): Promise<void>;
+    /**
+     * Lists all commands advertised in a channel.
+     * @param lookup - either conversation id or channel
+     * @example
+     * const commandsList = await bot.chat.listCommands({
+     *   channel: channel,
+     * })
+     * console.log(commandsList)
+     * // prints out something like:
+     * // {
+     * //   commands: [
+     * //     {
+     * //       name: '!helloworld',
+     * //       description: 'sample description',
+     * //       usage: '[command arguments]',
+     * //       username: 'userwhopublished',
+     * //     }
+     * //   ]
+     * // }
+     */
+    listCommands(lookup: AdvertisementsLookup): Promise<AdvertisementsList>;
     /**
      * Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel. Note that it receives messages your own bot posts, but from other devices. You can filter out your own messages by looking at a message's sender object.
      * Hides exploding messages by default.

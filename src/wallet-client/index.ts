@@ -14,7 +14,7 @@ class Wallet extends ClientBase {
     await this._guardInitialized()
     const res = await this._runApiCommand({apiName: 'wallet', method: 'balances'})
     if (!res) {
-      throw new Error('Keybase wallet balanaces returned nothing.')
+      throw new Error('Keybase wallet balances returned nothing.')
     }
     return res || []
   }

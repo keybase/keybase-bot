@@ -3,6 +3,9 @@ import readline from 'readline'
 import ClientBase from '../client-base'
 import {formatAPIObjectOutput, formatAPIObjectInput} from '../utils'
 import {
+  Advertisement,
+  AdvertisementsList,
+  AdvertisementsLookup,
   ChatConversation,
   ChatChannel,
   ChatMessage,
@@ -353,6 +356,78 @@ class Chat extends ClientBase {
       throw new Error('Keybase chat load flip returned nothing.')
     }
     return res.status
+  }
+
+  /**
+   * Publishes a commands advertisement which is shown in the "!" chat autocomplete.
+   * @param advertisement - details of the advertisement
+   * @example
+   * await bot.chat.advertiseCommands({
+   *   advertisements: [
+   *     {
+   *       type: 'public',
+   *       commands: [
+   *         {
+   *           name: '!echo',
+   *           description: 'Sends out your message to the current channel.',
+   *           usage: '[your text]',
+   *         },
+   *       ]
+   *     }
+   *   ],
+   * })
+   */
+  public async advertiseCommands(advertisement: Advertisement): Promise<void> {
+    await this._guardInitialized()
+    const res = await this._runApiCommand({apiName: 'chat', method: 'advertisecommands', options: advertisement})
+    if (!res) {
+      throw new Error('Keybase chat advertise commands returned nothing.')
+    }
+  }
+
+  /**
+   * Clears all published commands advertisements.
+   * @param advertisement - advertisement parameters
+   * @example
+   * await bot.chat.clearCommands()
+   */
+  public async clearCommands(): Promise<void> {
+    await this._guardInitialized()
+    const res = await this._runApiCommand({apiName: 'chat', method: 'clearcommands'})
+    if (!res) {
+      throw new Error('Keybase chat clear commands returned nothing.')
+    }
+  }
+
+  /**
+   * Lists all commands advertised in a channel.
+   * @param lookup - either conversation id or channel
+   * @example
+   * const commandsList = await bot.chat.listCommands({
+   *   channel: channel,
+   * })
+   * console.log(commandsList)
+   * // prints out something like:
+   * // {
+   * //   commands: [
+   * //     {
+   * //       name: '!helloworld',
+   * //       description: 'sample description',
+   * //       usage: '[command arguments]',
+   * //       username: 'userwhopublished',
+   * //     }
+   * //   ]
+   * // }
+   */
+  public async listCommands(lookup: AdvertisementsLookup): Promise<AdvertisementsList> {
+    await this._guardInitialized()
+    const res = await this._runApiCommand({apiName: 'chat', method: 'listcommands', options: lookup})
+    if (!res) {
+      throw new Error('Keybase chat list commands returned nothing.')
+    }
+    return {
+      commands: res && res.commands ? res.commands : [],
+    }
   }
 
   /**
