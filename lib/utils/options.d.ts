@@ -8,4 +8,5 @@ export interface InitOptions {
     autoLogSendOnCrash?: boolean;
     adminDebugDirectory?: string;
     keybaseBinaryLocation?: string;
+    useDetachedService?: boolean;
 }

@@ -14,6 +14,7 @@ declare class Service {
     workingDir: string;
     autoLogSendOnCrash: boolean;
     private _paperkey;
+    private _useDetachedService;
     protected _adminDebugLogger: AdminDebugLogger;
     constructor(workingDir: string, adminDebugLogger: AdminDebugLogger);
     init(username: string, paperkey: string, options?: InitOptions): Promise<void>;

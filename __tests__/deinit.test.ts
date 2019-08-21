@@ -7,6 +7,7 @@ import config from './tests.config'
 import {startServiceManually, stopServiceManually} from './test-utils'
 import {randomTempDir, timeout} from '../lib/utils'
 import {MessageSummary} from '../lib/chat-client/types'
+import {InitOptions} from '../lib/utils/options'
 
 async function doesFileOrDirectoryExist(fpath: string): Promise<boolean> {
   try {
@@ -78,6 +79,19 @@ describe('Keybase bot deinitialization', (): void => {
     expect(await countProcessesMentioning(bobHomeDir)).toBe(1)
     await stopServiceManually(bobHomeDir)
     await expect(await countProcessesMentioning(bobHomeDir)).toBe(0)
+  })
+
+  it('handles shutting down detached services', async (): Promise<void> => {
+    const initOptions: InitOptions = {useDetachedService: true}
+    const alice = new Bot()
+    await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey, initOptions)
+    const aliceHomeDir = alice.myInfo().homeDir || ''
+    expect(aliceHomeDir.indexOf('keybase_bot_')).toBeGreaterThanOrEqual(0)
+    expect(await doesFileOrDirectoryExist(aliceHomeDir)).toBe(true)
+    expect(await countProcessesMentioning(aliceHomeDir)).toBe(1)
+    await alice.deinit()
+    await timeout(3000)
+    expect(await countProcessesMentioning(aliceHomeDir)).toBe(0)
   })
 
   it('removes its home directory if initialized with a paperkey', async (): Promise<void> => {
