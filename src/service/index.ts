@@ -18,6 +18,7 @@ class Service {
   public workingDir: string
   public autoLogSendOnCrash: boolean
   private _paperkey: void | string
+  private _useDetachedService: boolean
   protected _adminDebugLogger: AdminDebugLogger
 
   public constructor(workingDir: string, adminDebugLogger: AdminDebugLogger) {
@@ -28,6 +29,7 @@ class Service {
     this.botLite = true
     this.disableTyping = true
     this.autoLogSendOnCrash = false
+    this._useDetachedService = false
   }
 
   public async init(username: string, paperkey: string, options?: InitOptions): Promise<void> {
@@ -40,6 +42,9 @@ class Service {
     }
     if (this.initialized) {
       throw new Error('Cannot initialize an already initialized bot.')
+    }
+    if (options && options.useDetachedService) {
+      this._useDetachedService = true
     }
 
     this.homeDir = this.workingDir
@@ -91,9 +96,9 @@ class Service {
   }
 
   private async _killCustomService(): Promise<void> {
-    // these 2 commands might be unnecessary; since the service was `spawn`ed not detached
-    // they will also shutdown via SIGINT. We don't want to make service detached because it'd be nice for
-    // them to auto-shutdown if the user kills the process
+    // probably not necessary unless service was `spawn`ed detached (an InitOption)
+    // We don't nromally want to make service detached because a user might forget deinit()
+    // leaving it open, when killing their script
     try {
       await keybaseExec(this.workingDir, this.homeDir, ['logout', '--force'])
     } catch (e) {}
@@ -158,8 +163,7 @@ class Service {
     if (this.botLite) {
       args.unshift('--enable-bot-lite-mode')
     }
-
-    const child = spawn(path.join(this.workingDir, 'keybase'), args, {env: process.env})
+    const child = spawn(path.join(this.workingDir, 'keybase'), args, {env: process.env, detached: this._useDetachedService})
 
     // keep track of the subprocess' state
     this.running = true

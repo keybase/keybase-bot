@@ -14,4 +14,7 @@ export interface InitOptions {
   adminDebugDirectory?: string
   // Overrides the path to the keybase binary
   keybaseBinaryLocation?: string
+  // With this turned on, a SIGINT won't kill your Keybase service,
+  // but you must remember to call deinit() or it will survive
+  useDetachedService?: boolean
 }
