@@ -118,7 +118,7 @@ class Wallet extends ClientBase {
    * @param payments - an array of objects containing recipients and XLM of the form {"recipient": "someusername", "amount": "1.234", "message", "hi there"}
    * @returns - an object
    * @example
-   * bot.wallet.batch("airdrop2040",[{"recipient":"a1","amount": "1.414", "message": "hi a1, yes 1"},{"recipient": "a2", "amount": "3.14159", "message": "hi a2, yes 2"},}])
+   * bot.wallet.batch("airdrop2040", [{"recipient":"a1","amount": "1.414", "message": "hi a1, yes 1"},{"recipient": "a2", "amount": "3.14159", "message": "hi a2, yes 2"}])
    */
 
   public async batch(batchId: string, payments: PaymentBatchItem[]): Promise<BatchResult> {
