@@ -8,6 +8,9 @@ export interface AddMemberUsernameItem {
     username: string;
     role: TeamRole;
 }
+export interface CreateTeamParam {
+    team: string;
+}
 export interface AddMembersParam {
     team: string;
     emails?: AddMemberEmailItem[];
@@ -22,6 +25,7 @@ export interface ListTeamMembershipsParam {
 }
 export declare type AddMembersResult = any;
 export declare type RemoveMemberResult = any;
+export declare type CreateTeamResult = any;
 export interface UserVersionType {
     uid: string;
     eldestSeqno: number;

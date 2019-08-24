@@ -77,6 +77,14 @@ describe('Team Methods', (): void => {
       ).rejects.toThrowError()
     })
 
+    it('Throws an error if Alice creates a team that already exists', async (): Promise<void> => {
+      expect(
+        alice1.team.create({
+          team: teamName,
+        })
+      ).rejects.toThrowError()
+    })
+
     it('Lets Alice remove Bob from her team', async (): Promise<void> => {
       await alice1.team.removeMember({
         team: teamName,

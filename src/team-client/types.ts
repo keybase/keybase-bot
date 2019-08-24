@@ -10,6 +10,10 @@ export interface AddMemberUsernameItem {
   role: TeamRole
 }
 
+export interface CreateTeamParam {
+  team: string
+}
+
 export interface AddMembersParam {
   team: string
   emails?: AddMemberEmailItem[]
@@ -27,6 +31,7 @@ export interface ListTeamMembershipsParam {
 
 export type AddMembersResult = any /* TODO: this */
 export type RemoveMemberResult = any /* TODO: this */
+export type CreateTeamResult = any /* TODO: this */
 
 export interface UserVersionType {
   uid: string
