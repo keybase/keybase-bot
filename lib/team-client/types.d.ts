@@ -25,7 +25,12 @@ export interface ListTeamMembershipsParam {
 }
 export declare type AddMembersResult = any;
 export declare type RemoveMemberResult = any;
-export declare type CreateTeamResult = any;
+export declare type TeamID = 'string';
+export interface CreateTeamResult {
+    teamID: TeamID;
+    chatSent: boolean;
+    creatorAdded: boolean;
+}
 export interface UserVersionType {
     uid: string;
     eldestSeqno: number;

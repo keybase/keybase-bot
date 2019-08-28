@@ -23,7 +23,7 @@ class Team extends ClientBase {
   public async create(creation: CreateTeamParam): Promise<CreateTeamResult> {
     await this._guardInitialized()
     const options = creation
-    const res = await this._runApiCommand({apiName: 'team', method: 'create', options})
+    const res = await this._runApiCommand({apiName: 'team', method: 'create-team', options})
     if (!res) {
       throw new Error('create')
     }

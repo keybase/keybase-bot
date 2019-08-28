@@ -31,7 +31,12 @@ export interface ListTeamMembershipsParam {
 
 export type AddMembersResult = any /* TODO: this */
 export type RemoveMemberResult = any /* TODO: this */
-export type CreateTeamResult = any /* TODO: this */
+
+export type TeamID = 'string'
+export interface CreateTeamResult {
+  chatSent: boolean
+  creatorAdded: boolean
+}
 
 export interface UserVersionType {
   uid: string
