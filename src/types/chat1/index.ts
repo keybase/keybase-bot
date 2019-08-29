@@ -74,8 +74,8 @@ export type MsgSummary = {
   convID: string
   channel: ChatChannel
   sender: MsgSender
-  sentAt: int64
-  sentAtMs: int64
+  sentAt: number
+  sentAtMs: number
   content: MsgContent
   prev: MessagePreviousPointer[]
   unread: boolean
@@ -109,8 +109,8 @@ export type ConvSummary = {
   id: string
   channel: ChatChannel
   unread: boolean
-  activeAt: int64
-  activeAtMs: int64
+  activeAt: number
+  activeAtMs: number
   memberStatus: string
   resetUsers: string[]
   finalizeInfo?: ConversationFinalizeInfo
@@ -582,7 +582,7 @@ export type UICommandMarkdown = {
   title?: string
 }
 
-export type LocationWatchID = uint64
+export type LocationWatchID = number
 
 export enum UICommandStatusDisplayTyp {
   STATUS = 0,
@@ -646,11 +646,11 @@ export type TLFID = Buffer
 
 export type Hash = Buffer
 
-export type InboxVers = uint64
+export type InboxVers = number
 
-export type LocalConversationVers = uint64
+export type LocalConversationVers = number
 
-export type ConversationVers = uint64
+export type ConversationVers = number
 
 export type OutboxID = Buffer
 
@@ -732,7 +732,7 @@ export enum GlobalAppNotificationSetting {
 }
 
 export type GlobalAppNotificationSettings = {
-  settings: {[key: GlobalAppNotificationSetting]: boolean}
+  settings: {[key: string]: boolean}
 }
 
 export enum ConversationStatus {
@@ -851,7 +851,7 @@ export type ConversationMetadata = {
 
 export type ConversationNotificationInfo = {
   channelWide: boolean
-  settings: {[key: keybase1.DeviceType]: {[key: NotificationKind]: boolean}}
+  settings: {[key: string]: {[key: string]: boolean}}
 }
 
 export type ConversationReaderInfo = {
@@ -961,7 +961,7 @@ export type MessageClientHeader = {
   outboxID?: OutboxID
   outboxInfo?: OutboxInfo
   ephemeralMetadata?: MsgEphemeralMetadata
-  pairwiseMacs: {[key: keybase1.KID]: Buffer}
+  pairwiseMacs: {[key: string]: Buffer}
   botUID?: gregor1.UID
 }
 
@@ -1265,7 +1265,7 @@ export type ExpungePayload = {
 export type UnreadUpdate = {
   convID: ConversationID
   unreadMessages: number
-  unreadNotifyingMessages: {[key: keybase1.DeviceType]: number}
+  unreadNotifyingMessages: {[key: string]: number}
   compatUnreadMessages: number
   diff: boolean
 }
@@ -1726,7 +1726,7 @@ export type MessageUnboxedValid = {
   maybeMentions: MaybeMention[]
   channelNameMentions: ChannelNameMention[]
   reactions: ReactionMap
-  unfurls: {[key: MessageID]: UnfurlResult}
+  unfurls: {[key: string]: UnfurlResult}
   replyTo?: MessageUnboxed
 }
 
@@ -2140,7 +2140,7 @@ export type ProfileSearchConvStats = {
   numMissing: number
   numMessages: number
   indexSizeDisk: number
-  indexSizeMem: int64
+  indexSizeMem: number
   durationMsec: gregor1.DurationMsec
   percentIndexed: number
 }
@@ -2575,7 +2575,7 @@ export type ExternalAPIKey =
   | {typ: ExternalAPIKeyTyp.GOOGLEMAPS; GOOGLEMAPS: string | null}
   | {typ: ExternalAPIKeyTyp.GIPHY; GIPHY: string | null}
 
-export type CommandConvVers = uint64
+export type CommandConvVers = number
 
 export type RemoteBotCommandsAdvertisementPublic = {
   convID: ConversationID

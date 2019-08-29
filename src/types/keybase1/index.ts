@@ -184,7 +184,7 @@ export type AvatarUrl = string
 export type AvatarFormat = string
 
 export type LoadAvatarsRes = {
-  picmap: {[key: string]: {[key: AvatarFormat]: AvatarUrl}}
+  picmap: {[key: string]: {[key: string]: AvatarUrl}}
 }
 
 export type AvatarClearCacheMsg = {
@@ -330,7 +330,7 @@ export type TeamIDAndName = {
   name: TeamName
 }
 
-export type Seqno = int64
+export type Seqno = number
 
 export enum SeqType {
   NONE = 0,
@@ -1114,7 +1114,7 @@ export type EmailAddressChangedMsg = {
   email: EmailAddress
 }
 
-export type EkGeneration = int64
+export type EkGeneration = number
 
 export type DeviceEkMetadata = {
   kid: KID
@@ -1559,7 +1559,7 @@ export type ResolveIdentifyImplicitTeamRes = {
   displayName: string
   teamID: TeamID
   writers: UserVersion[]
-  trackBreaks: {[key: UserVersion]: IdentifyTrackBreaks}
+  trackBreaks: {[key: string]: IdentifyTrackBreaks}
   folderID: TLFID
 }
 
@@ -2002,23 +2002,23 @@ export type FSSyncStatusRequest = {
 export type FSPathSyncStatus = {
   folderType: FolderType
   path: string
-  syncingBytes: int64
-  syncingOps: int64
-  syncedBytes: int64
+  syncingBytes: number
+  syncingOps: number
+  syncedBytes: number
 }
 
 export type FSSyncStatus = {
-  totalSyncingBytes: int64
+  totalSyncingBytes: number
   syncingPaths: string[]
   endEstimate?: Time
 }
 
 export type FolderSyncStatus = {
-  localDiskBytesAvailable: int64
-  localDiskBytesTotal: int64
+  localDiskBytesAvailable: number
+  localDiskBytesTotal: number
   prefetchStatus: PrefetchStatus
   prefetchProgress: PrefetchProgress
-  storedBytesTotal: int64
+  storedBytesTotal: number
   outOfSyncSpace: boolean
 }
 
@@ -2199,7 +2199,7 @@ export type BadgeState = {
 
 export type BadgeConversationInfo = {
   convID: ChatConversationID
-  badgeCounts: {[key: DeviceType]: number}
+  badgeCounts: {[key: string]: number}
   unreadMessages: number
 }
 
@@ -2864,7 +2864,7 @@ export type SigListArgs = {
 }
 
 export type OpID = string | null
-export type KBFSRevision = int64
+export type KBFSRevision = number
 
 export enum KBFSArchivedType {
   REVISION = 0,
@@ -2917,8 +2917,8 @@ export enum PrefetchStatus {
 export type PrefetchProgress = {
   start: Time
   endEstimate: Time
-  bytesTotal: int64
-  bytesFetched: int64
+  bytesTotal: number
+  bytesFetched: number
 }
 
 export type Dirent = {
@@ -3053,12 +3053,12 @@ export type OpProgress = {
   start: Time
   endEstimate: Time
   opType: AsyncOps
-  bytesTotal: int64
-  bytesRead: int64
-  bytesWritten: int64
-  filesTotal: int64
-  filesRead: int64
-  filesWritten: int64
+  bytesTotal: number
+  bytesRead: number
+  bytesWritten: number
+  filesTotal: number
+  filesRead: number
+  filesWritten: number
 }
 
 export type SimpleFSGetHTTPAddressAndTokenResponse = {
@@ -3067,12 +3067,12 @@ export type SimpleFSGetHTTPAddressAndTokenResponse = {
 }
 
 export type SimpleFSQuotaUsage = {
-  usageBytes: int64
-  archiveBytes: int64
-  limitBytes: int64
-  gitUsageBytes: int64
-  gitArchiveBytes: int64
-  gitLimitBytes: int64
+  usageBytes: number
+  archiveBytes: number
+  limitBytes: number
+  gitUsageBytes: number
+  gitArchiveBytes: number
+  gitLimitBytes: number
 }
 
 export enum FolderSyncMode {
@@ -3103,7 +3103,7 @@ export type SyncConfigAndStatusRes = {
 }
 
 export type FSSettings = {
-  spaceAvailableNotificationThreshold: int64
+  spaceAvailableNotificationThreshold: number
 }
 
 export type SimpleFSStats = {
@@ -3124,7 +3124,7 @@ export enum PathSubscriptionTopic {
   STAT = 1,
 }
 
-export type TeambotKeyGeneration = int64
+export type TeambotKeyGeneration = number
 
 export type TeambotKeyMetadata = {
   kid: KID
@@ -3271,7 +3271,7 @@ export type TeamMembersDetails = {
 export type TeamDetails = {
   members: TeamMembersDetails
   keyGeneration: PerTeamKeyGeneration
-  annotatedActiveInvites: {[key: TeamInviteID]: AnnotatedTeamInvite}
+  annotatedActiveInvites: {[key: string]: AnnotatedTeamInvite}
   settings: TeamSettings
   showcase: TeamShowcase
 }
@@ -3284,9 +3284,9 @@ export type TeamChangeReq = {
   writers: UserVersion[]
   readers: UserVersion[]
   bots: UserVersion[]
-  restrictedBots: {[key: UserVersion]: TeamBotSettings}
+  restrictedBots: {[key: string]: TeamBotSettings}
   none: UserVersion[]
-  completedInvites: {[key: TeamInviteID]: UserVersionPercentForm}
+  completedInvites: {[key: string]: UserVersionPercentForm}
 }
 
 export type TeamPlusApplicationKeys = {
@@ -3308,11 +3308,11 @@ export type TeamData = {
   secretless: boolean
   name: TeamName
   chain: TeamSigChainState
-  perTeamKeySeedsUnverified: {[key: PerTeamKeyGeneration]: PerTeamKeySeedItem}
-  readerKeyMasks: {[key: TeamApplication]: {[key: PerTeamKeyGeneration]: MaskB64}}
+  perTeamKeySeedsUnverified: {[key: string]: PerTeamKeySeedItem}
+  readerKeyMasks: {[key: string]: {[key: string]: MaskB64}}
   latestSeqnoHint: Seqno
   cachedAt: Time
-  tlfCryptKeys: {[key: TeamApplication]: CryptKey[]}
+  tlfCryptKeys: {[key: string]: CryptKey[]}
 }
 
 export type FastTeamData = {
@@ -3321,11 +3321,11 @@ export type FastTeamData = {
   tombstoned: boolean
   name: TeamName
   chain: FastTeamSigChainState
-  perTeamKeySeedsUnverified: {[key: PerTeamKeyGeneration]: PerTeamKeySeed}
+  perTeamKeySeedsUnverified: {[key: string]: PerTeamKeySeed}
   maxContinuousPTKGeneration: PerTeamKeyGeneration
-  seedChecks: {[key: PerTeamKeyGeneration]: PerTeamSeedCheck}
+  seedChecks: {[key: string]: PerTeamSeedCheck}
   latestKeyGeneration: PerTeamKeyGeneration
-  readerKeyMasks: {[key: TeamApplication]: {[key: PerTeamKeyGeneration]: MaskB64}}
+  readerKeyMasks: {[key: string]: {[key: string]: MaskB64}}
   latestSeqnoHint: Seqno
   cachedAt: Time
   loadedLatest: boolean
@@ -3338,7 +3338,7 @@ export enum RatchetType {
 }
 
 export type HiddenTeamChainRatchetSet = {
-  ratchets: {[key: RatchetType]: LinkTripleAndTime}
+  ratchets: {[key: string]: LinkTripleAndTime}
 }
 
 export type HiddenTeamChain = {
@@ -3349,14 +3349,14 @@ export type HiddenTeamChain = {
   tombstoned: boolean
   last: Seqno
   latestSeqnoHint: Seqno
-  lastPerTeamKeys: {[key: PTKType]: Seqno}
-  outer: {[key: Seqno]: LinkID}
-  inner: {[key: Seqno]: HiddenTeamChainLink}
-  readerPerTeamKeys: {[key: PerTeamKeyGeneration]: Seqno}
+  lastPerTeamKeys: {[key: string]: Seqno}
+  outer: {[key: string]: LinkID}
+  inner: {[key: string]: HiddenTeamChainLink}
+  readerPerTeamKeys: {[key: string]: Seqno}
   ratchetSet: HiddenTeamChainRatchetSet
   cachedAt: Time
   needRotate: boolean
-  merkleRoots: {[key: Seqno]: MerkleRootV2}
+  merkleRoots: {[key: string]: MerkleRootV2}
 }
 
 export type LinkTriple = {
@@ -3393,7 +3393,7 @@ export type HiddenTeamChainLink = {
   merkleRoot: MerkleRootV2
   parentChain: LinkTriple
   signer: Signer
-  ptk: {[key: PTKType]: PerTeamKeyAndCheck}
+  ptk: {[key: string]: PerTeamKeyAndCheck}
 }
 
 export type FastTeamSigChainState = {
@@ -3402,13 +3402,13 @@ export type FastTeamSigChainState = {
   rootAncestor: TeamName
   nameDepth: number
   last?: LinkTriple
-  perTeamKeys: {[key: PerTeamKeyGeneration]: PerTeamKey}
-  perTeamKeySeedsVerified: {[key: PerTeamKeyGeneration]: PerTeamKeySeed}
-  downPointers: {[key: Seqno]: DownPointer}
+  perTeamKeys: {[key: string]: PerTeamKey}
+  perTeamKeySeedsVerified: {[key: string]: PerTeamKeySeed}
+  downPointers: {[key: string]: DownPointer}
   lastUpPointer?: UpPointer
   perTeamKeyCTime: UnixTime
-  linkIDs: {[key: Seqno]: LinkID}
-  merkleInfo: {[key: Seqno]: MerkleRootV2}
+  linkIDs: {[key: string]: LinkID}
+  merkleInfo: {[key: string]: MerkleRootV2}
 }
 
 export type Audit = {
@@ -3436,9 +3436,9 @@ export type AuditHistory = {
   priorMerkleSeqno: Seqno
   version: AuditVersion
   audits: Audit[]
-  preProbes: {[key: Seqno]: Probe}
-  postProbes: {[key: Seqno]: Probe}
-  tails: {[key: Seqno]: LinkID}
+  preProbes: {[key: string]: Probe}
+  postProbes: {[key: string]: Probe}
+  tails: {[key: string]: LinkID}
   skipUntil: Time
 }
 
@@ -3515,22 +3515,22 @@ export type TeamSigChainState = {
   lastHighSeqno: Seqno
   lastHighLinkID: LinkID
   parentID?: TeamID
-  userLog: {[key: UserVersion]: UserLogPoint[]}
-  subteamLog: {[key: TeamID]: SubteamLogPoint[]}
-  perTeamKeys: {[key: PerTeamKeyGeneration]: PerTeamKey}
+  userLog: {[key: string]: UserLogPoint[]}
+  subteamLog: {[key: string]: SubteamLogPoint[]}
+  perTeamKeys: {[key: string]: PerTeamKey}
   maxPerTeamKeyGeneration: PerTeamKeyGeneration
   perTeamKeyCTime: UnixTime
-  linkIDs: {[key: Seqno]: LinkID}
-  stubbedLinks: {[key: Seqno]: boolean}
-  activeInvites: {[key: TeamInviteID]: TeamInvite}
-  obsoleteInvites: {[key: TeamInviteID]: TeamInvite}
+  linkIDs: {[key: string]: LinkID}
+  stubbedLinks: {[key: string]: boolean}
+  activeInvites: {[key: string]: TeamInvite}
+  obsoleteInvites: {[key: string]: TeamInvite}
   open: boolean
   openTeamJoinAs: TeamRole
-  bots: {[key: UserVersion]: TeamBotSettings}
+  bots: {[key: string]: TeamBotSettings}
   tlfIDs: TLFID[]
-  tlfLegacyUpgrade: {[key: TeamApplication]: TeamLegacyTLFUpgradeChainInfo}
+  tlfLegacyUpgrade: {[key: string]: TeamLegacyTLFUpgradeChainInfo}
   headMerkle?: MerkleRootV2
-  merkleRoots: {[key: Seqno]: MerkleRootV2}
+  merkleRoots: {[key: string]: MerkleRootV2}
 }
 
 export type BoxSummaryHash = string
@@ -3669,7 +3669,7 @@ export type TeamSeitanRequest = {
   eldestSeqno: Seqno
   akey: SeitanAKey
   role: TeamRole
-  unixCTime: int64
+  unixCTime: number
 }
 
 export type TeamSeitanMsg = {
@@ -3693,8 +3693,8 @@ export type TeamKBFSKeyRefresher = {
  */
 export type TeamRefreshers = {
   needKeyGeneration: PerTeamKeyGeneration
-  needApplicationsAtGenerations: {[key: PerTeamKeyGeneration]: TeamApplication[]}
-  needApplicationsAtGenerationsWithKBFS: {[key: PerTeamKeyGeneration]: TeamApplication[]}
+  needApplicationsAtGenerations: {[key: string]: TeamApplication[]}
+  needApplicationsAtGenerationsWithKBFS: {[key: string]: TeamApplication[]}
   wantMembers: UserVersion[]
   wantMembersRole: TeamRole
   needKBFSKeyGeneration: TeamKBFSKeyRefresher
@@ -3773,7 +3773,7 @@ export type AnnotatedMemberInfo = {
 
 export type AnnotatedTeamList = {
   teams: AnnotatedMemberInfo[]
-  annotatedActiveInvites: {[key: TeamInviteID]: AnnotatedTeamInvite}
+  annotatedActiveInvites: {[key: string]: AnnotatedTeamInvite}
 }
 
 export type TeamAddMemberResult = {
@@ -4079,10 +4079,10 @@ export type UserPlusKeysV2 = {
   eldestSeqno: Seqno
   status: StatusCode
   perUserKeys: PerUserKey[]
-  deviceKeys: {[key: KID]: PublicKeyV2NaCl}
-  pgpKeys: {[key: KID]: PublicKeyV2PGPSummary}
+  deviceKeys: {[key: string]: PublicKeyV2NaCl}
+  pgpKeys: {[key: string]: PublicKeyV2PGPSummary}
   stellarAccountID?: string
-  remoteTracks: {[key: UID]: RemoteTrack}
+  remoteTracks: {[key: string]: RemoteTrack}
   reset?: ResetSummary
   unstubbed: boolean
 }
@@ -4091,7 +4091,7 @@ export type UserPlusKeysV2AllIncarnations = {
   current: UserPlusKeysV2
   pastIncarnations: UserPlusKeysV2[]
   uvv: UserVersionVector
-  seqnoLinkIDs: {[key: Seqno]: LinkID}
+  seqnoLinkIDs: {[key: string]: LinkID}
   minorVersion: UPK2MinorVersion
   stale: boolean
 }
@@ -4116,14 +4116,14 @@ export type UPKLiteV1 = {
   username: string
   eldestSeqno: Seqno
   status: StatusCode
-  deviceKeys: {[key: KID]: PublicKeyV2NaCl}
+  deviceKeys: {[key: string]: PublicKeyV2NaCl}
   reset?: ResetSummary
 }
 
 export type UPKLiteV1AllIncarnations = {
   current: UPKLiteV1
   pastIncarnations: UPKLiteV1[]
-  seqnoLinkIDs: {[key: Seqno]: LinkID}
+  seqnoLinkIDs: {[key: string]: LinkID}
   minorVersion: UPKLiteMinorVersion
 }
 
@@ -4260,7 +4260,7 @@ export type APIUserSearchResult = {
   service?: APIUserServiceResult
   contact?: ProcessedContact
   imptofu?: ImpTofuSearchResult
-  servicesSummary: {[key: APIUserServiceIDWithContact]: APIUserServiceSummary}
+  servicesSummary: {[key: string]: APIUserServiceSummary}
   rawScore: number
 }
 

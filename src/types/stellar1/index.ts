@@ -14,7 +14,7 @@
 
 import * as keybase1 from '../keybase1'
 
-export type BundleRevision = uint64
+export type BundleRevision = number
 
 export type EncryptedBundle = {
   v: number
@@ -118,7 +118,7 @@ export type Bundle = {
   prev: Hash
   ownHash: Hash
   accounts: BundleEntry[]
-  accountBundles: {[key: AccountID]: AccountBundle}
+  accountBundles: {[key: string]: AccountBundle}
 }
 
 export type BundleEntry = {
@@ -277,7 +277,7 @@ export type OutsideCurrencyDefinition = {
 
 export type StellarServerDefinitions = {
   revision: number
-  currencies: {[key: OutsideCurrencyCode]: OutsideCurrencyDefinition}
+  currencies: {[key: string]: OutsideCurrencyDefinition}
 }
 
 export type PageCursor = {
@@ -963,11 +963,11 @@ export type RequestDetails = {
 
 export type TimeboundsRecommendation = {
   timeNow: keybase1.UnixTime
-  timeout: int64
+  timeout: number
 }
 
 export type NetworkOptions = {
-  baseFee: uint64
+  baseFee: number
 }
 
 export type DetailsPlusPayments = {

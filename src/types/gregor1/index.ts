@@ -102,9 +102,9 @@ export type Message = {
   ibm?: InBandMessage
 }
 
-export type DurationMsec = int64
+export type DurationMsec = number
 
-export type DurationSec = int64
+export type DurationSec = number
 
 export type Category = string
 
