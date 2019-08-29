@@ -1136,6 +1136,8 @@ We run tests using [Jest](https://jestjs.io/). All tests are run against actual 
 2. Edit `__tests__/test.config.ts` as it specifies, replacing the placeholder values with actual usernames, paperkeys, and team names.
 3. Run `yarn test`. Everything should pass!
 
+### Generating Types
+
 ### Release
 
 We automatically generate a CHANGELOG and version (using [Semantic Versioning](https://semver.org)) `keybase-bot` with [`standard-version`](https://github.com/conventional-changelog/standard-version). To cut a new release:
