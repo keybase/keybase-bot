@@ -25,23 +25,30 @@ export type RateLimitRes = {
   gas: number
 }
 
+/**
+ * A Keybase chat channel. This can be a channel in a team, or just an informal channel between two users.
+ *    name: the name of the team or comma-separated list of participants
+ */
 export type ChatChannel = {
   name: string
   public: boolean
   membersType: string
-  topicType: string
-  topicName: string
+  topicType?: string
+  topicName?: string
 }
 
+/**
+ * A chat message. The content goes in the `body` property!
+ */
 export type ChatMessage = {
   body: string
 }
 
 export type MsgSender = {
   uid: string
-  username: string
+  username?: string
   deviceID: string
-  deviceName: string
+  deviceName?: string
 }
 
 export type MsgFlipContent = {
@@ -79,17 +86,17 @@ export type MsgSummary = {
   content: MsgContent
   prev: MessagePreviousPointer[]
   unread: boolean
-  revokedDevice: boolean
-  offline: boolean
-  kbfsEncrypted: boolean
-  isEphemeral: boolean
-  isEphemeralExpired: boolean
-  eTime: gregor1.Time
+  revokedDevice?: boolean
+  offline?: boolean
+  kbfsEncrypted?: boolean
+  isEphemeral?: boolean
+  isEphemeralExpired?: boolean
+  eTime?: gregor1.Time
   reactions?: ReactionMap
-  hasPairwiseMacs: boolean
-  atMentionUsernames: string[]
-  channelMention: string
-  channelNameMentions: UIChannelNameMention[]
+  hasPairwiseMacs?: boolean
+  atMentionUsernames?: string[]
+  channelMention?: string
+  channelNameMentions?: UIChannelNameMention[]
 }
 
 export type Message = {
@@ -100,11 +107,14 @@ export type Message = {
 export type Thread = {
   messages: Message[]
   pagination?: Pagination
-  offline: boolean
-  identifyFailures: keybase1.TLFIdentifyFailure[]
-  rateLimits: RateLimitRes[]
+  offline?: boolean
+  identifyFailures?: keybase1.TLFIdentifyFailure[]
+  rateLimits?: RateLimitRes[]
 }
 
+/**
+ * A chat conversation. This is essentially a chat channel plus some additional metadata.
+ */
 export type ConvSummary = {
   id: string
   channel: ChatChannel
@@ -112,54 +122,54 @@ export type ConvSummary = {
   activeAt: number
   activeAtMs: number
   memberStatus: string
-  resetUsers: string[]
+  resetUsers?: string[]
   finalizeInfo?: ConversationFinalizeInfo
-  supersedes: string[]
-  supersededBy: string[]
-  error: string
+  supersedes?: string[]
+  supersededBy?: string[]
+  error?: string
 }
 
 export type ChatList = {
   conversations: ConvSummary[]
   offline: boolean
-  identifyFailures: keybase1.TLFIdentifyFailure[]
+  identifyFailures?: keybase1.TLFIdentifyFailure[]
   pagination?: Pagination
-  rateLimits: RateLimitRes[]
+  rateLimits?: RateLimitRes[]
 }
 
 export type SendRes = {
   message: string
   messageID?: MessageID
   outboxID?: OutboxID
-  identifyFailures: keybase1.TLFIdentifyFailure[]
-  rateLimits: RateLimitRes[]
+  identifyFailures?: keybase1.TLFIdentifyFailure[]
+  rateLimits?: RateLimitRes[]
 }
 
 export type SearchInboxResOutput = {
   results?: ChatSearchInboxResults
-  identifyFailures: keybase1.TLFIdentifyFailure[]
-  rateLimits: RateLimitRes[]
+  identifyFailures?: keybase1.TLFIdentifyFailure[]
+  rateLimits?: RateLimitRes[]
 }
 
 export type RegexpRes = {
   hits: ChatSearchHit[]
-  identifyFailures: keybase1.TLFIdentifyFailure[]
-  rateLimits: RateLimitRes[]
+  identifyFailures?: keybase1.TLFIdentifyFailure[]
+  rateLimits?: RateLimitRes[]
 }
 
 export type NewConvRes = {
   id: string
-  identifyFailures: keybase1.TLFIdentifyFailure[]
-  rateLimits: RateLimitRes[]
+  identifyFailures?: keybase1.TLFIdentifyFailure[]
+  rateLimits?: RateLimitRes[]
 }
 
 export type ListCommandsRes = {
   commands: UserBotCommandOutput[]
-  rateLimits: RateLimitRes[]
+  rateLimits?: RateLimitRes[]
 }
 
 export type EmptyRes = {
-  rateLimits: RateLimitRes[]
+  rateLimits?: RateLimitRes[]
 }
 
 export type MsgNotification = {
