@@ -1,5 +1,5 @@
 /*
- * undefined
+ * chat.1
  *
  * Auto-generated to TypeScript types by avdl-compiler v1.4.1 (https://github.com/keybase/node-avdl-compiler)
  * Input files:
@@ -457,7 +457,7 @@ export enum UIChatThreadStatusTyp {
 export type UIChatThreadStatus =
   | {typ: UIChatThreadStatusTyp.NONE}
   | {typ: UIChatThreadStatusTyp.SERVER}
-  | {typ: UIChatThreadStatusTyp.VALIDATING; VALIDATING: int | null}
+  | {typ: UIChatThreadStatusTyp.VALIDATING; VALIDATING: number | null}
   | {typ: UIChatThreadStatusTyp.VALIDATED}
 
 export type UIChatSearchConvHit = {
@@ -552,9 +552,9 @@ export type UICoinFlipHand = {
 export type UICoinFlipResult =
   | {typ: UICoinFlipResultTyp.NUMBER; NUMBER: string | null}
   | {typ: UICoinFlipResultTyp.SHUFFLE; SHUFFLE: string[] | null}
-  | {typ: UICoinFlipResultTyp.DECK; DECK: int[] | null}
+  | {typ: UICoinFlipResultTyp.DECK; DECK: number[] | null}
   | {typ: UICoinFlipResultTyp.HANDS; HANDS: UICoinFlipHand[] | null}
-  | {typ: UICoinFlipResultTyp.COIN; COIN: bool | null}
+  | {typ: UICoinFlipResultTyp.COIN; COIN: boolean | null}
 
 export type UICoinFlipParticipant = {
   uid: string
@@ -1597,7 +1597,7 @@ export type OutboxStateError = {
 }
 
 export type OutboxState =
-  | {state: OutboxStateType.SENDING; SENDING: int | null}
+  | {state: OutboxStateType.SENDING; SENDING: number | null}
   | {state: OutboxStateType.ERROR; ERROR: OutboxStateError | null}
 
 export type OutboxRecord = {
@@ -2062,7 +2062,7 @@ export enum PreviewLocationTyp {
 export type PreviewLocation =
   | {ltyp: PreviewLocationTyp.URL; URL: string | null}
   | {ltyp: PreviewLocationTyp.FILE; FILE: string | null}
-  | {ltyp: PreviewLocationTyp.BYTES; BYTES: bytes | null}
+  | {ltyp: PreviewLocationTyp.BYTES; BYTES: Buffer | null}
 
 export type MakePreviewRes = {
   mimeType: string
