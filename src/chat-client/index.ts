@@ -157,7 +157,7 @@ class Chat extends ClientBase {
    * @example
    * alice.chat.read(channel).then(messages => console.log(messages))
    */
-  public async read(channel: chat1.ChatChannel, options?: ChatReadOptions): Promise<chat1.Thread> {
+  public async read(channel: chat1.ChatChannel, options?: ChatReadOptions): Promise<ReadResult> {
     await this._guardInitialized()
     const optionsWithDefaults = {
       ...options,
@@ -170,7 +170,10 @@ class Chat extends ClientBase {
       throw new Error('Keybase chat read returned nothing.')
     }
     // Pagination gets passed as-is, while the messages get cleaned up
-    return res
+    return {
+      pagination: res.pagination,
+      messages: res.messages.map((message: MessageNotification): MessageSummary => message.msg),
+    }
   }
 
   /**
@@ -255,7 +258,7 @@ class Chat extends ClientBase {
       throw new Error('Keybase chat send returned nothing')
     }
     this._adminDebugLogger.info(`message sent with id ${res.id}`)
-    return res
+    return {id: res.id}
   }
 
   /**
@@ -296,7 +299,7 @@ class Chat extends ClientBase {
     if (!res) {
       throw new Error('Keybase chat attach returned nothing')
     }
-    return res
+    return {id: res.id}
   }
 
   /**
@@ -342,7 +345,7 @@ class Chat extends ClientBase {
       throw new Error('Keybase chat react returned nothing.')
     }
 
-    return res
+    return {id: res.id}
   }
 
   /**
@@ -498,7 +501,9 @@ class Chat extends ClientBase {
     if (!res) {
       throw new Error('Keybase chat list commands returned nothing.')
     }
-    return res
+    return {
+      commands: res && res.commands ? res.commands : [],
+    }
   }
 
   /**
