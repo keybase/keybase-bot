@@ -31,11 +31,7 @@ describe('Chat Methods', (): void => {
   const alice1 = new Bot()
   const alice2 = new Bot()
   const bob = new Bot()
-  const channel: ChatChannel = {
-    name: `${config.bots.alice1.username},${config.bots.bob1.username}`,
-    public: false,
-    membersType: 'impteamnative',
-  }
+  const channel: ChatChannel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
   const teamChannel: ChatChannel = {
     name: config.teams.acme.teamname,
     public: false,
@@ -217,15 +213,13 @@ describe('Chat Methods', (): void => {
           name: config.teams.acme.teamname,
           topicName: 'general',
           membersType: 'team',
-          public: false,
         },
         {
           name: config.teams.acme.teamname,
           topicName: 'singularitarians',
           membersType: 'team',
-          public: false,
         },
-        {name: `${config.bots.alice1.username},${config.bots.bob1.username}`, public: false, membersType: 'impteamnative'},
+        {name: `${config.bots.alice1.username},${config.bots.bob1.username}`},
       ]
       const okChecks: boolean[] = []
       for (const channel of channels) {
@@ -592,7 +586,7 @@ describe('Chat Methods', (): void => {
     const testTwoBotsCounting = async (bot1: Bot, bot2: Bot): Promise<void> => {
       const stopAt = 10
       const convoCode = crypto.randomBytes(8).toString('hex')
-      const directChannel = {name: `${bot1.myInfo().username},${bot2.myInfo().username}`, public: false, membersType: 'impteamnative'}
+      const directChannel = {name: `${bot1.myInfo().username},${bot2.myInfo().username}`}
       let totalMessagesSeen = 0
       let highestReached = 0
       const onMessageForBot = (bot: Bot): any => {

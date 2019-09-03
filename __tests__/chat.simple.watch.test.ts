@@ -28,11 +28,7 @@ describe('Chat Methods', (): void => {
 
   it('works', async (): Promise<void> => {
     let done = false
-    const directChannel: ChatChannel = {
-      name: `${bob.myInfo().username},${alice.myInfo().username}`,
-      public: false,
-      membersType: 'impteamnative',
-    }
+    const directChannel: ChatChannel = {name: `${bob.myInfo().username},${alice.myInfo().username}`}
     bob.chat.watchAllChannelsForNewMessages((message: MsgSummary): void => {
       bob.adminDebugLogInfo(`I Got a message ${JSON.stringify(message)}`)
       done = true

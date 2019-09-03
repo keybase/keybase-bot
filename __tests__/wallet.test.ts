@@ -127,7 +127,7 @@ describe('Wallet Methods', (): void => {
       expect(batchRes.countError).toBe(1)
     })
     it('Sends money from chat when option set', async (): Promise<void> => {
-      const channel: ChatChannel = {name: recipient, public: false, topicType: 'chat', membersType: 'impteamnative'}
+      const channel: ChatChannel = {name: recipient, public: false, topicType: 'chat'}
       const chatAmount = '0.0001230'
       const message = {
         body: `And voila +${chatAmount}xlm`,
@@ -149,7 +149,7 @@ describe('Wallet Methods', (): void => {
     })
 
     it('Can send two inline in rapid succession', async (): Promise<void> => {
-      const channel: ChatChannel = {name: recipient, public: false, topicType: 'chat', membersType: 'impteamnative'}
+      const channel: ChatChannel = {name: recipient, public: false, topicType: 'chat'}
       const chatAmount = '0.0001230'
       const message = {
         body: `And voila +${chatAmount}xlm`,
@@ -173,7 +173,7 @@ describe('Wallet Methods', (): void => {
     })
 
     it('Throws an error if chat sending without `confirmLumenSend` option set', async (): Promise<void> => {
-      const channel: ChatChannel = {name: recipient, public: false, topicType: 'chat', membersType: 'impteamnative'}
+      const channel: ChatChannel = {name: recipient, public: false, topicType: 'chat'}
       const chatAmount = '0.0009876'
       const message = {
         body: `This should fail +${chatAmount}xlm`,
