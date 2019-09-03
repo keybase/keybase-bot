@@ -17,7 +17,6 @@ module.exports = {
     'no-duplicate-imports': 0,
     'comma-dangle': [2, 'always-multiline'],
     strict: [2, 'global'],
-    '@typescript-eslint/prefer-interface': 0,
   },
   settings: {},
   overrides: [
