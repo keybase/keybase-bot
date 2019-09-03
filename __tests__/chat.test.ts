@@ -5,7 +5,7 @@ import config from './tests.config'
 import {timeout} from '../lib/utils'
 import {pollFor} from './test-utils'
 import {promisify} from 'util'
-import {ChatChannel, ReadResult, MessageSummary} from '../lib/chat-client/types'
+import {ChatChannel, Thread, MsgSummary} from '../lib/types/chat1'
 import {OnMessage} from '../lib/chat-client'
 
 test('Chat methods with an uninitialized bot', (): void => {
@@ -30,7 +30,11 @@ describe('Chat Methods', (): void => {
   const alice1 = new Bot()
   const alice2 = new Bot()
   const bob = new Bot()
-  const channel: ChatChannel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
+  const channel: ChatChannel = {
+    name: `${config.bots.alice1.username},${config.bots.bob1.username}`,
+    public: false,
+    membersType: 'impteamnative',
+  }
   const teamChannel: ChatChannel = {
     name: config.teams.acme.teamname,
     public: false,
@@ -159,7 +163,7 @@ describe('Chat Methods', (): void => {
       let totalCount = 0
       let lastPagination
       while (true) {
-        const result: ReadResult = await alice1.chat.read(channel, {
+        const result: Thread = await alice1.chat.read(channel, {
           peek: true,
           unreadOnly: true,
           pagination: {
@@ -212,13 +216,15 @@ describe('Chat Methods', (): void => {
           name: config.teams.acme.teamname,
           topicName: 'general',
           membersType: 'team',
+          public: false,
         },
         {
           name: config.teams.acme.teamname,
           topicName: 'singularitarians',
           membersType: 'team',
+          public: false,
         },
-        {name: `${config.bots.alice1.username},${config.bots.bob1.username}`},
+        {name: `${config.bots.alice1.username},${config.bots.bob1.username}`, public: false, membersType: 'impteamnative'},
       ]
       const okChecks: boolean[] = []
       for (const channel of channels) {
@@ -266,7 +272,7 @@ describe('Chat Methods', (): void => {
       const channelBob = {name: config.bots.alice1.username}
       const body = 'Dearest Bob, how are you?'
       let incoming: any = null
-      const watcher: OnMessage = (message: MessageSummary): void => {
+      const watcher: OnMessage = (message: MsgSummary): void => {
         incoming = message
       }
       bob.chat.watchChannelForNewMessages(channelBob, watcher)
@@ -285,8 +291,8 @@ describe('Chat Methods', (): void => {
       const channel3 = {name: `${channel2.name},${config.bots.charlie1.username}`}
       const body = 'Total protonic reversal. That would be bad.'
       let receipts = 0
-      const bobOnMessage = (message: MessageSummary): void => {
-        if (message.content.type === 'text' && message.content.text.body === body) {
+      const bobOnMessage = (message: MsgSummary): void => {
+        if (message.content.typeName === 'text' && message.content.text.body === body) {
           receipts++
         }
       }
@@ -436,7 +442,7 @@ describe('Chat Methods', (): void => {
     })
     it('Throws an errow if given an invalid channel', async (): Promise<void> => {
       const result = await alice1.chat.read(channel)
-      const attachments = result.messages.filter(message => message.content.type === 'attachment')
+      const attachments = result.messages.filter(message => message.content.typeName === 'attachment')
       expect(alice1.chat.download(invalidChannel, attachments[0].id, downloadLocation)).rejects.toThrowError()
     })
     it('Throws an error if given a non-attachment message', async (): Promise<void> => {
@@ -589,8 +595,8 @@ describe('Chat Methods', (): void => {
       let totalMessagesSeen = 0
       let highestReached = 0
       const onMessageForBot = (bot: Bot): any => {
-        const onMessage = async (message: MessageSummary): Promise<void> => {
-          if (message.content.type === 'text') {
+        const onMessage = async (message: MsgSummary): Promise<void> => {
+          if (message.content.typeName === 'text') {
             const body = message.content.text.body
             if (body.indexOf(convoCode) !== -1) {
               totalMessagesSeen++

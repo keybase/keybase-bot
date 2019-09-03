@@ -2,7 +2,7 @@ import crypto from 'crypto'
 import Bot from '../lib'
 import config from './tests.config'
 import {timeout} from '../lib/utils'
-import {ChatChannel, ChatSendOptions} from '../lib/chat-client/types'
+import {ChatChannel, ChatSendOptions} from '../lib/types/chat1'
 
 test('Wallet methods with an uninitialized bot', (): void => {
   const alice1 = new Bot()
