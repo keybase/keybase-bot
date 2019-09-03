@@ -1,12 +1,20 @@
 import ClientBase from '../client-base'
-import {
-  AddMembersParam,
-  RemoveMemberParam,
-  ListTeamMembershipsParam,
-  AddMembersResult,
-  RemoveMemberResult,
-  ListTeamMembershipsResult,
-} from './types'
+import * as keybase1 from '../types/keybase1'
+
+export interface AddMembersParam {
+  team: string
+  emails?: keybase1.MemberEmail[]
+  usernames?: keybase1.MemberUsername[]
+}
+
+export interface RemoveMemberParam {
+  team: string
+  username: string
+}
+
+export interface ListTeamMembershipsParam {
+  team: string
+}
 
 /** The wallet module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase wallet api`. */
 class Team extends ClientBase {
@@ -18,7 +26,7 @@ class Team extends ClientBase {
    * @example
    * bot.team.addMembers({"team": "phoenix", "emails": [{"email": "alice@keybase.io", "role": "writer"}, {"email": "cleo@keybase.io", "role": "admin"}], "usernames": [{"username": "frank", "role": "reader"}, {"username": "keybaseio@twitter", "role": "writer"}]}).then(res => console.log(res))
    */
-  public async addMembers(additions: AddMembersParam): Promise<AddMembersResult> {
+  public async addMembers(additions: AddMembersParam): Promise<keybase1.TeamAddMemberResult> {
     await this._guardInitialized()
     const options = additions
     const res = await this._runApiCommand({apiName: 'team', method: 'add-members', options})
@@ -36,11 +44,10 @@ class Team extends ClientBase {
    * @example
    * bot.team.removeMember({"team": "phoenix", "username": "frank"}).then(res => console.log(res))
    */
-  public async removeMember(removal: RemoveMemberParam): Promise<RemoveMemberResult> {
+  public async removeMember(removal: RemoveMemberParam): Promise<void> {
     await this._guardInitialized()
     const options = removal
-    const res = await this._runApiCommand({apiName: 'team', method: 'remove-member', options})
-    return res
+    await this._runApiCommand({apiName: 'team', method: 'remove-member', options})
   }
 
   /**
@@ -51,7 +58,7 @@ class Team extends ClientBase {
    * @example
    * bot.team.listTeamMemberships({"team": "phoenix"}).then(res => console.log(res))
    */
-  public async listTeamMemberships(team: ListTeamMembershipsParam): Promise<ListTeamMembershipsResult> {
+  public async listTeamMemberships(team: ListTeamMembershipsParam): Promise<keybase1.TeamDetails> {
     await this._guardInitialized()
     const options = team
     const res = await this._runApiCommand({apiName: 'team', method: 'list-team-memberships', options})
