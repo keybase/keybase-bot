@@ -8,16 +8,16 @@ export declare type EncryptedBundle = {
     gen: keybase1.PerUserKeyGeneration;
 };
 export declare enum BundleVersion {
-    V1 = 1,
-    V2 = 2,
-    V3 = 3,
-    V4 = 4,
-    V5 = 5,
-    V6 = 6,
-    V7 = 7,
-    V8 = 8,
-    V9 = 9,
-    V10 = 10
+    V1 = "v1",
+    V2 = "v2",
+    V3 = "v3",
+    V4 = "v4",
+    V5 = "v5",
+    V6 = "v6",
+    V7 = "v7",
+    V8 = "v8",
+    V9 = "v9",
+    V10 = "v10"
 }
 export declare type BundleSecretVersioned = {
     version: BundleVersion.V1;
@@ -78,16 +78,16 @@ export declare type EncryptedAccountBundle = {
     gen: keybase1.PerUserKeyGeneration;
 };
 export declare enum AccountBundleVersion {
-    V1 = 1,
-    V2 = 2,
-    V3 = 3,
-    V4 = 4,
-    V5 = 5,
-    V6 = 6,
-    V7 = 7,
-    V8 = 8,
-    V9 = 9,
-    V10 = 10
+    V1 = "v1",
+    V2 = "v2",
+    V3 = "v3",
+    V4 = "v4",
+    V5 = "v5",
+    V6 = "v6",
+    V7 = "v7",
+    V8 = "v8",
+    V9 = "v9",
+    V10 = "v10"
 }
 export declare type AccountBundleSecretVersioned = {
     version: AccountBundleVersion.V1;
@@ -189,25 +189,25 @@ export declare type AccountReserve = {
     description: string;
 };
 export declare enum TransactionStatus {
-    NONE = 0,
-    PENDING = 1,
-    SUCCESS = 2,
-    ERROR_TRANSIENT = 3,
-    ERROR_PERMANENT = 4
+    NONE = "none",
+    PENDING = "pending",
+    SUCCESS = "success",
+    ERROR_TRANSIENT = "error_transient",
+    ERROR_PERMANENT = "error_permanent"
 }
 export declare enum RequestStatus {
-    OK = 0,
-    CANCELED = 1,
-    DONE = 2
+    OK = "ok",
+    CANCELED = "canceled",
+    DONE = "done"
 }
 export declare enum PaymentStrategy {
-    NONE = 0,
-    DIRECT = 1,
-    RELAY = 2
+    NONE = "none",
+    DIRECT = "direct",
+    RELAY = "relay"
 }
 export declare enum RelayDirection {
-    CLAIM = 0,
-    YANK = 1
+    CLAIM = "claim",
+    YANK = "yank"
 }
 export declare type PaymentResult = {
     senderAccountID: AccountID;
@@ -270,9 +270,9 @@ export declare type PageCursor = {
     relayCursor: string;
 };
 export declare enum AccountMode {
-    NONE = 0,
-    USER = 1,
-    MOBILE = 2
+    NONE = "none",
+    USER = "user",
+    MOBILE = "mobile"
 }
 export declare type Trustline = {
     assetCode: AssetCode;
@@ -334,25 +334,25 @@ export declare type AccountAssetLocal = {
     withdrawButtonText: string;
 };
 export declare enum BalanceDelta {
-    NONE = 0,
-    INCREASE = 1,
-    DECREASE = 2
+    NONE = "none",
+    INCREASE = "increase",
+    DECREASE = "decrease"
 }
 export declare enum PaymentStatus {
-    NONE = 0,
-    PENDING = 1,
-    CLAIMABLE = 2,
-    COMPLETED = 3,
-    ERROR = 4,
-    UNKNOWN = 5,
-    CANCELED = 6
+    NONE = "none",
+    PENDING = "pending",
+    CLAIMABLE = "claimable",
+    COMPLETED = "completed",
+    ERROR = "error",
+    UNKNOWN = "unknown",
+    CANCELED = "canceled"
 }
 export declare enum ParticipantType {
-    NONE = 0,
-    KEYBASE = 1,
-    STELLAR = 2,
-    SBS = 3,
-    OWNACCOUNT = 4
+    NONE = "none",
+    KEYBASE = "keybase",
+    STELLAR = "stellar",
+    SBS = "sbs",
+    OWNACCOUNT = "ownaccount"
 }
 export declare type PaymentOrErrorLocal = {
     payment?: PaymentLocal;
@@ -451,9 +451,9 @@ export declare type BuildPaymentResLocal = {
     banners: SendBannerLocal[];
 };
 export declare enum AdvancedBanner {
-    NO_BANNER = 0,
-    SENDER_BANNER = 1,
-    RECEIVER_BANNER = 2
+    NO_BANNER = "no_banner",
+    SENDER_BANNER = "sender_banner",
+    RECEIVER_BANNER = "receiver_banner"
 }
 export declare type SendBannerLocal = {
     level: string;
@@ -730,10 +730,10 @@ export declare type PaymentMultiPost = {
     batchID: string;
 };
 export declare enum PaymentSummaryType {
-    NONE = 0,
-    STELLAR = 1,
-    DIRECT = 2,
-    RELAY = 3
+    NONE = "none",
+    STELLAR = "stellar",
+    DIRECT = "direct",
+    RELAY = "relay"
 }
 export declare type PaymentSummary = {
     typ: PaymentSummaryType.STELLAR;
