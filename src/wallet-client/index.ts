@@ -1,5 +1,5 @@
 import ClientBase from '../client-base'
-import {Account, Transaction, PaymentBatchItem, BatchResult, HistoryResultItem} from './types'
+import * as stellar1 from '../types/stellar1'
 
 /** The wallet module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase wallet api`. */
 class Wallet extends ClientBase {
@@ -10,7 +10,7 @@ class Wallet extends ClientBase {
    * @example
    * bot.wallet.balances().then(accounts => console.log(accounts))
    */
-  public async balances(): Promise<Account[]> {
+  public async balances(): Promise<stellar1.OwnAccountCLILocal[]> {
     await this._guardInitialized()
     const res = await this._runApiCommand({apiName: 'wallet', method: 'balances'})
     if (!res) {
@@ -27,7 +27,7 @@ class Wallet extends ClientBase {
    * @example
    * bot.wallet.history('GDUKZH6Q3U5WQD4PDGZXYLJE3P76BDRDWPSALN4OUFEESI2QL5UZHCK').then(transactions => console.log(transactions))
    */
-  public async history(accountId: string): Promise<Transaction[]> {
+  public async history(accountId: stellar1.AccountID): Promise<stellar1.PaymentCLILocal[]> {
     await this._guardInitialized()
     const options = {
       accountId,
@@ -37,7 +37,7 @@ class Wallet extends ClientBase {
       throw new Error('Keybase wallet history returned nothing.')
     }
     // Removes a single object with property `payment`
-    const cleanedRes = res.map((historyItem: HistoryResultItem): Transaction => historyItem.payment)
+    const cleanedRes = res.map((historyItem: stellar1.PaymentOrErrorCLILocal): stellar1.PaymentCLILocal => historyItem.payment)
     return cleanedRes
   }
 
@@ -49,7 +49,7 @@ class Wallet extends ClientBase {
    * @example
    * bot.wallet.details('e5334601b9dc2a24e031ffeec2fce37bb6a8b4b51fc711d16dec04d3e64976c4').then(details => console.log(details))
    */
-  public async details(transactionId: string): Promise<Transaction> {
+  public async details(transactionId: stellar1.TransactionID): Promise<stellar1.PaymentCLILocal> {
     await this._guardInitialized()
     const options = {txid: transactionId}
     const res = await this._runApiCommand({apiName: 'wallet', method: 'details', options: options})
@@ -74,7 +74,7 @@ class Wallet extends ClientBase {
   public async lookup(
     name: string
   ): Promise<{
-    accountId: string
+    accountId: stellar1.AccountID
     username: string
   }> {
     await this._guardInitialized()
@@ -100,7 +100,7 @@ class Wallet extends ClientBase {
    * bot.wallet.send('nathunsmitty', '3.50', 'USD') // Send $3.50 worth of lumens to Keybase user `nathunsmitty`
    * bot.wallet.send('nathunsmitty', '3.50', 'USD', 'Shut up and take my money!') // Send $3.50 worth of lumens to Keybase user `nathunsmitty` with a memo
    */
-  public async send(recipient: string, amount: string, currency?: string, message?: string): Promise<Transaction> {
+  public async send(recipient: string, amount: string, currency?: string, message?: string): Promise<stellar1.PaymentCLILocal> {
     await this._guardInitialized()
     const options = {recipient, amount, currency, message}
     const res = await this._runApiCommand({apiName: 'wallet', method: 'send', options})
@@ -121,7 +121,7 @@ class Wallet extends ClientBase {
    * bot.wallet.batch("airdrop2040", [{"recipient":"a1","amount": "1.414", "message": "hi a1, yes 1"},{"recipient": "a2", "amount": "3.14159", "message": "hi a2, yes 2"}])
    */
 
-  public async batch(batchId: string, payments: PaymentBatchItem[]): Promise<BatchResult> {
+  public async batch(batchId: string, payments: stellar1.BatchPaymentArg[]): Promise<stellar1.BatchResultLocal> {
     await this._guardInitialized()
     const options = {batchId, payments}
     const res = await this._runApiCommand({apiName: 'wallet', method: 'batch', options})
@@ -138,7 +138,7 @@ class Wallet extends ClientBase {
    * @example
    * bot.wallet.cancel('e5334601b9dc2a24e031ffeec2fce37bb6a8b4b51fc711d16dec04d3e64976c4').then(() => console.log('Transaction successfully canceled!'))
    */
-  public async cancel(transactionId: string): Promise<void> {
+  public async cancel(transactionId: stellar1.TransactionID): Promise<void> {
     await this._guardInitialized()
     const options = {txid: transactionId}
     const res = await this._runApiCommand({apiName: 'wallet', method: 'cancel', options})
