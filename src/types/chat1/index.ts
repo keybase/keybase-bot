@@ -231,10 +231,10 @@ export type UnverifiedInboxUIItems = {
 }
 
 export enum UIParticipantType {
-  NONE = 'none',
-  USER = 'user',
-  PHONENO = 'phoneno',
-  EMAIL = 'email',
+  NONE = 0,
+  USER = 1,
+  PHONENO = 2,
+  EMAIL = 3,
 }
 
 export type UIParticipant = {
@@ -396,10 +396,10 @@ export type UIMessageOutbox = {
 }
 
 export enum MessageUnboxedState {
-  VALID = 'valid',
-  ERROR = 'error',
-  OUTBOX = 'outbox',
-  PLACEHOLDER = 'placeholder',
+  VALID = 1,
+  ERROR = 2,
+  OUTBOX = 3,
+  PLACEHOLDER = 4,
 }
 
 export type UIMessage =
@@ -423,19 +423,19 @@ export type UITeamMention = {
 }
 
 export enum UITextDecorationTyp {
-  PAYMENT = 'payment',
-  ATMENTION = 'atmention',
-  CHANNELNAMEMENTION = 'channelnamemention',
-  MAYBEMENTION = 'maybemention',
-  LINK = 'link',
-  MAILTO = 'mailto',
+  PAYMENT = 0,
+  ATMENTION = 1,
+  CHANNELNAMEMENTION = 2,
+  MAYBEMENTION = 3,
+  LINK = 4,
+  MAILTO = 5,
 }
 
 export enum UIMaybeMentionStatus {
-  UNKNOWN = 'unknown',
-  USER = 'user',
-  TEAM = 'team',
-  NOTHING = 'nothing',
+  UNKNOWN = 0,
+  USER = 1,
+  TEAM = 2,
+  NOTHING = 3,
 }
 
 export type UILinkDecoration = {
@@ -458,10 +458,10 @@ export type UITextDecoration =
   | {typ: UITextDecorationTyp.MAILTO; MAILTO: UILinkDecoration | null}
 
 export enum UIChatThreadStatusTyp {
-  NONE = 'none',
-  SERVER = 'server',
-  VALIDATING = 'validating',
-  VALIDATED = 'validated',
+  NONE = 0,
+  SERVER = 1,
+  VALIDATING = 2,
+  VALIDATED = 3,
 }
 
 export type UIChatThreadStatus =
@@ -510,10 +510,10 @@ export type GiphySearchResults = {
 }
 
 export enum UICoinFlipPhase {
-  COMMITMENT = 'commitment',
-  REVEALS = 'reveals',
-  COMPLETE = 'complete',
-  ERROR = 'error',
+  COMMITMENT = 0,
+  REVEALS = 1,
+  COMPLETE = 2,
+  ERROR = 3,
 }
 
 export type UICoinFlipErrorParticipant = {
@@ -526,14 +526,14 @@ export type UICoinFlipAbsenteeError = {
 }
 
 export enum UICoinFlipErrorTyp {
-  GENERIC = 'generic',
-  ABSENTEE = 'absentee',
-  TIMEOUT = 'timeout',
-  ABORTED = 'aborted',
-  DUPREG = 'dupreg',
-  DUPCOMMITCOMPLETE = 'dupcommitcomplete',
-  DUPREVEAL = 'dupreveal',
-  COMMITMISMATCH = 'commitmismatch',
+  GENERIC = 0,
+  ABSENTEE = 1,
+  TIMEOUT = 2,
+  ABORTED = 3,
+  DUPREG = 4,
+  DUPCOMMITCOMPLETE = 5,
+  DUPREVEAL = 6,
+  COMMITMISMATCH = 7,
 }
 
 export type UICoinFlipError =
@@ -547,11 +547,11 @@ export type UICoinFlipError =
   | {typ: UICoinFlipErrorTyp.COMMITMISMATCH; COMMITMISMATCH: UICoinFlipErrorParticipant | null}
 
 export enum UICoinFlipResultTyp {
-  NUMBER = 'number',
-  SHUFFLE = 'shuffle',
-  DECK = 'deck',
-  HANDS = 'hands',
-  COIN = 'coin',
+  NUMBER = 0,
+  SHUFFLE = 1,
+  DECK = 2,
+  HANDS = 3,
+  COIN = 4,
 }
 
 export type UICoinFlipHand = {
@@ -595,20 +595,20 @@ export type UICommandMarkdown = {
 export type LocationWatchID = number
 
 export enum UICommandStatusDisplayTyp {
-  STATUS = 'status',
-  WARNING = 'warning',
-  ERROR = 'error',
+  STATUS = 0,
+  WARNING = 1,
+  ERROR = 2,
 }
 
 export enum UICommandStatusActionTyp {
-  APPSETTINGS = 'appsettings',
+  APPSETTINGS = 0,
 }
 
 export enum UIBotCommandsUpdateStatus {
-  UPTODATE = 'uptodate',
-  UPDATING = 'updating',
-  FAILED = 'failed',
-  BLANK = 'blank',
+  UPTODATE = 0,
+  UPDATING = 1,
+  FAILED = 2,
+  BLANK = 3,
 }
 
 export type ConversationCommand = {
@@ -620,17 +620,17 @@ export type ConversationCommand = {
 }
 
 export enum ConversationCommandGroupsTyp {
-  BUILTIN = 'builtin',
-  CUSTOM = 'custom',
-  NONE = 'none',
+  BUILTIN = 0,
+  CUSTOM = 1,
+  NONE = 2,
 }
 
 export enum ConversationBuiltinCommandTyp {
-  NONE = 'none',
-  ADHOC = 'adhoc',
-  SMALLTEAM = 'smallteam',
-  BIGTEAM = 'bigteam',
-  BIGTEAMGENERAL = 'bigteamgeneral',
+  NONE = 0,
+  ADHOC = 1,
+  SMALLTEAM = 2,
+  BIGTEAM = 3,
+  BIGTEAMGENERAL = 4,
 }
 
 export type ConversationCommandGroupsCustom = {
@@ -674,71 +674,71 @@ export type InboxVersInfo = {
 }
 
 export enum ConversationExistence {
-  ACTIVE = 'active',
-  ARCHIVED = 'archived',
-  DELETED = 'deleted',
-  ABANDONED = 'abandoned',
+  ACTIVE = 0,
+  ARCHIVED = 1,
+  DELETED = 2,
+  ABANDONED = 3,
 }
 
 export enum ConversationMembersType {
-  KBFS = 'kbfs',
-  TEAM = 'team',
-  IMPTEAMNATIVE = 'impteamnative',
-  IMPTEAMUPGRADE = 'impteamupgrade',
+  KBFS = 0,
+  TEAM = 1,
+  IMPTEAMNATIVE = 2,
+  IMPTEAMUPGRADE = 3,
 }
 
 export enum SyncInboxResType {
-  CURRENT = 'current',
-  INCREMENTAL = 'incremental',
-  CLEAR = 'clear',
+  CURRENT = 0,
+  INCREMENTAL = 1,
+  CLEAR = 2,
 }
 
 export enum MessageType {
-  NONE = 'none',
-  TEXT = 'text',
-  ATTACHMENT = 'attachment',
-  EDIT = 'edit',
-  DELETE = 'delete',
-  METADATA = 'metadata',
-  TLFNAME = 'tlfname',
-  HEADLINE = 'headline',
-  ATTACHMENTUPLOADED = 'attachmentuploaded',
-  JOIN = 'join',
-  LEAVE = 'leave',
-  SYSTEM = 'system',
-  DELETEHISTORY = 'deletehistory',
-  REACTION = 'reaction',
-  SENDPAYMENT = 'sendpayment',
-  REQUESTPAYMENT = 'requestpayment',
-  UNFURL = 'unfurl',
-  FLIP = 'flip',
-  PIN = 'pin',
+  NONE = 0,
+  TEXT = 1,
+  ATTACHMENT = 2,
+  EDIT = 3,
+  DELETE = 4,
+  METADATA = 5,
+  TLFNAME = 6,
+  HEADLINE = 7,
+  ATTACHMENTUPLOADED = 8,
+  JOIN = 9,
+  LEAVE = 10,
+  SYSTEM = 11,
+  DELETEHISTORY = 12,
+  REACTION = 13,
+  SENDPAYMENT = 14,
+  REQUESTPAYMENT = 15,
+  UNFURL = 16,
+  FLIP = 17,
+  PIN = 18,
 }
 
 export enum TopicType {
-  NONE = 'none',
-  CHAT = 'chat',
-  DEV = 'dev',
-  KBFSFILEEDIT = 'kbfsfileedit',
+  NONE = 0,
+  CHAT = 1,
+  DEV = 2,
+  KBFSFILEEDIT = 3,
 }
 
 export enum TeamType {
-  NONE = 'none',
-  SIMPLE = 'simple',
-  COMPLEX = 'complex',
+  NONE = 0,
+  SIMPLE = 1,
+  COMPLEX = 2,
 }
 
 export enum NotificationKind {
-  GENERIC = 'generic',
-  ATMENTION = 'atmention',
+  GENERIC = 0,
+  ATMENTION = 1,
 }
 
 export enum GlobalAppNotificationSetting {
-  NEWMESSAGES = 'newmessages',
-  PLAINTEXTMOBILE = 'plaintextmobile',
-  PLAINTEXTDESKTOP = 'plaintextdesktop',
-  DEFAULTSOUNDMOBILE = 'defaultsoundmobile',
-  DISABLETYPING = 'disabletyping',
+  NEWMESSAGES = 0,
+  PLAINTEXTMOBILE = 1,
+  PLAINTEXTDESKTOP = 2,
+  DEFAULTSOUNDMOBILE = 3,
+  DISABLETYPING = 4,
 }
 
 export type GlobalAppNotificationSettings = {
@@ -746,12 +746,12 @@ export type GlobalAppNotificationSettings = {
 }
 
 export enum ConversationStatus {
-  UNFILED = 'unfiled',
-  FAVORITE = 'favorite',
-  IGNORED = 'ignored',
-  BLOCKED = 'blocked',
-  MUTED = 'muted',
-  REPORTED = 'reported',
+  UNFILED = 0,
+  FAVORITE = 1,
+  IGNORED = 2,
+  BLOCKED = 3,
+  MUTED = 4,
+  REPORTED = 5,
 }
 
 export type ConversationMember = {
@@ -775,12 +775,12 @@ export type ChannelNameMention = {
 }
 
 export enum ConversationMemberStatus {
-  ACTIVE = 'active',
-  REMOVED = 'removed',
-  LEFT = 'left',
-  PREVIEW = 'preview',
-  RESET = 'reset',
-  NEVER_JOINED = 'never_joined',
+  ACTIVE = 0,
+  REMOVED = 1,
+  LEFT = 2,
+  PREVIEW = 3,
+  RESET = 4,
+  NEVER_JOINED = 5,
 }
 
 export type Pagination = {
@@ -1023,8 +1023,8 @@ export type MerkleRoot = {
 }
 
 export enum InboxResType {
-  VERSIONHIT = 'versionhit',
-  FULL = 'full',
+  VERSIONHIT = 0,
+  FULL = 1,
 }
 
 export type InboxViewFull = {
@@ -1036,11 +1036,11 @@ export type InboxViewFull = {
 export type InboxView = {rtype: InboxResType.VERSIONHIT} | {rtype: InboxResType.FULL; FULL: InboxViewFull | null}
 
 export enum RetentionPolicyType {
-  NONE = 'none',
-  RETAIN = 'retain',
-  EXPIRE = 'expire',
-  INHERIT = 'inherit',
-  EPHEMERAL = 'ephemeral',
+  NONE = 0,
+  RETAIN = 1,
+  EXPIRE = 2,
+  INHERIT = 3,
+  EPHEMERAL = 4,
 }
 
 export type RetentionPolicy =
@@ -1062,23 +1062,23 @@ export type RpEphemeral = {
 }
 
 export enum GetThreadReason {
-  GENERAL = 'general',
-  PUSH = 'push',
-  FOREGROUND = 'foreground',
-  BACKGROUNDCONVLOAD = 'backgroundconvload',
-  FIXRETRY = 'fixretry',
-  PREPARE = 'prepare',
-  SEARCHER = 'searcher',
-  INDEXED_SEARCH = 'indexed_search',
-  KBFSFILEACTIVITY = 'kbfsfileactivity',
-  COINFLIP = 'coinflip',
-  BOTCOMMANDS = 'botcommands',
+  GENERAL = 0,
+  PUSH = 1,
+  FOREGROUND = 2,
+  BACKGROUNDCONVLOAD = 3,
+  FIXRETRY = 4,
+  PREPARE = 5,
+  SEARCHER = 6,
+  INDEXED_SEARCH = 7,
+  KBFSFILEACTIVITY = 8,
+  COINFLIP = 9,
+  BOTCOMMANDS = 10,
 }
 
 export enum ReIndexingMode {
-  NONE = 'none',
-  PRESEARCH_SYNC = 'presearch_sync',
-  POSTSEARCH_SYNC = 'postsearch_sync',
+  NONE = 0,
+  PRESEARCH_SYNC = 1,
+  POSTSEARCH_SYNC = 2,
 }
 
 export type SearchOpts = {
@@ -1156,10 +1156,10 @@ export type AssetMetadataAudio = {
 }
 
 export enum AssetMetadataType {
-  NONE = 'none',
-  IMAGE = 'image',
-  VIDEO = 'video',
-  AUDIO = 'audio',
+  NONE = 0,
+  IMAGE = 1,
+  VIDEO = 2,
+  AUDIO = 3,
 }
 
 export type AssetMetadata =
@@ -1168,7 +1168,7 @@ export type AssetMetadata =
   | {assetType: AssetMetadataType.AUDIO; AUDIO: AssetMetadataAudio | null}
 
 export enum AssetTag {
-  PRIMARY = 'primary',
+  PRIMARY = 0,
 }
 
 export type Asset = {
@@ -1189,9 +1189,9 @@ export type Asset = {
 }
 
 export enum BotCommandsAdvertisementTyp {
-  PUBLIC = 'public',
-  TLFID_MEMBERS = 'tlfid_members',
-  TLFID_CONVS = 'tlfid_convs',
+  PUBLIC = 0,
+  TLFID_MEMBERS = 1,
+  TLFID_CONVS = 2,
 }
 
 export type TeamMember = {
@@ -1354,8 +1354,8 @@ export type SubteamRenameUpdate = {
 export type VersionKind = string
 
 export enum TextPaymentResultTyp {
-  SENT = 'sent',
-  ERROR = 'error',
+  SENT = 0,
+  ERROR = 1,
 }
 
 export type TextPaymentResult =
@@ -1435,14 +1435,14 @@ export type MessagePin = {
 }
 
 export enum MessageSystemType {
-  ADDEDTOTEAM = 'addedtoteam',
-  INVITEADDEDTOTEAM = 'inviteaddedtoteam',
-  COMPLEXTEAM = 'complexteam',
-  CREATETEAM = 'createteam',
-  GITPUSH = 'gitpush',
-  CHANGEAVATAR = 'changeavatar',
-  CHANGERETENTION = 'changeretention',
-  BULKADDTOCONV = 'bulkaddtoconv',
+  ADDEDTOTEAM = 0,
+  INVITEADDEDTOTEAM = 1,
+  COMPLEXTEAM = 2,
+  CREATETEAM = 3,
+  GITPUSH = 4,
+  CHANGEAVATAR = 5,
+  CHANGERETENTION = 6,
+  BULKADDTOCONV = 7,
 }
 
 export type MessageSystemAddedToTeam = {
@@ -1585,20 +1585,20 @@ export type SenderSendOptions = {
 }
 
 export enum OutboxStateType {
-  SENDING = 'sending',
-  ERROR = 'error',
+  SENDING = 0,
+  ERROR = 1,
 }
 
 export enum OutboxErrorType {
-  MISC = 'misc',
-  OFFLINE = 'offline',
-  IDENTIFY = 'identify',
-  TOOLONG = 'toolong',
-  DUPLICATE = 'duplicate',
-  EXPIRED = 'expired',
-  TOOMANYATTEMPTS = 'toomanyattempts',
-  ALREADY_DELETED = 'already_deleted',
-  UPLOADFAILED = 'uploadfailed',
+  MISC = 0,
+  OFFLINE = 1,
+  IDENTIFY = 2,
+  TOOLONG = 3,
+  DUPLICATE = 4,
+  EXPIRED = 5,
+  TOOMANYATTEMPTS = 6,
+  ALREADY_DELETED = 7,
+  UPLOADFAILED = 8,
 }
 
 export type OutboxStateError = {
@@ -1625,16 +1625,16 @@ export type OutboxRecord = {
 }
 
 export enum HeaderPlaintextVersion {
-  V1 = 'v1',
-  V2 = 'v2',
-  V3 = 'v3',
-  V4 = 'v4',
-  V5 = 'v5',
-  V6 = 'v6',
-  V7 = 'v7',
-  V8 = 'v8',
-  V9 = 'v9',
-  V10 = 'v10',
+  V1 = 1,
+  V2 = 2,
+  V3 = 3,
+  V4 = 4,
+  V5 = 5,
+  V6 = 6,
+  V7 = 7,
+  V8 = 8,
+  V9 = 9,
+  V10 = 10,
 }
 
 export type HeaderPlaintextMetaInfo = {
@@ -1676,16 +1676,16 @@ export type HeaderPlaintext =
   | {version: HeaderPlaintextVersion.V10; V10: HeaderPlaintextUnsupported | null}
 
 export enum BodyPlaintextVersion {
-  V1 = 'v1',
-  V2 = 'v2',
-  V3 = 'v3',
-  V4 = 'v4',
-  V5 = 'v5',
-  V6 = 'v6',
-  V7 = 'v7',
-  V8 = 'v8',
-  V9 = 'v9',
-  V10 = 'v10',
+  V1 = 1,
+  V2 = 2,
+  V3 = 3,
+  V4 = 4,
+  V5 = 5,
+  V6 = 6,
+  V7 = 7,
+  V8 = 8,
+  V9 = 9,
+  V10 = 10,
 }
 
 export type BodyPlaintextMetaInfo = {
@@ -1741,12 +1741,12 @@ export type MessageUnboxedValid = {
 }
 
 export enum MessageUnboxedErrorType {
-  MISC = 'misc',
-  BADVERSION_CRITICAL = 'badversion_critical',
-  BADVERSION = 'badversion',
-  IDENTIFY = 'identify',
-  EPHEMERAL = 'ephemeral',
-  PAIRWISE_MISSING = 'pairwise_missing',
+  MISC = 0,
+  BADVERSION_CRITICAL = 1,
+  BADVERSION = 2,
+  IDENTIFY = 3,
+  EPHEMERAL = 4,
+  PAIRWISE_MISSING = 5,
 }
 
 export type MessageUnboxedError = {
@@ -1813,13 +1813,13 @@ export type ConversationInfoLocal = {
 }
 
 export enum ConversationErrorType {
-  PERMANENT = 'permanent',
-  MISSINGINFO = 'missinginfo',
-  SELFREKEYNEEDED = 'selfrekeyneeded',
-  OTHERREKEYNEEDED = 'otherrekeyneeded',
-  IDENTIFY = 'identify',
-  TRANSIENT = 'transient',
-  NONE = 'none',
+  PERMANENT = 0,
+  MISSINGINFO = 1,
+  SELFREKEYNEEDED = 2,
+  OTHERREKEYNEEDED = 3,
+  IDENTIFY = 4,
+  TRANSIENT = 5,
+  NONE = 6,
 }
 
 export type ConversationErrorLocal = {
@@ -1879,10 +1879,10 @@ export type ThreadView = {
 }
 
 export enum MessageIDControlMode {
-  OLDERMESSAGES = 'oldermessages',
-  NEWERMESSAGES = 'newermessages',
-  CENTERED = 'centered',
-  UNREADLINE = 'unreadline',
+  OLDERMESSAGES = 0,
+  NEWERMESSAGES = 1,
+  CENTERED = 2,
+  UNREADLINE = 3,
 }
 
 export type MessageIDControl = {
@@ -1910,13 +1910,13 @@ export type GetThreadLocalRes = {
 }
 
 export enum GetThreadNonblockCbMode {
-  FULL = 'full',
-  INCREMENTAL = 'incremental',
+  FULL = 0,
+  INCREMENTAL = 1,
 }
 
 export enum GetThreadNonblockPgMode {
-  DEFAULT = 'default',
-  SERVER = 'server',
+  DEFAULT = 0,
+  SERVER = 1,
 }
 
 export type UnreadlineRes = {
@@ -2064,9 +2064,9 @@ export type DownloadFileAttachmentLocalRes = {
 }
 
 export enum PreviewLocationTyp {
-  URL = 'url',
-  FILE = 'file',
-  BYTES = 'bytes',
+  URL = 0,
+  FILE = 1,
+  BYTES = 2,
 }
 
 export type PreviewLocation =
@@ -2166,11 +2166,11 @@ export type StaticConfig = {
 }
 
 export enum UnfurlPromptAction {
-  ALWAYS = 'always',
-  NEVER = 'never',
-  ACCEPT = 'accept',
-  NOTNOW = 'notnow',
-  ONETIME = 'onetime',
+  ALWAYS = 0,
+  NEVER = 1,
+  ACCEPT = 2,
+  NOTNOW = 3,
+  ONETIME = 4,
 }
 
 export type UnfurlPromptResult =
@@ -2181,9 +2181,9 @@ export type UnfurlPromptResult =
   | {actionType: UnfurlPromptAction.ONETIME; ONETIME: string | null}
 
 export enum GalleryItemTyp {
-  MEDIA = 'media',
-  LINK = 'link',
-  DOC = 'doc',
+  MEDIA = 0,
+  LINK = 1,
+  DOC = 2,
 }
 
 export type LoadGalleryRes = {
@@ -2240,24 +2240,24 @@ export type ClearBotCommandsLocalRes = {
 }
 
 export enum ChatActivitySource {
-  LOCAL = 'local',
-  REMOTE = 'remote',
+  LOCAL = 0,
+  REMOTE = 1,
 }
 
 export enum ChatActivityType {
-  RESERVED = 'reserved',
-  INCOMING_MESSAGE = 'incoming_message',
-  READ_MESSAGE = 'read_message',
-  NEW_CONVERSATION = 'new_conversation',
-  SET_STATUS = 'set_status',
-  FAILED_MESSAGE = 'failed_message',
-  MEMBERS_UPDATE = 'members_update',
-  SET_APP_NOTIFICATION_SETTINGS = 'set_app_notification_settings',
-  TEAMTYPE = 'teamtype',
-  EXPUNGE = 'expunge',
-  EPHEMERAL_PURGE = 'ephemeral_purge',
-  REACTION_UPDATE = 'reaction_update',
-  MESSAGES_UPDATED = 'messages_updated',
+  RESERVED = 0,
+  INCOMING_MESSAGE = 1,
+  READ_MESSAGE = 2,
+  NEW_CONVERSATION = 3,
+  SET_STATUS = 4,
+  FAILED_MESSAGE = 5,
+  MEMBERS_UPDATE = 6,
+  SET_APP_NOTIFICATION_SETTINGS = 7,
+  TEAMTYPE = 8,
+  EXPUNGE = 9,
+  EPHEMERAL_PURGE = 10,
+  REACTION_UPDATE = 11,
+  MESSAGES_UPDATED = 12,
 }
 
 export type IncomingMessage = {
@@ -2367,9 +2367,9 @@ export type ConvTypingUpdate = {
 }
 
 export enum StaleUpdateType {
-  CLEAR = 'clear',
-  NEWACTIVITY = 'newactivity',
-  CONVUPDATE = 'convupdate',
+  CLEAR = 0,
+  NEWACTIVITY = 1,
+  CONVUPDATE = 2,
 }
 
 export type ConversationStaleUpdate = {
@@ -2403,11 +2403,11 @@ export type MessageBoxed = {
 }
 
 export enum MessageBoxedVersion {
-  VNONE = 'vnone',
-  V1 = 'v1',
-  V2 = 'v2',
-  V3 = 'v3',
-  V4 = 'v4',
+  VNONE = 0,
+  V1 = 1,
+  V2 = 2,
+  V3 = 3,
+  V4 = 4,
 }
 
 export type ThreadViewBoxed = {
@@ -2472,9 +2472,9 @@ export type GetUnreadlineRemoteRes = {
 }
 
 export enum ChannelMention {
-  NONE = 'none',
-  ALL = 'all',
-  HERE = 'here',
+  NONE = 0,
+  ALL = 1,
+  HERE = 2,
 }
 
 export type UnreadUpdateFull = {
@@ -2515,13 +2515,13 @@ export type SyncChatRes = {
 }
 
 export enum SyncAllProtVers {
-  V0 = 'v0',
-  V1 = 'v1',
+  V0 = 0,
+  V1 = 1,
 }
 
 export enum SyncAllNotificationType {
-  STATE = 'state',
-  INCREMENTAL = 'incremental',
+  STATE = 0,
+  INCREMENTAL = 1,
 }
 
 export type SyncAllNotificationRes =
@@ -2577,8 +2577,8 @@ export type ServerNowRes = {
 }
 
 export enum ExternalAPIKeyTyp {
-  GOOGLEMAPS = 'googlemaps',
-  GIPHY = 'giphy',
+  GOOGLEMAPS = 0,
+  GIPHY = 1,
 }
 
 export type ExternalAPIKey =
@@ -2621,8 +2621,8 @@ export type ClearBotCommandsRes = {
 }
 
 export enum BotInfoResponseTyp {
-  UPTODATE = 'uptodate',
-  INFO = 'info',
+  UPTODATE = 0,
+  INFO = 1,
 }
 
 export type BotInfoResponse = {typ: BotInfoResponseTyp.UPTODATE} | {typ: BotInfoResponseTyp.INFO; INFO: BotInfo | null}
@@ -2635,10 +2635,10 @@ export type GetBotInfoRes = {
 export type BotInfoHash = Buffer
 
 export enum UnfurlType {
-  GENERIC = 'generic',
-  YOUTUBE = 'youtube',
-  GIPHY = 'giphy',
-  MAPS = 'maps',
+  GENERIC = 0,
+  YOUTUBE = 1,
+  GIPHY = 2,
+  MAPS = 3,
 }
 
 export type UnfurlVideo = {
@@ -2741,9 +2741,9 @@ export type UnfurlDisplay =
   | {unfurlType: UnfurlType.GIPHY; GIPHY: UnfurlGiphyDisplay | null}
 
 export enum UnfurlMode {
-  ALWAYS = 'always',
-  NEVER = 'never',
-  WHITELISTED = 'whitelisted',
+  ALWAYS = 0,
+  NEVER = 1,
+  WHITELISTED = 2,
 }
 
 export type UnfurlSettings = {

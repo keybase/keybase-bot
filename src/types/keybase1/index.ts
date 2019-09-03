@@ -148,27 +148,27 @@ export type APIRes = {
 }
 
 export enum MobileAppState {
-  FOREGROUND = 'foreground',
-  BACKGROUND = 'background',
-  INACTIVE = 'inactive',
-  BACKGROUNDACTIVE = 'backgroundactive',
+  FOREGROUND = 0,
+  BACKGROUND = 1,
+  INACTIVE = 2,
+  BACKGROUNDACTIVE = 3,
 }
 
 export enum MobileNetworkState {
-  NONE = 'none',
-  WIFI = 'wifi',
-  CELLUAR = 'celluar',
-  UNKNOWN = 'unknown',
-  NOTAVAILABLE = 'notavailable',
+  NONE = 0,
+  WIFI = 1,
+  CELLUAR = 2,
+  UNKNOWN = 3,
+  NOTAVAILABLE = 4,
 }
 
 export enum BoxAuditAttemptResult {
-  FAILURE_RETRYABLE = 'failure_retryable',
-  FAILURE_MALICIOUS_SERVER = 'failure_malicious_server',
-  OK_VERIFIED = 'ok_verified',
-  OK_NOT_ATTEMPTED_ROLE = 'ok_not_attempted_role',
-  OK_NOT_ATTEMPTED_OPENTEAM = 'ok_not_attempted_openteam',
-  OK_NOT_ATTEMPTED_SUBTEAM = 'ok_not_attempted_subteam',
+  FAILURE_RETRYABLE = 0,
+  FAILURE_MALICIOUS_SERVER = 1,
+  OK_VERIFIED = 2,
+  OK_NOT_ATTEMPTED_ROLE = 3,
+  OK_NOT_ATTEMPTED_OPENTEAM = 4,
+  OK_NOT_ATTEMPTED_SUBTEAM = 5,
 }
 
 export type BoxAuditAttempt = {
@@ -194,9 +194,9 @@ export type AvatarClearCacheMsg = {
 }
 
 export enum BlockType {
-  DATA = 'data',
-  MD = 'md',
-  GIT = 'git',
+  DATA = 0,
+  MD = 1,
+  GIT = 2,
 }
 
 export type BlockIdCombo = {
@@ -211,9 +211,9 @@ export type ChallengeInfo = {
 }
 
 export enum BlockStatus {
-  UNKNOWN = 'unknown',
-  LIVE = 'live',
-  ARCHIVED = 'archived',
+  UNKNOWN = 0,
+  LIVE = 1,
+  ARCHIVED = 2,
 }
 
 export type GetBlockRes = {
@@ -307,17 +307,17 @@ export type UserVersion = {
 }
 
 export enum TeamType {
-  NONE = 'none',
-  LEGACY = 'legacy',
-  MODERN = 'modern',
+  NONE = 0,
+  LEGACY = 1,
+  MODERN = 2,
 }
 
 export type CompatibilityTeamID = {typ: TeamType.LEGACY; LEGACY: TLFID | null} | {typ: TeamType.MODERN; MODERN: TeamID | null}
 
 export enum TLFVisibility {
-  ANY = 'any',
-  PUBLIC = 'public',
-  PRIVATE = 'private',
+  ANY = 0,
+  PUBLIC = 1,
+  PRIVATE = 2,
 }
 
 export type TeamIDWithVisibility = {
@@ -333,12 +333,12 @@ export type TeamIDAndName = {
 export type Seqno = number
 
 export enum SeqType {
-  NONE = 'none',
-  PUBLIC = 'public',
-  PRIVATE = 'private',
-  SEMIPRIVATE = 'semiprivate',
-  USER_PRIVATE_HIDDEN = 'user_private_hidden',
-  TEAM_PRIVATE_HIDDEN = 'team_private_hidden',
+  NONE = 0,
+  PUBLIC = 1,
+  PRIVATE = 2,
+  SEMIPRIVATE = 3,
+  USER_PRIVATE_HIDDEN = 16,
+  TEAM_PRIVATE_HIDDEN = 17,
 }
 
 export type Bytes32 = string | null
@@ -397,8 +397,8 @@ export type Device = {
 }
 
 export enum DeviceType {
-  DESKTOP = 'desktop',
-  MOBILE = 'mobile',
+  DESKTOP = 0,
+  MOBILE = 1,
 }
 
 export type Stream = {
@@ -406,22 +406,22 @@ export type Stream = {
 }
 
 export enum LogLevel {
-  NONE = 'none',
-  DEBUG = 'debug',
-  INFO = 'info',
-  NOTICE = 'notice',
-  WARN = 'warn',
-  ERROR = 'error',
-  CRITICAL = 'critical',
-  FATAL = 'fatal',
+  NONE = 0,
+  DEBUG = 1,
+  INFO = 2,
+  NOTICE = 3,
+  WARN = 4,
+  ERROR = 5,
+  CRITICAL = 6,
+  FATAL = 7,
 }
 
 export enum ClientType {
-  NONE = 'none',
-  CLI = 'cli',
-  GUI_MAIN = 'gui_main',
-  KBFS = 'kbfs',
-  GUI_HELPER = 'gui_helper',
+  NONE = 0,
+  CLI = 1,
+  GUI_MAIN = 2,
+  KBFS = 3,
+  GUI_HELPER = 4,
 }
 
 export type UserVersionVector = {
@@ -461,8 +461,8 @@ export type UserOrTeamLite = {
 }
 
 export enum UserOrTeamResult {
-  USER = 'user',
-  TEAM = 'team',
+  USER = 1,
+  TEAM = 2,
 }
 
 export type RemoteTrack = {
@@ -478,10 +478,10 @@ export type UserPlusAllKeys = {
 }
 
 export enum MerkleTreeID {
-  MASTER = 'master',
-  KBFS_PUBLIC = 'kbfs_public',
-  KBFS_PRIVATE = 'kbfs_private',
-  KBFS_PRIVATETEAM = 'kbfs_privateteam',
+  MASTER = 0,
+  KBFS_PUBLIC = 1,
+  KBFS_PRIVATE = 2,
+  KBFS_PRIVATETEAM = 3,
 }
 
 /**
@@ -510,9 +510,9 @@ export type SocialAssertion = {
 export type FullName = string
 
 export enum FullNamePackageVersion {
-  V0 = 'v0',
-  V1 = 'v1',
-  V2 = 'v2',
+  V0 = 0,
+  V1 = 1,
+  V2 = 2,
 }
 
 export type FullNamePackage = {
@@ -537,8 +537,8 @@ export type PhoneLookupResult = {
 }
 
 export enum IdentityVisibility {
-  PRIVATE = 'private',
-  PUBLIC = 'public',
+  PRIVATE = 0,
+  PUBLIC = 1,
 }
 
 export type SizedImage = {
@@ -547,8 +547,8 @@ export type SizedImage = {
 }
 
 export enum OfflineAvailability {
-  NONE = 'none',
-  BEST_EFFORT = 'best_effort',
+  NONE = 0,
+  BEST_EFFORT = 1,
 }
 
 export type ReacjiSkinTone = number
@@ -698,11 +698,11 @@ export type AllProvisionedUsernames = {
 }
 
 export enum ForkType {
-  NONE = 'none',
-  AUTO = 'auto',
-  WATCHDOG = 'watchdog',
-  LAUNCHD = 'launchd',
-  SYSTEMD = 'systemd',
+  NONE = 0,
+  AUTO = 1,
+  WATCHDOG = 2,
+  LAUNCHD = 3,
+  SYSTEMD = 4,
 }
 
 export type Config = {
@@ -738,9 +738,9 @@ export type OutOfDateInfo = {
 }
 
 export enum UpdateInfoStatus {
-  UP_TO_DATE = 'up_to_date',
-  NEED_UPDATE = 'need_update',
-  CRITICALLY_OUT_OF_DATE = 'critically_out_of_date',
+  UP_TO_DATE = 0,
+  NEED_UPDATE = 1,
+  CRITICALLY_OUT_OF_DATE = 2,
 }
 
 export type UpdateInfo = {
@@ -761,9 +761,9 @@ export type BootstrapStatus = {
 }
 
 export enum UpdateInfoStatus2 {
-  OK = 'ok',
-  SUGGESTED = 'suggested',
-  CRITICAL = 'critical',
+  OK = 0,
+  SUGGESTED = 1,
+  CRITICAL = 2,
 }
 
 export type UpdateDetails = {
@@ -776,9 +776,9 @@ export type UpdateInfo2 =
   | {status: UpdateInfoStatus2.CRITICAL; CRITICAL: UpdateDetails | null}
 
 export enum ProxyType {
-  No_Proxy = 'no_proxy',
-  HTTP_Connect = 'http_connect',
-  Socks = 'socks',
+  No_Proxy = 0,
+  HTTP_Connect = 1,
+  Socks = 2,
 }
 
 export type ProxyData = {
@@ -788,226 +788,226 @@ export type ProxyData = {
 }
 
 export enum StatusCode {
-  SCOk = 'scok',
-  SCInputError = 'scinputerror',
-  SCLoginRequired = 'scloginrequired',
-  SCBadSession = 'scbadsession',
-  SCBadLoginUserNotFound = 'scbadloginusernotfound',
-  SCBadLoginPassword = 'scbadloginpassword',
-  SCNotFound = 'scnotfound',
-  SCThrottleControl = 'scthrottlecontrol',
-  SCDeleted = 'scdeleted',
-  SCGeneric = 'scgeneric',
-  SCAlreadyLoggedIn = 'scalreadyloggedin',
-  SCExists = 'scexists',
-  SCCanceled = 'sccanceled',
-  SCInputCanceled = 'scinputcanceled',
-  SCBadUsername = 'scbadusername',
-  SCOffline = 'scoffline',
-  SCReloginRequired = 'screloginrequired',
-  SCResolutionFailed = 'scresolutionfailed',
-  SCProfileNotPublic = 'scprofilenotpublic',
-  SCIdentifyFailed = 'scidentifyfailed',
-  SCTrackingBroke = 'sctrackingbroke',
-  SCWrongCryptoFormat = 'scwrongcryptoformat',
-  SCDecryptionError = 'scdecryptionerror',
-  SCInvalidAddress = 'scinvalidaddress',
-  SCNoSession = 'scnosession',
-  SCAccountReset = 'scaccountreset',
-  SCIdentifiesFailed = 'scidentifiesfailed',
-  SCNoSpaceOnDevice = 'scnospaceondevice',
-  SCMerkleClientError = 'scmerkleclienterror',
-  SCBadEmail = 'scbademail',
-  SCRateLimit = 'scratelimit',
-  SCBadSignupUsernameTaken = 'scbadsignupusernametaken',
-  SCBadInvitationCode = 'scbadinvitationcode',
-  SCBadSignupTeamName = 'scbadsignupteamname',
-  SCFeatureFlag = 'scfeatureflag',
-  SCEmailTaken = 'scemailtaken',
-  SCEmailAlreadyAdded = 'scemailalreadyadded',
-  SCEmailLimitExceeded = 'scemaillimitexceeded',
-  SCEmailCannotDeletePrimary = 'scemailcannotdeleteprimary',
-  SCEmailUnknown = 'scemailunknown',
-  SCMissingResult = 'scmissingresult',
-  SCKeyNotFound = 'sckeynotfound',
-  SCKeyCorrupted = 'sckeycorrupted',
-  SCKeyInUse = 'sckeyinuse',
-  SCKeyBadGen = 'sckeybadgen',
-  SCKeyNoSecret = 'sckeynosecret',
-  SCKeyBadUIDs = 'sckeybaduids',
-  SCKeyNoActive = 'sckeynoactive',
-  SCKeyNoSig = 'sckeynosig',
-  SCKeyBadSig = 'sckeybadsig',
-  SCKeyBadEldest = 'sckeybadeldest',
-  SCKeyNoEldest = 'sckeynoeldest',
-  SCKeyDuplicateUpdate = 'sckeyduplicateupdate',
-  SCSibkeyAlreadyExists = 'scsibkeyalreadyexists',
-  SCDecryptionKeyNotFound = 'scdecryptionkeynotfound',
-  SCKeyNoPGPEncryption = 'sckeynopgpencryption',
-  SCKeyNoNaClEncryption = 'sckeynonaclencryption',
-  SCKeySyncedPGPNotFound = 'sckeysyncedpgpnotfound',
-  SCKeyNoMatchingGPG = 'sckeynomatchinggpg',
-  SCKeyRevoked = 'sckeyrevoked',
-  SCSigCannotVerify = 'scsigcannotverify',
-  SCSigWrongKey = 'scsigwrongkey',
-  SCSigOldSeqno = 'scsigoldseqno',
-  SCSigCreationDisallowed = 'scsigcreationdisallowed',
-  SCSigMissingRatchet = 'scsigmissingratchet',
-  SCSigBadTotalOrder = 'scsigbadtotalorder',
-  SCBadTrackSession = 'scbadtracksession',
-  SCDeviceBadName = 'scdevicebadname',
-  SCDeviceNameInUse = 'scdevicenameinuse',
-  SCDeviceNotFound = 'scdevicenotfound',
-  SCDeviceMismatch = 'scdevicemismatch',
-  SCDeviceRequired = 'scdevicerequired',
-  SCDevicePrevProvisioned = 'scdeviceprevprovisioned',
-  SCDeviceNoProvision = 'scdevicenoprovision',
-  SCDeviceProvisionViaDevice = 'scdeviceprovisionviadevice',
-  SCRevokeCurrentDevice = 'screvokecurrentdevice',
-  SCRevokeLastDevice = 'screvokelastdevice',
-  SCDeviceProvisionOffline = 'scdeviceprovisionoffline',
-  SCRevokeLastDevicePGP = 'screvokelastdevicepgp',
-  SCStreamExists = 'scstreamexists',
-  SCStreamNotFound = 'scstreamnotfound',
-  SCStreamWrongKind = 'scstreamwrongkind',
-  SCStreamEOF = 'scstreameof',
-  SCGenericAPIError = 'scgenericapierror',
-  SCAPINetworkError = 'scapinetworkerror',
-  SCTimeout = 'sctimeout',
-  SCProofError = 'scprooferror',
-  SCIdentificationExpired = 'scidentificationexpired',
-  SCSelfNotFound = 'scselfnotfound',
-  SCBadKexPhrase = 'scbadkexphrase',
-  SCNoUIDelegation = 'scnouidelegation',
-  SCNoUI = 'scnoui',
-  SCGPGUnavailable = 'scgpgunavailable',
-  SCInvalidVersionError = 'scinvalidversionerror',
-  SCOldVersionError = 'scoldversionerror',
-  SCInvalidLocationError = 'scinvalidlocationerror',
-  SCServiceStatusError = 'scservicestatuserror',
-  SCInstallError = 'scinstallerror',
-  SCLoadKextError = 'scloadkexterror',
-  SCLoadKextPermError = 'scloadkextpermerror',
-  SCGitInternal = 'scgitinternal',
-  SCGitRepoAlreadyExists = 'scgitrepoalreadyexists',
-  SCGitInvalidRepoName = 'scgitinvalidreponame',
-  SCGitCannotDelete = 'scgitcannotdelete',
-  SCGitRepoDoesntExist = 'scgitrepodoesntexist',
-  SCLoginStateTimeout = 'scloginstatetimeout',
-  SCChatInternal = 'scchatinternal',
-  SCChatRateLimit = 'scchatratelimit',
-  SCChatConvExists = 'scchatconvexists',
-  SCChatUnknownTLFID = 'scchatunknowntlfid',
-  SCChatNotInConv = 'scchatnotinconv',
-  SCChatBadMsg = 'scchatbadmsg',
-  SCChatBroadcast = 'scchatbroadcast',
-  SCChatAlreadySuperseded = 'scchatalreadysuperseded',
-  SCChatAlreadyDeleted = 'scchatalreadydeleted',
-  SCChatTLFFinalized = 'scchattlffinalized',
-  SCChatCollision = 'scchatcollision',
-  SCIdentifySummaryError = 'scidentifysummaryerror',
-  SCNeedSelfRekey = 'scneedselfrekey',
-  SCNeedOtherRekey = 'scneedotherrekey',
-  SCChatMessageCollision = 'scchatmessagecollision',
-  SCChatDuplicateMessage = 'scchatduplicatemessage',
-  SCChatClientError = 'scchatclienterror',
-  SCChatNotInTeam = 'scchatnotinteam',
-  SCChatStalePreviousState = 'scchatstalepreviousstate',
-  SCChatEphemeralRetentionPolicyViolatedError = 'scchatephemeralretentionpolicyviolatederror',
-  SCTeamBadMembership = 'scteambadmembership',
-  SCTeamSelfNotOwner = 'scteamselfnotowner',
-  SCTeamNotFound = 'scteamnotfound',
-  SCTeamExists = 'scteamexists',
-  SCTeamReadError = 'scteamreaderror',
-  SCTeamWritePermDenied = 'scteamwritepermdenied',
-  SCTeamBadGeneration = 'scteambadgeneration',
-  SCNoOp = 'scnoop',
-  SCTeamInviteBadToken = 'scteaminvitebadtoken',
-  SCTeamTarDuplicate = 'scteamtarduplicate',
-  SCTeamTarNotFound = 'scteamtarnotfound',
-  SCTeamMemberExists = 'scteammemberexists',
-  SCTeamNotReleased = 'scteamnotreleased',
-  SCTeamPermanentlyLeft = 'scteampermanentlyleft',
-  SCTeamNeedRootId = 'scteamneedrootid',
-  SCTeamHasLiveChildren = 'scteamhaslivechildren',
-  SCTeamDeleteError = 'scteamdeleteerror',
-  SCTeamBadRootTeam = 'scteambadrootteam',
-  SCTeamNameConflictsWithUser = 'scteamnameconflictswithuser',
-  SCTeamDeleteNoUpPointer = 'scteamdeletenouppointer',
-  SCTeamNeedOwner = 'scteamneedowner',
-  SCTeamNoOwnerAllowed = 'scteamnoownerallowed',
-  SCTeamImplicitNoNonSbs = 'scteamimplicitnononsbs',
-  SCTeamImplicitBadHash = 'scteamimplicitbadhash',
-  SCTeamImplicitBadName = 'scteamimplicitbadname',
-  SCTeamImplicitClash = 'scteamimplicitclash',
-  SCTeamImplicitDuplicate = 'scteamimplicitduplicate',
-  SCTeamImplicitBadOp = 'scteamimplicitbadop',
-  SCTeamImplicitBadRole = 'scteamimplicitbadrole',
-  SCTeamImplicitNotFound = 'scteamimplicitnotfound',
-  SCTeamBadAdminSeqnoType = 'scteambadadminseqnotype',
-  SCTeamImplicitBadAdd = 'scteamimplicitbadadd',
-  SCTeamImplicitBadRemove = 'scteamimplicitbadremove',
-  SCTeamInviteTokenReused = 'scteaminvitetokenreused',
-  SCTeamKeyMaskNotFound = 'scteamkeymasknotfound',
-  SCTeamBanned = 'scteambanned',
-  SCTeamInvalidBan = 'scteaminvalidban',
-  SCTeamShowcasePermDenied = 'scteamshowcasepermdenied',
-  SCTeamProvisionalCanKey = 'scteamprovisionalcankey',
-  SCTeamProvisionalCannotKey = 'scteamprovisionalcannotkey',
-  SCTeamFTLOutdated = 'scteamftloutdated',
-  SCEphemeralKeyBadGeneration = 'scephemeralkeybadgeneration',
-  SCEphemeralKeyUnexpectedBox = 'scephemeralkeyunexpectedbox',
-  SCEphemeralKeyMissingBox = 'scephemeralkeymissingbox',
-  SCEphemeralKeyWrongNumberOfKeys = 'scephemeralkeywrongnumberofkeys',
-  SCEphemeralKeyMismatchedKey = 'scephemeralkeymismatchedkey',
-  SCEphemeralPairwiseMACsMissingUIDs = 'scephemeralpairwisemacsmissinguids',
-  SCEphemeralDeviceAfterEK = 'scephemeraldeviceafterek',
-  SCEphemeralMemberAfterEK = 'scephemeralmemberafterek',
-  SCEphemeralDeviceStale = 'scephemeraldevicestale',
-  SCEphemeralUserStale = 'scephemeraluserstale',
-  SCStellarError = 'scstellarerror',
-  SCStellarBadInput = 'scstellarbadinput',
-  SCStellarWrongRevision = 'scstellarwrongrevision',
-  SCStellarMissingBundle = 'scstellarmissingbundle',
-  SCStellarBadPuk = 'scstellarbadpuk',
-  SCStellarMissingAccount = 'scstellarmissingaccount',
-  SCStellarBadPrev = 'scstellarbadprev',
-  SCStellarWrongPrimary = 'scstellarwrongprimary',
-  SCStellarUnsupportedCurrency = 'scstellarunsupportedcurrency',
-  SCStellarNeedDisclaimer = 'scstellarneeddisclaimer',
-  SCStellarDeviceNotMobile = 'scstellardevicenotmobile',
-  SCStellarMobileOnlyPurgatory = 'scstellarmobileonlypurgatory',
-  SCStellarIncompatibleVersion = 'scstellarincompatibleversion',
-  SCNISTWrongSize = 'scnistwrongsize',
-  SCNISTBadMode = 'scnistbadmode',
-  SCNISTHashWrongSize = 'scnisthashwrongsize',
-  SCNISTSigWrongSize = 'scnistsigwrongsize',
-  SCNISTSigBadInput = 'scnistsigbadinput',
-  SCNISTSigBadUID = 'scnistsigbaduid',
-  SCNISTSigBadDeviceID = 'scnistsigbaddeviceid',
-  SCNISTSigBadNonce = 'scnistsigbadnonce',
-  SCNISTNoSigOrHash = 'scnistnosigorhash',
-  SCNISTExpired = 'scnistexpired',
-  SCNISTSigRevoked = 'scnistsigrevoked',
-  SCNISTKeyRevoked = 'scnistkeyrevoked',
-  SCNISTUserDeleted = 'scnistuserdeleted',
-  SCNISTNoDevice = 'scnistnodevice',
-  SCNISTSigCannot_verify = 'scnistsigcannot_verify',
-  SCNISTReplay = 'scnistreplay',
-  SCNISTSigBadLifetime = 'scnistsigbadlifetime',
-  SCNISTNotFound = 'scnistnotfound',
-  SCNISTBadClock = 'scnistbadclock',
-  SCNISTSigBadCtime = 'scnistsigbadctime',
-  SCBadSignupUsernameDeleted = 'scbadsignupusernamedeleted',
-  SCPhoneNumberUnknown = 'scphonenumberunknown',
-  SCPhoneNumberAlreadyVerified = 'scphonenumberalreadyverified',
-  SCPhoneNumberVerificationCodeExpired = 'scphonenumberverificationcodeexpired',
-  SCPhoneNumberWrongVerificationCode = 'scphonenumberwrongverificationcode',
-  SCPhoneNumberLimitExceeded = 'scphonenumberlimitexceeded',
-  SCNoPaperKeys = 'scnopaperkeys',
-  SCTeambotKeyGenerationExists = 'scteambotkeygenerationexists',
-  SCTeambotKeyOldBoxedGeneration = 'scteambotkeyoldboxedgeneration',
-  SCTeambotKeyBadGeneration = 'scteambotkeybadgeneration',
+  SCOk = 0,
+  SCInputError = 100,
+  SCLoginRequired = 201,
+  SCBadSession = 202,
+  SCBadLoginUserNotFound = 203,
+  SCBadLoginPassword = 204,
+  SCNotFound = 205,
+  SCThrottleControl = 210,
+  SCDeleted = 216,
+  SCGeneric = 218,
+  SCAlreadyLoggedIn = 235,
+  SCExists = 230,
+  SCCanceled = 237,
+  SCInputCanceled = 239,
+  SCBadUsername = 243,
+  SCOffline = 267,
+  SCReloginRequired = 274,
+  SCResolutionFailed = 275,
+  SCProfileNotPublic = 276,
+  SCIdentifyFailed = 277,
+  SCTrackingBroke = 278,
+  SCWrongCryptoFormat = 279,
+  SCDecryptionError = 280,
+  SCInvalidAddress = 281,
+  SCNoSession = 283,
+  SCAccountReset = 290,
+  SCIdentifiesFailed = 295,
+  SCNoSpaceOnDevice = 297,
+  SCMerkleClientError = 299,
+  SCBadEmail = 472,
+  SCRateLimit = 602,
+  SCBadSignupUsernameTaken = 701,
+  SCBadInvitationCode = 707,
+  SCBadSignupTeamName = 711,
+  SCFeatureFlag = 712,
+  SCEmailTaken = 713,
+  SCEmailAlreadyAdded = 714,
+  SCEmailLimitExceeded = 715,
+  SCEmailCannotDeletePrimary = 716,
+  SCEmailUnknown = 717,
+  SCMissingResult = 801,
+  SCKeyNotFound = 901,
+  SCKeyCorrupted = 905,
+  SCKeyInUse = 907,
+  SCKeyBadGen = 913,
+  SCKeyNoSecret = 914,
+  SCKeyBadUIDs = 915,
+  SCKeyNoActive = 916,
+  SCKeyNoSig = 917,
+  SCKeyBadSig = 918,
+  SCKeyBadEldest = 919,
+  SCKeyNoEldest = 920,
+  SCKeyDuplicateUpdate = 921,
+  SCSibkeyAlreadyExists = 922,
+  SCDecryptionKeyNotFound = 924,
+  SCKeyNoPGPEncryption = 927,
+  SCKeyNoNaClEncryption = 928,
+  SCKeySyncedPGPNotFound = 929,
+  SCKeyNoMatchingGPG = 930,
+  SCKeyRevoked = 931,
+  SCSigCannotVerify = 1002,
+  SCSigWrongKey = 1008,
+  SCSigOldSeqno = 1010,
+  SCSigCreationDisallowed = 1016,
+  SCSigMissingRatchet = 1021,
+  SCSigBadTotalOrder = 1022,
+  SCBadTrackSession = 1301,
+  SCDeviceBadName = 1404,
+  SCDeviceNameInUse = 1408,
+  SCDeviceNotFound = 1409,
+  SCDeviceMismatch = 1410,
+  SCDeviceRequired = 1411,
+  SCDevicePrevProvisioned = 1413,
+  SCDeviceNoProvision = 1414,
+  SCDeviceProvisionViaDevice = 1415,
+  SCRevokeCurrentDevice = 1416,
+  SCRevokeLastDevice = 1417,
+  SCDeviceProvisionOffline = 1418,
+  SCRevokeLastDevicePGP = 1419,
+  SCStreamExists = 1501,
+  SCStreamNotFound = 1502,
+  SCStreamWrongKind = 1503,
+  SCStreamEOF = 1504,
+  SCGenericAPIError = 1600,
+  SCAPINetworkError = 1601,
+  SCTimeout = 1602,
+  SCProofError = 1701,
+  SCIdentificationExpired = 1702,
+  SCSelfNotFound = 1703,
+  SCBadKexPhrase = 1704,
+  SCNoUIDelegation = 1705,
+  SCNoUI = 1706,
+  SCGPGUnavailable = 1707,
+  SCInvalidVersionError = 1800,
+  SCOldVersionError = 1801,
+  SCInvalidLocationError = 1802,
+  SCServiceStatusError = 1803,
+  SCInstallError = 1804,
+  SCLoadKextError = 1810,
+  SCLoadKextPermError = 1811,
+  SCGitInternal = 2300,
+  SCGitRepoAlreadyExists = 2301,
+  SCGitInvalidRepoName = 2302,
+  SCGitCannotDelete = 2303,
+  SCGitRepoDoesntExist = 2304,
+  SCLoginStateTimeout = 2400,
+  SCChatInternal = 2500,
+  SCChatRateLimit = 2501,
+  SCChatConvExists = 2502,
+  SCChatUnknownTLFID = 2503,
+  SCChatNotInConv = 2504,
+  SCChatBadMsg = 2505,
+  SCChatBroadcast = 2506,
+  SCChatAlreadySuperseded = 2507,
+  SCChatAlreadyDeleted = 2508,
+  SCChatTLFFinalized = 2509,
+  SCChatCollision = 2510,
+  SCIdentifySummaryError = 2511,
+  SCNeedSelfRekey = 2512,
+  SCNeedOtherRekey = 2513,
+  SCChatMessageCollision = 2514,
+  SCChatDuplicateMessage = 2515,
+  SCChatClientError = 2516,
+  SCChatNotInTeam = 2517,
+  SCChatStalePreviousState = 2518,
+  SCChatEphemeralRetentionPolicyViolatedError = 2519,
+  SCTeamBadMembership = 2604,
+  SCTeamSelfNotOwner = 2607,
+  SCTeamNotFound = 2614,
+  SCTeamExists = 2619,
+  SCTeamReadError = 2623,
+  SCTeamWritePermDenied = 2625,
+  SCTeamBadGeneration = 2636,
+  SCNoOp = 2638,
+  SCTeamInviteBadToken = 2646,
+  SCTeamTarDuplicate = 2663,
+  SCTeamTarNotFound = 2664,
+  SCTeamMemberExists = 2665,
+  SCTeamNotReleased = 2666,
+  SCTeamPermanentlyLeft = 2667,
+  SCTeamNeedRootId = 2668,
+  SCTeamHasLiveChildren = 2669,
+  SCTeamDeleteError = 2670,
+  SCTeamBadRootTeam = 2671,
+  SCTeamNameConflictsWithUser = 2672,
+  SCTeamDeleteNoUpPointer = 2673,
+  SCTeamNeedOwner = 2674,
+  SCTeamNoOwnerAllowed = 2675,
+  SCTeamImplicitNoNonSbs = 2676,
+  SCTeamImplicitBadHash = 2677,
+  SCTeamImplicitBadName = 2678,
+  SCTeamImplicitClash = 2679,
+  SCTeamImplicitDuplicate = 2680,
+  SCTeamImplicitBadOp = 2681,
+  SCTeamImplicitBadRole = 2682,
+  SCTeamImplicitNotFound = 2683,
+  SCTeamBadAdminSeqnoType = 2684,
+  SCTeamImplicitBadAdd = 2685,
+  SCTeamImplicitBadRemove = 2686,
+  SCTeamInviteTokenReused = 2696,
+  SCTeamKeyMaskNotFound = 2697,
+  SCTeamBanned = 2702,
+  SCTeamInvalidBan = 2703,
+  SCTeamShowcasePermDenied = 2711,
+  SCTeamProvisionalCanKey = 2721,
+  SCTeamProvisionalCannotKey = 2722,
+  SCTeamFTLOutdated = 2736,
+  SCEphemeralKeyBadGeneration = 2900,
+  SCEphemeralKeyUnexpectedBox = 2901,
+  SCEphemeralKeyMissingBox = 2902,
+  SCEphemeralKeyWrongNumberOfKeys = 2903,
+  SCEphemeralKeyMismatchedKey = 2904,
+  SCEphemeralPairwiseMACsMissingUIDs = 2905,
+  SCEphemeralDeviceAfterEK = 2906,
+  SCEphemeralMemberAfterEK = 2907,
+  SCEphemeralDeviceStale = 2908,
+  SCEphemeralUserStale = 2909,
+  SCStellarError = 3100,
+  SCStellarBadInput = 3101,
+  SCStellarWrongRevision = 3102,
+  SCStellarMissingBundle = 3103,
+  SCStellarBadPuk = 3104,
+  SCStellarMissingAccount = 3105,
+  SCStellarBadPrev = 3106,
+  SCStellarWrongPrimary = 3107,
+  SCStellarUnsupportedCurrency = 3108,
+  SCStellarNeedDisclaimer = 3109,
+  SCStellarDeviceNotMobile = 3110,
+  SCStellarMobileOnlyPurgatory = 3111,
+  SCStellarIncompatibleVersion = 3112,
+  SCNISTWrongSize = 3201,
+  SCNISTBadMode = 3202,
+  SCNISTHashWrongSize = 3203,
+  SCNISTSigWrongSize = 3204,
+  SCNISTSigBadInput = 3205,
+  SCNISTSigBadUID = 3206,
+  SCNISTSigBadDeviceID = 3207,
+  SCNISTSigBadNonce = 3208,
+  SCNISTNoSigOrHash = 3209,
+  SCNISTExpired = 3210,
+  SCNISTSigRevoked = 3211,
+  SCNISTKeyRevoked = 3212,
+  SCNISTUserDeleted = 3213,
+  SCNISTNoDevice = 3214,
+  SCNISTSigCannot_verify = 3215,
+  SCNISTReplay = 3216,
+  SCNISTSigBadLifetime = 3217,
+  SCNISTNotFound = 3218,
+  SCNISTBadClock = 3219,
+  SCNISTSigBadCtime = 3220,
+  SCBadSignupUsernameDeleted = 3221,
+  SCPhoneNumberUnknown = 3400,
+  SCPhoneNumberAlreadyVerified = 3401,
+  SCPhoneNumberVerificationCodeExpired = 3402,
+  SCPhoneNumberWrongVerificationCode = 3403,
+  SCPhoneNumberLimitExceeded = 3404,
+  SCNoPaperKeys = 3605,
+  SCTeambotKeyGenerationExists = 3800,
+  SCTeambotKeyOldBoxedGeneration = 3801,
+  SCTeambotKeyBadGeneration = 3802,
 }
 
 export type ContactComponent = {
@@ -1064,18 +1064,18 @@ export type RegisterAddressRes = {
 }
 
 export enum ExitCode {
-  OK = 'ok',
-  NOTOK = 'notok',
-  RESTART = 'restart',
+  OK = 0,
+  NOTOK = 2,
+  RESTART = 4,
 }
 
 export enum DbType {
-  MAIN = 'main',
-  CHAT = 'chat',
-  FS_BLOCK_CACHE = 'fs_block_cache',
-  FS_BLOCK_CACHE_META = 'fs_block_cache_meta',
-  FS_SYNC_BLOCK_CACHE = 'fs_sync_block_cache',
-  FS_SYNC_BLOCK_CACHE_META = 'fs_sync_block_cache_meta',
+  MAIN = 0,
+  CHAT = 1,
+  FS_BLOCK_CACHE = 2,
+  FS_BLOCK_CACHE_META = 3,
+  FS_SYNC_BLOCK_CACHE = 4,
+  FS_SYNC_BLOCK_CACHE_META = 5,
 }
 
 export type DbKey = {
@@ -1215,8 +1215,8 @@ export type TeambotEk = {
 }
 
 export enum TeamEphemeralKeyType {
-  TEAM = 'team',
-  TEAMBOT = 'teambot',
+  TEAM = 0,
+  TEAMBOT = 1,
 }
 
 export type TeamEphemeralKey =
@@ -1228,22 +1228,22 @@ export type TeamEphemeralKeyBoxed =
   | {keyType: TeamEphemeralKeyType.TEAMBOT; TEAMBOT: TeambotEkBoxed | null}
 
 export enum FolderType {
-  UNKNOWN = 'unknown',
-  PRIVATE = 'private',
-  PUBLIC = 'public',
-  TEAM = 'team',
+  UNKNOWN = 0,
+  PRIVATE = 1,
+  PUBLIC = 2,
+  TEAM = 3,
 }
 
 export enum FolderConflictType {
-  NONE = 'none',
-  IN_CONFLICT = 'in_conflict',
-  IN_CONFLICT_AND_STUCK = 'in_conflict_and_stuck',
-  CLEARED_CONFLICT = 'cleared_conflict',
+  NONE = 0,
+  IN_CONFLICT = 1,
+  IN_CONFLICT_AND_STUCK = 2,
+  CLEARED_CONFLICT = 3,
 }
 
 export enum ConflictStateType {
-  NormalView = 'normalview',
-  ManualResolvingLocalView = 'manualresolvinglocalview',
+  NormalView = 1,
+  ManualResolvingLocalView = 2,
 }
 
 export type FolderNormalView = {
@@ -1307,7 +1307,7 @@ export type EncryptedGitMetadata = {
 export type RepoID = string
 
 export enum GitLocalMetadataVersion {
-  V1 = 'v1',
+  V1 = 1,
 }
 
 export type GitLocalMetadataV1 = {
@@ -1325,9 +1325,9 @@ export type GitCommit = {
 }
 
 export enum GitPushType {
-  DEFAULT = 'default',
-  CREATEREPO = 'createrepo',
-  RENAMEREPO = 'renamerepo',
+  DEFAULT = 0,
+  CREATEREPO = 1,
+  RENAMEREPO = 3,
 }
 
 export type GitRefMetadata = {
@@ -1353,8 +1353,8 @@ export type GitServerMetadata = {
 }
 
 export enum GitRepoResultState {
-  ERR = 'err',
-  OK = 'ok',
+  ERR = 0,
+  OK = 1,
 }
 
 export type GitRepoResult = {state: GitRepoResultState.ERR; ERR: string | null} | {state: GitRepoResultState.OK; OK: GitRepoInfo | null}
@@ -1389,17 +1389,17 @@ export type SelectKeyRes = {
 }
 
 export enum PushReason {
-  NONE = 'none',
-  RECONNECTED = 'reconnected',
-  NEW_DATA = 'new_data',
+  NONE = 0,
+  RECONNECTED = 1,
+  NEW_DATA = 2,
 }
 
 export type HomeScreenItemID = string
 
 export enum HomeScreenItemType {
-  TODO = 'todo',
-  PEOPLE = 'people',
-  ANNOUNCEMENT = 'announcement',
+  TODO = 1,
+  PEOPLE = 2,
+  ANNOUNCEMENT = 3,
 }
 
 export type HomeScreenItemData =
@@ -1410,15 +1410,15 @@ export type HomeScreenItemData =
 export type HomeScreenItemDataExt = {t: HomeScreenItemType.TODO; TODO: HomeScreenTodoExt | null}
 
 export enum AppLinkType {
-  NONE = 'none',
-  PEOPLE = 'people',
-  CHAT = 'chat',
-  FILES = 'files',
-  WALLET = 'wallet',
-  GIT = 'git',
-  DEVICES = 'devices',
-  SETTINGS = 'settings',
-  TEAMS = 'teams',
+  NONE = 0,
+  PEOPLE = 1,
+  CHAT = 2,
+  FILES = 3,
+  WALLET = 4,
+  GIT = 5,
+  DEVICES = 6,
+  SETTINGS = 7,
+  TEAMS = 8,
 }
 
 export type HomeScreenAnnouncementID = number
@@ -1437,25 +1437,25 @@ export type HomeScreenAnnouncement = {
 }
 
 export enum HomeScreenTodoType {
-  NONE = 'none',
-  BIO = 'bio',
-  PROOF = 'proof',
-  DEVICE = 'device',
-  FOLLOW = 'follow',
-  CHAT = 'chat',
-  PAPERKEY = 'paperkey',
-  TEAM = 'team',
-  FOLDER = 'folder',
-  GIT_REPO = 'git_repo',
-  TEAM_SHOWCASE = 'team_showcase',
-  AVATAR_USER = 'avatar_user',
-  AVATAR_TEAM = 'avatar_team',
-  ADD_PHONE_NUMBER = 'add_phone_number',
-  VERIFY_ALL_PHONE_NUMBER = 'verify_all_phone_number',
-  VERIFY_ALL_EMAIL = 'verify_all_email',
-  LEGACY_EMAIL_VISIBILITY = 'legacy_email_visibility',
-  ADD_EMAIL = 'add_email',
-  ANNONCEMENT_PLACEHOLDER = 'annoncement_placeholder',
+  NONE = 0,
+  BIO = 1,
+  PROOF = 2,
+  DEVICE = 3,
+  FOLLOW = 4,
+  CHAT = 5,
+  PAPERKEY = 6,
+  TEAM = 7,
+  FOLDER = 8,
+  GIT_REPO = 9,
+  TEAM_SHOWCASE = 10,
+  AVATAR_USER = 11,
+  AVATAR_TEAM = 12,
+  ADD_PHONE_NUMBER = 18,
+  VERIFY_ALL_PHONE_NUMBER = 19,
+  VERIFY_ALL_EMAIL = 20,
+  LEGACY_EMAIL_VISIBILITY = 21,
+  ADD_EMAIL = 22,
+  ANNONCEMENT_PLACEHOLDER = 10000,
 }
 
 /**
@@ -1480,8 +1480,8 @@ export type VerifyAllEmailTodoExt = {
 }
 
 export enum HomeScreenPeopleNotificationType {
-  FOLLOWED = 'followed',
-  FOLLOWED_MULTI = 'followed_multi',
+  FOLLOWED = 1,
+  FOLLOWED_MULTI = 2,
 }
 
 export type HomeScreenPeopleNotificationFollowed = {
@@ -1568,28 +1568,28 @@ export type Identify3Assertion = string
 export type Identify3GUIID = string
 
 export enum Identify3RowState {
-  CHECKING = 'checking',
-  VALID = 'valid',
-  ERROR = 'error',
-  WARNING = 'warning',
-  REVOKED = 'revoked',
+  CHECKING = 1,
+  VALID = 2,
+  ERROR = 3,
+  WARNING = 4,
+  REVOKED = 5,
 }
 
 export enum Identify3RowColor {
-  BLUE = 'blue',
-  RED = 'red',
-  BLACK = 'black',
-  GREEN = 'green',
-  GRAY = 'gray',
-  YELLOW = 'yellow',
-  ORANGE = 'orange',
+  BLUE = 1,
+  RED = 2,
+  BLACK = 3,
+  GREEN = 4,
+  GRAY = 5,
+  YELLOW = 6,
+  ORANGE = 7,
 }
 
 export enum Identify3ResultType {
-  OK = 'ok',
-  BROKEN = 'broken',
-  NEEDS_UPGRADE = 'needs_upgrade',
-  CANCELED = 'canceled',
+  OK = 0,
+  BROKEN = 1,
+  NEEDS_UPGRADE = 2,
+  CANCELED = 3,
 }
 
 export type Identify3RowMeta = {
@@ -1619,17 +1619,17 @@ export type TrackToken = string
 export type SigVersion = number
 
 export enum TrackDiffType {
-  NONE = 'none',
-  ERROR = 'error',
-  CLASH = 'clash',
-  REVOKED = 'revoked',
-  UPGRADED = 'upgraded',
-  NEW = 'new',
-  REMOTE_FAIL = 'remote_fail',
-  REMOTE_WORKING = 'remote_working',
-  REMOTE_CHANGED = 'remote_changed',
-  NEW_ELDEST = 'new_eldest',
-  NONE_VIA_TEMPORARY = 'none_via_temporary',
+  NONE = 0,
+  ERROR = 1,
+  CLASH = 2,
+  REVOKED = 3,
+  UPGRADED = 4,
+  NEW = 5,
+  REMOTE_FAIL = 6,
+  REMOTE_WORKING = 7,
+  REMOTE_CHANGED = 8,
+  NEW_ELDEST = 9,
+  NONE_VIA_TEMPORARY = 10,
 }
 
 export type TrackDiff = {
@@ -1656,13 +1656,13 @@ export type TrackSummary = {
  *     UPDATE_OK: No changes to previous tracking statement
  */
 export enum TrackStatus {
-  NEW_OK = 'new_ok',
-  NEW_ZERO_PROOFS = 'new_zero_proofs',
-  NEW_FAIL_PROOFS = 'new_fail_proofs',
-  UPDATE_BROKEN_FAILED_PROOFS = 'update_broken_failed_proofs',
-  UPDATE_NEW_PROOFS = 'update_new_proofs',
-  UPDATE_OK = 'update_ok',
-  UPDATE_BROKEN_REVOKED = 'update_broken_revoked',
+  NEW_OK = 1,
+  NEW_ZERO_PROOFS = 2,
+  NEW_FAIL_PROOFS = 3,
+  UPDATE_BROKEN_FAILED_PROOFS = 4,
+  UPDATE_NEW_PROOFS = 5,
+  UPDATE_OK = 6,
+  UPDATE_BROKEN_REVOKED = 7,
 }
 
 export type TrackOptions = {
@@ -1675,14 +1675,14 @@ export type TrackOptions = {
 }
 
 export enum IdentifyReasonType {
-  NONE = 'none',
-  ID = 'id',
-  TRACK = 'track',
-  ENCRYPT = 'encrypt',
-  DECRYPT = 'decrypt',
-  VERIFY = 'verify',
-  RESOURCE = 'resource',
-  BACKGROUND = 'background',
+  NONE = 0,
+  ID = 1,
+  TRACK = 2,
+  ENCRYPT = 3,
+  DECRYPT = 4,
+  VERIFY = 5,
+  RESOURCE = 6,
+  BACKGROUND = 7,
 }
 
 export type IdentifyReason = {
@@ -1776,9 +1776,9 @@ export type SigHint = {
 }
 
 export enum CheckResultFreshness {
-  FRESH = 'fresh',
-  AGED = 'aged',
-  RANCID = 'rancid',
+  FRESH = 0,
+  AGED = 1,
+  RANCID = 2,
 }
 
 export type CheckResult = {
@@ -1834,8 +1834,8 @@ export type ConfirmResult = {
 }
 
 export enum DismissReasonType {
-  NONE = 'none',
-  HANDLED_ELSEWHERE = 'handled_elsewhere',
+  NONE = 0,
+  HANDLED_ELSEWHERE = 1,
 }
 
 export type DismissReason = {
@@ -1848,18 +1848,18 @@ export type DismissReason = {
  * Install status describes state of install for a component or service.
  */
 export enum InstallStatus {
-  UNKNOWN = 'unknown',
-  ERROR = 'error',
-  NOT_INSTALLED = 'not_installed',
-  INSTALLED = 'installed',
+  UNKNOWN = 0,
+  ERROR = 1,
+  NOT_INSTALLED = 2,
+  INSTALLED = 4,
 }
 
 export enum InstallAction {
-  UNKNOWN = 'unknown',
-  NONE = 'none',
-  UPGRADE = 'upgrade',
-  REINSTALL = 'reinstall',
-  INSTALL = 'install',
+  UNKNOWN = 0,
+  NONE = 1,
+  UPGRADE = 2,
+  REINSTALL = 3,
+  INSTALL = 4,
 }
 
 export type ServiceStatus = {
@@ -1919,45 +1919,45 @@ export type KBFSTeamSettings = {
 }
 
 export enum FSStatusCode {
-  START = 'start',
-  FINISH = 'finish',
-  ERROR = 'error',
+  START = 0,
+  FINISH = 1,
+  ERROR = 2,
 }
 
 export enum FSNotificationType {
-  ENCRYPTING = 'encrypting',
-  DECRYPTING = 'decrypting',
-  SIGNING = 'signing',
-  VERIFYING = 'verifying',
-  REKEYING = 'rekeying',
-  CONNECTION = 'connection',
-  MD_READ_SUCCESS = 'md_read_success',
-  FILE_CREATED = 'file_created',
-  FILE_MODIFIED = 'file_modified',
-  FILE_DELETED = 'file_deleted',
-  FILE_RENAMED = 'file_renamed',
-  INITIALIZED = 'initialized',
-  SYNC_CONFIG_CHANGED = 'sync_config_changed',
+  ENCRYPTING = 0,
+  DECRYPTING = 1,
+  SIGNING = 2,
+  VERIFYING = 3,
+  REKEYING = 4,
+  CONNECTION = 5,
+  MD_READ_SUCCESS = 6,
+  FILE_CREATED = 7,
+  FILE_MODIFIED = 8,
+  FILE_DELETED = 9,
+  FILE_RENAMED = 10,
+  INITIALIZED = 11,
+  SYNC_CONFIG_CHANGED = 12,
 }
 
 export enum FSErrorType {
-  ACCESS_DENIED = 'access_denied',
-  USER_NOT_FOUND = 'user_not_found',
-  REVOKED_DATA_DETECTED = 'revoked_data_detected',
-  NOT_LOGGED_IN = 'not_logged_in',
-  TIMEOUT = 'timeout',
-  REKEY_NEEDED = 'rekey_needed',
-  BAD_FOLDER = 'bad_folder',
-  NOT_IMPLEMENTED = 'not_implemented',
-  OLD_VERSION = 'old_version',
-  OVER_QUOTA = 'over_quota',
-  NO_SIG_CHAIN = 'no_sig_chain',
-  TOO_MANY_FOLDERS = 'too_many_folders',
-  EXDEV_NOT_SUPPORTED = 'exdev_not_supported',
-  DISK_LIMIT_REACHED = 'disk_limit_reached',
-  DISK_CACHE_ERROR_LOG_SEND = 'disk_cache_error_log_send',
-  OFFLINE_ARCHIVED = 'offline_archived',
-  OFFLINE_UNSYNCED = 'offline_unsynced',
+  ACCESS_DENIED = 0,
+  USER_NOT_FOUND = 1,
+  REVOKED_DATA_DETECTED = 2,
+  NOT_LOGGED_IN = 3,
+  TIMEOUT = 4,
+  REKEY_NEEDED = 5,
+  BAD_FOLDER = 6,
+  NOT_IMPLEMENTED = 7,
+  OLD_VERSION = 8,
+  OVER_QUOTA = 9,
+  NO_SIG_CHAIN = 10,
+  TOO_MANY_FOLDERS = 11,
+  EXDEV_NOT_SUPPORTED = 12,
+  DISK_LIMIT_REACHED = 13,
+  DISK_CACHE_ERROR_LOG_SEND = 14,
+  OFFLINE_ARCHIVED = 15,
+  OFFLINE_UNSYNCED = 16,
 }
 
 export type FSNotification = {
@@ -2060,13 +2060,13 @@ export type ConfiguredAccount = {
 }
 
 export enum ResetPromptType {
-  COMPLETE = 'complete',
-  ENTER_NO_DEVICES = 'enter_no_devices',
-  ENTER_FORGOT_PW = 'enter_forgot_pw',
+  COMPLETE = 0,
+  ENTER_NO_DEVICES = 1,
+  ENTER_FORGOT_PW = 2,
 }
 
 export enum PassphraseRecoveryPromptType {
-  ENCRYPTED_PGP_KEYS = 'encrypted_pgp_keys',
+  ENCRYPTED_PGP_KEYS = 0,
 }
 
 export type MerkleRootAndTime = {
@@ -2234,9 +2234,9 @@ export type NotificationChannels = {
 }
 
 export enum StatsSeverityLevel {
-  NORMAL = 'normal',
-  WARNING = 'warning',
-  SEVERE = 'severe',
+  NORMAL = 0,
+  WARNING = 1,
+  SEVERE = 2,
 }
 
 export type DbStats = {
@@ -2246,8 +2246,8 @@ export type DbStats = {
 }
 
 export enum ProcessType {
-  MAIN = 'main',
-  KBFS = 'kbfs',
+  MAIN = 0,
+  KBFS = 1,
 }
 
 export type ProcessRuntimeStats = {
@@ -2283,16 +2283,16 @@ export type TeamChangeSet = {
 }
 
 export enum AvatarUpdateType {
-  NONE = 'none',
-  USER = 'user',
-  TEAM = 'team',
+  NONE = 0,
+  USER = 1,
+  TEAM = 2,
 }
 
 export enum RuntimeGroup {
-  UNKNOWN = 'unknown',
-  LINUXLIKE = 'linuxlike',
-  DARWINLIKE = 'darwinlike',
-  WINDOWSLIKE = 'windowslike',
+  UNKNOWN = 0,
+  LINUXLIKE = 1,
+  DARWINLIKE = 2,
+  WINDOWSLIKE = 3,
 }
 
 export type Feature = {
@@ -2307,10 +2307,10 @@ export type GUIEntryFeatures = {
 }
 
 export enum PassphraseType {
-  NONE = 'none',
-  PAPER_KEY = 'paper_key',
-  PASS_PHRASE = 'pass_phrase',
-  VERIFY_PASS_PHRASE = 'verify_pass_phrase',
+  NONE = 0,
+  PAPER_KEY = 1,
+  PASS_PHRASE = 2,
+  VERIFY_PASS_PHRASE = 3,
 }
 
 export type GUIEntryArg = {
@@ -2330,9 +2330,9 @@ export type GetPassphraseRes = {
 }
 
 export enum SignMode {
-  ATTACHED = 'attached',
-  DETACHED = 'detached',
-  CLEAR = 'clear',
+  ATTACHED = 0,
+  DETACHED = 1,
+  CLEAR = 2,
 }
 
 export type PGPSignOptions = {
@@ -2419,9 +2419,9 @@ export type PhoneNumberChangedMsg = {
 }
 
 export enum FileType {
-  UNKNOWN = 'unknown',
-  DIRECTORY = 'directory',
-  FILE = 'file',
+  UNKNOWN = 0,
+  DIRECTORY = 1,
+  FILE = 2,
 }
 
 export type FileDescriptor = {
@@ -2447,18 +2447,18 @@ export type StartProofResult = {
 }
 
 export enum ProofState {
-  NONE = 'none',
-  OK = 'ok',
-  TEMP_FAILURE = 'temp_failure',
-  PERM_FAILURE = 'perm_failure',
-  LOOKING = 'looking',
-  SUPERSEDED = 'superseded',
-  POSTED = 'posted',
-  REVOKED = 'revoked',
-  DELETED = 'deleted',
-  UNKNOWN_TYPE = 'unknown_type',
-  SIG_HINT_MISSING = 'sig_hint_missing',
-  UNCHECKED = 'unchecked',
+  NONE = 0,
+  OK = 1,
+  TEMP_FAILURE = 2,
+  PERM_FAILURE = 3,
+  LOOKING = 4,
+  SUPERSEDED = 5,
+  POSTED = 6,
+  REVOKED = 7,
+  DELETED = 8,
+  UNKNOWN_TYPE = 9,
+  SIG_HINT_MISSING = 10,
+  UNCHECKED = 11,
 }
 
 /**
@@ -2470,62 +2470,62 @@ export enum ProofState {
  *     3xx: Hard final errors
  */
 export enum ProofStatus {
-  NONE = 'none',
-  OK = 'ok',
-  LOCAL = 'local',
-  FOUND = 'found',
-  BASE_ERROR = 'base_error',
-  HOST_UNREACHABLE = 'host_unreachable',
-  PERMISSION_DENIED = 'permission_denied',
-  FAILED_PARSE = 'failed_parse',
-  DNS_ERROR = 'dns_error',
-  AUTH_FAILED = 'auth_failed',
-  HTTP_429 = 'http_429',
-  HTTP_500 = 'http_500',
-  TIMEOUT = 'timeout',
-  INTERNAL_ERROR = 'internal_error',
-  UNCHECKED = 'unchecked',
-  MISSING_PVL = 'missing_pvl',
-  BASE_HARD_ERROR = 'base_hard_error',
-  NOT_FOUND = 'not_found',
-  CONTENT_FAILURE = 'content_failure',
-  BAD_USERNAME = 'bad_username',
-  BAD_REMOTE_ID = 'bad_remote_id',
-  TEXT_NOT_FOUND = 'text_not_found',
-  BAD_ARGS = 'bad_args',
-  CONTENT_MISSING = 'content_missing',
-  TITLE_NOT_FOUND = 'title_not_found',
-  SERVICE_ERROR = 'service_error',
-  TOR_SKIPPED = 'tor_skipped',
-  TOR_INCOMPATIBLE = 'tor_incompatible',
-  HTTP_300 = 'http_300',
-  HTTP_400 = 'http_400',
-  HTTP_OTHER = 'http_other',
-  EMPTY_JSON = 'empty_json',
-  DELETED = 'deleted',
-  SERVICE_DEAD = 'service_dead',
-  BAD_SIGNATURE = 'bad_signature',
-  BAD_API_URL = 'bad_api_url',
-  UNKNOWN_TYPE = 'unknown_type',
-  NO_HINT = 'no_hint',
-  BAD_HINT_TEXT = 'bad_hint_text',
-  INVALID_PVL = 'invalid_pvl',
+  NONE = 0,
+  OK = 1,
+  LOCAL = 2,
+  FOUND = 3,
+  BASE_ERROR = 100,
+  HOST_UNREACHABLE = 101,
+  PERMISSION_DENIED = 103,
+  FAILED_PARSE = 106,
+  DNS_ERROR = 107,
+  AUTH_FAILED = 108,
+  HTTP_429 = 129,
+  HTTP_500 = 150,
+  TIMEOUT = 160,
+  INTERNAL_ERROR = 170,
+  UNCHECKED = 171,
+  MISSING_PVL = 172,
+  BASE_HARD_ERROR = 200,
+  NOT_FOUND = 201,
+  CONTENT_FAILURE = 202,
+  BAD_USERNAME = 203,
+  BAD_REMOTE_ID = 204,
+  TEXT_NOT_FOUND = 205,
+  BAD_ARGS = 206,
+  CONTENT_MISSING = 207,
+  TITLE_NOT_FOUND = 208,
+  SERVICE_ERROR = 209,
+  TOR_SKIPPED = 210,
+  TOR_INCOMPATIBLE = 211,
+  HTTP_300 = 230,
+  HTTP_400 = 240,
+  HTTP_OTHER = 260,
+  EMPTY_JSON = 270,
+  DELETED = 301,
+  SERVICE_DEAD = 302,
+  BAD_SIGNATURE = 303,
+  BAD_API_URL = 304,
+  UNKNOWN_TYPE = 305,
+  NO_HINT = 306,
+  BAD_HINT_TEXT = 307,
+  INVALID_PVL = 308,
 }
 
 export enum ProofType {
-  NONE = 'none',
-  KEYBASE = 'keybase',
-  TWITTER = 'twitter',
-  GITHUB = 'github',
-  REDDIT = 'reddit',
-  COINBASE = 'coinbase',
-  HACKERNEWS = 'hackernews',
-  FACEBOOK = 'facebook',
-  GENERIC_SOCIAL = 'generic_social',
-  GENERIC_WEB_SITE = 'generic_web_site',
-  DNS = 'dns',
-  PGP = 'pgp',
-  ROOTER = 'rooter',
+  NONE = 0,
+  KEYBASE = 1,
+  TWITTER = 2,
+  GITHUB = 3,
+  REDDIT = 4,
+  COINBASE = 5,
+  HACKERNEWS = 6,
+  FACEBOOK = 8,
+  GENERIC_SOCIAL = 9,
+  GENERIC_WEB_SITE = 1000,
+  DNS = 1001,
+  PGP = 1002,
+  ROOTER = 100001,
 }
 
 export type SelectorEntry = {
@@ -2584,8 +2584,8 @@ export type ExternalServiceConfig = {
 }
 
 export enum PromptOverwriteType {
-  SOCIAL = 'social',
-  SITE = 'site',
+  SOCIAL = 0,
+  SITE = 1,
 }
 
 export type ProveParameters = {
@@ -2598,22 +2598,22 @@ export type ProveParameters = {
 }
 
 export enum ProvisionMethod {
-  DEVICE = 'device',
-  PAPER_KEY = 'paper_key',
-  PASSPHRASE = 'passphrase',
-  GPG_IMPORT = 'gpg_import',
-  GPG_SIGN = 'gpg_sign',
+  DEVICE = 0,
+  PAPER_KEY = 1,
+  PASSPHRASE = 2,
+  GPG_IMPORT = 3,
+  GPG_SIGN = 4,
 }
 
 export enum GPGMethod {
-  GPG_NONE = 'gpg_none',
-  GPG_IMPORT = 'gpg_import',
-  GPG_SIGN = 'gpg_sign',
+  GPG_NONE = 0,
+  GPG_IMPORT = 1,
+  GPG_SIGN = 2,
 }
 
 export enum ChooseType {
-  EXISTING_DEVICE = 'existing_device',
-  NEW_DEVICE = 'new_device',
+  EXISTING_DEVICE = 0,
+  NEW_DEVICE = 1,
 }
 
 /**
@@ -2632,9 +2632,9 @@ export type VerifySessionRes = {
 }
 
 export enum Reachable {
-  UNKNOWN = 'unknown',
-  YES = 'yes',
-  NO = 'no',
+  UNKNOWN = 0,
+  YES = 1,
+  NO = 2,
 }
 
 export type Reachability = {
@@ -2673,9 +2673,9 @@ export type ProblemSetDevices = {
 }
 
 export enum Outcome {
-  NONE = 'none',
-  FIXED = 'fixed',
-  IGNORED = 'ignored',
+  NONE = 0,
+  FIXED = 1,
+  IGNORED = 2,
 }
 
 export type RevokeWarning = {
@@ -2683,15 +2683,15 @@ export type RevokeWarning = {
 }
 
 export enum RekeyEventType {
-  NONE = 'none',
-  NOT_LOGGED_IN = 'not_logged_in',
-  API_ERROR = 'api_error',
-  NO_PROBLEMS = 'no_problems',
-  LOAD_ME_ERROR = 'load_me_error',
-  CURRENT_DEVICE_CAN_REKEY = 'current_device_can_rekey',
-  DEVICE_LOAD_ERROR = 'device_load_error',
-  HARASS = 'harass',
-  NO_GREGOR_MESSAGES = 'no_gregor_messages',
+  NONE = 0,
+  NOT_LOGGED_IN = 1,
+  API_ERROR = 2,
+  NO_PROBLEMS = 3,
+  LOAD_ME_ERROR = 4,
+  CURRENT_DEVICE_CAN_REKEY = 5,
+  DEVICE_LOAD_ERROR = 6,
+  HARASS = 7,
+  NO_GREGOR_MESSAGES = 8,
 }
 
 export type RekeyEvent = {
@@ -2702,9 +2702,9 @@ export type RekeyEvent = {
 export type SHA512 = Buffer
 
 export enum ResetType {
-  NONE = 'none',
-  RESET = 'reset',
-  DELETE = 'delete',
+  NONE = 0,
+  RESET = 1,
+  DELETE = 2,
 }
 
 export type ResetMerkleRoot = {
@@ -2736,9 +2736,9 @@ export type ResetSummary = {
 }
 
 export enum AuthenticityType {
-  SIGNED = 'signed',
-  REPUDIABLE = 'repudiable',
-  ANONYMOUS = 'anonymous',
+  SIGNED = 0,
+  REPUDIABLE = 1,
+  ANONYMOUS = 2,
 }
 
 export type SaltpackEncryptOptions = {
@@ -2779,14 +2779,14 @@ export type SaltpackEncryptedMessageInfo = {
 }
 
 export enum SaltpackSenderType {
-  NOT_TRACKED = 'not_tracked',
-  UNKNOWN = 'unknown',
-  ANONYMOUS = 'anonymous',
-  TRACKING_BROKE = 'tracking_broke',
-  TRACKING_OK = 'tracking_ok',
-  SELF = 'self',
-  REVOKED = 'revoked',
-  EXPIRED = 'expired',
+  NOT_TRACKED = 0,
+  UNKNOWN = 1,
+  ANONYMOUS = 2,
+  TRACKING_BROKE = 3,
+  TRACKING_OK = 4,
+  SELF = 5,
+  REVOKED = 6,
+  EXPIRED = 7,
 }
 
 export type SaltpackSender = {
@@ -2867,10 +2867,10 @@ export type OpID = string | null
 export type KBFSRevision = number
 
 export enum KBFSArchivedType {
-  REVISION = 'revision',
-  TIME = 'time',
-  TIME_STRING = 'time_string',
-  REL_TIME_STRING = 'rel_time_string',
+  REVISION = 0,
+  TIME = 1,
+  TIME_STRING = 2,
+  REL_TIME_STRING = 3,
 }
 
 export type KBFSArchivedParam =
@@ -2891,9 +2891,9 @@ export type KBFSPath = {
 }
 
 export enum PathType {
-  LOCAL = 'local',
-  KBFS = 'kbfs',
-  KBFS_ARCHIVED = 'kbfs_archived',
+  LOCAL = 0,
+  KBFS = 1,
+  KBFS_ARCHIVED = 2,
 }
 
 export type Path =
@@ -2902,16 +2902,16 @@ export type Path =
   | {PathType: PathType.KBFS_ARCHIVED; KBFS_ARCHIVED: KBFSArchivedPath | null}
 
 export enum DirentType {
-  FILE = 'file',
-  DIR = 'dir',
-  SYM = 'sym',
-  EXEC = 'exec',
+  FILE = 0,
+  DIR = 1,
+  SYM = 2,
+  EXEC = 3,
 }
 
 export enum PrefetchStatus {
-  NOT_STARTED = 'not_started',
-  IN_PROGRESS = 'in_progress',
-  COMPLETE = 'complete',
+  NOT_STARTED = 0,
+  IN_PROGRESS = 1,
+  COMPLETE = 2,
 }
 
 export type PrefetchProgress = {
@@ -2938,19 +2938,19 @@ export type DirentWithRevision = {
 }
 
 export enum RevisionSpanType {
-  DEFAULT = 'default',
-  LAST_FIVE = 'last_five',
+  DEFAULT = 0,
+  LAST_FIVE = 1,
 }
 
 export type ErrorNum = number
 
 export enum OpenFlags {
-  READ = 'read',
-  REPLACE = 'replace',
-  EXISTING = 'existing',
-  WRITE = 'write',
-  APPEND = 'append',
-  DIRECTORY = 'directory',
+  READ = 0,
+  REPLACE = 1,
+  EXISTING = 2,
+  WRITE = 4,
+  APPEND = 8,
+  DIRECTORY = 16,
 }
 
 export type Progress = number
@@ -2966,21 +2966,21 @@ export type FileContent = {
 }
 
 export enum AsyncOps {
-  LIST = 'list',
-  LIST_RECURSIVE = 'list_recursive',
-  READ = 'read',
-  WRITE = 'write',
-  COPY = 'copy',
-  MOVE = 'move',
-  REMOVE = 'remove',
-  LIST_RECURSIVE_TO_DEPTH = 'list_recursive_to_depth',
-  GET_REVISIONS = 'get_revisions',
+  LIST = 0,
+  LIST_RECURSIVE = 1,
+  READ = 2,
+  WRITE = 3,
+  COPY = 4,
+  MOVE = 5,
+  REMOVE = 6,
+  LIST_RECURSIVE_TO_DEPTH = 7,
+  GET_REVISIONS = 8,
 }
 
 export enum ListFilter {
-  NO_FILTER = 'no_filter',
-  FILTER_ALL_HIDDEN = 'filter_all_hidden',
-  FILTER_SYSTEM_HIDDEN = 'filter_system_hidden',
+  NO_FILTER = 0,
+  FILTER_ALL_HIDDEN = 1,
+  FILTER_SYSTEM_HIDDEN = 2,
 }
 
 export type ListArgs = {
@@ -3076,9 +3076,9 @@ export type SimpleFSQuotaUsage = {
 }
 
 export enum FolderSyncMode {
-  DISABLED = 'disabled',
-  ENABLED = 'enabled',
-  PARTIAL = 'partial',
+  DISABLED = 0,
+  ENABLED = 1,
+  PARTIAL = 2,
 }
 
 export type FolderSyncConfig = {
@@ -3114,14 +3114,14 @@ export type SimpleFSStats = {
 }
 
 export enum SubscriptionTopic {
-  FAVORITES = 'favorites',
-  JOURNAL_STATUS = 'journal_status',
-  ONLINE_STATUS = 'online_status',
+  FAVORITES = 0,
+  JOURNAL_STATUS = 1,
+  ONLINE_STATUS = 2,
 }
 
 export enum PathSubscriptionTopic {
-  CHILDREN = 'children',
-  STAT = 'stat',
+  CHILDREN = 0,
+  STAT = 1,
 }
 
 export type TeambotKeyGeneration = number
@@ -3144,39 +3144,39 @@ export type TeambotKey = {
 }
 
 export enum TeamRole {
-  NONE = 'none',
-  READER = 'reader',
-  WRITER = 'writer',
-  ADMIN = 'admin',
-  OWNER = 'owner',
-  BOT = 'bot',
-  RESTRICTEDBOT = 'restrictedbot',
+  NONE = 0,
+  READER = 1,
+  WRITER = 2,
+  ADMIN = 3,
+  OWNER = 4,
+  BOT = 5,
+  RESTRICTEDBOT = 6,
 }
 
 export enum TeamApplication {
-  KBFS = 'kbfs',
-  CHAT = 'chat',
-  SALTPACK = 'saltpack',
-  GIT_METADATA = 'git_metadata',
-  SEITAN_INVITE_TOKEN = 'seitan_invite_token',
-  STELLAR_RELAY = 'stellar_relay',
+  KBFS = 1,
+  CHAT = 2,
+  SALTPACK = 3,
+  GIT_METADATA = 4,
+  SEITAN_INVITE_TOKEN = 5,
+  STELLAR_RELAY = 6,
 }
 
 export enum TeamStatus {
-  NONE = 'none',
-  LIVE = 'live',
-  DELETED = 'deleted',
-  ABANDONED = 'abandoned',
+  NONE = 0,
+  LIVE = 1,
+  DELETED = 2,
+  ABANDONED = 3,
 }
 
 export type PerTeamKeyGeneration = number
 
 export enum PTKType {
-  READER = 'reader',
+  READER = 0,
 }
 
 export enum PerTeamSeedCheckVersion {
-  V1 = 'v1',
+  V1 = 1,
 }
 
 export type PerTeamSeedCheck = {
@@ -3246,9 +3246,9 @@ export type TeamMembers = {
 }
 
 export enum TeamMemberStatus {
-  ACTIVE = 'active',
-  RESET = 'reset',
-  DELETED = 'deleted',
+  ACTIVE = 0,
+  RESET = 1,
+  DELETED = 2,
 }
 
 export type TeamMemberDetails = {
@@ -3332,9 +3332,9 @@ export type FastTeamData = {
 }
 
 export enum RatchetType {
-  MAIN = 'main',
-  BLINDED = 'blinded',
-  SELF = 'self',
+  MAIN = 0,
+  BLINDED = 1,
+  SELF = 2,
 }
 
 export type HiddenTeamChainRatchetSet = {
@@ -3424,10 +3424,10 @@ export type Probe = {
 }
 
 export enum AuditVersion {
-  V0 = 'v0',
-  V1 = 'v1',
-  V2 = 'v2',
-  V3 = 'v3',
+  V0 = 0,
+  V1 = 1,
+  V2 = 2,
+  V3 = 3,
 }
 
 export type AuditHistory = {
@@ -3443,13 +3443,13 @@ export type AuditHistory = {
 }
 
 export enum TeamInviteCategory {
-  NONE = 'none',
-  UNKNOWN = 'unknown',
-  KEYBASE = 'keybase',
-  EMAIL = 'email',
-  SBS = 'sbs',
-  SEITAN = 'seitan',
-  PHONE = 'phone',
+  NONE = 0,
+  UNKNOWN = 1,
+  KEYBASE = 2,
+  EMAIL = 3,
+  SBS = 4,
+  SEITAN = 5,
+  PHONE = 6,
 }
 
 export type TeamInviteType =
@@ -3634,8 +3634,8 @@ export type SeitanPubKey = string
 export type SeitanIKeyV2 = string
 
 export enum SeitanKeyAndLabelVersion {
-  V1 = 'v1',
-  V2 = 'v2',
+  V1 = 1,
+  V2 = 2,
 }
 
 export type SeitanKeyAndLabel =
@@ -3653,7 +3653,7 @@ export type SeitanKeyAndLabelVersion2 = {
 }
 
 export enum SeitanKeyLabelType {
-  SMS = 'sms',
+  SMS = 1,
 }
 
 export type SeitanKeyLabel = {t: SeitanKeyLabelType.SMS; SMS: SeitanKeyLabelSms | null}
@@ -3918,9 +3918,9 @@ export type ProfileTeamLoadRes = {
 }
 
 export enum RotationType {
-  VISIBLE = 'visible',
-  HIDDEN = 'hidden',
-  CLKR = 'clkr',
+  VISIBLE = 0,
+  HIDDEN = 1,
+  CLKR = 2,
 }
 
 export type TeamDebugRes = {
@@ -3951,22 +3951,22 @@ export type Test = {
 }
 
 export enum TLFIdentifyBehavior {
-  UNSET = 'unset',
-  CHAT_CLI = 'chat_cli',
-  CHAT_GUI = 'chat_gui',
-  REMOVED_AND_UNUSED = 'removed_and_unused',
-  KBFS_REKEY = 'kbfs_rekey',
-  KBFS_QR = 'kbfs_qr',
-  CHAT_SKIP = 'chat_skip',
-  SALTPACK = 'saltpack',
-  CLI = 'cli',
-  GUI = 'gui',
-  DEFAULT_KBFS = 'default_kbfs',
-  KBFS_CHAT = 'kbfs_chat',
-  RESOLVE_AND_CHECK = 'resolve_and_check',
-  GUI_PROFILE = 'gui_profile',
-  KBFS_INIT = 'kbfs_init',
-  FS_GUI = 'fs_gui',
+  UNSET = 0,
+  CHAT_CLI = 1,
+  CHAT_GUI = 2,
+  REMOVED_AND_UNUSED = 3,
+  KBFS_REKEY = 4,
+  KBFS_QR = 5,
+  CHAT_SKIP = 6,
+  SALTPACK = 7,
+  CLI = 8,
+  GUI = 9,
+  DEFAULT_KBFS = 10,
+  KBFS_CHAT = 11,
+  RESOLVE_AND_CHECK = 12,
+  GUI_PROFILE = 13,
+  KBFS_INIT = 14,
+  FS_GUI = 15,
 }
 
 export type CanonicalTlfName = string
@@ -4002,25 +4002,25 @@ export type TLFQuery = {
 }
 
 export enum PromptDefault {
-  NONE = 'none',
-  YES = 'yes',
-  NO = 'no',
+  NONE = 0,
+  YES = 1,
+  NO = 2,
 }
 
 export enum KeyType {
-  NONE = 'none',
-  NACL = 'nacl',
-  PGP = 'pgp',
+  NONE = 0,
+  NACL = 1,
+  PGP = 2,
 }
 
 export enum UPK2MinorVersion {
-  V0 = 'v0',
-  V1 = 'v1',
-  V2 = 'v2',
-  V3 = 'v3',
-  V4 = 'v4',
-  V5 = 'v5',
-  V6 = 'v6',
+  V0 = 0,
+  V1 = 1,
+  V2 = 2,
+  V3 = 3,
+  V4 = 4,
+  V5 = 5,
+  V6 = 6,
 }
 
 export type MerkleRootV2 = {
@@ -4097,8 +4097,8 @@ export type UserPlusKeysV2AllIncarnations = {
 }
 
 export enum UPAKVersion {
-  V1 = 'v1',
-  V2 = 'v2',
+  V1 = 1,
+  V2 = 2,
 }
 
 /**
@@ -4108,7 +4108,7 @@ export enum UPAKVersion {
 export type UPAKVersioned = {v: UPAKVersion.V1; V1: UserPlusAllKeys | null} | {v: UPAKVersion.V2; V2: UserPlusKeysV2AllIncarnations | null}
 
 export enum UPKLiteMinorVersion {
-  V0 = 'v0',
+  V0 = 0,
 }
 
 export type UPKLiteV1 = {
@@ -4276,8 +4276,8 @@ export type NonUserDetails = {
 }
 
 export enum ImpTofuSearchType {
-  PHONE = 'phone',
-  EMAIL = 'email',
+  PHONE = 0,
+  EMAIL = 1,
 }
 
 export type ImpTofuQuery =
