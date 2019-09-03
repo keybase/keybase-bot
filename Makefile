@@ -1,4 +1,4 @@
-PROTOCOL_PATH=../client/protocol
+PROTOCOL_PATH=$(GOPATH)/src/github.com/keybase/client/protocol
 AVDLC=$(PROTOCOL_PATH)/node_modules/.bin/avdlc
 PRETTIER=./node_modules/.bin/prettier
 
@@ -11,3 +11,6 @@ types:
 	$(AVDLC) -b -l typescript -t -o src/types/chat1 $(PROTOCOL_PATH)/avdl/chat1/*.avdl
 	$(AVDLC) -b -l typescript -t -o src/types/stellar1 $(PROTOCOL_PATH)/avdl/stellar1/*.avdl
 	$(PRETTIER) --write src/types/**/*.ts
+
+clean:
+	rm -rf src/types/*
