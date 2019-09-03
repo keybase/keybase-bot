@@ -60,14 +60,14 @@ export declare type BundleSecretV2 = {
     accounts: BundleSecretEntryV2[];
 };
 export declare type BundleVisibleEntryV2 = {
-    accountID: AccountID;
+    accountId: AccountID;
     mode: AccountMode;
     isPrimary: boolean;
     acctBundleRevision: BundleRevision;
     encAcctBundleHash: Hash;
 };
 export declare type BundleSecretEntryV2 = {
-    accountID: AccountID;
+    accountId: AccountID;
     name: string;
 };
 export declare type BundleSecretUnsupported = {};
@@ -121,7 +121,7 @@ export declare type AccountBundleSecretVersioned = {
     V10: AccountBundleSecretUnsupported | null;
 };
 export declare type AccountBundleSecretV1 = {
-    accountID: AccountID;
+    accountId: AccountID;
     signers: SecretKey[];
 };
 export declare type AccountBundleSecretUnsupported = {};
@@ -135,7 +135,7 @@ export declare type Bundle = {
     };
 };
 export declare type BundleEntry = {
-    accountID: AccountID;
+    accountId: AccountID;
     mode: AccountMode;
     isPrimary: boolean;
     name: string;
@@ -145,7 +145,7 @@ export declare type BundleEntry = {
 export declare type AccountBundle = {
     prev: Hash;
     ownHash: Hash;
-    accountID: AccountID;
+    accountId: AccountID;
     signers: SecretKey[];
 };
 export declare type AccountID = string;
@@ -210,13 +210,13 @@ export declare enum RelayDirection {
     YANK = "yank"
 }
 export declare type PaymentResult = {
-    senderAccountID: AccountID;
-    keybaseID: KeybaseTransactionID;
-    stellarID: TransactionID;
+    senderAccountId: AccountID;
+    keybaseId: KeybaseTransactionID;
+    stellarId: TransactionID;
     pending: boolean;
 };
 export declare type RelayClaimResult = {
-    claimStellarID: TransactionID;
+    claimStellarId: TransactionID;
 };
 export declare type EncryptedNote = {
     v: number;
@@ -231,7 +231,7 @@ export declare type NoteRecipient = {
 };
 export declare type NoteContents = {
     note: string;
-    stellarID: TransactionID;
+    stellarId: TransactionID;
 };
 export declare type EncryptedRelaySecret = {
     v: number;
@@ -240,7 +240,7 @@ export declare type EncryptedRelaySecret = {
     gen: keybase1.PerTeamKeyGeneration;
 };
 export declare type RelayContents = {
-    stellarID: TransactionID;
+    stellarId: TransactionID;
     sk: SecretKey;
     note: string;
 };
@@ -250,7 +250,7 @@ export declare type OutsideExchangeRate = {
     rate: string;
 };
 export declare type CurrencySymbol = {
-    symbol: string;
+    str: string;
     ambigious: boolean;
     postfix: boolean;
 };
@@ -288,19 +288,19 @@ export declare type PaymentPath = {
     sourceInsufficientBalance: string;
 };
 export declare type PaymentStatusMsg = {
-    accountID: AccountID;
-    kbTxID: KeybaseTransactionID;
-    txID: TransactionID;
+    accountId: AccountID;
+    kbTxId: KeybaseTransactionID;
+    txId: TransactionID;
 };
 export declare type RequestStatusMsg = {
-    reqID: KeybaseRequestID;
+    reqId: KeybaseRequestID;
 };
 export declare type PaymentNotificationMsg = {
-    accountID: AccountID;
-    paymentID: PaymentID;
+    accountId: AccountID;
+    paymentId: PaymentID;
 };
 export declare type WalletAccountLocal = {
-    accountID: AccountID;
+    accountId: AccountID;
     isDefault: boolean;
     name: string;
     balanceDescription: string;
@@ -317,7 +317,7 @@ export declare type AccountAssetLocal = {
     name: string;
     assetCode: string;
     issuerName: string;
-    issuerAccountID: string;
+    issuerAccountId: string;
     issuerVerifiedDomain: string;
     balanceTotal: string;
     balanceAvailableToSend: string;
@@ -365,7 +365,7 @@ export declare type PaymentsPageLocal = {
 };
 export declare type PaymentLocal = {
     id: PaymentID;
-    txID: TransactionID;
+    txId: TransactionID;
     time: TimeMs;
     statusSimplified: PaymentStatus;
     statusDescription: string;
@@ -376,14 +376,14 @@ export declare type PaymentLocal = {
     worth: string;
     worthAtSendTime: string;
     issuerDescription: string;
-    issuerAccountID?: AccountID;
+    issuerAccountId?: AccountID;
     fromType: ParticipantType;
     toType: ParticipantType;
     assetCode: string;
-    fromAccountID: AccountID;
+    fromAccountId: AccountID;
     fromAccountName: string;
     fromUsername: string;
-    toAccountID?: AccountID;
+    toAccountId?: AccountID;
     toAccountName: string;
     toUsername: string;
     toAssertion: string;
@@ -398,7 +398,7 @@ export declare type PaymentLocal = {
     summaryAdvanced: string;
     operations: string[];
     unread: boolean;
-    batchID: string;
+    batchId: string;
     fromAirdrop: boolean;
     isInflation: boolean;
     inflationSource?: string;
@@ -411,7 +411,7 @@ export declare type PaymentDetailsLocal = {
 export declare type PaymentDetailsOnlyLocal = {
     publicNote: string;
     publicNoteType: string;
-    externalTxURL: string;
+    externalTxUrl: string;
     feeChargedDescription: string;
     pathIntermediate: Asset[];
 };
@@ -444,9 +444,9 @@ export declare type BuildPaymentResLocal = {
     worthInfo: string;
     worthAmount: string;
     worthCurrency: string;
-    displayAmountXLM: string;
+    displayAmountXlm: string;
     displayAmountFiat: string;
-    sendingIntentionXLM: boolean;
+    sendingIntentionXlm: boolean;
     amountAvailable: string;
     banners: SendBannerLocal[];
 };
@@ -462,7 +462,7 @@ export declare type SendBannerLocal = {
     offerAdvancedSendForm: AdvancedBanner;
 };
 export declare type SendPaymentResLocal = {
-    kbTxID: KeybaseTransactionID;
+    kbTxId: KeybaseTransactionID;
     pending: boolean;
     jumpToChat: string;
 };
@@ -473,9 +473,9 @@ export declare type BuildRequestResLocal = {
     secretNoteErrMsg: string;
     worthDescription: string;
     worthInfo: string;
-    displayAmountXLM: string;
+    displayAmountXlm: string;
     displayAmountFiat: string;
-    sendingIntentionXLM: boolean;
+    sendingIntentionXlm: boolean;
     banners: SendBannerLocal[];
 };
 export declare type RequestDetailsLocal = {
@@ -496,7 +496,7 @@ export declare type PredefinedInflationDestination = {
     tag: InflationDestinationTag;
     name: string;
     recommended: boolean;
-    accountID: AccountID;
+    accountId: AccountID;
     url: string;
 };
 export declare type InflationDestinationResultLocal = {
@@ -537,15 +537,15 @@ export declare type AssetActionResultLocal = {
     messageFromAnchor?: string;
 };
 export declare type SendResultCLILocal = {
-    kbTxID: KeybaseTransactionID;
-    txID: TransactionID;
+    kbTxId: KeybaseTransactionID;
+    txId: TransactionID;
 };
 export declare type PaymentOrErrorCLILocal = {
     payment?: PaymentCLILocal;
     err?: string;
 };
 export declare type PaymentCLILocal = {
-    txID: TransactionID;
+    txId: TransactionID;
     time: TimeMs;
     status: string;
     statusDetail: string;
@@ -572,7 +572,7 @@ export declare type PaymentCLILocal = {
     feeChargedDescription: string;
 };
 export declare type OwnAccountCLILocal = {
-    accountID: AccountID;
+    accountId: AccountID;
     isPrimary: boolean;
     name: string;
     balance: Balance[];
@@ -580,7 +580,7 @@ export declare type OwnAccountCLILocal = {
     accountMode: AccountMode;
 };
 export declare type LookupResultCLILocal = {
-    accountID: AccountID;
+    accountId: AccountID;
     username?: string;
 };
 export declare type BatchPaymentError = {
@@ -592,7 +592,7 @@ export declare type BatchPaymentResult = {
     startTime: TimeMs;
     submittedTime: TimeMs;
     endTime: TimeMs;
-    txID: TransactionID;
+    txId: TransactionID;
     status: PaymentStatus;
     statusDescription: string;
     error?: BatchPaymentError;
@@ -636,7 +636,7 @@ export declare type ValidateStellarURIResultLocal = {
     operation: string;
     originDomain: string;
     message: string;
-    callbackURL: string;
+    callbackUrl: string;
     xdr: string;
     summary: TxDisplaySummary;
     recipient: string;
@@ -660,9 +660,9 @@ export declare type PartnerUrl = {
 };
 export declare type SignXdrResult = {
     singedTx: string;
-    accountID: AccountID;
+    accountId: AccountID;
     submitErr?: string;
-    submitTxID?: TransactionID;
+    submitTxId?: TransactionID;
 };
 export declare type StaticConfig = {
     paymentNoteMaxLength: number;
@@ -671,43 +671,43 @@ export declare type StaticConfig = {
 };
 export declare type ChatConversationID = string;
 export declare type PaymentDirectPost = {
-    fromDeviceID: keybase1.DeviceID;
+    fromDeviceId: keybase1.DeviceID;
     to?: keybase1.UserVersion;
     displayAmount: string;
     displayCurrency: string;
     noteB64: string;
     signedTransaction: string;
     quickReturn: boolean;
-    chatConversationID?: ChatConversationID;
-    batchID: string;
+    chatConversationId?: ChatConversationID;
+    batchId: string;
 };
 export declare type PaymentRelayPost = {
-    fromDeviceID: keybase1.DeviceID;
+    fromDeviceId: keybase1.DeviceID;
     to?: keybase1.UserVersion;
     toAssertion: string;
     relayAccount: AccountID;
-    teamID: keybase1.TeamID;
+    teamId: keybase1.TeamID;
     displayAmount: string;
     displayCurrency: string;
     boxB64: string;
     signedTransaction: string;
     quickReturn: boolean;
-    chatConversationID?: ChatConversationID;
-    batchID: string;
+    chatConversationId?: ChatConversationID;
+    batchId: string;
 };
 export declare type RelayClaimPost = {
-    keybaseID: KeybaseTransactionID;
+    keybaseId: KeybaseTransactionID;
     dir: RelayDirection;
     signedTransaction: string;
     autoClaimToken?: string;
 };
 export declare type PathPaymentPost = {
-    fromDeviceID: keybase1.DeviceID;
+    fromDeviceId: keybase1.DeviceID;
     to?: keybase1.UserVersion;
     noteB64: string;
     signedTransaction: string;
     quickReturn: boolean;
-    chatConversationID?: ChatConversationID;
+    chatConversationId?: ChatConversationID;
 };
 export declare type DirectOp = {
     noteB64: string;
@@ -715,7 +715,7 @@ export declare type DirectOp = {
 export declare type RelayOp = {
     toAssertion: string;
     relayAccount: AccountID;
-    teamID: keybase1.TeamID;
+    teamId: keybase1.TeamID;
     boxB64: string;
 };
 export declare type PaymentOp = {
@@ -724,10 +724,10 @@ export declare type PaymentOp = {
     relay?: RelayOp;
 };
 export declare type PaymentMultiPost = {
-    fromDeviceID: keybase1.DeviceID;
+    fromDeviceId: keybase1.DeviceID;
     signedTransaction: string;
     operations: PaymentOp[];
-    batchID: string;
+    batchId: string;
 };
 export declare enum PaymentSummaryType {
     NONE = "none",
@@ -746,7 +746,7 @@ export declare type PaymentSummary = {
     RELAY: PaymentSummaryRelay | null;
 };
 export declare type PaymentSummaryStellar = {
-    txID: TransactionID;
+    txId: TransactionID;
     from: AccountID;
     to: AccountID;
     amount: string;
@@ -765,13 +765,13 @@ export declare type PaymentSummaryStellar = {
     trustline?: PaymentTrustlineLocal;
 };
 export declare type PaymentSummaryDirect = {
-    kbTxID: KeybaseTransactionID;
-    txID: TransactionID;
+    kbTxId: KeybaseTransactionID;
+    txId: TransactionID;
     txStatus: TransactionStatus;
     txErrMsg: string;
     fromStellar: AccountID;
     from: keybase1.UserVersion;
-    fromDeviceID: keybase1.DeviceID;
+    fromDeviceId: keybase1.DeviceID;
     toStellar: AccountID;
     to?: keybase1.UserVersion;
     amount: string;
@@ -788,20 +788,20 @@ export declare type PaymentSummaryDirect = {
     cursorToken: string;
     unread: boolean;
     fromPrimary: boolean;
-    batchID: string;
+    batchId: string;
     fromAirdrop: boolean;
     sourceAmountMax: string;
     sourceAmountActual: string;
     sourceAsset: Asset;
 };
 export declare type PaymentSummaryRelay = {
-    kbTxID: KeybaseTransactionID;
-    txID: TransactionID;
+    kbTxId: KeybaseTransactionID;
+    txId: TransactionID;
     txStatus: TransactionStatus;
     txErrMsg: string;
     fromStellar: AccountID;
     from: keybase1.UserVersion;
-    fromDeviceID: keybase1.DeviceID;
+    fromDeviceId: keybase1.DeviceID;
     to?: keybase1.UserVersion;
     toAssertion: string;
     relayAccount: AccountID;
@@ -811,14 +811,14 @@ export declare type PaymentSummaryRelay = {
     ctime: TimeMs;
     rtime: TimeMs;
     boxB64: string;
-    teamID: keybase1.TeamID;
+    teamId: keybase1.TeamID;
     claim?: ClaimSummary;
     cursorToken: string;
-    batchID: string;
+    batchId: string;
     fromAirdrop: boolean;
 };
 export declare type ClaimSummary = {
-    txID: TransactionID;
+    txId: TransactionID;
     txStatus: TransactionStatus;
     txErrMsg: string;
     dir: RelayDirection;
@@ -829,18 +829,18 @@ export declare type PaymentDetails = {
     summary: PaymentSummary;
     memo: string;
     memoType: string;
-    externalTxURL: string;
+    externalTxUrl: string;
     feeCharged: string;
     pathIntermediate: Asset[];
 };
 export declare type AccountDetails = {
-    accountID: AccountID;
+    accountId: AccountID;
     seqno: string;
     balances: Balance[];
     subentryCount: number;
     available: string;
     reserves: AccountReserve[];
-    readTransactionID?: TransactionID;
+    readTransactionId?: TransactionID;
     unreadPayments: number;
     displayCurrency: string;
     inflationDestination?: AccountID;
@@ -851,10 +851,10 @@ export declare type PaymentsPage = {
     oldestUnread?: TransactionID;
 };
 export declare type SubmitMultiRes = {
-    txID: TransactionID;
+    txId: TransactionID;
 };
 export declare type AutoClaim = {
-    kbTxID: KeybaseTransactionID;
+    kbTxId: KeybaseTransactionID;
 };
 export declare type RequestPost = {
     toUser?: keybase1.UserVersion;
@@ -875,7 +875,7 @@ export declare type RequestDetails = {
     fromDisplayCurrency: string;
     toDisplayAmount: string;
     toDisplayCurrency: string;
-    fundingKbTxID: KeybaseTransactionID;
+    fundingKbTxId: KeybaseTransactionID;
     status: RequestStatus;
 };
 export declare type TimeboundsRecommendation = {
@@ -899,7 +899,7 @@ export declare type PaymentPathQuery = {
 };
 export declare type UIPaymentReviewed = {
     bid: BuildPaymentID;
-    reviewID: number;
+    reviewId: number;
     seqno: number;
     banners: SendBannerLocal[];
     nextButton: string;

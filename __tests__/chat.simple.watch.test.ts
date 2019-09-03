@@ -1,7 +1,7 @@
 import Bot from '../lib'
 import config from './tests.config'
 import {pollFor} from './test-utils'
-import {MessageSummary} from '../lib/chat-client/types'
+import {ChatChannel, MsgSummary} from '../lib/types/chat1'
 
 //
 // Coyne: I created this test specifically as a standalone because we have been hacing an issue
@@ -28,12 +28,16 @@ describe('Chat Methods', (): void => {
 
   it('works', async (): Promise<void> => {
     let done = false
-    const directChannel = {name: `${bob.myInfo().username},${alice.myInfo().username}`}
-    bob.chat.watchAllChannelsForNewMessages((message: MessageSummary): void => {
+    const directChannel: ChatChannel = {
+      name: `${bob.myInfo().username},${alice.myInfo().username}`,
+      public: false,
+      membersType: 'impteamnative',
+    }
+    bob.chat.watchAllChannelsForNewMessages((message: MsgSummary): void => {
       bob.adminDebugLogInfo(`I Got a message ${JSON.stringify(message)}`)
       done = true
     })
-    alice.chat.watchAllChannelsForNewMessages((message: MessageSummary): void => {
+    alice.chat.watchAllChannelsForNewMessages((message: MsgSummary): void => {
       alice.adminDebugLogInfo(`I Got a message ${JSON.stringify(message)}`)
     })
     alice.chat.send(directChannel, {body: `HI THERE ALICE, THIS IS BOB AND THE TIME IS ${new Date().toISOString()}`})

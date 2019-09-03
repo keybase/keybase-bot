@@ -94,12 +94,17 @@ export interface ListenOptions {
 
 export interface Advertisement {
   alias?: string
-  advertisements: chat1.AdvertiseCommandsParam[]
+  advertisements: chat1.AdvertiseCommandAPIParam[]
 }
 
 export interface AdvertisementsLookup {
   channel: chat1.ChatChannel
   conversationID?: string
+}
+
+export interface ReadResult {
+  messages: chat1.MsgSummary[]
+  pagination: chat1.Pagination
 }
 
 /** The chat module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase chat api`. */
@@ -172,7 +177,7 @@ class Chat extends ClientBase {
     // Pagination gets passed as-is, while the messages get cleaned up
     return {
       pagination: res.pagination,
-      messages: res.messages.map((message: MessageNotification): MessageSummary => message.msg),
+      messages: res.messages.map((message: chat1.MsgNotification): chat1.MsgSummary => message.msg),
     }
   }
 
@@ -258,7 +263,7 @@ class Chat extends ClientBase {
       throw new Error('Keybase chat send returned nothing')
     }
     this._adminDebugLogger.info(`message sent with id ${res.id}`)
-    return {id: res.id}
+    return res
   }
 
   /**
@@ -299,7 +304,7 @@ class Chat extends ClientBase {
     if (!res) {
       throw new Error('Keybase chat attach returned nothing')
     }
-    return {id: res.id}
+    return res
   }
 
   /**
@@ -345,7 +350,7 @@ class Chat extends ClientBase {
       throw new Error('Keybase chat react returned nothing.')
     }
 
-    return {id: res.id}
+    return res
   }
 
   /**
@@ -495,15 +500,13 @@ class Chat extends ClientBase {
    * //   ]
    * // }
    */
-  public async listCommands(lookup: AdvertisementsLookup): Promise<chat1.ListBotCommandsLocalRes> {
+  public async listCommands(lookup: AdvertisementsLookup): Promise<{commands: chat1.UserBotCommandOutput[]}> {
     await this._guardInitialized()
     const res = await this._runApiCommand({apiName: 'chat', method: 'listcommands', options: lookup})
     if (!res) {
       throw new Error('Keybase chat list commands returned nothing.')
     }
-    return {
-      commands: res && res.commands ? res.commands : [],
-    }
+    return {commands: res.commands || []}
   }
 
   /**

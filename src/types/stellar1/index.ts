@@ -60,7 +60,7 @@ export type BundleSecretV2 = {
 }
 
 export type BundleVisibleEntryV2 = {
-  accountID: AccountID
+  accountId: AccountID
   mode: AccountMode
   isPrimary: boolean
   acctBundleRevision: BundleRevision
@@ -68,7 +68,7 @@ export type BundleVisibleEntryV2 = {
 }
 
 export type BundleSecretEntryV2 = {
-  accountID: AccountID
+  accountId: AccountID
   name: string
 }
 
@@ -107,7 +107,7 @@ export type AccountBundleSecretVersioned =
   | {version: AccountBundleVersion.V10; V10: AccountBundleSecretUnsupported | null}
 
 export type AccountBundleSecretV1 = {
-  accountID: AccountID
+  accountId: AccountID
   signers: SecretKey[]
 }
 
@@ -122,7 +122,7 @@ export type Bundle = {
 }
 
 export type BundleEntry = {
-  accountID: AccountID
+  accountId: AccountID
   mode: AccountMode
   isPrimary: boolean
   name: string
@@ -133,7 +133,7 @@ export type BundleEntry = {
 export type AccountBundle = {
   prev: Hash
   ownHash: Hash
-  accountID: AccountID
+  accountId: AccountID
   signers: SecretKey[]
 }
 
@@ -216,14 +216,14 @@ export enum RelayDirection {
 }
 
 export type PaymentResult = {
-  senderAccountID: AccountID
-  keybaseID: KeybaseTransactionID
-  stellarID: TransactionID
+  senderAccountId: AccountID
+  keybaseId: KeybaseTransactionID
+  stellarId: TransactionID
   pending: boolean
 }
 
 export type RelayClaimResult = {
-  claimStellarID: TransactionID
+  claimStellarId: TransactionID
 }
 
 export type EncryptedNote = {
@@ -241,7 +241,7 @@ export type NoteRecipient = {
 
 export type NoteContents = {
   note: string
-  stellarID: TransactionID
+  stellarId: TransactionID
 }
 
 export type EncryptedRelaySecret = {
@@ -252,7 +252,7 @@ export type EncryptedRelaySecret = {
 }
 
 export type RelayContents = {
-  stellarID: TransactionID
+  stellarId: TransactionID
   sk: SecretKey
   note: string
 }
@@ -265,7 +265,7 @@ export type OutsideExchangeRate = {
 }
 
 export type CurrencySymbol = {
-  symbol: string
+  str: string
   ambigious: boolean
   postfix: boolean
 }
@@ -308,22 +308,22 @@ export type PaymentPath = {
 }
 
 export type PaymentStatusMsg = {
-  accountID: AccountID
-  kbTxID: KeybaseTransactionID
-  txID: TransactionID
+  accountId: AccountID
+  kbTxId: KeybaseTransactionID
+  txId: TransactionID
 }
 
 export type RequestStatusMsg = {
-  reqID: KeybaseRequestID
+  reqId: KeybaseRequestID
 }
 
 export type PaymentNotificationMsg = {
-  accountID: AccountID
-  paymentID: PaymentID
+  accountId: AccountID
+  paymentId: PaymentID
 }
 
 export type WalletAccountLocal = {
-  accountID: AccountID
+  accountId: AccountID
   isDefault: boolean
   name: string
   balanceDescription: string
@@ -341,7 +341,7 @@ export type AccountAssetLocal = {
   name: string
   assetCode: string
   issuerName: string
-  issuerAccountID: string
+  issuerAccountId: string
   issuerVerifiedDomain: string
   balanceTotal: string
   balanceAvailableToSend: string
@@ -395,7 +395,7 @@ export type PaymentsPageLocal = {
 
 export type PaymentLocal = {
   id: PaymentID
-  txID: TransactionID
+  txId: TransactionID
   time: TimeMs
   statusSimplified: PaymentStatus
   statusDescription: string
@@ -406,14 +406,14 @@ export type PaymentLocal = {
   worth: string
   worthAtSendTime: string
   issuerDescription: string
-  issuerAccountID?: AccountID
+  issuerAccountId?: AccountID
   fromType: ParticipantType
   toType: ParticipantType
   assetCode: string
-  fromAccountID: AccountID
+  fromAccountId: AccountID
   fromAccountName: string
   fromUsername: string
-  toAccountID?: AccountID
+  toAccountId?: AccountID
   toAccountName: string
   toUsername: string
   toAssertion: string
@@ -428,7 +428,7 @@ export type PaymentLocal = {
   summaryAdvanced: string
   operations: string[]
   unread: boolean
-  batchID: string
+  batchId: string
   fromAirdrop: boolean
   isInflation: boolean
   inflationSource?: string
@@ -443,7 +443,7 @@ export type PaymentDetailsLocal = {
 export type PaymentDetailsOnlyLocal = {
   publicNote: string
   publicNoteType: string
-  externalTxURL: string
+  externalTxUrl: string
   feeChargedDescription: string
   pathIntermediate: Asset[]
 }
@@ -481,9 +481,9 @@ export type BuildPaymentResLocal = {
   worthInfo: string
   worthAmount: string
   worthCurrency: string
-  displayAmountXLM: string
+  displayAmountXlm: string
   displayAmountFiat: string
-  sendingIntentionXLM: boolean
+  sendingIntentionXlm: boolean
   amountAvailable: string
   banners: SendBannerLocal[]
 }
@@ -502,7 +502,7 @@ export type SendBannerLocal = {
 }
 
 export type SendPaymentResLocal = {
-  kbTxID: KeybaseTransactionID
+  kbTxId: KeybaseTransactionID
   pending: boolean
   jumpToChat: string
 }
@@ -514,9 +514,9 @@ export type BuildRequestResLocal = {
   secretNoteErrMsg: string
   worthDescription: string
   worthInfo: string
-  displayAmountXLM: string
+  displayAmountXlm: string
   displayAmountFiat: string
-  sendingIntentionXLM: boolean
+  sendingIntentionXlm: boolean
   banners: SendBannerLocal[]
 }
 
@@ -540,7 +540,7 @@ export type PredefinedInflationDestination = {
   tag: InflationDestinationTag
   name: string
   recommended: boolean
-  accountID: AccountID
+  accountId: AccountID
   url: string
 }
 
@@ -590,8 +590,8 @@ export type AssetActionResultLocal = {
 }
 
 export type SendResultCLILocal = {
-  kbTxID: KeybaseTransactionID
-  txID: TransactionID
+  kbTxId: KeybaseTransactionID
+  txId: TransactionID
 }
 
 export type PaymentOrErrorCLILocal = {
@@ -600,7 +600,7 @@ export type PaymentOrErrorCLILocal = {
 }
 
 export type PaymentCLILocal = {
-  txID: TransactionID
+  txId: TransactionID
   time: TimeMs
   status: string
   statusDetail: string
@@ -628,7 +628,7 @@ export type PaymentCLILocal = {
 }
 
 export type OwnAccountCLILocal = {
-  accountID: AccountID
+  accountId: AccountID
   isPrimary: boolean
   name: string
   balance: Balance[]
@@ -637,7 +637,7 @@ export type OwnAccountCLILocal = {
 }
 
 export type LookupResultCLILocal = {
-  accountID: AccountID
+  accountId: AccountID
   username?: string
 }
 
@@ -651,7 +651,7 @@ export type BatchPaymentResult = {
   startTime: TimeMs
   submittedTime: TimeMs
   endTime: TimeMs
-  txID: TransactionID
+  txId: TransactionID
   status: PaymentStatus
   statusDescription: string
   error?: BatchPaymentError
@@ -699,7 +699,7 @@ export type ValidateStellarURIResultLocal = {
   operation: string
   originDomain: string
   message: string
-  callbackURL: string
+  callbackUrl: string
   xdr: string
   summary: TxDisplaySummary
   recipient: string
@@ -725,9 +725,9 @@ export type PartnerUrl = {
 
 export type SignXdrResult = {
   singedTx: string
-  accountID: AccountID
+  accountId: AccountID
   submitErr?: string
-  submitTxID?: TransactionID
+  submitTxId?: TransactionID
 }
 
 export type StaticConfig = {
@@ -739,46 +739,46 @@ export type StaticConfig = {
 export type ChatConversationID = string
 
 export type PaymentDirectPost = {
-  fromDeviceID: keybase1.DeviceID
+  fromDeviceId: keybase1.DeviceID
   to?: keybase1.UserVersion
   displayAmount: string
   displayCurrency: string
   noteB64: string
   signedTransaction: string
   quickReturn: boolean
-  chatConversationID?: ChatConversationID
-  batchID: string
+  chatConversationId?: ChatConversationID
+  batchId: string
 }
 
 export type PaymentRelayPost = {
-  fromDeviceID: keybase1.DeviceID
+  fromDeviceId: keybase1.DeviceID
   to?: keybase1.UserVersion
   toAssertion: string
   relayAccount: AccountID
-  teamID: keybase1.TeamID
+  teamId: keybase1.TeamID
   displayAmount: string
   displayCurrency: string
   boxB64: string
   signedTransaction: string
   quickReturn: boolean
-  chatConversationID?: ChatConversationID
-  batchID: string
+  chatConversationId?: ChatConversationID
+  batchId: string
 }
 
 export type RelayClaimPost = {
-  keybaseID: KeybaseTransactionID
+  keybaseId: KeybaseTransactionID
   dir: RelayDirection
   signedTransaction: string
   autoClaimToken?: string
 }
 
 export type PathPaymentPost = {
-  fromDeviceID: keybase1.DeviceID
+  fromDeviceId: keybase1.DeviceID
   to?: keybase1.UserVersion
   noteB64: string
   signedTransaction: string
   quickReturn: boolean
-  chatConversationID?: ChatConversationID
+  chatConversationId?: ChatConversationID
 }
 
 export type DirectOp = {
@@ -788,7 +788,7 @@ export type DirectOp = {
 export type RelayOp = {
   toAssertion: string
   relayAccount: AccountID
-  teamID: keybase1.TeamID
+  teamId: keybase1.TeamID
   boxB64: string
 }
 
@@ -799,10 +799,10 @@ export type PaymentOp = {
 }
 
 export type PaymentMultiPost = {
-  fromDeviceID: keybase1.DeviceID
+  fromDeviceId: keybase1.DeviceID
   signedTransaction: string
   operations: PaymentOp[]
-  batchID: string
+  batchId: string
 }
 
 export enum PaymentSummaryType {
@@ -818,7 +818,7 @@ export type PaymentSummary =
   | {typ: PaymentSummaryType.RELAY; RELAY: PaymentSummaryRelay | null}
 
 export type PaymentSummaryStellar = {
-  txID: TransactionID
+  txId: TransactionID
   from: AccountID
   to: AccountID
   amount: string
@@ -838,13 +838,13 @@ export type PaymentSummaryStellar = {
 }
 
 export type PaymentSummaryDirect = {
-  kbTxID: KeybaseTransactionID
-  txID: TransactionID
+  kbTxId: KeybaseTransactionID
+  txId: TransactionID
   txStatus: TransactionStatus
   txErrMsg: string
   fromStellar: AccountID
   from: keybase1.UserVersion
-  fromDeviceID: keybase1.DeviceID
+  fromDeviceId: keybase1.DeviceID
   toStellar: AccountID
   to?: keybase1.UserVersion
   amount: string
@@ -861,7 +861,7 @@ export type PaymentSummaryDirect = {
   cursorToken: string
   unread: boolean
   fromPrimary: boolean
-  batchID: string
+  batchId: string
   fromAirdrop: boolean
   sourceAmountMax: string
   sourceAmountActual: string
@@ -869,13 +869,13 @@ export type PaymentSummaryDirect = {
 }
 
 export type PaymentSummaryRelay = {
-  kbTxID: KeybaseTransactionID
-  txID: TransactionID
+  kbTxId: KeybaseTransactionID
+  txId: TransactionID
   txStatus: TransactionStatus
   txErrMsg: string
   fromStellar: AccountID
   from: keybase1.UserVersion
-  fromDeviceID: keybase1.DeviceID
+  fromDeviceId: keybase1.DeviceID
   to?: keybase1.UserVersion
   toAssertion: string
   relayAccount: AccountID
@@ -885,15 +885,15 @@ export type PaymentSummaryRelay = {
   ctime: TimeMs
   rtime: TimeMs
   boxB64: string
-  teamID: keybase1.TeamID
+  teamId: keybase1.TeamID
   claim?: ClaimSummary
   cursorToken: string
-  batchID: string
+  batchId: string
   fromAirdrop: boolean
 }
 
 export type ClaimSummary = {
-  txID: TransactionID
+  txId: TransactionID
   txStatus: TransactionStatus
   txErrMsg: string
   dir: RelayDirection
@@ -905,19 +905,19 @@ export type PaymentDetails = {
   summary: PaymentSummary
   memo: string
   memoType: string
-  externalTxURL: string
+  externalTxUrl: string
   feeCharged: string
   pathIntermediate: Asset[]
 }
 
 export type AccountDetails = {
-  accountID: AccountID
+  accountId: AccountID
   seqno: string
   balances: Balance[]
   subentryCount: number
   available: string
   reserves: AccountReserve[]
-  readTransactionID?: TransactionID
+  readTransactionId?: TransactionID
   unreadPayments: number
   displayCurrency: string
   inflationDestination?: AccountID
@@ -930,11 +930,11 @@ export type PaymentsPage = {
 }
 
 export type SubmitMultiRes = {
-  txID: TransactionID
+  txId: TransactionID
 }
 
 export type AutoClaim = {
-  kbTxID: KeybaseTransactionID
+  kbTxId: KeybaseTransactionID
 }
 
 export type RequestPost = {
@@ -957,7 +957,7 @@ export type RequestDetails = {
   fromDisplayCurrency: string
   toDisplayAmount: string
   toDisplayCurrency: string
-  fundingKbTxID: KeybaseTransactionID
+  fundingKbTxId: KeybaseTransactionID
   status: RequestStatus
 }
 
@@ -986,7 +986,7 @@ export type PaymentPathQuery = {
 
 export type UIPaymentReviewed = {
   bid: BuildPaymentID
-  reviewID: number
+  reviewId: number
   seqno: number
   banners: SendBannerLocal[]
   nextButton: string

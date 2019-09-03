@@ -26,9 +26,9 @@ export type TimeOrOffset = {
 
 export type Metadata = {
   uid: UID
-  msgID: MsgID
+  msgId: MsgID
   ctime: Time
-  deviceID: DeviceID
+  deviceId: DeviceID
   inBandMsgType: number
 }
 
@@ -82,7 +82,7 @@ export type Reminder = {
 
 export type ReminderID = {
   uid: UID
-  msgID: MsgID
+  msgId: MsgID
   seqno: number
 }
 
@@ -135,7 +135,7 @@ export type SyncResult = {
  *     those users are connected with.
  */
 export type ConnectedDevice = {
-  deviceID: DeviceID
+  deviceId: DeviceID
   deviceType: string
   devicePlatform: string
   userAgent: string

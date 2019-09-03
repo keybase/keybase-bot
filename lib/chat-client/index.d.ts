@@ -80,11 +80,15 @@ export interface ListenOptions {
 }
 export interface Advertisement {
     alias?: string;
-    advertisements: chat1.AdvertiseCommandsParam[];
+    advertisements: chat1.AdvertiseCommandAPIParam[];
 }
 export interface AdvertisementsLookup {
     channel: chat1.ChatChannel;
     conversationID?: string;
+}
+export interface ReadResult {
+    messages: chat1.MsgSummary[];
+    pagination: chat1.Pagination;
 }
 /** The chat module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase chat api`. */
 declare class Chat extends ClientBase {
@@ -116,7 +120,7 @@ declare class Chat extends ClientBase {
      * @example
      * alice.chat.read(channel).then(messages => console.log(messages))
      */
-    read(channel: chat1.ChatChannel, options?: ChatReadOptions): Promise<chat1.Thread>;
+    read(channel: chat1.ChatChannel, options?: ChatReadOptions): Promise<ReadResult>;
     /**
      * Joins a team conversation.
      * @param channel - The team chat channel to join.
@@ -286,7 +290,9 @@ declare class Chat extends ClientBase {
      * //   ]
      * // }
      */
-    listCommands(lookup: AdvertisementsLookup): Promise<chat1.ListBotCommandsLocalRes>;
+    listCommands(lookup: AdvertisementsLookup): Promise<{
+        commands: chat1.UserBotCommandOutput[];
+    }>;
     /**
      * Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel. Note that it receives messages your own bot posts, but from other devices. You can filter out your own messages by looking at a message's sender object.
      * Hides exploding messages by default.

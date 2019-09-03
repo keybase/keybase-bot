@@ -5,7 +5,8 @@ import config from './tests.config'
 import {timeout} from '../lib/utils'
 import {pollFor} from './test-utils'
 import {promisify} from 'util'
-import {ChatChannel, Thread, MsgSummary} from '../lib/types/chat1'
+import {TopicType, ChatChannel, MsgSummary, BotCommandsAdvertisementTyp} from '../lib/types/chat1'
+import {ReadResult} from '../lib/chat-client'
 import {OnMessage} from '../lib/chat-client'
 
 test('Chat methods with an uninitialized bot', (): void => {
@@ -108,7 +109,7 @@ describe('Chat Methods', (): void => {
     })
 
     it('Shows only messages of a specific topic type if given the option', async (): Promise<void> => {
-      const conversations = await alice1.chat.list({topicType: 'dev'})
+      const conversations = await alice1.chat.list({topicType: TopicType.DEV})
       for (const conversation of conversations) {
         expect(conversation.channel).toHaveProperty('topicType', 'dev')
       }
@@ -163,7 +164,7 @@ describe('Chat Methods', (): void => {
       let totalCount = 0
       let lastPagination
       while (true) {
-        const result: Thread = await alice1.chat.read(channel, {
+        const result: ReadResult = await alice1.chat.read(channel, {
           peek: true,
           unreadOnly: true,
           pagination: {
@@ -292,7 +293,7 @@ describe('Chat Methods', (): void => {
       const body = 'Total protonic reversal. That would be bad.'
       let receipts = 0
       const bobOnMessage = (message: MsgSummary): void => {
-        if (message.content.typeName === 'text' && message.content.text.body === body) {
+        if (message.content.type === 'text' && message.content.text.body === body) {
           receipts++
         }
       }
@@ -442,7 +443,7 @@ describe('Chat Methods', (): void => {
     })
     it('Throws an errow if given an invalid channel', async (): Promise<void> => {
       const result = await alice1.chat.read(channel)
-      const attachments = result.messages.filter(message => message.content.typeName === 'attachment')
+      const attachments = result.messages.filter(message => message.content.type === 'attachment')
       expect(alice1.chat.download(invalidChannel, attachments[0].id, downloadLocation)).rejects.toThrowError()
     })
     it('Throws an error if given a non-attachment message', async (): Promise<void> => {
@@ -520,7 +521,7 @@ describe('Chat Methods', (): void => {
       await alice1.chat.advertiseCommands({
         advertisements: [
           {
-            type: 'public',
+            type: BotCommandsAdvertisementTyp.PUBLIC,
             commands: [
               {
                 name: '!helloworld',
@@ -591,12 +592,12 @@ describe('Chat Methods', (): void => {
     const testTwoBotsCounting = async (bot1: Bot, bot2: Bot): Promise<void> => {
       const stopAt = 10
       const convoCode = crypto.randomBytes(8).toString('hex')
-      const directChannel = {name: `${bot1.myInfo().username},${bot2.myInfo().username}`}
+      const directChannel = {name: `${bot1.myInfo().username},${bot2.myInfo().username}`, public: false, membersType: 'impteamnative'}
       let totalMessagesSeen = 0
       let highestReached = 0
       const onMessageForBot = (bot: Bot): any => {
         const onMessage = async (message: MsgSummary): Promise<void> => {
-          if (message.content.typeName === 'text') {
+          if (message.content.type === 'text') {
             const body = message.content.text.body
             if (body.indexOf(convoCode) !== -1) {
               totalMessagesSeen++

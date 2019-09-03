@@ -11,9 +11,9 @@ export declare type TimeOrOffset = {
 };
 export declare type Metadata = {
     uid: UID;
-    msgID: MsgID;
+    msgId: MsgID;
     ctime: Time;
-    deviceID: DeviceID;
+    deviceId: DeviceID;
     inBandMsgType: number;
 };
 export declare type InBandMessage = {
@@ -57,7 +57,7 @@ export declare type Reminder = {
 };
 export declare type ReminderID = {
     uid: UID;
-    msgID: MsgID;
+    msgId: MsgID;
     seqno: number;
 };
 export declare type OutOfBandMessage = {
@@ -94,7 +94,7 @@ export declare type SyncResult = {
  *     those users are connected with.
  */
 export declare type ConnectedDevice = {
-    deviceID: DeviceID;
+    deviceId: DeviceID;
     deviceType: string;
     devicePlatform: string;
     userAgent: string;

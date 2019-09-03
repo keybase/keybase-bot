@@ -2,7 +2,8 @@ import crypto from 'crypto'
 import Bot from '../lib'
 import config from './tests.config'
 import {timeout} from '../lib/utils'
-import {ChatChannel, ChatSendOptions} from '../lib/types/chat1'
+import {ChatChannel} from '../lib/types/chat1'
+import {ChatSendOptions} from '../lib/chat-client'
 
 test('Wallet methods with an uninitialized bot', (): void => {
   const alice1 = new Bot()
@@ -126,7 +127,7 @@ describe('Wallet Methods', (): void => {
       expect(batchRes.countError).toBe(1)
     })
     it('Sends money from chat when option set', async (): Promise<void> => {
-      const channel: ChatChannel = {name: recipient, public: false, topicType: 'chat'}
+      const channel: ChatChannel = {name: recipient, public: false, topicType: 'chat', membersType: 'impteamnative'}
       const chatAmount = '0.0001230'
       const message = {
         body: `And voila +${chatAmount}xlm`,
@@ -148,7 +149,7 @@ describe('Wallet Methods', (): void => {
     })
 
     it('Can send two inline in rapid succession', async (): Promise<void> => {
-      const channel: ChatChannel = {name: recipient, public: false, topicType: 'chat'}
+      const channel: ChatChannel = {name: recipient, public: false, topicType: 'chat', membersType: 'impteamnative'}
       const chatAmount = '0.0001230'
       const message = {
         body: `And voila +${chatAmount}xlm`,
@@ -172,7 +173,7 @@ describe('Wallet Methods', (): void => {
     })
 
     it('Throws an error if chat sending without `confirmLumenSend` option set', async (): Promise<void> => {
-      const channel: ChatChannel = {name: recipient, public: false, topicType: 'chat'}
+      const channel: ChatChannel = {name: recipient, public: false, topicType: 'chat', membersType: 'impteamnative'}
       const chatAmount = '0.0009876'
       const message = {
         body: `This should fail +${chatAmount}xlm`,
