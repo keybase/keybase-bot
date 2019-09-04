@@ -1146,7 +1146,7 @@ To build the types for the TypeScript bot, you'll need to clone the `client` rep
 go get github.com/keybase/client/go/keybase
 ```
 
-and install the nessecary dependencies for compiling the protocol files. This requires [node.js](https://nodejs.org) and [Yarn](https://yarnpkg.com).
+and install the necessary dependencies for compiling the protocol files. This requires [node.js](https://nodejs.org) and [Yarn](https://yarnpkg.com).
 
 ```shell
 cd client/protocol
