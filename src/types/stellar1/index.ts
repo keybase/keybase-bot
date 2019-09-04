@@ -14,7 +14,7 @@
 
 import * as keybase1 from '../keybase1'
 
-export type BundleRevision = number
+export type BundleRevision = never
 
 export type EncryptedBundle = {
   v: number
@@ -47,16 +47,31 @@ export type BundleSecretVersioned =
   | {version: BundleVersion.V8; V8: BundleSecretUnsupported | null}
   | {version: BundleVersion.V9; V9: BundleSecretUnsupported | null}
   | {version: BundleVersion.V10; V10: BundleSecretUnsupported | null}
+  | {
+      version: Exclude<
+        BundleVersion,
+        | BundleVersion.V1
+        | BundleVersion.V2
+        | BundleVersion.V3
+        | BundleVersion.V4
+        | BundleVersion.V5
+        | BundleVersion.V6
+        | BundleVersion.V7
+        | BundleVersion.V8
+        | BundleVersion.V9
+        | BundleVersion.V10
+      >
+    }
 
 export type BundleVisibleV2 = {
   revision: BundleRevision
   prev: Hash
-  accounts: BundleVisibleEntryV2[]
+  accounts: BundleVisibleEntryV2[] | null
 }
 
 export type BundleSecretV2 = {
   visibleHash: Hash
-  accounts: BundleSecretEntryV2[]
+  accounts: BundleSecretEntryV2[] | null
 }
 
 export type BundleVisibleEntryV2 = {
@@ -105,10 +120,25 @@ export type AccountBundleSecretVersioned =
   | {version: AccountBundleVersion.V8; V8: AccountBundleSecretUnsupported | null}
   | {version: AccountBundleVersion.V9; V9: AccountBundleSecretUnsupported | null}
   | {version: AccountBundleVersion.V10; V10: AccountBundleSecretUnsupported | null}
+  | {
+      version: Exclude<
+        AccountBundleVersion,
+        | AccountBundleVersion.V1
+        | AccountBundleVersion.V2
+        | AccountBundleVersion.V3
+        | AccountBundleVersion.V4
+        | AccountBundleVersion.V5
+        | AccountBundleVersion.V6
+        | AccountBundleVersion.V7
+        | AccountBundleVersion.V8
+        | AccountBundleVersion.V9
+        | AccountBundleVersion.V10
+      >
+    }
 
 export type AccountBundleSecretV1 = {
   accountId: AccountID
-  signers: SecretKey[]
+  signers: SecretKey[] | null
 }
 
 export type AccountBundleSecretUnsupported = {}
@@ -117,7 +147,7 @@ export type Bundle = {
   revision: BundleRevision
   prev: Hash
   ownHash: Hash
-  accounts: BundleEntry[]
+  accounts: BundleEntry[] | null
   accountBundles: {[key: string]: AccountBundle}
 }
 
@@ -134,7 +164,7 @@ export type AccountBundle = {
   prev: Hash
   ownHash: Hash
   accountId: AccountID
-  signers: SecretKey[]
+  signers: SecretKey[] | null
 }
 
 export type AccountID = string
@@ -147,7 +177,7 @@ export type PaymentID = string
 
 export type KeybaseTransactionID = string
 
-export type TimeMs = number
+export type TimeMs = never
 
 export type Hash = Buffer
 
@@ -174,7 +204,7 @@ export type Asset = {
 }
 
 export type AssetListResult = {
-  assets: Asset[]
+  assets: Asset[] | null
   totalCount: number
 }
 
@@ -301,7 +331,7 @@ export type PaymentPath = {
   sourceAmount: string
   sourceAmountMax: string
   sourceAsset: Asset
-  path: Asset[]
+  path: Asset[] | null
   destinationAmount: string
   destinationAsset: Asset
   sourceInsufficientBalance: string
@@ -348,7 +378,7 @@ export type AccountAssetLocal = {
   worthCurrency: string
   worth: string
   availableToSendWorth: string
-  reserves: AccountReserve[]
+  reserves: AccountReserve[] | null
   desc: string
   infoUrl: string
   infoUrlText: string
@@ -388,7 +418,7 @@ export type PaymentOrErrorLocal = {
 }
 
 export type PaymentsPageLocal = {
-  payments: PaymentOrErrorLocal[]
+  payments: PaymentOrErrorLocal[] | null
   cursor?: PageCursor
   oldestUnread?: PaymentID
 }
@@ -426,7 +456,7 @@ export type PaymentLocal = {
   sourceConvRate: string
   isAdvanced: boolean
   summaryAdvanced: string
-  operations: string[]
+  operations: string[] | null
   unread: boolean
   batchId: string
   fromAirdrop: boolean
@@ -445,7 +475,7 @@ export type PaymentDetailsOnlyLocal = {
   publicNoteType: string
   externalTxUrl: string
   feeChargedDescription: string
-  pathIntermediate: Asset[]
+  pathIntermediate: Asset[] | null
 }
 
 export type PaymentTrustlineLocal = {
@@ -485,7 +515,7 @@ export type BuildPaymentResLocal = {
   displayAmountFiat: string
   sendingIntentionXlm: boolean
   amountAvailable: string
-  banners: SendBannerLocal[]
+  banners: SendBannerLocal[] | null
 }
 
 export enum AdvancedBanner {
@@ -517,7 +547,7 @@ export type BuildRequestResLocal = {
   displayAmountXlm: string
   displayAmountFiat: string
   sendingIntentionXlm: boolean
-  banners: SendBannerLocal[]
+  banners: SendBannerLocal[] | null
 }
 
 export type RequestDetailsLocal = {
@@ -566,11 +596,11 @@ export type AirdropQualification = {
 
 export type AirdropStatus = {
   state: AirdropState
-  rows: AirdropQualification[]
+  rows: AirdropQualification[] | null
 }
 
 export type RecipientTrustlinesLocal = {
-  trustlines: Balance[]
+  trustlines: Balance[] | null
   recipientType: ParticipantType
 }
 
@@ -613,7 +643,7 @@ export type PaymentCLILocal = {
   sourceAsset: Asset
   isAdvanced: boolean
   summaryAdvanced: string
-  operations: string[]
+  operations: string[] | null
   fromStellar: AccountID
   toStellar?: AccountID
   fromUsername?: string
@@ -631,7 +661,7 @@ export type OwnAccountCLILocal = {
   accountId: AccountID
   isPrimary: boolean
   name: string
-  balance: Balance[]
+  balance: Balance[] | null
   exchangeRate?: OutsideExchangeRate
   accountMode: AccountMode
 }
@@ -663,7 +693,7 @@ export type BatchResultLocal = {
   allSubmittedTime: TimeMs
   allCompleteTime: TimeMs
   endTime: TimeMs
-  payments: BatchPaymentResult[]
+  payments: BatchPaymentResult[] | null
   overallDurationMs: TimeMs
   prepareDurationMs: TimeMs
   submitDurationMs: TimeMs
@@ -692,7 +722,7 @@ export type TxDisplaySummary = {
   fee: number
   memo: string
   memoType: string
-  operations: string[]
+  operations: string[] | null
 }
 
 export type ValidateStellarURIResultLocal = {
@@ -801,7 +831,7 @@ export type PaymentOp = {
 export type PaymentMultiPost = {
   fromDeviceId: keybase1.DeviceID
   signedTransaction: string
-  operations: PaymentOp[]
+  operations: PaymentOp[] | null
   batchId: string
 }
 
@@ -816,6 +846,7 @@ export type PaymentSummary =
   | {typ: PaymentSummaryType.STELLAR; STELLAR: PaymentSummaryStellar | null}
   | {typ: PaymentSummaryType.DIRECT; DIRECT: PaymentSummaryDirect | null}
   | {typ: PaymentSummaryType.RELAY; RELAY: PaymentSummaryRelay | null}
+  | {typ: Exclude<PaymentSummaryType, PaymentSummaryType.STELLAR | PaymentSummaryType.DIRECT | PaymentSummaryType.RELAY>}
 
 export type PaymentSummaryStellar = {
   txId: TransactionID
@@ -833,7 +864,7 @@ export type PaymentSummaryStellar = {
   sourceAsset: Asset
   isAdvanced: boolean
   summaryAdvanced: string
-  operations: string[]
+  operations: string[] | null
   trustline?: PaymentTrustlineLocal
 }
 
@@ -907,16 +938,16 @@ export type PaymentDetails = {
   memoType: string
   externalTxUrl: string
   feeCharged: string
-  pathIntermediate: Asset[]
+  pathIntermediate: Asset[] | null
 }
 
 export type AccountDetails = {
   accountId: AccountID
   seqno: string
-  balances: Balance[]
+  balances: Balance[] | null
   subentryCount: number
   available: string
-  reserves: AccountReserve[]
+  reserves: AccountReserve[] | null
   readTransactionId?: TransactionID
   unreadPayments: number
   displayCurrency: string
@@ -924,7 +955,7 @@ export type AccountDetails = {
 }
 
 export type PaymentsPage = {
-  payments: PaymentSummary[]
+  payments: PaymentSummary[] | null
   cursor?: PageCursor
   oldestUnread?: TransactionID
 }
@@ -963,17 +994,17 @@ export type RequestDetails = {
 
 export type TimeboundsRecommendation = {
   timeNow: keybase1.UnixTime
-  timeout: number
+  timeout: never
 }
 
 export type NetworkOptions = {
-  baseFee: number
+  baseFee: never
 }
 
 export type DetailsPlusPayments = {
   details: AccountDetails
   recentPayments: PaymentsPage
-  pendingPayments: PaymentSummary[]
+  pendingPayments: PaymentSummary[] | null
 }
 
 export type PaymentPathQuery = {
@@ -988,6 +1019,6 @@ export type UIPaymentReviewed = {
   bid: BuildPaymentID
   reviewId: number
   seqno: number
-  banners: SendBannerLocal[]
+  banners: SendBannerLocal[] | null
   nextButton: string
 }

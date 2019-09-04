@@ -21,7 +21,7 @@ export declare type InBandMessage = {
     stateSync?: StateSyncMessage;
 };
 export declare type State = {
-    items: ItemAndMetadata[];
+    items: ItemAndMetadata[] | null;
 };
 export declare type StateUpdateMessage = {
     md: Metadata;
@@ -34,16 +34,16 @@ export declare type StateSyncMessage = {
 export declare type MsgRange = {
     endTime: TimeOrOffset;
     category: Category;
-    skipMsgIDs: MsgID[];
+    skipMsgIDs: MsgID[] | null;
 };
 export declare type Dismissal = {
-    msgIDs: MsgID[];
-    ranges: MsgRange[];
+    msgIDs: MsgID[] | null;
+    ranges: MsgRange[] | null;
 };
 export declare type Item = {
     category: Category;
     dtime: TimeOrOffset;
-    remindTimes: TimeOrOffset[];
+    remindTimes: TimeOrOffset[] | null;
     body: Body;
 };
 export declare type ItemAndMetadata = {
@@ -66,26 +66,26 @@ export declare type OutOfBandMessage = {
     body: Body;
 };
 export declare type ReminderSet = {
-    reminders: Reminder[];
+    reminders: Reminder[] | null;
     moreRemindersReady: boolean;
 };
 export declare type Message = {
     oobm?: OutOfBandMessage;
     ibm?: InBandMessage;
 };
-export declare type DurationMsec = number;
-export declare type DurationSec = number;
+export declare type DurationMsec = never;
+export declare type DurationSec = never;
 export declare type Category = string;
 export declare type System = string;
 export declare type UID = Buffer;
 export declare type MsgID = Buffer;
 export declare type DeviceID = Buffer;
 export declare type Body = Buffer;
-export declare type Time = number;
+export declare type Time = never;
 export declare type SessionID = string;
 export declare type SessionToken = string;
 export declare type SyncResult = {
-    msgs: InBandMessage[];
+    msgs: InBandMessage[] | null;
     hash: Buffer;
 };
 /**
@@ -101,5 +101,5 @@ export declare type ConnectedDevice = {
 };
 export declare type ConnectedUser = {
     uid: UID;
-    devices: ConnectedDevice[];
+    devices: ConnectedDevice[] | null;
 };

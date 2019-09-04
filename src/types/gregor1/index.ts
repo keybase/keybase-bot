@@ -38,7 +38,7 @@ export type InBandMessage = {
 }
 
 export type State = {
-  items: ItemAndMetadata[]
+  items: ItemAndMetadata[] | null
 }
 
 export type StateUpdateMessage = {
@@ -54,18 +54,18 @@ export type StateSyncMessage = {
 export type MsgRange = {
   endTime: TimeOrOffset
   category: Category
-  skipMsgIDs: MsgID[]
+  skipMsgIDs: MsgID[] | null
 }
 
 export type Dismissal = {
-  msgIDs: MsgID[]
-  ranges: MsgRange[]
+  msgIDs: MsgID[] | null
+  ranges: MsgRange[] | null
 }
 
 export type Item = {
   category: Category
   dtime: TimeOrOffset
-  remindTimes: TimeOrOffset[]
+  remindTimes: TimeOrOffset[] | null
   body: Body
 }
 
@@ -93,7 +93,7 @@ export type OutOfBandMessage = {
 }
 
 export type ReminderSet = {
-  reminders: Reminder[]
+  reminders: Reminder[] | null
   moreRemindersReady: boolean
 }
 
@@ -102,9 +102,9 @@ export type Message = {
   ibm?: InBandMessage
 }
 
-export type DurationMsec = number
+export type DurationMsec = never
 
-export type DurationSec = number
+export type DurationSec = never
 
 export type Category = string
 
@@ -118,14 +118,14 @@ export type DeviceID = Buffer
 
 export type Body = Buffer
 
-export type Time = number
+export type Time = never
 
 export type SessionID = string
 
 export type SessionToken = string
 
 export type SyncResult = {
-  msgs: InBandMessage[]
+  msgs: InBandMessage[] | null
   hash: Buffer
 }
 
@@ -143,5 +143,5 @@ export type ConnectedDevice = {
 
 export type ConnectedUser = {
   uid: UID
-  devices: ConnectedDevice[]
+  devices: ConnectedDevice[] | null
 }

@@ -10,7 +10,7 @@ export declare type LockdownHistory = {
     deviceName: string;
 };
 export declare type GetLockdownResponse = {
-    history: LockdownHistory[];
+    history: LockdownHistory[] | null;
     status: boolean;
 };
 export declare type APIRes = {
@@ -58,7 +58,7 @@ export declare type LoadAvatarsRes = {
 };
 export declare type AvatarClearCacheMsg = {
     name: string;
-    formats: AvatarFormat[];
+    formats: AvatarFormat[] | null;
     typ: AvatarUpdateType;
 };
 export declare enum BlockType {
@@ -72,7 +72,7 @@ export declare type BlockIdCombo = {
     blockType: BlockType;
 };
 export declare type ChallengeInfo = {
-    now: number;
+    now: never;
     challenge: string;
 };
 export declare enum BlockStatus {
@@ -97,7 +97,7 @@ export declare type BlockReferenceCount = {
     liveCount: number;
 };
 export declare type DowngradeReferenceRes = {
-    completed: BlockReferenceCount[];
+    completed: BlockReferenceCount[] | null;
     failed: BlockReference;
 };
 export declare type BlockIdCount = {
@@ -105,11 +105,11 @@ export declare type BlockIdCount = {
     liveCount: number;
 };
 export declare type ReferenceCountRes = {
-    counts: BlockIdCount[];
+    counts: BlockIdCount[] | null;
 };
 export declare type BlockPingResponse = {};
-export declare type Time = number;
-export declare type UnixTime = number;
+export declare type Time = never;
+export declare type UnixTime = never;
 export declare type DurationSec = number;
 export declare type StringKVPair = {
     key: string;
@@ -119,7 +119,7 @@ export declare type Status = {
     code: number;
     name: string;
     desc: string;
-    fields: StringKVPair[];
+    fields: StringKVPair[] | null;
 };
 export declare type UID = string;
 export declare type DeviceID = string;
@@ -152,6 +152,8 @@ export declare type CompatibilityTeamID = {
 } | {
     typ: TeamType.MODERN;
     MODERN: TeamID | null;
+} | {
+    typ: Exclude<TeamType, TeamType.LEGACY | TeamType.MODERN>;
 };
 export declare enum TLFVisibility {
     ANY = "any",
@@ -166,7 +168,7 @@ export declare type TeamIDAndName = {
     id: TeamID;
     name: TeamName;
 };
-export declare type Seqno = number;
+export declare type Seqno = never;
 export declare enum SeqType {
     NONE = "none",
     PUBLIC = "public",
@@ -188,7 +190,7 @@ export declare type PGPIdentity = {
 export declare type PublicKey = {
     kid: KID;
     pgpFingerprint: string;
-    pgpIdentities: PGPIdentity[];
+    pgpIdentities: PGPIdentity[] | null;
     isSibkey: boolean;
     isEldest: boolean;
     parentId: string;
@@ -253,9 +255,9 @@ export declare type KBFSPathInfo = {
     platformAfterMountPath: string;
 };
 export declare type UserVersionVector = {
-    id: number;
+    id: never;
     sigHints: number;
-    sigChain: number;
+    sigChain: never;
     cachedAt: Time;
 };
 export declare type PerUserKeyGeneration = number;
@@ -271,13 +273,13 @@ export declare type UserPlusKeys = {
     username: string;
     eldestSeqno: Seqno;
     status: StatusCode;
-    deviceKeys: PublicKey[];
-    revokedDeviceKeys: RevokedKey[];
+    deviceKeys: PublicKey[] | null;
+    revokedDeviceKeys: RevokedKey[] | null;
     pgpKeyCount: number;
     uvv: UserVersionVector;
-    deletedDeviceKeys: PublicKey[];
-    perUserKeys: PerUserKey[];
-    resets: ResetSummary[];
+    deletedDeviceKeys: PublicKey[] | null;
+    perUserKeys: PerUserKey[] | null;
+    resets: ResetSummary[] | null;
 };
 export declare type UserOrTeamLite = {
     id: UserOrTeamID;
@@ -294,8 +296,8 @@ export declare type RemoteTrack = {
 };
 export declare type UserPlusAllKeys = {
     base: UserPlusKeys;
-    pgpKeys: PublicKey[];
-    remoteTracks: RemoteTrack[];
+    pgpKeys: PublicKey[] | null;
+    remoteTracks: RemoteTrack[] | null;
 };
 export declare enum MerkleTreeID {
     MASTER = "master",
@@ -362,7 +364,7 @@ export declare enum OfflineAvailability {
 }
 export declare type ReacjiSkinTone = number;
 export declare type UserReacjis = {
-    topReacjis: string[];
+    topReacjis: string[] | null;
     skinTone: ReacjiSkinTone;
 };
 export declare type CurrentStatus = {
@@ -382,7 +384,7 @@ export declare type SessionStatus = {
 export declare type ClientDetails = {
     pid: number;
     clientType: ClientType;
-    argv: string[];
+    argv: string[] | null;
     desc: string;
     version: string;
 };
@@ -422,17 +424,17 @@ export declare type ExtendedStatus = {
     logDir: string;
     session?: SessionStatus;
     defaultUsername: string;
-    provisionedUsernames: string[];
-    configuredAccounts: ConfiguredAccount[];
-    clients: ClientStatus[];
-    deviceEkNames: string[];
+    provisionedUsernames: string[] | null;
+    configuredAccounts: ConfiguredAccount[] | null;
+    clients: ClientStatus[] | null;
+    deviceEkNames: string[] | null;
     platformInfo: PlatformInfo;
     defaultDeviceId: DeviceID;
-    localDbStats: string[];
-    localChatDbStats: string[];
-    localBlockCacheDbStats: string[];
-    localSyncCacheDbStats: string[];
-    cacheDirSizeInfo: DirSizeInfo[];
+    localDbStats: string[] | null;
+    localChatDbStats: string[] | null;
+    localBlockCacheDbStats: string[] | null;
+    localSyncCacheDbStats: string[] | null;
+    cacheDirSizeInfo: DirSizeInfo[] | null;
     uiRouterMapping: {
         [key: string]: number;
     };
@@ -485,7 +487,7 @@ export declare type FullStatus = {
 export declare type LogSendID = string;
 export declare type AllProvisionedUsernames = {
     defaultUsername: string;
-    provisionedUsernames: string[];
+    provisionedUsernames: string[] | null;
     hasProvisionedUser: boolean;
 };
 export declare enum ForkType {
@@ -522,7 +524,7 @@ export declare type OutOfDateInfo = {
     upgradeTo: string;
     upgradeUri: string;
     customMessage: string;
-    criticalClockSkew: number;
+    criticalClockSkew: never;
 };
 export declare enum UpdateInfoStatus {
     UP_TO_DATE = "up_to_date",
@@ -560,6 +562,8 @@ export declare type UpdateInfo2 = {
 } | {
     status: UpdateInfoStatus2.CRITICAL;
     CRITICAL: UpdateDetails | null;
+} | {
+    status: Exclude<UpdateInfoStatus2, UpdateInfoStatus2.OK | UpdateInfoStatus2.SUGGESTED | UpdateInfoStatus2.CRITICAL>;
 };
 export declare enum ProxyType {
     No_Proxy = "no_proxy",
@@ -800,7 +804,7 @@ export declare type ContactComponent = {
 };
 export declare type Contact = {
     name: string;
-    components: ContactComponent[];
+    components: ContactComponent[] | null;
 };
 export declare type ProcessedContact = {
     contactIndex: number;
@@ -884,7 +888,7 @@ export declare type EmailAddressVerifiedMsg = {
 export declare type EmailAddressChangedMsg = {
     email: EmailAddress;
 };
-export declare type EkGeneration = number;
+export declare type EkGeneration = never;
 export declare type DeviceEkMetadata = {
     deviceEphemeralDhPublic: KID;
     hashMeta: HashMeta;
@@ -976,6 +980,8 @@ export declare type TeamEphemeralKey = {
 } | {
     keyType: TeamEphemeralKeyType.TEAMBOT;
     TEAMBOT: TeambotEk | null;
+} | {
+    keyType: Exclude<TeamEphemeralKeyType, TeamEphemeralKeyType.TEAM | TeamEphemeralKeyType.TEAMBOT>;
 };
 export declare type TeamEphemeralKeyBoxed = {
     keyType: TeamEphemeralKeyType.TEAM;
@@ -983,6 +989,8 @@ export declare type TeamEphemeralKeyBoxed = {
 } | {
     keyType: TeamEphemeralKeyType.TEAMBOT;
     TEAMBOT: TeambotEkBoxed | null;
+} | {
+    keyType: Exclude<TeamEphemeralKeyType, TeamEphemeralKeyType.TEAM | TeamEphemeralKeyType.TEAMBOT>;
 };
 export declare enum FolderType {
     UNKNOWN = "unknown",
@@ -1003,7 +1011,7 @@ export declare enum ConflictStateType {
 export declare type FolderNormalView = {
     resolvingConflict: boolean;
     stuckInConflict: boolean;
-    localViews: Path[];
+    localViews: Path[] | null;
 };
 export declare type FolderConflictManualResolvingLocalView = {
     normalView: Path;
@@ -1014,6 +1022,8 @@ export declare type ConflictState = {
 } | {
     conflictStateType: ConflictStateType.ManualResolvingLocalView;
     ManualResolvingLocalView: FolderConflictManualResolvingLocalView | null;
+} | {
+    conflictStateType: Exclude<ConflictStateType, ConflictStateType.NormalView | ConflictStateType.ManualResolvingLocalView>;
 };
 /**
  * Folder represents a favorite top-level folder in kbfs.
@@ -1026,7 +1036,7 @@ export declare type Folder = {
     created: boolean;
     folderType: FolderType;
     teamId?: TeamID;
-    resetMembers: User[];
+    resetMembers: User[] | null;
     mtime?: Time;
     conflictState?: ConflictState;
     syncConfig?: FolderSyncConfig;
@@ -1037,15 +1047,15 @@ export declare type FolderHandle = {
     created: boolean;
 };
 export declare type FavoritesResult = {
-    favoriteFolders: Folder[];
-    ignoredFolders: Folder[];
-    newFolders: Folder[];
+    favoriteFolders: Folder[] | null;
+    ignoredFolders: Folder[] | null;
+    newFolders: Folder[] | null;
 };
 export declare type File = {
     path: string;
 };
 export declare type ListResult = {
-    files: File[];
+    files: File[] | null;
 };
 export declare type EncryptedGitMetadata = {
     v: number;
@@ -1063,6 +1073,8 @@ export declare type GitLocalMetadataV1 = {
 export declare type GitLocalMetadataVersioned = {
     version: GitLocalMetadataVersion.V1;
     V1: GitLocalMetadataV1 | null;
+} | {
+    version: Exclude<GitLocalMetadataVersion, GitLocalMetadataVersion.V1>;
 };
 export declare type GitCommit = {
     commitHash: string;
@@ -1078,13 +1090,13 @@ export declare enum GitPushType {
 }
 export declare type GitRefMetadata = {
     refName: string;
-    commits: GitCommit[];
+    commits: GitCommit[] | null;
     moreCommitsAvailable: boolean;
     isDelete: boolean;
 };
 export declare type GitLocalMetadata = {
     repoName: GitRepoName;
-    refs: GitRefMetadata[];
+    refs: GitRefMetadata[] | null;
     pushType: GitPushType;
     previousRepoName: GitRepoName;
 };
@@ -1105,6 +1117,8 @@ export declare type GitRepoResult = {
 } | {
     state: GitRepoResultState.OK;
     OK: GitRepoInfo | null;
+} | {
+    state: Exclude<GitRepoResultState, GitRepoResultState.ERR | GitRepoResultState.OK>;
 };
 export declare type GitRepoInfo = {
     folder: FolderHandle;
@@ -1125,7 +1139,7 @@ export declare type GPGKey = {
     keyId: string;
     creation: string;
     expiration: string;
-    identities: PGPIdentity[];
+    identities: PGPIdentity[] | null;
 };
 export declare type SelectKeyRes = {
     keyId: string;
@@ -1151,10 +1165,14 @@ export declare type HomeScreenItemData = {
 } | {
     t: HomeScreenItemType.ANNOUNCEMENT;
     ANNOUNCEMENT: HomeScreenAnnouncement | null;
+} | {
+    t: Exclude<HomeScreenItemType, HomeScreenItemType.TODO | HomeScreenItemType.PEOPLE | HomeScreenItemType.ANNOUNCEMENT>;
 };
 export declare type HomeScreenItemDataExt = {
     t: HomeScreenItemType.TODO;
     TODO: HomeScreenTodoExt | null;
+} | {
+    t: Exclude<HomeScreenItemType, HomeScreenItemType.TODO>;
 };
 export declare enum AppLinkType {
     NONE = "none",
@@ -1219,10 +1237,14 @@ export declare type HomeScreenTodo = {
 } | {
     t: HomeScreenTodoType.LEGACY_EMAIL_VISIBILITY;
     LEGACY_EMAIL_VISIBILITY: EmailAddress | null;
+} | {
+    t: Exclude<HomeScreenTodoType, HomeScreenTodoType.VERIFY_ALL_PHONE_NUMBER | HomeScreenTodoType.VERIFY_ALL_EMAIL | HomeScreenTodoType.LEGACY_EMAIL_VISIBILITY>;
 };
 export declare type HomeScreenTodoExt = {
     t: HomeScreenTodoType.VERIFY_ALL_EMAIL;
     VERIFY_ALL_EMAIL: VerifyAllEmailTodoExt | null;
+} | {
+    t: Exclude<HomeScreenTodoType, HomeScreenTodoType.VERIFY_ALL_EMAIL>;
 };
 export declare type VerifyAllEmailTodoExt = {
     lastVerifyEmailDate: UnixTime;
@@ -1237,7 +1259,7 @@ export declare type HomeScreenPeopleNotificationFollowed = {
     user: UserSummary;
 };
 export declare type HomeScreenPeopleNotificationFollowedMulti = {
-    followers: HomeScreenPeopleNotificationFollowed[];
+    followers: HomeScreenPeopleNotificationFollowed[] | null;
     numOthers: number;
 };
 export declare type HomeScreenPeopleNotification = {
@@ -1246,6 +1268,8 @@ export declare type HomeScreenPeopleNotification = {
 } | {
     t: HomeScreenPeopleNotificationType.FOLLOWED_MULTI;
     FOLLOWED_MULTI: HomeScreenPeopleNotificationFollowedMulti | null;
+} | {
+    t: Exclude<HomeScreenPeopleNotificationType, HomeScreenPeopleNotificationType.FOLLOWED | HomeScreenPeopleNotificationType.FOLLOWED_MULTI>;
 };
 export declare type HomeScreenItem = {
     badged: boolean;
@@ -1268,8 +1292,8 @@ export declare type HomeScreen = {
     lastViewed: Time;
     version: number;
     visits: number;
-    items: HomeScreenItem[];
-    followSuggestions: HomeUserSummary[];
+    items: HomeScreenItem[] | null;
+    followSuggestions: HomeUserSummary[] | null;
     announcementsVersion: number;
 };
 export declare type IdentifyProofBreak = {
@@ -1277,8 +1301,8 @@ export declare type IdentifyProofBreak = {
     lcr: LinkCheckResult;
 };
 export declare type IdentifyTrackBreaks = {
-    keys: IdentifyKey[];
-    proofs: IdentifyProofBreak[];
+    keys: IdentifyKey[] | null;
+    proofs: IdentifyProofBreak[] | null;
 };
 export declare type Identify2Res = {
     upk: UserPlusKeys;
@@ -1297,7 +1321,7 @@ export declare type IdentifyLiteRes = {
 export declare type ResolveIdentifyImplicitTeamRes = {
     displayName: string;
     teamId: TeamID;
-    writers: UserVersion[];
+    writers: UserVersion[] | null;
     trackBreaks: {
         [key: string]: IdentifyTrackBreaks;
     };
@@ -1337,13 +1361,13 @@ export declare type Identify3Row = {
     value: string;
     priority: number;
     siteUrl: string;
-    siteIcon: SizedImage[];
-    siteIconFull: SizedImage[];
+    siteIcon: SizedImage[] | null;
+    siteIconFull: SizedImage[] | null;
     proofUrl: string;
     sigId: SigID;
     ctime: Time;
     state: Identify3RowState;
-    metas: Identify3RowMeta[];
+    metas: Identify3RowMeta[] | null;
     color: Identify3RowColor;
     kid?: KID;
 };
@@ -1418,7 +1442,7 @@ export declare type IdentifyReason = {
 export declare type IdentifyOutcome = {
     username: string;
     status?: Status;
-    warnings: string[];
+    warnings: string[] | null;
     trackUsed?: TrackSummary;
     trackStatus: TrackStatus;
     numTrackFailures: number;
@@ -1426,7 +1450,7 @@ export declare type IdentifyOutcome = {
     numProofFailures: number;
     numRevoked: number;
     numProofSuccesses: number;
-    revoked: TrackDiff[];
+    revoked: TrackDiff[] | null;
     trackOptions: TrackOptions;
     forPgpPull: boolean;
     reason: IdentifyReason;
@@ -1477,10 +1501,10 @@ export declare type RevokedProof = {
 export declare type Identity = {
     status?: Status;
     whenLastTracked: Time;
-    proofs: IdentifyRow[];
-    cryptocurrency: Cryptocurrency[];
-    revoked: TrackDiff[];
-    revokedDetails: RevokedProof[];
+    proofs: IdentifyRow[] | null;
+    cryptocurrency: Cryptocurrency[] | null;
+    revoked: TrackDiff[] | null;
+    revokedDetails: RevokedProof[] | null;
     breaksTracking: boolean;
 };
 export declare type SigHint = {
@@ -1517,7 +1541,7 @@ export declare type UserTeamShowcase = {
     teamIsShowcased: boolean;
     description: string;
     role: TeamRole;
-    publicAdmins: string[];
+    publicAdmins: string[] | null;
     numMembers: number;
 };
 export declare type UserCard = {
@@ -1531,7 +1555,7 @@ export declare type UserCard = {
     twitter: string;
     youFollowThem: boolean;
     theyFollowYou: boolean;
-    teamShowcase: UserTeamShowcase[];
+    teamShowcase: UserTeamShowcase[] | null;
     registeredForAirdrop: boolean;
     blocked: boolean;
 };
@@ -1577,9 +1601,9 @@ export declare type ServiceStatus = {
     status: Status;
 };
 export declare type ServicesStatus = {
-    service: ServiceStatus[];
-    kbfs: ServiceStatus[];
-    updater: ServiceStatus[];
+    service: ServiceStatus[] | null;
+    kbfs: ServiceStatus[] | null;
+    updater: ServiceStatus[] | null;
 };
 export declare type FuseMountInfo = {
     path: string;
@@ -1594,7 +1618,7 @@ export declare type FuseStatus = {
     kextStarted: boolean;
     installStatus: InstallStatus;
     installAction: InstallAction;
-    mountInfos: FuseMountInfo[];
+    mountInfos: FuseMountInfo[] | null;
     status: Status;
 };
 export declare type ComponentResult = {
@@ -1603,12 +1627,12 @@ export declare type ComponentResult = {
     exitCode: number;
 };
 export declare type InstallResult = {
-    componentResults: ComponentResult[];
+    componentResults: ComponentResult[] | null;
     status: Status;
     fatal: boolean;
 };
 export declare type UninstallResult = {
-    componentResults: ComponentResult[];
+    componentResults: ComponentResult[] | null;
     status: Status;
 };
 export declare type KBFSTeamSettings = {
@@ -1677,13 +1701,13 @@ export declare type FSFolderWriterEdit = {
 };
 export declare type FSFolderWriterEditHistory = {
     writerName: string;
-    edits: FSFolderWriterEdit[];
-    deletes: FSFolderWriterEdit[];
+    edits: FSFolderWriterEdit[] | null;
+    deletes: FSFolderWriterEdit[] | null;
 };
 export declare type FSFolderEditHistory = {
     folder: Folder;
     serverTime: Time;
-    history: FSFolderWriterEditHistory[];
+    history: FSFolderWriterEditHistory[] | null;
 };
 export declare type FSSyncStatusRequest = {
     requestId: number;
@@ -1691,21 +1715,21 @@ export declare type FSSyncStatusRequest = {
 export declare type FSPathSyncStatus = {
     folderType: FolderType;
     path: string;
-    syncingBytes: number;
-    syncingOps: number;
-    syncedBytes: number;
+    syncingBytes: never;
+    syncingOps: never;
+    syncedBytes: never;
 };
 export declare type FSSyncStatus = {
-    totalSyncingBytes: number;
-    syncingPaths: string[];
+    totalSyncingBytes: never;
+    syncingPaths: string[] | null;
     endEstimate?: Time;
 };
 export declare type FolderSyncStatus = {
-    localDiskBytesAvailable: number;
-    localDiskBytesTotal: number;
+    localDiskBytesAvailable: never;
+    localDiskBytesTotal: never;
     prefetchStatus: PrefetchStatus;
     prefetchProgress: PrefetchProgress;
-    storedBytesTotal: number;
+    storedBytesTotal: never;
     outOfSyncSpace: boolean;
 };
 export declare type GcOptions = {
@@ -1779,7 +1803,7 @@ export declare type KeyBundle = {
 };
 export declare type MetadataResponse = {
     folderId: string;
-    mdBlocks: MDBlock[];
+    mdBlocks: MDBlock[] | null;
 };
 export declare type MerkleRoot = {
     version: number;
@@ -1792,7 +1816,7 @@ export declare type KeyBundleResponse = {
     writerBundle: KeyBundle;
     readerBundle: KeyBundle;
 };
-export declare type LockID = number;
+export declare type LockID = never;
 export declare type MDPriority = number;
 export declare type LockContext = {
     requireLockId: LockID;
@@ -1800,13 +1824,13 @@ export declare type LockContext = {
 };
 export declare type FindNextMDResponse = {
     kbfsRoot: MerkleRoot;
-    merkleNodes: Buffer[];
+    merkleNodes: Buffer[] | null;
     rootSeqno: Seqno;
     rootHash: HashMeta;
 };
 export declare type RekeyRequest = {
     folderId: string;
-    revision: number;
+    revision: never;
 };
 export declare type ChatConversationID = Buffer;
 export declare type TeamMemberOutReset = {
@@ -1836,15 +1860,15 @@ export declare type BadgeState = {
     homeTodoItems: number;
     unverifiedEmails: number;
     unverifiedPhones: number;
-    newDevices: DeviceID[];
-    revokedDevices: DeviceID[];
-    conversations: BadgeConversationInfo[];
-    newGitRepoGlobalUniqueIDs: string[];
-    newTeamNames: string[];
-    deletedTeams: DeletedTeamInfo[];
-    newTeamAccessRequests: string[];
-    teamsWithResetUsers: TeamMemberOutReset[];
-    unreadWalletAccounts: WalletAccountInfo[];
+    newDevices: DeviceID[] | null;
+    revokedDevices: DeviceID[] | null;
+    conversations: BadgeConversationInfo[] | null;
+    newGitRepoGlobalUniqueIDs: string[] | null;
+    newTeamNames: string[] | null;
+    deletedTeams: DeletedTeamInfo[] | null;
+    newTeamAccessRequests: string[] | null;
+    teamsWithResetUsers: TeamMemberOutReset[] | null;
+    unreadWalletAccounts: WalletAccountInfo[] | null;
     resetState: ResetState;
 };
 export declare type BadgeConversationInfo = {
@@ -1910,8 +1934,8 @@ export declare type ProcessRuntimeStats = {
     residentSeverity: StatsSeverityLevel;
 };
 export declare type RuntimeStats = {
-    processStats: ProcessRuntimeStats[];
-    dbStats: DbStats[];
+    processStats: ProcessRuntimeStats[] | null;
+    dbStats: DbStats[] | null;
     convLoaderActive: boolean;
     selectiveSyncActive: boolean;
 };
@@ -1977,7 +2001,7 @@ export declare type PGPSignOptions = {
     binaryOut: boolean;
 };
 export declare type PGPEncryptOptions = {
-    recipients: string[];
+    recipients: string[] | null;
     noSign: boolean;
     noSelf: boolean;
     binaryOut: boolean;
@@ -2014,13 +2038,13 @@ export declare type PGPQuery = {
 };
 export declare type PGPCreateUids = {
     useDefault: boolean;
-    ids: PGPIdentity[];
+    ids: PGPIdentity[] | null;
 };
 /**
  * Export all pgp keys in lksec, then if doPurge is true, remove the keys from lksec.
  */
 export declare type PGPPurgeRes = {
-    filenames: string[];
+    filenames: string[] | null;
 };
 /**
  * Phone number support for TOFU chats.
@@ -2053,7 +2077,7 @@ export declare type FileDescriptor = {
 export declare type Process = {
     pid: string;
     command: string;
-    fileDescriptors: FileDescriptor[];
+    fileDescriptors: FileDescriptor[] | null;
 };
 export declare type CheckProofStatus = {
     found: boolean;
@@ -2175,8 +2199,8 @@ export declare type ParamProofServiceConfig = {
     prefillUrl: string;
     profileUrl: string;
     checkUrl: string;
-    checkPath: SelectorEntry[];
-    avatarPath: SelectorEntry[];
+    checkPath: SelectorEntry[] | null;
+    avatarPath: SelectorEntry[] | null;
 };
 export declare type ServiceDisplayConfig = {
     creationDisabled: boolean;
@@ -2196,8 +2220,8 @@ export declare enum PromptOverwriteType {
     SITE = "site"
 }
 export declare type ProveParameters = {
-    logoFull: SizedImage[];
-    logoBlack: SizedImage[];
+    logoFull: SizedImage[] | null;
+    logoBlack: SizedImage[] | null;
     title: string;
     subtext: string;
     suffix: string;
@@ -2243,14 +2267,14 @@ export declare type Reachability = {
 export declare type TLF = {
     id: TLFID;
     name: string;
-    writers: string[];
-    readers: string[];
+    writers: string[] | null;
+    readers: string[] | null;
     isPrivate: boolean;
 };
 export declare type ProblemTLF = {
     tlf: TLF;
     score: number;
-    solutionKids: KID[];
+    solutionKids: KID[] | null;
 };
 /**
  * ProblemSet is for a particular (user,kid) that initiated a rekey problem.
@@ -2261,11 +2285,11 @@ export declare type ProblemTLF = {
 export declare type ProblemSet = {
     user: User;
     kid: KID;
-    tlfs: ProblemTLF[];
+    tlfs: ProblemTLF[] | null;
 };
 export declare type ProblemSetDevices = {
     problemSet: ProblemSet;
-    devices: Device[];
+    devices: Device[] | null;
 };
 export declare enum Outcome {
     NONE = "none",
@@ -2273,7 +2297,7 @@ export declare enum Outcome {
     IGNORED = "ignored"
 }
 export declare type RevokeWarning = {
-    endangeredTlFs: TLF[];
+    endangeredTlFs: TLF[] | null;
 };
 export declare enum RekeyEventType {
     NONE = "none",
@@ -2326,8 +2350,8 @@ export declare enum AuthenticityType {
     ANONYMOUS = "anonymous"
 }
 export declare type SaltpackEncryptOptions = {
-    recipients: string[];
-    teamRecipients: string[];
+    recipients: string[] | null;
+    teamRecipients: string[] | null;
     authenticityType: AuthenticityType;
     useEntityKeys: boolean;
     useDeviceKeys: boolean;
@@ -2352,7 +2376,7 @@ export declare type SaltpackVerifyOptions = {
     signature: Buffer;
 };
 export declare type SaltpackEncryptedMessageInfo = {
-    devices: Device[];
+    devices: Device[] | null;
     numAnonReceivers: number;
     receiverIsAnon: boolean;
     sender: SaltpackSender;
@@ -2433,7 +2457,7 @@ export declare type SigListArgs = {
     revoked: boolean;
 };
 export declare type OpID = string | null;
-export declare type KBFSRevision = number;
+export declare type KBFSRevision = never;
 export declare enum KBFSArchivedType {
     REVISION = "revision",
     TIME = "time",
@@ -2452,6 +2476,8 @@ export declare type KBFSArchivedParam = {
 } | {
     KBFSArchivedType: KBFSArchivedType.REL_TIME_STRING;
     REL_TIME_STRING: string | null;
+} | {
+    KBFSArchivedType: Exclude<KBFSArchivedType, KBFSArchivedType.REVISION | KBFSArchivedType.TIME | KBFSArchivedType.TIME_STRING | KBFSArchivedType.REL_TIME_STRING>;
 };
 export declare type KBFSArchivedPath = {
     path: string;
@@ -2476,6 +2502,8 @@ export declare type Path = {
 } | {
     PathType: PathType.KBFS_ARCHIVED;
     KBFS_ARCHIVED: KBFSArchivedPath | null;
+} | {
+    PathType: Exclude<PathType, PathType.LOCAL | PathType.KBFS | PathType.KBFS_ARCHIVED>;
 };
 export declare enum DirentType {
     FILE = "file",
@@ -2491,8 +2519,8 @@ export declare enum PrefetchStatus {
 export declare type PrefetchProgress = {
     start: Time;
     endEstimate: Time;
-    bytesTotal: number;
-    bytesFetched: number;
+    bytesTotal: never;
+    bytesFetched: never;
 };
 export declare type Dirent = {
     time: Time;
@@ -2523,7 +2551,7 @@ export declare enum OpenFlags {
 }
 export declare type Progress = number;
 export declare type SimpleFSListResult = {
-    entries: Dirent[];
+    entries: Dirent[] | null;
     progress: Progress;
 };
 export declare type FileContent = {
@@ -2565,13 +2593,13 @@ export declare type RemoveArgs = {
 export declare type ReadArgs = {
     opId: OpID;
     path: Path;
-    offset: number;
+    offset: never;
     size: number;
 };
 export declare type WriteArgs = {
     opId: OpID;
     path: Path;
-    offset: number;
+    offset: never;
 };
 export declare type CopyArgs = {
     opId: OpID;
@@ -2615,33 +2643,35 @@ export declare type OpDescription = {
 } | {
     asyncOp: AsyncOps.GET_REVISIONS;
     GET_REVISIONS: GetRevisionsArgs | null;
+} | {
+    asyncOp: Exclude<AsyncOps, AsyncOps.LIST | AsyncOps.LIST_RECURSIVE | AsyncOps.LIST_RECURSIVE_TO_DEPTH | AsyncOps.READ | AsyncOps.WRITE | AsyncOps.COPY | AsyncOps.MOVE | AsyncOps.REMOVE | AsyncOps.GET_REVISIONS>;
 };
 export declare type GetRevisionsResult = {
-    revisions: DirentWithRevision[];
+    revisions: DirentWithRevision[] | null;
     progress: Progress;
 };
 export declare type OpProgress = {
     start: Time;
     endEstimate: Time;
     opType: AsyncOps;
-    bytesTotal: number;
-    bytesRead: number;
-    bytesWritten: number;
-    filesTotal: number;
-    filesRead: number;
-    filesWritten: number;
+    bytesTotal: never;
+    bytesRead: never;
+    bytesWritten: never;
+    filesTotal: never;
+    filesRead: never;
+    filesWritten: never;
 };
 export declare type SimpleFSGetHTTPAddressAndTokenResponse = {
     address: string;
     token: string;
 };
 export declare type SimpleFSQuotaUsage = {
-    usageBytes: number;
-    archiveBytes: number;
-    limitBytes: number;
-    gitUsageBytes: number;
-    gitArchiveBytes: number;
-    gitLimitBytes: number;
+    usageBytes: never;
+    archiveBytes: never;
+    limitBytes: never;
+    gitUsageBytes: never;
+    gitArchiveBytes: never;
+    gitLimitBytes: never;
 };
 export declare enum FolderSyncMode {
     DISABLED = "disabled",
@@ -2650,7 +2680,7 @@ export declare enum FolderSyncMode {
 }
 export declare type FolderSyncConfig = {
     mode: FolderSyncMode;
-    paths: string[];
+    paths: string[] | null;
 };
 export declare type FolderSyncConfigAndStatus = {
     config: FolderSyncConfig;
@@ -2662,17 +2692,17 @@ export declare type FolderSyncConfigAndStatusWithFolder = {
     status: FolderSyncStatus;
 };
 export declare type SyncConfigAndStatusRes = {
-    folders: FolderSyncConfigAndStatusWithFolder[];
+    folders: FolderSyncConfigAndStatusWithFolder[] | null;
     overallStatus: FolderSyncStatus;
 };
 export declare type FSSettings = {
-    spaceAvailableNotificationThreshold: number;
+    spaceAvailableNotificationThreshold: never;
 };
 export declare type SimpleFSStats = {
     processStats: ProcessRuntimeStats;
-    blockCacheDbStats: string[];
-    syncCacheDbStats: string[];
-    runtimeDbStats: DbStats[];
+    blockCacheDbStats: string[] | null;
+    syncCacheDbStats: string[] | null;
+    runtimeDbStats: DbStats[] | null;
 };
 export declare enum SubscriptionTopic {
     FAVORITES = "favorites",
@@ -2683,7 +2713,7 @@ export declare enum PathSubscriptionTopic {
     CHILDREN = "children",
     STAT = "stat"
 }
-export declare type TeambotKeyGeneration = number;
+export declare type TeambotKeyGeneration = never;
 export declare type TeambotKeyMetadata = {
     teambotDhPublic: KID;
     generation: TeambotKeyGeneration;
@@ -2774,12 +2804,12 @@ export declare type TeamMember = {
     status: TeamMemberStatus;
 };
 export declare type TeamMembers = {
-    owners: UserVersion[];
-    admins: UserVersion[];
-    writers: UserVersion[];
-    readers: UserVersion[];
-    bots: UserVersion[];
-    restrictedBots: UserVersion[];
+    owners: UserVersion[] | null;
+    admins: UserVersion[] | null;
+    writers: UserVersion[] | null;
+    readers: UserVersion[] | null;
+    bots: UserVersion[] | null;
+    restrictedBots: UserVersion[] | null;
 };
 export declare enum TeamMemberStatus {
     ACTIVE = "active",
@@ -2794,12 +2824,12 @@ export declare type TeamMemberDetails = {
     status: TeamMemberStatus;
 };
 export declare type TeamMembersDetails = {
-    owners: TeamMemberDetails[];
-    admins: TeamMemberDetails[];
-    writers: TeamMemberDetails[];
-    readers: TeamMemberDetails[];
-    bots: TeamMemberDetails[];
-    restrictedBots: TeamMemberDetails[];
+    owners: TeamMemberDetails[] | null;
+    admins: TeamMemberDetails[] | null;
+    writers: TeamMemberDetails[] | null;
+    readers: TeamMemberDetails[] | null;
+    bots: TeamMemberDetails[] | null;
+    restrictedBots: TeamMemberDetails[] | null;
 };
 export declare type TeamDetails = {
     members: TeamMembersDetails;
@@ -2812,15 +2842,15 @@ export declare type TeamDetails = {
 };
 export declare type UserVersionPercentForm = string;
 export declare type TeamChangeReq = {
-    owners: UserVersion[];
-    admins: UserVersion[];
-    writers: UserVersion[];
-    readers: UserVersion[];
-    bots: UserVersion[];
+    owners: UserVersion[] | null;
+    admins: UserVersion[] | null;
+    writers: UserVersion[] | null;
+    readers: UserVersion[] | null;
+    bots: UserVersion[] | null;
     restrictedBots: {
         [key: string]: TeamBotSettings;
     };
-    none: UserVersion[];
+    none: UserVersion[] | null;
     completedInvites: {
         [key: string]: UserVersionPercentForm;
     };
@@ -2831,10 +2861,10 @@ export declare type TeamPlusApplicationKeys = {
     implicit: boolean;
     public: boolean;
     application: TeamApplication;
-    writers: UserVersion[];
-    onlyReaders: UserVersion[];
-    onlyRestrictedBots: UserVersion[];
-    applicationKeys: TeamApplicationKey[];
+    writers: UserVersion[] | null;
+    onlyReaders: UserVersion[] | null;
+    onlyRestrictedBots: UserVersion[] | null;
+    applicationKeys: TeamApplicationKey[] | null;
 };
 export declare type TeamData = {
     v: number;
@@ -2854,7 +2884,7 @@ export declare type TeamData = {
     latestSeqnoHint: Seqno;
     cachedAt: Time;
     tlfCryptKeys: {
-        [key: string]: CryptKey[];
+        [key: string]: CryptKey[] | null;
     };
 };
 export declare type FastTeamData = {
@@ -2995,7 +3025,7 @@ export declare type AuditHistory = {
     public: boolean;
     priorMerkleSeqno: Seqno;
     version: AuditVersion;
-    audits: Audit[];
+    audits: Audit[] | null;
     preProbes: {
         [key: string]: Probe;
     };
@@ -3022,6 +3052,8 @@ export declare type TeamInviteType = {
 } | {
     c: TeamInviteCategory.SBS;
     SBS: TeamInviteSocialNetwork | null;
+} | {
+    c: Exclude<TeamInviteCategory, TeamInviteCategory.UNKNOWN | TeamInviteCategory.SBS>;
 };
 export declare type TeamInviteSocialNetwork = string;
 export declare type TeamInviteName = string;
@@ -3068,17 +3100,17 @@ export declare type TeamSigChainState = {
     public: boolean;
     rootAncestor: TeamName;
     nameDepth: number;
-    nameLog: TeamNameLogPoint[];
+    nameLog: TeamNameLogPoint[] | null;
     lastSeqno: Seqno;
     lastLinkId: LinkID;
     lastHighSeqno: Seqno;
     lastHighLinkId: LinkID;
     parentId?: TeamID;
     userLog: {
-        [key: string]: UserLogPoint[];
+        [key: string]: UserLogPoint[] | null;
     };
     subteamLog: {
-        [key: string]: SubteamLogPoint[];
+        [key: string]: SubteamLogPoint[] | null;
     };
     perTeamKeys: {
         [key: string]: PerTeamKey;
@@ -3102,7 +3134,7 @@ export declare type TeamSigChainState = {
     bots: {
         [key: string]: TeamBotSettings;
     };
-    tlfIDs: TLFID[];
+    tlfIDs: TLFID[] | null;
     tlfLegacyUpgrade: {
         [key: string]: TeamLegacyTLFUpgradeChainInfo;
     };
@@ -3126,7 +3158,7 @@ export declare type SubteamLogPoint = {
 };
 export declare type TeamNamePart = string;
 export declare type TeamName = {
-    parts: TeamNamePart[];
+    parts: TeamNamePart[] | null;
 };
 export declare type TeamCLKRResetUser = {
     uid: UID;
@@ -3137,7 +3169,7 @@ export declare type TeamCLKRMsg = {
     teamId: TeamID;
     generation: PerTeamKeyGeneration;
     score: number;
-    resetUsers: TeamCLKRResetUser[];
+    resetUsers: TeamCLKRResetUser[] | null;
 };
 export declare type TeamResetUser = {
     username: string;
@@ -3176,7 +3208,7 @@ export declare type TeamInvitee = {
 export declare type TeamSBSMsg = {
     teamId: TeamID;
     score: number;
-    invitees: TeamInvitee[];
+    invitees: TeamInvitee[] | null;
 };
 export declare type TeamAccessRequest = {
     uid: UID;
@@ -3184,7 +3216,7 @@ export declare type TeamAccessRequest = {
 };
 export declare type TeamOpenReqMsg = {
     teamId: TeamID;
-    tars: TeamAccessRequest[];
+    tars: TeamAccessRequest[] | null;
 };
 export declare type SeitanAKey = string;
 export declare type SeitanIKey = string;
@@ -3200,6 +3232,8 @@ export declare type SeitanKeyAndLabel = {
 } | {
     v: SeitanKeyAndLabelVersion.V2;
     V2: SeitanKeyAndLabelVersion2 | null;
+} | {
+    v: Exclude<SeitanKeyAndLabelVersion, SeitanKeyAndLabelVersion.V1 | SeitanKeyAndLabelVersion.V2>;
 };
 export declare type SeitanKeyAndLabelVersion1 = {
     i: SeitanIKey;
@@ -3215,6 +3249,8 @@ export declare enum SeitanKeyLabelType {
 export declare type SeitanKeyLabel = {
     t: SeitanKeyLabelType.SMS;
     SMS: SeitanKeyLabelSms | null;
+} | {
+    t: Exclude<SeitanKeyLabelType, SeitanKeyLabelType.SMS>;
 };
 export declare type SeitanKeyLabelSms = {
     f: string;
@@ -3226,15 +3262,15 @@ export declare type TeamSeitanRequest = {
     eldestSeqno: Seqno;
     akey: SeitanAKey;
     role: TeamRole;
-    ctime: number;
+    ctime: never;
 };
 export declare type TeamSeitanMsg = {
     teamId: TeamID;
-    seitans: TeamSeitanRequest[];
+    seitans: TeamSeitanRequest[] | null;
 };
 export declare type TeamOpenSweepMsg = {
     teamId: TeamID;
-    resetUsers: TeamCLKRResetUser[];
+    resetUsers: TeamCLKRResetUser[] | null;
 };
 export declare type TeamKBFSKeyRefresher = {
     generation: number;
@@ -3247,12 +3283,12 @@ export declare type TeamKBFSKeyRefresher = {
 export declare type TeamRefreshers = {
     needKeyGeneration: PerTeamKeyGeneration;
     needApplicationsAtGenerations: {
-        [key: string]: TeamApplication[];
+        [key: string]: TeamApplication[] | null;
     };
     needApplicationsAtGenerationsWithKbfs: {
-        [key: string]: TeamApplication[];
+        [key: string]: TeamApplication[] | null;
     };
-    wantMembers: UserVersion[];
+    wantMembers: UserVersion[] | null;
     wantMembersRole: TeamRole;
     needKbfsKeyGeneration: TeamKBFSKeyRefresher;
 };
@@ -3274,14 +3310,14 @@ export declare type FastTeamLoadArg = {
     id: TeamID;
     public: boolean;
     assertTeamName?: TeamName;
-    applications: TeamApplication[];
-    keyGenerationsNeeded: PerTeamKeyGeneration[];
+    applications: TeamApplication[] | null;
+    keyGenerationsNeeded: PerTeamKeyGeneration[] | null;
     needLatestKey: boolean;
     forceRefresh: boolean;
 };
 export declare type FastTeamLoadRes = {
     name: TeamName;
-    applicationKeys: TeamApplicationKey[];
+    applicationKeys: TeamApplicationKey[] | null;
 };
 export declare type ImplicitRole = {
     role: TeamRole;
@@ -3300,7 +3336,7 @@ export declare type MemberInfo = {
     isMemberShowcased: boolean;
 };
 export declare type TeamList = {
-    teams: MemberInfo[];
+    teams: MemberInfo[] | null;
 };
 export declare type AnnotatedMemberInfo = {
     uid: UID;
@@ -3321,7 +3357,7 @@ export declare type AnnotatedMemberInfo = {
     status: TeamMemberStatus;
 };
 export declare type AnnotatedTeamList = {
-    teams: AnnotatedMemberInfo[];
+    teams: AnnotatedMemberInfo[] | null;
     annotatedActiveInvites: {
         [key: string]: AnnotatedTeamInvite;
     };
@@ -3337,7 +3373,7 @@ export declare type TeamJoinRequest = {
     username: string;
 };
 export declare type TeamTreeResult = {
-    entries: TeamTreeEntry[];
+    entries: TeamTreeEntry[] | null;
 };
 export declare type TeamTreeEntry = {
     name: TeamName;
@@ -3348,7 +3384,7 @@ export declare type SubteamListEntry = {
     memberCount: number;
 };
 export declare type SubteamListResult = {
-    entries: SubteamListEntry[];
+    entries: SubteamListEntry[] | null;
 };
 export declare type TeamCreateResult = {
     teamId: TeamID;
@@ -3362,8 +3398,8 @@ export declare type TeamSettings = {
 export declare type TeamBotSettings = {
     cmds: boolean;
     mentions: boolean;
-    triggers: string[];
-    convs: string[];
+    triggers: string[] | null;
+    convs: string[] | null;
 };
 export declare type TeamRequestAccessResult = {
     open: boolean;
@@ -3390,13 +3426,13 @@ export declare type UserRolePair = {
     botSettings?: TeamBotSettings;
 };
 export declare type BulkRes = {
-    invited: string[];
-    alreadyInvited: string[];
-    malformed: string[];
+    invited: string[] | null;
+    alreadyInvited: string[] | null;
+    malformed: string[] | null;
 };
 export declare type ImplicitTeamUserSet = {
-    keybaseUsers: string[];
-    unresolvedUsers: SocialAssertion[];
+    keybaseUsers: string[] | null;
+    unresolvedUsers: SocialAssertion[] | null;
 };
 /**
  * * iTeams
@@ -3444,7 +3480,7 @@ export declare type TeamOperation = {
     pinMessage: boolean;
 };
 export declare type ProfileTeamLoadRes = {
-    loadTimeNsec: number;
+    loadTimeNsec: never;
 };
 export declare enum RotationType {
     VISIBLE = "visible",
@@ -3497,7 +3533,7 @@ export declare type CryptKey = {
     key: Bytes32;
 };
 export declare type TLFBreak = {
-    breaks: TLFIdentifyFailure[];
+    breaks: TLFIdentifyFailure[] | null;
 };
 export declare type TLFIdentifyFailure = {
     user: User;
@@ -3510,7 +3546,7 @@ export declare type CanonicalTLFNameAndIDWithBreaks = {
 };
 export declare type GetTLFCryptKeysRes = {
     nameIdBreaks: CanonicalTLFNameAndIDWithBreaks;
-    cryptKeys: CryptKey[];
+    cryptKeys: CryptKey[] | null;
 };
 export declare type TLFQuery = {
     tlfName: string;
@@ -3574,7 +3610,7 @@ export declare type PGPFingerprint = string | null;
 export declare type PublicKeyV2PGPSummary = {
     base: PublicKeyV2Base;
     fingerprint: PGPFingerprint;
-    identities: PGPIdentity[];
+    identities: PGPIdentity[] | null;
 };
 export declare type PublicKeyV2 = {
     keyType: KeyType.NACL;
@@ -3582,13 +3618,15 @@ export declare type PublicKeyV2 = {
 } | {
     keyType: KeyType.PGP;
     PGP: PublicKeyV2PGPSummary | null;
+} | {
+    keyType: Exclude<KeyType, KeyType.NACL | KeyType.PGP>;
 };
 export declare type UserPlusKeysV2 = {
     uid: UID;
     username: string;
     eldestSeqno: Seqno;
     status: StatusCode;
-    perUserKeys: PerUserKey[];
+    perUserKeys: PerUserKey[] | null;
     deviceKeys: {
         [key: string]: PublicKeyV2NaCl;
     };
@@ -3604,7 +3642,7 @@ export declare type UserPlusKeysV2 = {
 };
 export declare type UserPlusKeysV2AllIncarnations = {
     current: UserPlusKeysV2;
-    pastIncarnations: UserPlusKeysV2[];
+    pastIncarnations: UserPlusKeysV2[] | null;
     uvv: UserVersionVector;
     seqnoLinkIDs: {
         [key: string]: LinkID;
@@ -3626,6 +3664,8 @@ export declare type UPAKVersioned = {
 } | {
     v: UPAKVersion.V2;
     V2: UserPlusKeysV2AllIncarnations | null;
+} | {
+    v: Exclude<UPAKVersion, UPAKVersion.V1 | UPAKVersion.V2>;
 };
 export declare enum UPKLiteMinorVersion {
     V0 = "v0"
@@ -3642,7 +3682,7 @@ export declare type UPKLiteV1 = {
 };
 export declare type UPKLiteV1AllIncarnations = {
     current: UPKLiteV1;
-    pastIncarnations: UPKLiteV1[];
+    pastIncarnations: UPKLiteV1[] | null;
     seqnoLinkIDs: {
         [key: string]: LinkID;
     };
@@ -3655,12 +3695,12 @@ export declare type TrackProof = {
 };
 export declare type WebProof = {
     hostname: string;
-    protocols: string[];
+    protocols: string[] | null;
 };
 export declare type Proofs = {
-    social: TrackProof[];
-    web: WebProof[];
-    publicKeys: PublicKey[];
+    social: TrackProof[] | null;
+    web: WebProof[] | null;
+    publicKeys: PublicKey[] | null;
 };
 export declare type UserSummary = {
     uid: UID;
@@ -3682,8 +3722,8 @@ export declare type Email = {
     lastVerifyEmailDate: UnixTime;
 };
 export declare type UserSettings = {
-    emails: Email[];
-    phoneNumbers: UserPhoneNumber[];
+    emails: Email[] | null;
+    phoneNumbers: UserPhoneNumber[] | null;
 };
 export declare type UserSummary2 = {
     uid: UID;
@@ -3694,7 +3734,7 @@ export declare type UserSummary2 = {
     isFollowee: boolean;
 };
 export declare type UserSummary2Set = {
-    users: UserSummary2[];
+    users: UserSummary2[] | null;
     time: Time;
     version: number;
 };
@@ -3704,18 +3744,18 @@ export declare type InterestingPerson = {
     fullname: string;
 };
 export declare type ProofSuggestionsRes = {
-    suggestions: ProofSuggestion[];
+    suggestions: ProofSuggestion[] | null;
     showMore: boolean;
 };
 export declare type ProofSuggestion = {
     key: string;
     belowFold: boolean;
     profileText: string;
-    profileIcon: SizedImage[];
+    profileIcon: SizedImage[] | null;
     pickerText: string;
     pickerSubtext: string;
-    pickerIcon: SizedImage[];
-    metas: Identify3RowMeta[];
+    pickerIcon: SizedImage[] | null;
+    metas: Identify3RowMeta[] | null;
 };
 export declare type NextMerkleRootRes = {
     res?: MerkleRootV2;
@@ -3774,8 +3814,8 @@ export declare type NonUserDetails = {
     description: string;
     contact?: ProcessedContact;
     service?: APIUserServiceResult;
-    siteIcon: SizedImage[];
-    siteIconFull: SizedImage[];
+    siteIcon: SizedImage[] | null;
+    siteIconFull: SizedImage[] | null;
 };
 export declare enum ImpTofuSearchType {
     PHONE = "phone",
@@ -3787,4 +3827,6 @@ export declare type ImpTofuQuery = {
 } | {
     t: ImpTofuSearchType.EMAIL;
     EMAIL: EmailAddress | null;
+} | {
+    t: Exclude<ImpTofuSearchType, ImpTofuSearchType.PHONE | ImpTofuSearchType.EMAIL>;
 };

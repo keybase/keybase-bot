@@ -136,7 +136,7 @@ export type LockdownHistory = {
 }
 
 export type GetLockdownResponse = {
-  history: LockdownHistory[]
+  history: LockdownHistory[] | null
   status: boolean
 }
 
@@ -189,7 +189,7 @@ export type LoadAvatarsRes = {
 
 export type AvatarClearCacheMsg = {
   name: string
-  formats: AvatarFormat[]
+  formats: AvatarFormat[] | null
   typ: AvatarUpdateType
 }
 
@@ -206,7 +206,7 @@ export type BlockIdCombo = {
 }
 
 export type ChallengeInfo = {
-  now: number
+  now: never
   challenge: string
 }
 
@@ -236,7 +236,7 @@ export type BlockReferenceCount = {
 }
 
 export type DowngradeReferenceRes = {
-  completed: BlockReferenceCount[]
+  completed: BlockReferenceCount[] | null
   failed: BlockReference
 }
 
@@ -246,14 +246,14 @@ export type BlockIdCount = {
 }
 
 export type ReferenceCountRes = {
-  counts: BlockIdCount[]
+  counts: BlockIdCount[] | null
 }
 
 export type BlockPingResponse = {}
 
-export type Time = number
+export type Time = never
 
-export type UnixTime = number
+export type UnixTime = never
 
 export type DurationSec = number
 
@@ -266,7 +266,7 @@ export type Status = {
   code: number
   name: string
   desc: string
-  fields: StringKVPair[]
+  fields: StringKVPair[] | null
 }
 
 export type UID = string
@@ -312,7 +312,10 @@ export enum TeamType {
   MODERN = 'modern',
 }
 
-export type CompatibilityTeamID = {typ: TeamType.LEGACY; LEGACY: TLFID | null} | {typ: TeamType.MODERN; MODERN: TeamID | null}
+export type CompatibilityTeamID =
+  | {typ: TeamType.LEGACY; LEGACY: TLFID | null}
+  | {typ: TeamType.MODERN; MODERN: TeamID | null}
+  | {typ: Exclude<TeamType, TeamType.LEGACY | TeamType.MODERN>}
 
 export enum TLFVisibility {
   ANY = 'any',
@@ -330,7 +333,7 @@ export type TeamIDAndName = {
   name: TeamName
 }
 
-export type Seqno = number
+export type Seqno = never
 
 export enum SeqType {
   NONE = 'none',
@@ -356,7 +359,7 @@ export type PGPIdentity = {
 export type PublicKey = {
   kid: KID
   pgpFingerprint: string
-  pgpIdentities: PGPIdentity[]
+  pgpIdentities: PGPIdentity[] | null
   isSibkey: boolean
   isEldest: boolean
   parentId: string
@@ -431,9 +434,9 @@ export type KBFSPathInfo = {
 }
 
 export type UserVersionVector = {
-  id: number
+  id: never
   sigHints: number
-  sigChain: number
+  sigChain: never
   cachedAt: Time
 }
 
@@ -452,13 +455,13 @@ export type UserPlusKeys = {
   username: string
   eldestSeqno: Seqno
   status: StatusCode
-  deviceKeys: PublicKey[]
-  revokedDeviceKeys: RevokedKey[]
+  deviceKeys: PublicKey[] | null
+  revokedDeviceKeys: RevokedKey[] | null
   pgpKeyCount: number
   uvv: UserVersionVector
-  deletedDeviceKeys: PublicKey[]
-  perUserKeys: PerUserKey[]
-  resets: ResetSummary[]
+  deletedDeviceKeys: PublicKey[] | null
+  perUserKeys: PerUserKey[] | null
+  resets: ResetSummary[] | null
 }
 
 export type UserOrTeamLite = {
@@ -479,8 +482,8 @@ export type RemoteTrack = {
 
 export type UserPlusAllKeys = {
   base: UserPlusKeys
-  pgpKeys: PublicKey[]
-  remoteTracks: RemoteTrack[]
+  pgpKeys: PublicKey[] | null
+  remoteTracks: RemoteTrack[] | null
 }
 
 export enum MerkleTreeID {
@@ -560,7 +563,7 @@ export enum OfflineAvailability {
 export type ReacjiSkinTone = number
 
 export type UserReacjis = {
-  topReacjis: string[]
+  topReacjis: string[] | null
   skinTone: ReacjiSkinTone
 }
 
@@ -583,7 +586,7 @@ export type SessionStatus = {
 export type ClientDetails = {
   pid: number
   clientType: ClientType
-  argv: string[]
+  argv: string[] | null
   desc: string
   version: string
 }
@@ -628,17 +631,17 @@ export type ExtendedStatus = {
   logDir: string
   session?: SessionStatus
   defaultUsername: string
-  provisionedUsernames: string[]
-  configuredAccounts: ConfiguredAccount[]
-  clients: ClientStatus[]
-  deviceEkNames: string[]
+  provisionedUsernames: string[] | null
+  configuredAccounts: ConfiguredAccount[] | null
+  clients: ClientStatus[] | null
+  deviceEkNames: string[] | null
   platformInfo: PlatformInfo
   defaultDeviceId: DeviceID
-  localDbStats: string[]
-  localChatDbStats: string[]
-  localBlockCacheDbStats: string[]
-  localSyncCacheDbStats: string[]
-  cacheDirSizeInfo: DirSizeInfo[]
+  localDbStats: string[] | null
+  localChatDbStats: string[] | null
+  localBlockCacheDbStats: string[] | null
+  localSyncCacheDbStats: string[] | null
+  cacheDirSizeInfo: DirSizeInfo[] | null
   uiRouterMapping: {[key: string]: number}
 }
 
@@ -699,7 +702,7 @@ export type LogSendID = string
 
 export type AllProvisionedUsernames = {
   defaultUsername: string
-  provisionedUsernames: string[]
+  provisionedUsernames: string[] | null
   hasProvisionedUser: boolean
 }
 
@@ -740,7 +743,7 @@ export type OutOfDateInfo = {
   upgradeTo: string
   upgradeUri: string
   customMessage: string
-  criticalClockSkew: number
+  criticalClockSkew: never
 }
 
 export enum UpdateInfoStatus {
@@ -780,6 +783,7 @@ export type UpdateInfo2 =
   | {status: UpdateInfoStatus2.OK}
   | {status: UpdateInfoStatus2.SUGGESTED; SUGGESTED: UpdateDetails | null}
   | {status: UpdateInfoStatus2.CRITICAL; CRITICAL: UpdateDetails | null}
+  | {status: Exclude<UpdateInfoStatus2, UpdateInfoStatus2.OK | UpdateInfoStatus2.SUGGESTED | UpdateInfoStatus2.CRITICAL>}
 
 export enum ProxyType {
   No_Proxy = 'no_proxy',
@@ -1024,7 +1028,7 @@ export type ContactComponent = {
 
 export type Contact = {
   name: string
-  components: ContactComponent[]
+  components: ContactComponent[] | null
 }
 
 export type ProcessedContact = {
@@ -1121,7 +1125,7 @@ export type EmailAddressChangedMsg = {
   email: EmailAddress
 }
 
-export type EkGeneration = number
+export type EkGeneration = never
 
 export type DeviceEkMetadata = {
   deviceEphemeralDhPublic: KID
@@ -1229,10 +1233,12 @@ export enum TeamEphemeralKeyType {
 export type TeamEphemeralKey =
   | {keyType: TeamEphemeralKeyType.TEAM; TEAM: TeamEk | null}
   | {keyType: TeamEphemeralKeyType.TEAMBOT; TEAMBOT: TeambotEk | null}
+  | {keyType: Exclude<TeamEphemeralKeyType, TeamEphemeralKeyType.TEAM | TeamEphemeralKeyType.TEAMBOT>}
 
 export type TeamEphemeralKeyBoxed =
   | {keyType: TeamEphemeralKeyType.TEAM; TEAM: TeamEkBoxed | null}
   | {keyType: TeamEphemeralKeyType.TEAMBOT; TEAMBOT: TeambotEkBoxed | null}
+  | {keyType: Exclude<TeamEphemeralKeyType, TeamEphemeralKeyType.TEAM | TeamEphemeralKeyType.TEAMBOT>}
 
 export enum FolderType {
   UNKNOWN = 'unknown',
@@ -1256,7 +1262,7 @@ export enum ConflictStateType {
 export type FolderNormalView = {
   resolvingConflict: boolean
   stuckInConflict: boolean
-  localViews: Path[]
+  localViews: Path[] | null
 }
 
 export type FolderConflictManualResolvingLocalView = {
@@ -1266,6 +1272,7 @@ export type FolderConflictManualResolvingLocalView = {
 export type ConflictState =
   | {conflictStateType: ConflictStateType.NormalView; NormalView: FolderNormalView | null}
   | {conflictStateType: ConflictStateType.ManualResolvingLocalView; ManualResolvingLocalView: FolderConflictManualResolvingLocalView | null}
+  | {conflictStateType: Exclude<ConflictStateType, ConflictStateType.NormalView | ConflictStateType.ManualResolvingLocalView>}
 
 /**
  * Folder represents a favorite top-level folder in kbfs.
@@ -1278,7 +1285,7 @@ export type Folder = {
   created: boolean
   folderType: FolderType
   teamId?: TeamID
-  resetMembers: User[]
+  resetMembers: User[] | null
   mtime?: Time
   conflictState?: ConflictState
   syncConfig?: FolderSyncConfig
@@ -1291,9 +1298,9 @@ export type FolderHandle = {
 }
 
 export type FavoritesResult = {
-  favoriteFolders: Folder[]
-  ignoredFolders: Folder[]
-  newFolders: Folder[]
+  favoriteFolders: Folder[] | null
+  ignoredFolders: Folder[] | null
+  newFolders: Folder[] | null
 }
 
 export type File = {
@@ -1301,7 +1308,7 @@ export type File = {
 }
 
 export type ListResult = {
-  files: File[]
+  files: File[] | null
 }
 
 export type EncryptedGitMetadata = {
@@ -1321,7 +1328,9 @@ export type GitLocalMetadataV1 = {
   repoName: GitRepoName
 }
 
-export type GitLocalMetadataVersioned = {version: GitLocalMetadataVersion.V1; V1: GitLocalMetadataV1 | null}
+export type GitLocalMetadataVersioned =
+  | {version: GitLocalMetadataVersion.V1; V1: GitLocalMetadataV1 | null}
+  | {version: Exclude<GitLocalMetadataVersion, GitLocalMetadataVersion.V1>}
 
 export type GitCommit = {
   commitHash: string
@@ -1339,14 +1348,14 @@ export enum GitPushType {
 
 export type GitRefMetadata = {
   refName: string
-  commits: GitCommit[]
+  commits: GitCommit[] | null
   moreCommitsAvailable: boolean
   isDelete: boolean
 }
 
 export type GitLocalMetadata = {
   repoName: GitRepoName
-  refs: GitRefMetadata[]
+  refs: GitRefMetadata[] | null
   pushType: GitPushType
   previousRepoName: GitRepoName
 }
@@ -1364,7 +1373,10 @@ export enum GitRepoResultState {
   OK = 'ok',
 }
 
-export type GitRepoResult = {state: GitRepoResultState.ERR; ERR: string | null} | {state: GitRepoResultState.OK; OK: GitRepoInfo | null}
+export type GitRepoResult =
+  | {state: GitRepoResultState.ERR; ERR: string | null}
+  | {state: GitRepoResultState.OK; OK: GitRepoInfo | null}
+  | {state: Exclude<GitRepoResultState, GitRepoResultState.ERR | GitRepoResultState.OK>}
 
 export type GitRepoInfo = {
   folder: FolderHandle
@@ -1387,7 +1399,7 @@ export type GPGKey = {
   keyId: string
   creation: string
   expiration: string
-  identities: PGPIdentity[]
+  identities: PGPIdentity[] | null
 }
 
 export type SelectKeyRes = {
@@ -1413,8 +1425,11 @@ export type HomeScreenItemData =
   | {t: HomeScreenItemType.TODO; TODO: HomeScreenTodo | null}
   | {t: HomeScreenItemType.PEOPLE; PEOPLE: HomeScreenPeopleNotification | null}
   | {t: HomeScreenItemType.ANNOUNCEMENT; ANNOUNCEMENT: HomeScreenAnnouncement | null}
+  | {t: Exclude<HomeScreenItemType, HomeScreenItemType.TODO | HomeScreenItemType.PEOPLE | HomeScreenItemType.ANNOUNCEMENT>}
 
-export type HomeScreenItemDataExt = {t: HomeScreenItemType.TODO; TODO: HomeScreenTodoExt | null}
+export type HomeScreenItemDataExt =
+  | {t: HomeScreenItemType.TODO; TODO: HomeScreenTodoExt | null}
+  | {t: Exclude<HomeScreenItemType, HomeScreenItemType.TODO>}
 
 export enum AppLinkType {
   NONE = 'none',
@@ -1479,8 +1494,16 @@ export type HomeScreenTodo =
   | {t: HomeScreenTodoType.VERIFY_ALL_PHONE_NUMBER; VERIFY_ALL_PHONE_NUMBER: PhoneNumber | null}
   | {t: HomeScreenTodoType.VERIFY_ALL_EMAIL; VERIFY_ALL_EMAIL: EmailAddress | null}
   | {t: HomeScreenTodoType.LEGACY_EMAIL_VISIBILITY; LEGACY_EMAIL_VISIBILITY: EmailAddress | null}
+  | {
+      t: Exclude<
+        HomeScreenTodoType,
+        HomeScreenTodoType.VERIFY_ALL_PHONE_NUMBER | HomeScreenTodoType.VERIFY_ALL_EMAIL | HomeScreenTodoType.LEGACY_EMAIL_VISIBILITY
+      >
+    }
 
-export type HomeScreenTodoExt = {t: HomeScreenTodoType.VERIFY_ALL_EMAIL; VERIFY_ALL_EMAIL: VerifyAllEmailTodoExt | null}
+export type HomeScreenTodoExt =
+  | {t: HomeScreenTodoType.VERIFY_ALL_EMAIL; VERIFY_ALL_EMAIL: VerifyAllEmailTodoExt | null}
+  | {t: Exclude<HomeScreenTodoType, HomeScreenTodoType.VERIFY_ALL_EMAIL>}
 
 export type VerifyAllEmailTodoExt = {
   lastVerifyEmailDate: UnixTime
@@ -1498,13 +1521,19 @@ export type HomeScreenPeopleNotificationFollowed = {
 }
 
 export type HomeScreenPeopleNotificationFollowedMulti = {
-  followers: HomeScreenPeopleNotificationFollowed[]
+  followers: HomeScreenPeopleNotificationFollowed[] | null
   numOthers: number
 }
 
 export type HomeScreenPeopleNotification =
   | {t: HomeScreenPeopleNotificationType.FOLLOWED; FOLLOWED: HomeScreenPeopleNotificationFollowed | null}
   | {t: HomeScreenPeopleNotificationType.FOLLOWED_MULTI; FOLLOWED_MULTI: HomeScreenPeopleNotificationFollowedMulti | null}
+  | {
+      t: Exclude<
+        HomeScreenPeopleNotificationType,
+        HomeScreenPeopleNotificationType.FOLLOWED | HomeScreenPeopleNotificationType.FOLLOWED_MULTI
+      >
+    }
 
 export type HomeScreenItem = {
   badged: boolean
@@ -1530,8 +1559,8 @@ export type HomeScreen = {
   lastViewed: Time
   version: number
   visits: number
-  items: HomeScreenItem[]
-  followSuggestions: HomeUserSummary[]
+  items: HomeScreenItem[] | null
+  followSuggestions: HomeUserSummary[] | null
   announcementsVersion: number
 }
 
@@ -1541,8 +1570,8 @@ export type IdentifyProofBreak = {
 }
 
 export type IdentifyTrackBreaks = {
-  keys: IdentifyKey[]
-  proofs: IdentifyProofBreak[]
+  keys: IdentifyKey[] | null
+  proofs: IdentifyProofBreak[] | null
 }
 
 export type Identify2Res = {
@@ -1565,7 +1594,7 @@ export type IdentifyLiteRes = {
 export type ResolveIdentifyImplicitTeamRes = {
   displayName: string
   teamId: TeamID
-  writers: UserVersion[]
+  writers: UserVersion[] | null
   trackBreaks: {[key: string]: IdentifyTrackBreaks}
   folderId: TLFID
 }
@@ -1610,13 +1639,13 @@ export type Identify3Row = {
   value: string
   priority: number
   siteUrl: string
-  siteIcon: SizedImage[]
-  siteIconFull: SizedImage[]
+  siteIcon: SizedImage[] | null
+  siteIconFull: SizedImage[] | null
   proofUrl: string
   sigId: SigID
   ctime: Time
   state: Identify3RowState
-  metas: Identify3RowMeta[]
+  metas: Identify3RowMeta[] | null
   color: Identify3RowColor
   kid?: KID
 }
@@ -1701,7 +1730,7 @@ export type IdentifyReason = {
 export type IdentifyOutcome = {
   username: string
   status?: Status
-  warnings: string[]
+  warnings: string[] | null
   trackUsed?: TrackSummary
   trackStatus: TrackStatus
   numTrackFailures: number
@@ -1709,7 +1738,7 @@ export type IdentifyOutcome = {
   numProofFailures: number
   numRevoked: number
   numProofSuccesses: number
-  revoked: TrackDiff[]
+  revoked: TrackDiff[] | null
   trackOptions: TrackOptions
   forPgpPull: boolean
   reason: IdentifyReason
@@ -1768,10 +1797,10 @@ export type RevokedProof = {
 export type Identity = {
   status?: Status
   whenLastTracked: Time
-  proofs: IdentifyRow[]
-  cryptocurrency: Cryptocurrency[]
-  revoked: TrackDiff[]
-  revokedDetails: RevokedProof[]
+  proofs: IdentifyRow[] | null
+  cryptocurrency: Cryptocurrency[] | null
+  revoked: TrackDiff[] | null
+  revokedDetails: RevokedProof[] | null
   breaksTracking: boolean
 }
 
@@ -1813,7 +1842,7 @@ export type UserTeamShowcase = {
   teamIsShowcased: boolean
   description: string
   role: TeamRole
-  publicAdmins: string[]
+  publicAdmins: string[] | null
   numMembers: number
 }
 
@@ -1828,7 +1857,7 @@ export type UserCard = {
   twitter: string
   youFollowThem: boolean
   theyFollowYou: boolean
-  teamShowcase: UserTeamShowcase[]
+  teamShowcase: UserTeamShowcase[] | null
   registeredForAirdrop: boolean
   blocked: boolean
 }
@@ -1881,9 +1910,9 @@ export type ServiceStatus = {
 }
 
 export type ServicesStatus = {
-  service: ServiceStatus[]
-  kbfs: ServiceStatus[]
-  updater: ServiceStatus[]
+  service: ServiceStatus[] | null
+  kbfs: ServiceStatus[] | null
+  updater: ServiceStatus[] | null
 }
 
 export type FuseMountInfo = {
@@ -1900,7 +1929,7 @@ export type FuseStatus = {
   kextStarted: boolean
   installStatus: InstallStatus
   installAction: InstallAction
-  mountInfos: FuseMountInfo[]
+  mountInfos: FuseMountInfo[] | null
   status: Status
 }
 
@@ -1911,13 +1940,13 @@ export type ComponentResult = {
 }
 
 export type InstallResult = {
-  componentResults: ComponentResult[]
+  componentResults: ComponentResult[] | null
   status: Status
   fatal: boolean
 }
 
 export type UninstallResult = {
-  componentResults: ComponentResult[]
+  componentResults: ComponentResult[] | null
   status: Status
 }
 
@@ -1992,14 +2021,14 @@ export type FSFolderWriterEdit = {
 
 export type FSFolderWriterEditHistory = {
   writerName: string
-  edits: FSFolderWriterEdit[]
-  deletes: FSFolderWriterEdit[]
+  edits: FSFolderWriterEdit[] | null
+  deletes: FSFolderWriterEdit[] | null
 }
 
 export type FSFolderEditHistory = {
   folder: Folder
   serverTime: Time
-  history: FSFolderWriterEditHistory[]
+  history: FSFolderWriterEditHistory[] | null
 }
 
 export type FSSyncStatusRequest = {
@@ -2009,23 +2038,23 @@ export type FSSyncStatusRequest = {
 export type FSPathSyncStatus = {
   folderType: FolderType
   path: string
-  syncingBytes: number
-  syncingOps: number
-  syncedBytes: number
+  syncingBytes: never
+  syncingOps: never
+  syncedBytes: never
 }
 
 export type FSSyncStatus = {
-  totalSyncingBytes: number
-  syncingPaths: string[]
+  totalSyncingBytes: never
+  syncingPaths: string[] | null
   endEstimate?: Time
 }
 
 export type FolderSyncStatus = {
-  localDiskBytesAvailable: number
-  localDiskBytesTotal: number
+  localDiskBytesAvailable: never
+  localDiskBytesTotal: never
   prefetchStatus: PrefetchStatus
   prefetchProgress: PrefetchProgress
-  storedBytesTotal: number
+  storedBytesTotal: never
   outOfSyncSpace: boolean
 }
 
@@ -2121,7 +2150,7 @@ export type KeyBundle = {
 
 export type MetadataResponse = {
   folderId: string
-  mdBlocks: MDBlock[]
+  mdBlocks: MDBlock[] | null
 }
 
 export type MerkleRoot = {
@@ -2138,7 +2167,7 @@ export type KeyBundleResponse = {
   readerBundle: KeyBundle
 }
 
-export type LockID = number
+export type LockID = never
 
 export type MDPriority = number
 
@@ -2149,14 +2178,14 @@ export type LockContext = {
 
 export type FindNextMDResponse = {
   kbfsRoot: MerkleRoot
-  merkleNodes: Buffer[]
+  merkleNodes: Buffer[] | null
   rootSeqno: Seqno
   rootHash: HashMeta
 }
 
 export type RekeyRequest = {
   folderId: string
-  revision: number
+  revision: never
 }
 
 export type ChatConversationID = Buffer
@@ -2192,15 +2221,15 @@ export type BadgeState = {
   homeTodoItems: number
   unverifiedEmails: number
   unverifiedPhones: number
-  newDevices: DeviceID[]
-  revokedDevices: DeviceID[]
-  conversations: BadgeConversationInfo[]
-  newGitRepoGlobalUniqueIDs: string[]
-  newTeamNames: string[]
-  deletedTeams: DeletedTeamInfo[]
-  newTeamAccessRequests: string[]
-  teamsWithResetUsers: TeamMemberOutReset[]
-  unreadWalletAccounts: WalletAccountInfo[]
+  newDevices: DeviceID[] | null
+  revokedDevices: DeviceID[] | null
+  conversations: BadgeConversationInfo[] | null
+  newGitRepoGlobalUniqueIDs: string[] | null
+  newTeamNames: string[] | null
+  deletedTeams: DeletedTeamInfo[] | null
+  newTeamAccessRequests: string[] | null
+  teamsWithResetUsers: TeamMemberOutReset[] | null
+  unreadWalletAccounts: WalletAccountInfo[] | null
   resetState: ResetState
 }
 
@@ -2271,8 +2300,8 @@ export type ProcessRuntimeStats = {
 }
 
 export type RuntimeStats = {
-  processStats: ProcessRuntimeStats[]
-  dbStats: DbStats[]
+  processStats: ProcessRuntimeStats[] | null
+  dbStats: DbStats[] | null
   convLoaderActive: boolean
   selectiveSyncActive: boolean
 }
@@ -2350,7 +2379,7 @@ export type PGPSignOptions = {
 }
 
 export type PGPEncryptOptions = {
-  recipients: string[]
+  recipients: string[] | null
   noSign: boolean
   noSelf: boolean
   binaryOut: boolean
@@ -2393,14 +2422,14 @@ export type PGPQuery = {
 
 export type PGPCreateUids = {
   useDefault: boolean
-  ids: PGPIdentity[]
+  ids: PGPIdentity[] | null
 }
 
 /**
  * Export all pgp keys in lksec, then if doPurge is true, remove the keys from lksec.
  */
 export type PGPPurgeRes = {
-  filenames: string[]
+  filenames: string[] | null
 }
 
 /**
@@ -2439,7 +2468,7 @@ export type FileDescriptor = {
 export type Process = {
   pid: string
   command: string
-  fileDescriptors: FileDescriptor[]
+  fileDescriptors: FileDescriptor[] | null
 }
 
 export type CheckProofStatus = {
@@ -2571,8 +2600,8 @@ export type ParamProofServiceConfig = {
   prefillUrl: string
   profileUrl: string
   checkUrl: string
-  checkPath: SelectorEntry[]
-  avatarPath: SelectorEntry[]
+  checkPath: SelectorEntry[] | null
+  avatarPath: SelectorEntry[] | null
 }
 
 export type ServiceDisplayConfig = {
@@ -2596,8 +2625,8 @@ export enum PromptOverwriteType {
 }
 
 export type ProveParameters = {
-  logoFull: SizedImage[]
-  logoBlack: SizedImage[]
+  logoFull: SizedImage[] | null
+  logoBlack: SizedImage[] | null
   title: string
   subtext: string
   suffix: string
@@ -2651,15 +2680,15 @@ export type Reachability = {
 export type TLF = {
   id: TLFID
   name: string
-  writers: string[]
-  readers: string[]
+  writers: string[] | null
+  readers: string[] | null
   isPrivate: boolean
 }
 
 export type ProblemTLF = {
   tlf: TLF
   score: number
-  solutionKids: KID[]
+  solutionKids: KID[] | null
 }
 
 /**
@@ -2671,12 +2700,12 @@ export type ProblemTLF = {
 export type ProblemSet = {
   user: User
   kid: KID
-  tlfs: ProblemTLF[]
+  tlfs: ProblemTLF[] | null
 }
 
 export type ProblemSetDevices = {
   problemSet: ProblemSet
-  devices: Device[]
+  devices: Device[] | null
 }
 
 export enum Outcome {
@@ -2686,7 +2715,7 @@ export enum Outcome {
 }
 
 export type RevokeWarning = {
-  endangeredTlFs: TLF[]
+  endangeredTlFs: TLF[] | null
 }
 
 export enum RekeyEventType {
@@ -2749,8 +2778,8 @@ export enum AuthenticityType {
 }
 
 export type SaltpackEncryptOptions = {
-  recipients: string[]
-  teamRecipients: string[]
+  recipients: string[] | null
+  teamRecipients: string[] | null
   authenticityType: AuthenticityType
   useEntityKeys: boolean
   useDeviceKeys: boolean
@@ -2779,7 +2808,7 @@ export type SaltpackVerifyOptions = {
 }
 
 export type SaltpackEncryptedMessageInfo = {
-  devices: Device[]
+  devices: Device[] | null
   numAnonReceivers: number
   receiverIsAnon: boolean
   sender: SaltpackSender
@@ -2871,7 +2900,7 @@ export type SigListArgs = {
 }
 
 export type OpID = string | null
-export type KBFSRevision = number
+export type KBFSRevision = never
 
 export enum KBFSArchivedType {
   REVISION = 'revision',
@@ -2885,6 +2914,12 @@ export type KBFSArchivedParam =
   | {KBFSArchivedType: KBFSArchivedType.TIME; TIME: Time | null}
   | {KBFSArchivedType: KBFSArchivedType.TIME_STRING; TIME_STRING: string | null}
   | {KBFSArchivedType: KBFSArchivedType.REL_TIME_STRING; REL_TIME_STRING: string | null}
+  | {
+      KBFSArchivedType: Exclude<
+        KBFSArchivedType,
+        KBFSArchivedType.REVISION | KBFSArchivedType.TIME | KBFSArchivedType.TIME_STRING | KBFSArchivedType.REL_TIME_STRING
+      >
+    }
 
 export type KBFSArchivedPath = {
   path: string
@@ -2907,6 +2942,7 @@ export type Path =
   | {PathType: PathType.LOCAL; LOCAL: string | null}
   | {PathType: PathType.KBFS; KBFS: KBFSPath | null}
   | {PathType: PathType.KBFS_ARCHIVED; KBFS_ARCHIVED: KBFSArchivedPath | null}
+  | {PathType: Exclude<PathType, PathType.LOCAL | PathType.KBFS | PathType.KBFS_ARCHIVED>}
 
 export enum DirentType {
   FILE = 'file',
@@ -2924,8 +2960,8 @@ export enum PrefetchStatus {
 export type PrefetchProgress = {
   start: Time
   endEstimate: Time
-  bytesTotal: number
-  bytesFetched: number
+  bytesTotal: never
+  bytesFetched: never
 }
 
 export type Dirent = {
@@ -2963,7 +2999,7 @@ export enum OpenFlags {
 export type Progress = number
 
 export type SimpleFSListResult = {
-  entries: Dirent[]
+  entries: Dirent[] | null
   progress: Progress
 }
 
@@ -3012,14 +3048,14 @@ export type RemoveArgs = {
 export type ReadArgs = {
   opId: OpID
   path: Path
-  offset: number
+  offset: never
   size: number
 }
 
 export type WriteArgs = {
   opId: OpID
   path: Path
-  offset: number
+  offset: never
 }
 
 export type CopyArgs = {
@@ -3050,9 +3086,23 @@ export type OpDescription =
   | {asyncOp: AsyncOps.MOVE; MOVE: MoveArgs | null}
   | {asyncOp: AsyncOps.REMOVE; REMOVE: RemoveArgs | null}
   | {asyncOp: AsyncOps.GET_REVISIONS; GET_REVISIONS: GetRevisionsArgs | null}
+  | {
+      asyncOp: Exclude<
+        AsyncOps,
+        | AsyncOps.LIST
+        | AsyncOps.LIST_RECURSIVE
+        | AsyncOps.LIST_RECURSIVE_TO_DEPTH
+        | AsyncOps.READ
+        | AsyncOps.WRITE
+        | AsyncOps.COPY
+        | AsyncOps.MOVE
+        | AsyncOps.REMOVE
+        | AsyncOps.GET_REVISIONS
+      >
+    }
 
 export type GetRevisionsResult = {
-  revisions: DirentWithRevision[]
+  revisions: DirentWithRevision[] | null
   progress: Progress
 }
 
@@ -3060,12 +3110,12 @@ export type OpProgress = {
   start: Time
   endEstimate: Time
   opType: AsyncOps
-  bytesTotal: number
-  bytesRead: number
-  bytesWritten: number
-  filesTotal: number
-  filesRead: number
-  filesWritten: number
+  bytesTotal: never
+  bytesRead: never
+  bytesWritten: never
+  filesTotal: never
+  filesRead: never
+  filesWritten: never
 }
 
 export type SimpleFSGetHTTPAddressAndTokenResponse = {
@@ -3074,12 +3124,12 @@ export type SimpleFSGetHTTPAddressAndTokenResponse = {
 }
 
 export type SimpleFSQuotaUsage = {
-  usageBytes: number
-  archiveBytes: number
-  limitBytes: number
-  gitUsageBytes: number
-  gitArchiveBytes: number
-  gitLimitBytes: number
+  usageBytes: never
+  archiveBytes: never
+  limitBytes: never
+  gitUsageBytes: never
+  gitArchiveBytes: never
+  gitLimitBytes: never
 }
 
 export enum FolderSyncMode {
@@ -3090,7 +3140,7 @@ export enum FolderSyncMode {
 
 export type FolderSyncConfig = {
   mode: FolderSyncMode
-  paths: string[]
+  paths: string[] | null
 }
 
 export type FolderSyncConfigAndStatus = {
@@ -3105,19 +3155,19 @@ export type FolderSyncConfigAndStatusWithFolder = {
 }
 
 export type SyncConfigAndStatusRes = {
-  folders: FolderSyncConfigAndStatusWithFolder[]
+  folders: FolderSyncConfigAndStatusWithFolder[] | null
   overallStatus: FolderSyncStatus
 }
 
 export type FSSettings = {
-  spaceAvailableNotificationThreshold: number
+  spaceAvailableNotificationThreshold: never
 }
 
 export type SimpleFSStats = {
   processStats: ProcessRuntimeStats
-  blockCacheDbStats: string[]
-  syncCacheDbStats: string[]
-  runtimeDbStats: DbStats[]
+  blockCacheDbStats: string[] | null
+  syncCacheDbStats: string[] | null
+  runtimeDbStats: DbStats[] | null
 }
 
 export enum SubscriptionTopic {
@@ -3131,7 +3181,7 @@ export enum PathSubscriptionTopic {
   STAT = 'stat',
 }
 
-export type TeambotKeyGeneration = number
+export type TeambotKeyGeneration = never
 
 export type TeambotKeyMetadata = {
   teambotDhPublic: KID
@@ -3244,12 +3294,12 @@ export type TeamMember = {
 }
 
 export type TeamMembers = {
-  owners: UserVersion[]
-  admins: UserVersion[]
-  writers: UserVersion[]
-  readers: UserVersion[]
-  bots: UserVersion[]
-  restrictedBots: UserVersion[]
+  owners: UserVersion[] | null
+  admins: UserVersion[] | null
+  writers: UserVersion[] | null
+  readers: UserVersion[] | null
+  bots: UserVersion[] | null
+  restrictedBots: UserVersion[] | null
 }
 
 export enum TeamMemberStatus {
@@ -3267,12 +3317,12 @@ export type TeamMemberDetails = {
 }
 
 export type TeamMembersDetails = {
-  owners: TeamMemberDetails[]
-  admins: TeamMemberDetails[]
-  writers: TeamMemberDetails[]
-  readers: TeamMemberDetails[]
-  bots: TeamMemberDetails[]
-  restrictedBots: TeamMemberDetails[]
+  owners: TeamMemberDetails[] | null
+  admins: TeamMemberDetails[] | null
+  writers: TeamMemberDetails[] | null
+  readers: TeamMemberDetails[] | null
+  bots: TeamMemberDetails[] | null
+  restrictedBots: TeamMemberDetails[] | null
 }
 
 export type TeamDetails = {
@@ -3286,13 +3336,13 @@ export type TeamDetails = {
 export type UserVersionPercentForm = string
 
 export type TeamChangeReq = {
-  owners: UserVersion[]
-  admins: UserVersion[]
-  writers: UserVersion[]
-  readers: UserVersion[]
-  bots: UserVersion[]
+  owners: UserVersion[] | null
+  admins: UserVersion[] | null
+  writers: UserVersion[] | null
+  readers: UserVersion[] | null
+  bots: UserVersion[] | null
   restrictedBots: {[key: string]: TeamBotSettings}
-  none: UserVersion[]
+  none: UserVersion[] | null
   completedInvites: {[key: string]: UserVersionPercentForm}
 }
 
@@ -3302,10 +3352,10 @@ export type TeamPlusApplicationKeys = {
   implicit: boolean
   public: boolean
   application: TeamApplication
-  writers: UserVersion[]
-  onlyReaders: UserVersion[]
-  onlyRestrictedBots: UserVersion[]
-  applicationKeys: TeamApplicationKey[]
+  writers: UserVersion[] | null
+  onlyReaders: UserVersion[] | null
+  onlyRestrictedBots: UserVersion[] | null
+  applicationKeys: TeamApplicationKey[] | null
 }
 
 export type TeamData = {
@@ -3319,7 +3369,7 @@ export type TeamData = {
   readerKeyMasks: {[key: string]: {[key: string]: MaskB64}}
   latestSeqnoHint: Seqno
   cachedAt: Time
-  tlfCryptKeys: {[key: string]: CryptKey[]}
+  tlfCryptKeys: {[key: string]: CryptKey[] | null}
 }
 
 export type FastTeamData = {
@@ -3442,7 +3492,7 @@ export type AuditHistory = {
   public: boolean
   priorMerkleSeqno: Seqno
   version: AuditVersion
-  audits: Audit[]
+  audits: Audit[] | null
   preProbes: {[key: string]: Probe}
   postProbes: {[key: string]: Probe}
   tails: {[key: string]: LinkID}
@@ -3462,6 +3512,7 @@ export enum TeamInviteCategory {
 export type TeamInviteType =
   | {c: TeamInviteCategory.UNKNOWN; UNKNOWN: string | null}
   | {c: TeamInviteCategory.SBS; SBS: TeamInviteSocialNetwork | null}
+  | {c: Exclude<TeamInviteCategory, TeamInviteCategory.UNKNOWN | TeamInviteCategory.SBS>}
 
 export type TeamInviteSocialNetwork = string
 
@@ -3516,14 +3567,14 @@ export type TeamSigChainState = {
   public: boolean
   rootAncestor: TeamName
   nameDepth: number
-  nameLog: TeamNameLogPoint[]
+  nameLog: TeamNameLogPoint[] | null
   lastSeqno: Seqno
   lastLinkId: LinkID
   lastHighSeqno: Seqno
   lastHighLinkId: LinkID
   parentId?: TeamID
-  userLog: {[key: string]: UserLogPoint[]}
-  subteamLog: {[key: string]: SubteamLogPoint[]}
+  userLog: {[key: string]: UserLogPoint[] | null}
+  subteamLog: {[key: string]: SubteamLogPoint[] | null}
   perTeamKeys: {[key: string]: PerTeamKey}
   maxPerTeamKeyGeneration: PerTeamKeyGeneration
   perTeamKeyCTime: UnixTime
@@ -3534,7 +3585,7 @@ export type TeamSigChainState = {
   open: boolean
   openTeamJoinAs: TeamRole
   bots: {[key: string]: TeamBotSettings}
-  tlfIDs: TLFID[]
+  tlfIDs: TLFID[] | null
   tlfLegacyUpgrade: {[key: string]: TeamLegacyTLFUpgradeChainInfo}
   headMerkle?: MerkleRootV2
   merkleRoots: {[key: string]: MerkleRootV2}
@@ -3560,7 +3611,7 @@ export type SubteamLogPoint = {
 export type TeamNamePart = string
 
 export type TeamName = {
-  parts: TeamNamePart[]
+  parts: TeamNamePart[] | null
 }
 
 export type TeamCLKRResetUser = {
@@ -3573,7 +3624,7 @@ export type TeamCLKRMsg = {
   teamId: TeamID
   generation: PerTeamKeyGeneration
   score: number
-  resetUsers: TeamCLKRResetUser[]
+  resetUsers: TeamCLKRResetUser[] | null
 }
 
 export type TeamResetUser = {
@@ -3619,7 +3670,7 @@ export type TeamInvitee = {
 export type TeamSBSMsg = {
   teamId: TeamID
   score: number
-  invitees: TeamInvitee[]
+  invitees: TeamInvitee[] | null
 }
 
 export type TeamAccessRequest = {
@@ -3629,7 +3680,7 @@ export type TeamAccessRequest = {
 
 export type TeamOpenReqMsg = {
   teamId: TeamID
-  tars: TeamAccessRequest[]
+  tars: TeamAccessRequest[] | null
 }
 
 export type SeitanAKey = string
@@ -3648,6 +3699,7 @@ export enum SeitanKeyAndLabelVersion {
 export type SeitanKeyAndLabel =
   | {v: SeitanKeyAndLabelVersion.V1; V1: SeitanKeyAndLabelVersion1 | null}
   | {v: SeitanKeyAndLabelVersion.V2; V2: SeitanKeyAndLabelVersion2 | null}
+  | {v: Exclude<SeitanKeyAndLabelVersion, SeitanKeyAndLabelVersion.V1 | SeitanKeyAndLabelVersion.V2>}
 
 export type SeitanKeyAndLabelVersion1 = {
   i: SeitanIKey
@@ -3663,7 +3715,9 @@ export enum SeitanKeyLabelType {
   SMS = 'sms',
 }
 
-export type SeitanKeyLabel = {t: SeitanKeyLabelType.SMS; SMS: SeitanKeyLabelSms | null}
+export type SeitanKeyLabel =
+  | {t: SeitanKeyLabelType.SMS; SMS: SeitanKeyLabelSms | null}
+  | {t: Exclude<SeitanKeyLabelType, SeitanKeyLabelType.SMS>}
 
 export type SeitanKeyLabelSms = {
   f: string
@@ -3676,17 +3730,17 @@ export type TeamSeitanRequest = {
   eldestSeqno: Seqno
   akey: SeitanAKey
   role: TeamRole
-  ctime: number
+  ctime: never
 }
 
 export type TeamSeitanMsg = {
   teamId: TeamID
-  seitans: TeamSeitanRequest[]
+  seitans: TeamSeitanRequest[] | null
 }
 
 export type TeamOpenSweepMsg = {
   teamId: TeamID
-  resetUsers: TeamCLKRResetUser[]
+  resetUsers: TeamCLKRResetUser[] | null
 }
 
 export type TeamKBFSKeyRefresher = {
@@ -3700,9 +3754,9 @@ export type TeamKBFSKeyRefresher = {
  */
 export type TeamRefreshers = {
   needKeyGeneration: PerTeamKeyGeneration
-  needApplicationsAtGenerations: {[key: string]: TeamApplication[]}
-  needApplicationsAtGenerationsWithKbfs: {[key: string]: TeamApplication[]}
-  wantMembers: UserVersion[]
+  needApplicationsAtGenerations: {[key: string]: TeamApplication[] | null}
+  needApplicationsAtGenerationsWithKbfs: {[key: string]: TeamApplication[] | null}
+  wantMembers: UserVersion[] | null
   wantMembersRole: TeamRole
   needKbfsKeyGeneration: TeamKBFSKeyRefresher
 }
@@ -3726,15 +3780,15 @@ export type FastTeamLoadArg = {
   id: TeamID
   public: boolean
   assertTeamName?: TeamName
-  applications: TeamApplication[]
-  keyGenerationsNeeded: PerTeamKeyGeneration[]
+  applications: TeamApplication[] | null
+  keyGenerationsNeeded: PerTeamKeyGeneration[] | null
   needLatestKey: boolean
   forceRefresh: boolean
 }
 
 export type FastTeamLoadRes = {
   name: TeamName
-  applicationKeys: TeamApplicationKey[]
+  applicationKeys: TeamApplicationKey[] | null
 }
 
 export type ImplicitRole = {
@@ -3756,7 +3810,7 @@ export type MemberInfo = {
 }
 
 export type TeamList = {
-  teams: MemberInfo[]
+  teams: MemberInfo[] | null
 }
 
 export type AnnotatedMemberInfo = {
@@ -3779,7 +3833,7 @@ export type AnnotatedMemberInfo = {
 }
 
 export type AnnotatedTeamList = {
-  teams: AnnotatedMemberInfo[]
+  teams: AnnotatedMemberInfo[] | null
   annotatedActiveInvites: {[key: string]: AnnotatedTeamInvite}
 }
 
@@ -3796,7 +3850,7 @@ export type TeamJoinRequest = {
 }
 
 export type TeamTreeResult = {
-  entries: TeamTreeEntry[]
+  entries: TeamTreeEntry[] | null
 }
 
 export type TeamTreeEntry = {
@@ -3810,7 +3864,7 @@ export type SubteamListEntry = {
 }
 
 export type SubteamListResult = {
-  entries: SubteamListEntry[]
+  entries: SubteamListEntry[] | null
 }
 
 export type TeamCreateResult = {
@@ -3827,8 +3881,8 @@ export type TeamSettings = {
 export type TeamBotSettings = {
   cmds: boolean
   mentions: boolean
-  triggers: string[]
-  convs: string[]
+  triggers: string[] | null
+  convs: string[] | null
 }
 
 export type TeamRequestAccessResult = {
@@ -3861,14 +3915,14 @@ export type UserRolePair = {
 }
 
 export type BulkRes = {
-  invited: string[]
-  alreadyInvited: string[]
-  malformed: string[]
+  invited: string[] | null
+  alreadyInvited: string[] | null
+  malformed: string[] | null
 }
 
 export type ImplicitTeamUserSet = {
-  keybaseUsers: string[]
-  unresolvedUsers: SocialAssertion[]
+  keybaseUsers: string[] | null
+  unresolvedUsers: SocialAssertion[] | null
 }
 
 /**
@@ -3922,7 +3976,7 @@ export type TeamOperation = {
 }
 
 export type ProfileTeamLoadRes = {
-  loadTimeNsec: number
+  loadTimeNsec: never
 }
 
 export enum RotationType {
@@ -3985,7 +4039,7 @@ export type CryptKey = {
 }
 
 export type TLFBreak = {
-  breaks: TLFIdentifyFailure[]
+  breaks: TLFIdentifyFailure[] | null
 }
 
 export type TLFIdentifyFailure = {
@@ -4001,7 +4055,7 @@ export type CanonicalTLFNameAndIDWithBreaks = {
 
 export type GetTLFCryptKeysRes = {
   nameIdBreaks: CanonicalTLFNameAndIDWithBreaks
-  cryptKeys: CryptKey[]
+  cryptKeys: CryptKey[] | null
 }
 
 export type TLFQuery = {
@@ -4076,17 +4130,20 @@ export type PGPFingerprint = string | null
 export type PublicKeyV2PGPSummary = {
   base: PublicKeyV2Base
   fingerprint: PGPFingerprint
-  identities: PGPIdentity[]
+  identities: PGPIdentity[] | null
 }
 
-export type PublicKeyV2 = {keyType: KeyType.NACL; NACL: PublicKeyV2NaCl | null} | {keyType: KeyType.PGP; PGP: PublicKeyV2PGPSummary | null}
+export type PublicKeyV2 =
+  | {keyType: KeyType.NACL; NACL: PublicKeyV2NaCl | null}
+  | {keyType: KeyType.PGP; PGP: PublicKeyV2PGPSummary | null}
+  | {keyType: Exclude<KeyType, KeyType.NACL | KeyType.PGP>}
 
 export type UserPlusKeysV2 = {
   uid: UID
   username: string
   eldestSeqno: Seqno
   status: StatusCode
-  perUserKeys: PerUserKey[]
+  perUserKeys: PerUserKey[] | null
   deviceKeys: {[key: string]: PublicKeyV2NaCl}
   pgpKeys: {[key: string]: PublicKeyV2PGPSummary}
   stellarAccountId?: string
@@ -4097,7 +4154,7 @@ export type UserPlusKeysV2 = {
 
 export type UserPlusKeysV2AllIncarnations = {
   current: UserPlusKeysV2
-  pastIncarnations: UserPlusKeysV2[]
+  pastIncarnations: UserPlusKeysV2[] | null
   uvv: UserVersionVector
   seqnoLinkIDs: {[key: string]: LinkID}
   minorVersion: UPK2MinorVersion
@@ -4113,7 +4170,10 @@ export enum UPAKVersion {
  * * What we're storing for each user. At first it was UPAKs, as defined
  *    * in common.avdl. But going forward, we're going to use UserPlusKeysV2AllIncarnations.
  */
-export type UPAKVersioned = {v: UPAKVersion.V1; V1: UserPlusAllKeys | null} | {v: UPAKVersion.V2; V2: UserPlusKeysV2AllIncarnations | null}
+export type UPAKVersioned =
+  | {v: UPAKVersion.V1; V1: UserPlusAllKeys | null}
+  | {v: UPAKVersion.V2; V2: UserPlusKeysV2AllIncarnations | null}
+  | {v: Exclude<UPAKVersion, UPAKVersion.V1 | UPAKVersion.V2>}
 
 export enum UPKLiteMinorVersion {
   V0 = 'v0',
@@ -4130,7 +4190,7 @@ export type UPKLiteV1 = {
 
 export type UPKLiteV1AllIncarnations = {
   current: UPKLiteV1
-  pastIncarnations: UPKLiteV1[]
+  pastIncarnations: UPKLiteV1[] | null
   seqnoLinkIDs: {[key: string]: LinkID}
   minorVersion: UPKLiteMinorVersion
 }
@@ -4143,13 +4203,13 @@ export type TrackProof = {
 
 export type WebProof = {
   hostname: string
-  protocols: string[]
+  protocols: string[] | null
 }
 
 export type Proofs = {
-  social: TrackProof[]
-  web: WebProof[]
-  publicKeys: PublicKey[]
+  social: TrackProof[] | null
+  web: WebProof[] | null
+  publicKeys: PublicKey[] | null
 }
 
 export type UserSummary = {
@@ -4175,8 +4235,8 @@ export type Email = {
 }
 
 export type UserSettings = {
-  emails: Email[]
-  phoneNumbers: UserPhoneNumber[]
+  emails: Email[] | null
+  phoneNumbers: UserPhoneNumber[] | null
 }
 
 export type UserSummary2 = {
@@ -4189,7 +4249,7 @@ export type UserSummary2 = {
 }
 
 export type UserSummary2Set = {
-  users: UserSummary2[]
+  users: UserSummary2[] | null
   time: Time
   version: number
 }
@@ -4201,7 +4261,7 @@ export type InterestingPerson = {
 }
 
 export type ProofSuggestionsRes = {
-  suggestions: ProofSuggestion[]
+  suggestions: ProofSuggestion[] | null
   showMore: boolean
 }
 
@@ -4209,11 +4269,11 @@ export type ProofSuggestion = {
   key: string
   belowFold: boolean
   profileText: string
-  profileIcon: SizedImage[]
+  profileIcon: SizedImage[] | null
   pickerText: string
   pickerSubtext: string
-  pickerIcon: SizedImage[]
-  metas: Identify3RowMeta[]
+  pickerIcon: SizedImage[] | null
+  metas: Identify3RowMeta[] | null
 }
 
 export type NextMerkleRootRes = {
@@ -4279,8 +4339,8 @@ export type NonUserDetails = {
   description: string
   contact?: ProcessedContact
   service?: APIUserServiceResult
-  siteIcon: SizedImage[]
-  siteIconFull: SizedImage[]
+  siteIcon: SizedImage[] | null
+  siteIconFull: SizedImage[] | null
 }
 
 export enum ImpTofuSearchType {
@@ -4291,3 +4351,4 @@ export enum ImpTofuSearchType {
 export type ImpTofuQuery =
   | {t: ImpTofuSearchType.PHONE; PHONE: PhoneNumber | null}
   | {t: ImpTofuSearchType.EMAIL; EMAIL: EmailAddress | null}
+  | {t: Exclude<ImpTofuSearchType, ImpTofuSearchType.PHONE | ImpTofuSearchType.EMAIL>}

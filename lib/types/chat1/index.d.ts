@@ -35,8 +35,8 @@ export declare type MsgFlipContent = {
     text: string;
     gameId: string;
     flipConvId: string;
-    userMentions: KnownUserMention[];
-    teamMentions: KnownTeamMention[];
+    userMentions: KnownUserMention[] | null;
+    teamMentions: KnownTeamMention[] | null;
 };
 export declare type MsgContent = {
     type: string;
@@ -59,10 +59,10 @@ export declare type MsgSummary = {
     conversationId: string;
     channel: ChatChannel;
     sender: MsgSender;
-    sentAt: number;
-    sentAtMs: number;
+    sentAt: never;
+    sentAtMs: never;
     content: MsgContent;
-    prev: MessagePreviousPointer[];
+    prev: MessagePreviousPointer[] | null;
     unread: boolean;
     revokedDevice?: boolean;
     offline?: boolean;
@@ -72,20 +72,20 @@ export declare type MsgSummary = {
     eTime?: gregor1.Time;
     reactions?: ReactionMap;
     hasPairwiseMacs?: boolean;
-    atMentionUsernames?: string[];
+    atMentionUsernames?: string[] | null;
     channelMention?: string;
-    channelNameMentions?: UIChannelNameMention[];
+    channelNameMentions?: UIChannelNameMention[] | null;
 };
 export declare type Message = {
     msg?: MsgSummary;
     error?: string;
 };
 export declare type Thread = {
-    messages: Message[];
+    messages: Message[] | null;
     pagination?: Pagination;
     offline?: boolean;
-    identifyFailures?: keybase1.TLFIdentifyFailure[];
-    ratelimits?: RateLimitRes[];
+    identifyFailures?: keybase1.TLFIdentifyFailure[] | null;
+    ratelimits?: RateLimitRes[] | null;
 };
 /**
  * A chat conversation. This is essentially a chat channel plus some additional metadata.
@@ -94,50 +94,50 @@ export declare type ConvSummary = {
     id: string;
     channel: ChatChannel;
     unread: boolean;
-    activeAt: number;
-    activeAtMs: number;
+    activeAt: never;
+    activeAtMs: never;
     memberStatus: string;
-    resetUsers?: string[];
+    resetUsers?: string[] | null;
     finalizeInfo?: ConversationFinalizeInfo;
-    supersedes?: string[];
-    supersededBy?: string[];
+    supersedes?: string[] | null;
+    supersededBy?: string[] | null;
     error?: string;
 };
 export declare type ChatList = {
-    conversations: ConvSummary[];
+    conversations: ConvSummary[] | null;
     offline: boolean;
-    identifyFailures?: keybase1.TLFIdentifyFailure[];
+    identifyFailures?: keybase1.TLFIdentifyFailure[] | null;
     pagination?: Pagination;
-    ratelimits?: RateLimitRes[];
+    ratelimits?: RateLimitRes[] | null;
 };
 export declare type SendRes = {
     message: string;
     id?: MessageID;
     outboxId?: OutboxID;
-    identifyFailures?: keybase1.TLFIdentifyFailure[];
-    ratelimits?: RateLimitRes[];
+    identifyFailures?: keybase1.TLFIdentifyFailure[] | null;
+    ratelimits?: RateLimitRes[] | null;
 };
 export declare type SearchInboxResOutput = {
     results?: ChatSearchInboxResults;
-    identifyFailures?: keybase1.TLFIdentifyFailure[];
-    ratelimits?: RateLimitRes[];
+    identifyFailures?: keybase1.TLFIdentifyFailure[] | null;
+    ratelimits?: RateLimitRes[] | null;
 };
 export declare type RegexpRes = {
-    hits: ChatSearchHit[];
-    identifyFailures?: keybase1.TLFIdentifyFailure[];
-    ratelimits?: RateLimitRes[];
+    hits: ChatSearchHit[] | null;
+    identifyFailures?: keybase1.TLFIdentifyFailure[] | null;
+    ratelimits?: RateLimitRes[] | null;
 };
 export declare type NewConvRes = {
     id: string;
-    identifyFailures?: keybase1.TLFIdentifyFailure[];
-    ratelimits?: RateLimitRes[];
+    identifyFailures?: keybase1.TLFIdentifyFailure[] | null;
+    ratelimits?: RateLimitRes[] | null;
 };
 export declare type ListCommandsRes = {
-    commands: UserBotCommandOutput[];
-    ratelimits?: RateLimitRes[];
+    commands: UserBotCommandOutput[] | null;
+    ratelimits?: RateLimitRes[] | null;
 };
 export declare type EmptyRes = {
-    ratelimits?: RateLimitRes[];
+    ratelimits?: RateLimitRes[] | null;
 };
 export declare type MsgNotification = {
     type: string;
@@ -148,7 +148,7 @@ export declare type MsgNotification = {
 };
 export declare type AdvertiseCommandAPIParam = {
     type: string;
-    commands: UserBotCommandInput[];
+    commands: UserBotCommandInput[] | null;
     teamName?: string;
 };
 export declare type UIPagination = {
@@ -163,8 +163,8 @@ export declare type UnverifiedInboxUIItemMetadata = {
     headlineDecorated: string;
     snippet: string;
     snippetDecoration: string;
-    writerNames: string[];
-    resetParticipants: string[];
+    writerNames: string[] | null;
+    resetParticipants: string[] | null;
 };
 export declare type UnverifiedInboxUIItem = {
     convId: string;
@@ -188,12 +188,12 @@ export declare type UnverifiedInboxUIItem = {
     localMetadata?: UnverifiedInboxUIItemMetadata;
     draft?: string;
     finalizeInfo?: ConversationFinalizeInfo;
-    supersedes: ConversationMetadata[];
-    supersededBy: ConversationMetadata[];
+    supersedes: ConversationMetadata[] | null;
+    supersededBy: ConversationMetadata[] | null;
     commands: ConversationCommandGroups;
 };
 export declare type UnverifiedInboxUIItems = {
-    items: UnverifiedInboxUIItem[];
+    items: UnverifiedInboxUIItem[] | null;
     pagination?: UIPagination;
     offline: boolean;
 };
@@ -226,8 +226,8 @@ export declare type InboxUIItem = {
     headlineDecorated: string;
     draft?: string;
     visibility: keybase1.TLFVisibility;
-    participants: UIParticipant[];
-    resetParticipants: string[];
+    participants: UIParticipant[] | null;
+    resetParticipants: string[] | null;
     status: ConversationStatus;
     membersType: ConversationMembersType;
     memberStatus: ConversationMemberStatus;
@@ -244,8 +244,8 @@ export declare type InboxUIItem = {
     teamRetention?: RetentionPolicy;
     convSettings?: ConversationSettingsLocal;
     finalizeInfo?: ConversationFinalizeInfo;
-    supersedes: ConversationMetadata[];
-    supersededBy: ConversationMetadata[];
+    supersedes: ConversationMetadata[] | null;
+    supersededBy: ConversationMetadata[] | null;
     commands: ConversationCommandGroups;
     botCommands: ConversationCommandGroups;
     pinnedMsg?: UIPinnedMessage;
@@ -258,7 +258,7 @@ export declare type InboxUIItemError = {
     remoteConv: UnverifiedInboxUIItem;
 };
 export declare type InboxUIItems = {
-    items: InboxUIItem[];
+    items: InboxUIItem[] | null;
     pagination?: UIPagination;
     offline: boolean;
 };
@@ -321,18 +321,18 @@ export declare type UIMessageValid = {
     superseded: boolean;
     assetUrlInfo?: UIAssetUrlInfo;
     senderDeviceRevokedAt?: gregor1.Time;
-    atMentions: string[];
+    atMentions: string[] | null;
     channelMention: ChannelMention;
-    channelNameMentions: UIChannelNameMention[];
+    channelNameMentions: UIChannelNameMention[] | null;
     isEphemeral: boolean;
     isEphemeralExpired: boolean;
     explodedBy?: string;
     etime: gregor1.Time;
     reactions: ReactionMap;
     hasPairwiseMacs: boolean;
-    paymentInfos: UIPaymentInfo[];
+    paymentInfos: UIPaymentInfo[] | null;
     requestInfo?: UIRequestInfo;
-    unfurls: UIMessageUnfurlInfo[];
+    unfurls: UIMessageUnfurlInfo[] | null;
     isCollapsed: boolean;
     flipGameId?: string;
     isDeleteable: boolean;
@@ -373,9 +373,11 @@ export declare type UIMessage = {
 } | {
     state: MessageUnboxedState.PLACEHOLDER;
     PLACEHOLDER: MessageUnboxedPlaceholder | null;
+} | {
+    state: Exclude<MessageUnboxedState, MessageUnboxedState.VALID | MessageUnboxedState.ERROR | MessageUnboxedState.OUTBOX | MessageUnboxedState.PLACEHOLDER>;
 };
 export declare type UIMessages = {
-    messages: UIMessage[];
+    messages: UIMessage[] | null;
     pagination?: UIPagination;
 };
 export declare type UITeamMention = {
@@ -383,7 +385,7 @@ export declare type UITeamMention = {
     open: boolean;
     description?: string;
     numMembers?: number;
-    publicAdmins: string[];
+    publicAdmins: string[] | null;
     convId?: string;
 };
 export declare enum UITextDecorationTyp {
@@ -414,6 +416,8 @@ export declare type UIMaybeMentionInfo = {
     TEAM: UITeamMention | null;
 } | {
     status: UIMaybeMentionStatus.NOTHING;
+} | {
+    status: Exclude<UIMaybeMentionStatus, UIMaybeMentionStatus.UNKNOWN | UIMaybeMentionStatus.USER | UIMaybeMentionStatus.TEAM | UIMaybeMentionStatus.NOTHING>;
 };
 export declare type UITextDecoration = {
     typ: UITextDecorationTyp.PAYMENT;
@@ -436,6 +440,8 @@ export declare type UITextDecoration = {
 } | {
     typ: UITextDecorationTyp.KBFSPATH;
     KBFSPATH: KBFSPath | null;
+} | {
+    typ: Exclude<UITextDecorationTyp, UITextDecorationTyp.PAYMENT | UITextDecorationTyp.ATMENTION | UITextDecorationTyp.CHANNELNAMEMENTION | UITextDecorationTyp.MAYBEMENTION | UITextDecorationTyp.LINK | UITextDecorationTyp.MAILTO | UITextDecorationTyp.KBFSPATH>;
 };
 export declare enum UIChatThreadStatusTyp {
     NONE = "none",
@@ -452,6 +458,8 @@ export declare type UIChatThreadStatus = {
     VALIDATING: number | null;
 } | {
     typ: UIChatThreadStatusTyp.VALIDATED;
+} | {
+    typ: Exclude<UIChatThreadStatusTyp, UIChatThreadStatusTyp.NONE | UIChatThreadStatusTyp.SERVER | UIChatThreadStatusTyp.VALIDATING | UIChatThreadStatusTyp.VALIDATED>;
 };
 export declare type UIChatSearchConvHit = {
     convId: string;
@@ -460,7 +468,7 @@ export declare type UIChatSearchConvHit = {
     mtime: gregor1.Time;
 };
 export declare type UIChatSearchConvHits = {
-    hits: UIChatSearchConvHit[];
+    hits: UIChatSearchConvHit[] | null;
     unreadMatches: boolean;
 };
 export declare type UIChatPayment = {
@@ -473,7 +481,7 @@ export declare type UIChatPayment = {
 export declare type UIChatPaymentSummary = {
     xlmTotal: string;
     displayTotal: string;
-    payments: UIChatPayment[];
+    payments: UIChatPayment[] | null;
 };
 export declare type GiphySearchResult = {
     targetUrl: string;
@@ -483,7 +491,7 @@ export declare type GiphySearchResult = {
     previewIsVideo: boolean;
 };
 export declare type GiphySearchResults = {
-    results: GiphySearchResult[];
+    results: GiphySearchResult[] | null;
     galleryUrl: string;
 };
 export declare enum UICoinFlipPhase {
@@ -497,7 +505,7 @@ export declare type UICoinFlipErrorParticipant = {
     device: string;
 };
 export declare type UICoinFlipAbsenteeError = {
-    absentees: UICoinFlipErrorParticipant[];
+    absentees: UICoinFlipErrorParticipant[] | null;
 };
 export declare enum UICoinFlipErrorTyp {
     GENERIC = "generic",
@@ -531,6 +539,8 @@ export declare type UICoinFlipError = {
 } | {
     typ: UICoinFlipErrorTyp.COMMITMISMATCH;
     COMMITMISMATCH: UICoinFlipErrorParticipant | null;
+} | {
+    typ: Exclude<UICoinFlipErrorTyp, UICoinFlipErrorTyp.GENERIC | UICoinFlipErrorTyp.ABSENTEE | UICoinFlipErrorTyp.TIMEOUT | UICoinFlipErrorTyp.ABORTED | UICoinFlipErrorTyp.DUPREG | UICoinFlipErrorTyp.DUPCOMMITCOMPLETE | UICoinFlipErrorTyp.DUPREVEAL | UICoinFlipErrorTyp.COMMITMISMATCH>;
 };
 export declare enum UICoinFlipResultTyp {
     NUMBER = "number",
@@ -541,7 +551,7 @@ export declare enum UICoinFlipResultTyp {
 }
 export declare type UICoinFlipHand = {
     target: string;
-    hand: number[];
+    hand: number[] | null;
 };
 export declare type UICoinFlipResult = {
     typ: UICoinFlipResultTyp.NUMBER;
@@ -558,6 +568,8 @@ export declare type UICoinFlipResult = {
 } | {
     typ: UICoinFlipResultTyp.COIN;
     COIN: boolean | null;
+} | {
+    typ: Exclude<UICoinFlipResultTyp, UICoinFlipResultTyp.NUMBER | UICoinFlipResultTyp.SHUFFLE | UICoinFlipResultTyp.DECK | UICoinFlipResultTyp.HANDS | UICoinFlipResultTyp.COIN>;
 };
 export declare type UICoinFlipParticipant = {
     uid: string;
@@ -574,7 +586,7 @@ export declare type UICoinFlipStatus = {
     resultText: string;
     commitmentVisualization: string;
     revealVisualization: string;
-    participants: UICoinFlipParticipant[];
+    participants: UICoinFlipParticipant[] | null;
     errorInfo?: UICoinFlipError;
     resultInfo?: UICoinFlipResult;
 };
@@ -582,7 +594,7 @@ export declare type UICommandMarkdown = {
     body: string;
     title?: string;
 };
-export declare type LocationWatchID = number;
+export declare type LocationWatchID = never;
 export declare enum UICommandStatusDisplayTyp {
     STATUS = "status",
     WARNING = "warning",
@@ -617,7 +629,7 @@ export declare enum ConversationBuiltinCommandTyp {
     BIGTEAMGENERAL = "bigteamgeneral"
 }
 export declare type ConversationCommandGroupsCustom = {
-    commands: ConversationCommand[];
+    commands: ConversationCommand[] | null;
 };
 export declare type ConversationCommandGroups = {
     typ: ConversationCommandGroupsTyp.BUILTIN;
@@ -627,6 +639,8 @@ export declare type ConversationCommandGroups = {
     CUSTOM: ConversationCommandGroupsCustom | null;
 } | {
     typ: ConversationCommandGroupsTyp.NONE;
+} | {
+    typ: Exclude<ConversationCommandGroupsTyp, ConversationCommandGroupsTyp.BUILTIN | ConversationCommandGroupsTyp.CUSTOM | ConversationCommandGroupsTyp.NONE>;
 };
 export declare type ThreadID = Buffer;
 export declare type MessageID = number;
@@ -635,9 +649,9 @@ export declare type TopicID = Buffer;
 export declare type ConversationID = Buffer;
 export declare type TLFID = Buffer;
 export declare type Hash = Buffer;
-export declare type InboxVers = number;
-export declare type LocalConversationVers = number;
-export declare type ConversationVers = number;
+export declare type InboxVers = never;
+export declare type LocalConversationVers = never;
+export declare type ConversationVers = never;
 export declare type OutboxID = Buffer;
 export declare type TopicNameState = Buffer;
 export declare type FlipGameID = Buffer;
@@ -728,7 +742,7 @@ export declare type ConversationIDMessageIDPair = {
     msgId: MessageID;
 };
 export declare type ConversationIDMessageIDPairs = {
-    pairs: ConversationIDMessageIDPair[];
+    pairs: ConversationIDMessageIDPair[] | null;
 };
 export declare type ChannelNameMention = {
     convId: ConversationID;
@@ -770,11 +784,11 @@ export declare type GetInboxQuery = {
     after?: gregor1.Time;
     oneChatTypePerTlf?: boolean;
     topicName?: string;
-    status: ConversationStatus[];
-    memberStatus: ConversationMemberStatus[];
-    existences: ConversationExistence[];
-    membersTypes: ConversationMembersType[];
-    convIDs: ConversationID[];
+    status: ConversationStatus[] | null;
+    memberStatus: ConversationMemberStatus[] | null;
+    existences: ConversationExistence[] | null;
+    membersTypes: ConversationMembersType[] | null;
+    convIDs: ConversationID[] | null;
     unreadOnly: boolean;
     readOnly: boolean;
     computeActiveList: boolean;
@@ -810,11 +824,11 @@ export declare type ConversationMetadata = {
     version: ConversationVers;
     localVersion: LocalConversationVers;
     finalizeInfo?: ConversationFinalizeInfo;
-    supersedes: ConversationMetadata[];
-    supersededBy: ConversationMetadata[];
-    activeList: gregor1.UID[];
-    allList: gregor1.UID[];
-    resetList: gregor1.UID[];
+    supersedes: ConversationMetadata[] | null;
+    supersededBy: ConversationMetadata[] | null;
+    activeList: gregor1.UID[] | null;
+    allList: gregor1.UID[] | null;
+    resetList: gregor1.UID[] | null;
 };
 export declare type ConversationNotificationInfo = {
     channelWide: boolean;
@@ -849,8 +863,8 @@ export declare type Conversation = {
     metadata: ConversationMetadata;
     readerInfo?: ConversationReaderInfo;
     notifications?: ConversationNotificationInfo;
-    maxMsgs: MessageBoxed[];
-    maxMsgSummaries: MessageSummary[];
+    maxMsgs: MessageBoxed[] | null;
+    maxMsgSummaries: MessageSummary[] | null;
     creatorInfo?: ConversationCreatorInfo;
     pinnedMsg?: MessageID;
     expunge: Expunge;
@@ -879,9 +893,9 @@ export declare type ReactionMap = {
 export declare type MessageServerHeader = {
     messageId: MessageID;
     supersededBy: MessageID;
-    r: MessageID[];
-    u: MessageID[];
-    replies: MessageID[];
+    r: MessageID[] | null;
+    u: MessageID[] | null;
+    replies: MessageID[] | null;
     ctime: gregor1.Time;
     n: gregor1.Time;
     rt?: gregor1.Time;
@@ -912,8 +926,8 @@ export declare type MessageClientHeader = {
     messageType: MessageType;
     supersedes: MessageID;
     kbfsCryptKeysUsed?: boolean;
-    deletes: MessageID[];
-    prev: MessagePreviousPointer[];
+    deletes: MessageID[] | null;
+    prev: MessagePreviousPointer[] | null;
     deleteHistory?: MessageDeleteHistory;
     sender: gregor1.UID;
     senderDevice: gregor1.DeviceID;
@@ -931,7 +945,7 @@ export declare type MessageClientHeaderVerified = {
     tlfName: string;
     tlfPublic: boolean;
     messageType: MessageType;
-    prev: MessagePreviousPointer[];
+    prev: MessagePreviousPointer[] | null;
     sender: gregor1.UID;
     senderDevice: gregor1.DeviceID;
     kbfsCryptKeysUsed?: boolean;
@@ -964,7 +978,7 @@ export declare type SignatureInfo = {
     k: Buffer;
 };
 export declare type MerkleRoot = {
-    seqno: number;
+    seqno: never;
     hash: Buffer;
 };
 export declare enum InboxResType {
@@ -973,7 +987,7 @@ export declare enum InboxResType {
 }
 export declare type InboxViewFull = {
     vers: InboxVers;
-    conversations: Conversation[];
+    conversations: Conversation[] | null;
     pagination?: Pagination;
 };
 export declare type InboxView = {
@@ -981,6 +995,8 @@ export declare type InboxView = {
 } | {
     rtype: InboxResType.FULL;
     FULL: InboxViewFull | null;
+} | {
+    rtype: Exclude<InboxResType, InboxResType.VERSIONHIT | InboxResType.FULL>;
 };
 export declare enum RetentionPolicyType {
     NONE = "none",
@@ -1001,6 +1017,8 @@ export declare type RetentionPolicy = {
 } | {
     typ: RetentionPolicyType.EPHEMERAL;
     EPHEMERAL: RpEphemeral | null;
+} | {
+    typ: Exclude<RetentionPolicyType, RetentionPolicyType.RETAIN | RetentionPolicyType.EXPIRE | RetentionPolicyType.INHERIT | RetentionPolicyType.EPHEMERAL>;
 };
 export declare type RpRetain = {};
 export declare type RpExpire = {
@@ -1053,10 +1071,10 @@ export declare type ChatSearchMatch = {
     match: string;
 };
 export declare type ChatSearchHit = {
-    beforeMessages: UIMessage[];
+    beforeMessages: UIMessage[] | null;
     hitMessage: UIMessage;
-    afterMessages: UIMessage[];
-    matches: ChatSearchMatch[];
+    afterMessages: UIMessage[] | null;
+    matches: ChatSearchMatch[] | null;
 };
 export declare type ChatSearchInboxHit = {
     convId: ConversationID;
@@ -1064,10 +1082,10 @@ export declare type ChatSearchInboxHit = {
     convName: string;
     query: string;
     time: gregor1.Time;
-    hits: ChatSearchHit[];
+    hits: ChatSearchHit[] | null;
 };
 export declare type ChatSearchInboxResults = {
-    hits: ChatSearchInboxHit[];
+    hits: ChatSearchInboxHit[] | null;
     percentIndexed: number;
 };
 export declare type ChatSearchInboxDone = {
@@ -1106,6 +1124,8 @@ export declare type AssetMetadata = {
 } | {
     assetType: AssetMetadataType.AUDIO;
     AUDIO: AssetMetadataAudio | null;
+} | {
+    assetType: Exclude<AssetMetadataType, AssetMetadataType.IMAGE | AssetMetadataType.VIDEO | AssetMetadataType.AUDIO>;
 };
 export declare enum AssetTag {
     PRIMARY = "primary"
@@ -1116,7 +1136,7 @@ export declare type Asset = {
     endpoint: string;
     bucket: string;
     path: string;
-    size: number;
+    size: never;
     mimeType: string;
     encHash: Hash;
     key: Buffer;
@@ -1157,7 +1177,7 @@ export declare type NewMessagePayload = {
     inboxVers: InboxVers;
     topicType: TopicType;
     unreadUpdate?: UnreadUpdate;
-    maxMsgs: MessageSummary[];
+    maxMsgs: MessageSummary[] | null;
 };
 export declare type ReadMessagePayload = {
     action: string;
@@ -1196,7 +1216,7 @@ export declare type ExpungePayload = {
     convId: ConversationID;
     inboxVers: InboxVers;
     expunge: Expunge;
-    maxMsgs: MessageSummary[];
+    maxMsgs: MessageSummary[] | null;
     topicType: TopicType;
     unreadUpdate?: UnreadUpdate;
 };
@@ -1210,7 +1230,7 @@ export declare type UnreadUpdate = {
 };
 export declare type TLFFinalizeUpdate = {
     finalizeInfo: ConversationFinalizeInfo;
-    convIDs: ConversationID[];
+    convIDs: ConversationID[] | null;
     inboxVers: InboxVers;
 };
 export declare type TLFResolveUpdate = {
@@ -1225,12 +1245,12 @@ export declare type RemoteUserTypingUpdate = {
 };
 export declare type UpdateConversationMembership = {
     inboxVers: InboxVers;
-    joined: ConversationMember[];
-    removed: ConversationMember[];
-    reset: ConversationMember[];
-    previewed: ConversationID[];
+    joined: ConversationMember[] | null;
+    removed: ConversationMember[] | null;
+    reset: ConversationMember[] | null;
+    previewed: ConversationID[] | null;
     unreadUpdate?: UnreadUpdate;
-    unreadUpdates: UnreadUpdate[];
+    unreadUpdates: UnreadUpdate[] | null;
 };
 export declare type ConversationUpdate = {
     convId: ConversationID;
@@ -1238,7 +1258,7 @@ export declare type ConversationUpdate = {
 };
 export declare type UpdateConversations = {
     inboxVers: InboxVers;
-    convUpdates: ConversationUpdate[];
+    convUpdates: ConversationUpdate[] | null;
 };
 export declare type TeamChannelUpdate = {
     teamId: TLFID;
@@ -1264,7 +1284,7 @@ export declare type KBFSImpteamUpgradeUpdate = {
     topicType: TopicType;
 };
 export declare type SubteamRenameUpdate = {
-    convIDs: ConversationID[];
+    convIDs: ConversationID[] | null;
     inboxVers: InboxVers;
 };
 export declare type VersionKind = string;
@@ -1278,6 +1298,8 @@ export declare type TextPaymentResult = {
 } | {
     resultTyp: TextPaymentResultTyp.SENT;
     SENT: stellar1.PaymentID | null;
+} | {
+    resultTyp: Exclude<TextPaymentResultTyp, TextPaymentResultTyp.ERROR | TextPaymentResultTyp.SENT>;
 };
 export declare type TextPayment = {
     username: string;
@@ -1306,11 +1328,11 @@ export declare type LiveLocation = {
 };
 export declare type MessageText = {
     body: string;
-    payments: TextPayment[];
+    payments: TextPayment[] | null;
     replyTo?: MessageID;
     replyToUid?: gregor1.UID;
-    userMentions: KnownUserMention[];
-    teamMentions: KnownTeamMention[];
+    userMentions: KnownUserMention[] | null;
+    teamMentions: KnownTeamMention[] | null;
     liveLocation?: LiveLocation;
 };
 export declare type MessageConversationMetadata = {
@@ -1319,11 +1341,11 @@ export declare type MessageConversationMetadata = {
 export declare type MessageEdit = {
     messageId: MessageID;
     body: string;
-    userMentions: KnownUserMention[];
-    teamMentions: KnownTeamMention[];
+    userMentions: KnownUserMention[] | null;
+    teamMentions: KnownTeamMention[] | null;
 };
 export declare type MessageDelete = {
-    messageIDs: MessageID[];
+    messageIDs: MessageID[] | null;
 };
 export declare type MessageHeadline = {
     headline: string;
@@ -1332,8 +1354,8 @@ export declare type MessageFlip = {
     text: string;
     gameId: FlipGameID;
     flipConvId: ConversationID;
-    userMentions: KnownUserMention[];
-    teamMentions: KnownTeamMention[];
+    userMentions: KnownUserMention[] | null;
+    teamMentions: KnownTeamMention[] | null;
 };
 export declare type MessagePin = {
     msgId: MessageID;
@@ -1352,12 +1374,12 @@ export declare type MessageSystemAddedToTeam = {
     team: string;
     adder: string;
     addee: string;
-    owners: string[];
-    admins: string[];
-    writers: string[];
-    readers: string[];
-    bots: string[];
-    restrictedBots: string[];
+    owners: string[] | null;
+    admins: string[] | null;
+    writers: string[] | null;
+    readers: string[] | null;
+    bots: string[] | null;
+    restrictedBots: string[] | null;
 };
 export declare type MessageSystemInviteAddedToTeam = {
     team: string;
@@ -1378,7 +1400,7 @@ export declare type MessageSystemGitPush = {
     pusher: string;
     repoName: string;
     repoId: keybase1.RepoID;
-    refs: keybase1.GitRefMetadata[];
+    refs: keybase1.GitRefMetadata[] | null;
     pushType: keybase1.GitPushType;
     previousRepoName: string;
 };
@@ -1394,7 +1416,7 @@ export declare type MessageSystemChangeRetention = {
     user: string;
 };
 export declare type MessageSystemBulkAddToConv = {
-    usernames: string[];
+    usernames: string[] | null;
 };
 export declare type MessageSystem = {
     systemType: MessageSystemType.ADDEDTOTEAM;
@@ -1420,6 +1442,8 @@ export declare type MessageSystem = {
 } | {
     systemType: MessageSystemType.BULKADDTOCONV;
     BULKADDTOCONV: MessageSystemBulkAddToConv | null;
+} | {
+    systemType: Exclude<MessageSystemType, MessageSystemType.ADDEDTOTEAM | MessageSystemType.INVITEADDEDTOTEAM | MessageSystemType.COMPLEXTEAM | MessageSystemType.CREATETEAM | MessageSystemType.GITPUSH | MessageSystemType.CHANGEAVATAR | MessageSystemType.CHANGERETENTION | MessageSystemType.BULKADDTOCONV>;
 };
 export declare type MessageDeleteHistory = {
     upto: MessageID;
@@ -1427,19 +1451,19 @@ export declare type MessageDeleteHistory = {
 export declare type MessageAttachment = {
     object: Asset;
     preview?: Asset;
-    previews: Asset[];
+    previews: Asset[] | null;
     metadata: Buffer;
     uploaded: boolean;
 };
 export declare type MessageAttachmentUploaded = {
     messageId: MessageID;
     object: Asset;
-    previews: Asset[];
+    previews: Asset[] | null;
     metadata: Buffer;
 };
 export declare type MessageJoin = {
-    joiners: string[];
-    leavers: string[];
+    joiners: string[] | null;
+    leavers: string[] | null;
 };
 export declare type MessageLeave = {};
 export declare type MessageReaction = {
@@ -1508,6 +1532,8 @@ export declare type MessageBody = {
 } | {
     messageType: MessageType.PIN;
     PIN: MessagePin | null;
+} | {
+    messageType: Exclude<MessageType, MessageType.TEXT | MessageType.ATTACHMENT | MessageType.EDIT | MessageType.DELETE | MessageType.METADATA | MessageType.HEADLINE | MessageType.ATTACHMENTUPLOADED | MessageType.JOIN | MessageType.LEAVE | MessageType.SYSTEM | MessageType.DELETEHISTORY | MessageType.REACTION | MessageType.SENDPAYMENT | MessageType.REQUESTPAYMENT | MessageType.UNFURL | MessageType.FLIP | MessageType.PIN>;
 };
 export declare type SenderPrepareOptions = {
     skipTopicNameState: boolean;
@@ -1541,6 +1567,8 @@ export declare type OutboxState = {
 } | {
     state: OutboxStateType.ERROR;
     ERROR: OutboxStateError | null;
+} | {
+    state: Exclude<OutboxStateType, OutboxStateType.SENDING | OutboxStateType.ERROR>;
 };
 export declare type OutboxRecord = {
     state: OutboxState;
@@ -1578,7 +1606,7 @@ export declare type HeaderPlaintextV1 = {
     tlfName: string;
     tlfPublic: boolean;
     messageType: MessageType;
-    prev: MessagePreviousPointer[];
+    prev: MessagePreviousPointer[] | null;
     sender: gregor1.UID;
     senderDevice: gregor1.DeviceID;
     kbfsCryptKeysUsed?: boolean;
@@ -1620,6 +1648,8 @@ export declare type HeaderPlaintext = {
 } | {
     version: HeaderPlaintextVersion.V10;
     V10: HeaderPlaintextUnsupported | null;
+} | {
+    version: Exclude<HeaderPlaintextVersion, HeaderPlaintextVersion.V1 | HeaderPlaintextVersion.V2 | HeaderPlaintextVersion.V3 | HeaderPlaintextVersion.V4 | HeaderPlaintextVersion.V5 | HeaderPlaintextVersion.V6 | HeaderPlaintextVersion.V7 | HeaderPlaintextVersion.V8 | HeaderPlaintextVersion.V9 | HeaderPlaintextVersion.V10>;
 };
 export declare enum BodyPlaintextVersion {
     V1 = "v1",
@@ -1676,6 +1706,8 @@ export declare type BodyPlaintext = {
 } | {
     version: BodyPlaintextVersion.V10;
     V10: BodyPlaintextUnsupported | null;
+} | {
+    version: Exclude<BodyPlaintextVersion, BodyPlaintextVersion.V1 | BodyPlaintextVersion.V2 | BodyPlaintextVersion.V3 | BodyPlaintextVersion.V4 | BodyPlaintextVersion.V5 | BodyPlaintextVersion.V6 | BodyPlaintextVersion.V7 | BodyPlaintextVersion.V8 | BodyPlaintextVersion.V9 | BodyPlaintextVersion.V10>;
 };
 export declare type MessagePlaintext = {
     clientHeader: MessageClientHeader;
@@ -1694,11 +1726,11 @@ export declare type MessageUnboxedValid = {
     headerSignature?: SignatureInfo;
     verificationKey?: Buffer;
     senderDeviceRevokedAt?: gregor1.Time;
-    atMentionUsernames: string[];
-    atMentions: gregor1.UID[];
+    atMentionUsernames: string[] | null;
+    atMentions: gregor1.UID[] | null;
     channelMention: ChannelMention;
-    maybeMentions: MaybeMention[];
-    channelNameMentions: ChannelNameMention[];
+    maybeMentions: MaybeMention[] | null;
+    channelNameMentions: ChannelNameMention[] | null;
     reactions: ReactionMap;
     unfurls: {
         [key: string]: UnfurlResult;
@@ -1746,6 +1778,8 @@ export declare type MessageUnboxed = {
 } | {
     state: MessageUnboxedState.PLACEHOLDER;
     PLACEHOLDER: MessageUnboxedPlaceholder | null;
+} | {
+    state: Exclude<MessageUnboxedState, MessageUnboxedState.VALID | MessageUnboxedState.ERROR | MessageUnboxedState.OUTBOX | MessageUnboxedState.PLACEHOLDER>;
 };
 export declare type UnreadFirstNumLimit = {
     numRead: number;
@@ -1778,9 +1812,9 @@ export declare type ConversationInfoLocal = {
     existence: ConversationExistence;
     version: ConversationVers;
     localVersion: LocalConversationVers;
-    participants: ConversationLocalParticipant[];
+    participants: ConversationLocalParticipant[] | null;
     finalizeInfo?: ConversationFinalizeInfo;
-    resetNames: string[];
+    resetNames: string[] | null;
 };
 export declare enum ConversationErrorType {
     PERMANENT = "permanent",
@@ -1801,9 +1835,9 @@ export declare type ConversationErrorLocal = {
 export declare type ConversationErrorRekey = {
     tlfName: string;
     tlfPublic: boolean;
-    rekeyers: string[];
-    writerNames: string[];
-    readerNames: string[];
+    rekeyers: string[] | null;
+    writerNames: string[] | null;
+    readerNames: string[] | null;
 };
 export declare type ConversationMinWriterRoleInfoLocal = {
     changedBy: string;
@@ -1819,11 +1853,11 @@ export declare type ConversationLocal = {
     readerInfo: ConversationReaderInfo;
     creatorInfo?: ConversationCreatorInfoLocal;
     notifications?: ConversationNotificationInfo;
-    supersedes: ConversationMetadata[];
-    supersededBy: ConversationMetadata[];
-    maxMessages: MessageSummary[];
+    supersedes: ConversationMetadata[] | null;
+    supersededBy: ConversationMetadata[] | null;
+    maxMessages: MessageSummary[] | null;
     isEmpty: boolean;
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
     expunge: Expunge;
     convRetention?: RetentionPolicy;
     teamRetention?: RetentionPolicy;
@@ -1833,11 +1867,11 @@ export declare type ConversationLocal = {
 };
 export declare type NonblockFetchRes = {
     offline: boolean;
-    rateLimits: RateLimit[];
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    rateLimits: RateLimit[] | null;
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
 export declare type ThreadView = {
-    messages: MessageUnboxed[];
+    messages: MessageUnboxed[] | null;
     pagination?: Pagination;
 };
 export declare enum MessageIDControlMode {
@@ -1853,7 +1887,7 @@ export declare type MessageIDControl = {
 };
 export declare type GetThreadQuery = {
     markAsRead: boolean;
-    messageTypes: MessageType[];
+    messageTypes: MessageType[] | null;
     disableResolveSupersedes: boolean;
     enableDeletePlaceholders: boolean;
     disablePostProcessThread: boolean;
@@ -1864,8 +1898,8 @@ export declare type GetThreadQuery = {
 export declare type GetThreadLocalRes = {
     thread: ThreadView;
     offline: boolean;
-    rateLimits: RateLimit[];
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    rateLimits: RateLimit[] | null;
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
 export declare enum GetThreadNonblockCbMode {
     FULL = "full",
@@ -1877,8 +1911,8 @@ export declare enum GetThreadNonblockPgMode {
 }
 export declare type UnreadlineRes = {
     offline: boolean;
-    rateLimits: RateLimit[];
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    rateLimits: RateLimit[] | null;
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
     unreadlineId?: MessageID;
 };
 export declare type NameQuery = {
@@ -1889,89 +1923,89 @@ export declare type NameQuery = {
 export declare type GetInboxLocalQuery = {
     name?: NameQuery;
     topicName?: string;
-    convIDs: ConversationID[];
+    convIDs: ConversationID[] | null;
     topicType?: TopicType;
     tlfVisibility?: keybase1.TLFVisibility;
     before?: gregor1.Time;
     after?: gregor1.Time;
     oneChatTypePerTlf?: boolean;
-    status: ConversationStatus[];
-    memberStatus: ConversationMemberStatus[];
+    status: ConversationStatus[] | null;
+    memberStatus: ConversationMemberStatus[] | null;
     unreadOnly: boolean;
     readOnly: boolean;
     computeActiveList: boolean;
 };
 export declare type GetInboxAndUnboxLocalRes = {
-    conversations: ConversationLocal[];
+    conversations: ConversationLocal[] | null;
     pagination?: Pagination;
     offline: boolean;
-    rateLimits: RateLimit[];
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    rateLimits: RateLimit[] | null;
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
 export declare type GetInboxAndUnboxUILocalRes = {
-    conversations: InboxUIItem[];
+    conversations: InboxUIItem[] | null;
     pagination?: Pagination;
     offline: boolean;
-    rateLimits: RateLimit[];
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    rateLimits: RateLimit[] | null;
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
 export declare type PostLocalRes = {
-    rateLimits: RateLimit[];
+    rateLimits: RateLimit[] | null;
     messageId: MessageID;
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
 export declare type PostLocalNonblockRes = {
-    rateLimits: RateLimit[];
+    rateLimits: RateLimit[] | null;
     outboxId: OutboxID;
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
 export declare type EditTarget = {
     messageId?: MessageID;
     outboxId?: OutboxID;
 };
 export declare type SetConversationStatusLocalRes = {
-    rateLimits: RateLimit[];
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    rateLimits: RateLimit[] | null;
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
 export declare type NewConversationLocalRes = {
     conv: ConversationLocal;
     uiConv: InboxUIItem;
-    rateLimits: RateLimit[];
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    rateLimits: RateLimit[] | null;
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
 export declare type GetInboxSummaryForCLILocalQuery = {
     topicType: TopicType;
     after: string;
     before: string;
     visibility: keybase1.TLFVisibility;
-    status: ConversationStatus[];
+    status: ConversationStatus[] | null;
     unreadFirst: boolean;
     unreadFirstLimit: UnreadFirstNumLimit;
     activitySortedLimit: number;
 };
 export declare type GetInboxSummaryForCLILocalRes = {
-    conversations: ConversationLocal[];
+    conversations: ConversationLocal[] | null;
     offline: boolean;
-    rateLimits: RateLimit[];
+    rateLimits: RateLimit[] | null;
 };
 export declare type GetConversationForCLILocalQuery = {
     markAsRead: boolean;
-    messageTypes: MessageType[];
+    messageTypes: MessageType[] | null;
     since?: string;
     limit: UnreadFirstNumLimit;
     conv: ConversationLocal;
 };
 export declare type GetConversationForCLILocalRes = {
     conversation: ConversationLocal;
-    messages: MessageUnboxed[];
+    messages: MessageUnboxed[] | null;
     offline: boolean;
-    rateLimits: RateLimit[];
+    rateLimits: RateLimit[] | null;
 };
 export declare type GetMessagesLocalRes = {
-    messages: MessageUnboxed[];
+    messages: MessageUnboxed[] | null;
     offline: boolean;
-    rateLimits: RateLimit[];
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    rateLimits: RateLimit[] | null;
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
 export declare type PostFileAttachmentArg = {
     conversationId: ConversationID;
@@ -1988,17 +2022,17 @@ export declare type PostFileAttachmentArg = {
 export declare type GetNextAttachmentMessageLocalRes = {
     message?: UIMessage;
     offline: boolean;
-    rateLimits: RateLimit[];
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    rateLimits: RateLimit[] | null;
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
 export declare type DownloadAttachmentLocalRes = {
-    rateLimits: RateLimit[];
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    rateLimits: RateLimit[] | null;
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
 export declare type DownloadFileAttachmentLocalRes = {
     filename: string;
-    rateLimits: RateLimit[];
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    rateLimits: RateLimit[] | null;
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
 export declare enum PreviewLocationTyp {
     URL = "url",
@@ -2014,6 +2048,8 @@ export declare type PreviewLocation = {
 } | {
     ltyp: PreviewLocationTyp.BYTES;
     BYTES: Buffer | null;
+} | {
+    ltyp: Exclude<PreviewLocationTyp, PreviewLocationTyp.URL | PreviewLocationTyp.FILE | PreviewLocationTyp.BYTES>;
 };
 export declare type MakePreviewRes = {
     mimeType: string;
@@ -2024,36 +2060,36 @@ export declare type MakePreviewRes = {
 };
 export declare type MarkAsReadLocalRes = {
     offline: boolean;
-    rateLimits: RateLimit[];
+    rateLimits: RateLimit[] | null;
 };
 export declare type FindConversationsLocalRes = {
-    conversations: ConversationLocal[];
-    uiConversations: InboxUIItem[];
+    conversations: ConversationLocal[] | null;
+    uiConversations: InboxUIItem[] | null;
     offline: boolean;
-    rateLimits: RateLimit[];
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    rateLimits: RateLimit[] | null;
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
 export declare type JoinLeaveConversationLocalRes = {
     offline: boolean;
-    rateLimits: RateLimit[];
+    rateLimits: RateLimit[] | null;
 };
 export declare type PreviewConversationLocalRes = {
     conv: InboxUIItem;
     offline: boolean;
-    rateLimits: RateLimit[];
+    rateLimits: RateLimit[] | null;
 };
 export declare type DeleteConversationLocalRes = {
     offline: boolean;
-    rateLimits: RateLimit[];
+    rateLimits: RateLimit[] | null;
 };
 export declare type GetTLFConversationsLocalRes = {
-    convs: InboxUIItem[];
+    convs: InboxUIItem[] | null;
     offline: boolean;
-    rateLimits: RateLimit[];
+    rateLimits: RateLimit[] | null;
 };
 export declare type SetAppNotificationSettingsLocalRes = {
     offline: boolean;
-    rateLimits: RateLimit[];
+    rateLimits: RateLimit[] | null;
 };
 export declare type AppNotificationSettingLocal = {
     deviceType: keybase1.DeviceType;
@@ -2062,15 +2098,15 @@ export declare type AppNotificationSettingLocal = {
 };
 export declare type SearchRegexpRes = {
     offline: boolean;
-    hits: ChatSearchHit[];
-    rateLimits: RateLimit[];
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    hits: ChatSearchHit[] | null;
+    rateLimits: RateLimit[] | null;
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
 export declare type SearchInboxRes = {
     offline: boolean;
     res?: ChatSearchInboxResults;
-    rateLimits: RateLimit[];
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    rateLimits: RateLimit[] | null;
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
 export declare type ProfileSearchConvStats = {
     err: string;
@@ -2080,17 +2116,17 @@ export declare type ProfileSearchConvStats = {
     numMissing: number;
     numMessages: number;
     indexSizeDisk: number;
-    indexSizeMem: number;
+    indexSizeMem: never;
     durationMsec: gregor1.DurationMsec;
     percentIndexed: number;
 };
 export declare type BuiltinCommandGroup = {
     typ: ConversationBuiltinCommandTyp;
-    commands: ConversationCommand[];
+    commands: ConversationCommand[] | null;
 };
 export declare type StaticConfig = {
-    deletableByDeleteHistory: MessageType[];
-    builtinCommands: BuiltinCommandGroup[];
+    deletableByDeleteHistory: MessageType[] | null;
+    builtinCommands: BuiltinCommandGroup[] | null;
 };
 export declare enum UnfurlPromptAction {
     ALWAYS = "always",
@@ -2111,6 +2147,8 @@ export declare type UnfurlPromptResult = {
 } | {
     actionType: UnfurlPromptAction.ONETIME;
     ONETIME: string | null;
+} | {
+    actionType: Exclude<UnfurlPromptAction, UnfurlPromptAction.ALWAYS | UnfurlPromptAction.NEVER | UnfurlPromptAction.NOTNOW | UnfurlPromptAction.ACCEPT | UnfurlPromptAction.ONETIME>;
 };
 export declare enum GalleryItemTyp {
     MEDIA = "media",
@@ -2118,15 +2156,15 @@ export declare enum GalleryItemTyp {
     DOC = "doc"
 }
 export declare type LoadGalleryRes = {
-    messages: UIMessage[];
+    messages: UIMessage[] | null;
     last: boolean;
-    rateLimits: RateLimit[];
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    rateLimits: RateLimit[] | null;
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
 export declare type LoadFlipRes = {
     status: UICoinFlipStatus;
-    rateLimits: RateLimit[];
-    identifyFailures: keybase1.TLFIdentifyFailure[];
+    rateLimits: RateLimit[] | null;
+    identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
 export declare type UserBotExtendedDescription = {
     title: string;
@@ -2148,21 +2186,21 @@ export declare type UserBotCommandInput = {
 };
 export declare type AdvertiseCommandsParam = {
     typ: BotCommandsAdvertisementTyp;
-    commands: UserBotCommandInput[];
+    commands: UserBotCommandInput[] | null;
     teamName?: string;
 };
 export declare type AdvertiseBotCommandsLocalRes = {
-    rateLimits: RateLimit[];
+    rateLimits: RateLimit[] | null;
 };
 export declare type ListBotCommandsLocalRes = {
-    commands: UserBotCommandOutput[];
-    rateLimits: RateLimit[];
+    commands: UserBotCommandOutput[] | null;
+    rateLimits: RateLimit[] | null;
 };
 export declare type ClearBotCommandsLocalRes = {
-    rateLimits: RateLimit[];
+    rateLimits: RateLimit[] | null;
 };
 export declare type PinMessageRes = {
-    rateLimits: RateLimit[];
+    rateLimits: RateLimit[] | null;
 };
 export declare enum ChatActivitySource {
     LOCAL = "local",
@@ -2211,7 +2249,7 @@ export declare type SetAppNotificationSettingsInfo = {
     settings: ConversationNotificationInfo;
 };
 export declare type FailedMessageInfo = {
-    outboxRecords: OutboxRecord[];
+    outboxRecords: OutboxRecord[] | null;
     isEphemeralPurge: boolean;
 };
 export declare type MemberInfo = {
@@ -2220,7 +2258,7 @@ export declare type MemberInfo = {
 };
 export declare type MembersUpdateInfo = {
     convId: ConversationID;
-    members: MemberInfo[];
+    members: MemberInfo[] | null;
 };
 export declare type TeamTypeInfo = {
     convId: ConversationID;
@@ -2233,7 +2271,7 @@ export declare type ExpungeInfo = {
 };
 export declare type EphemeralPurgeNotifInfo = {
     convId: ConversationID;
-    msgs: UIMessage[];
+    msgs: UIMessage[] | null;
 };
 export declare type ReactionUpdate = {
     reactions: ReactionMap;
@@ -2242,11 +2280,11 @@ export declare type ReactionUpdate = {
 export declare type ReactionUpdateNotif = {
     convId: ConversationID;
     userReacjis: keybase1.UserReacjis;
-    reactionUpdates: ReactionUpdate[];
+    reactionUpdates: ReactionUpdate[] | null;
 };
 export declare type MessagesUpdated = {
     convId: ConversationID;
-    updates: UIMessage[];
+    updates: UIMessage[] | null;
 };
 export declare type ChatActivity = {
     activityType: ChatActivityType.INCOMING_MESSAGE;
@@ -2284,6 +2322,8 @@ export declare type ChatActivity = {
 } | {
     activityType: ChatActivityType.MESSAGES_UPDATED;
     MESSAGES_UPDATED: MessagesUpdated | null;
+} | {
+    activityType: Exclude<ChatActivityType, ChatActivityType.INCOMING_MESSAGE | ChatActivityType.READ_MESSAGE | ChatActivityType.NEW_CONVERSATION | ChatActivityType.SET_STATUS | ChatActivityType.FAILED_MESSAGE | ChatActivityType.MEMBERS_UPDATE | ChatActivityType.SET_APP_NOTIFICATION_SETTINGS | ChatActivityType.TEAMTYPE | ChatActivityType.EXPUNGE | ChatActivityType.EPHEMERAL_PURGE | ChatActivityType.REACTION_UPDATE | ChatActivityType.MESSAGES_UPDATED>;
 };
 export declare type TyperInfo = {
     uid: keybase1.UID;
@@ -2294,7 +2334,7 @@ export declare type TyperInfo = {
 };
 export declare type ConvTypingUpdate = {
     convId: ConversationID;
-    typers: TyperInfo[];
+    typers: TyperInfo[] | null;
 };
 export declare enum StaleUpdateType {
     CLEAR = "clear",
@@ -2310,8 +2350,8 @@ export declare type ChatSyncIncrementalConv = {
     shouldUnbox: boolean;
 };
 export declare type ChatSyncIncrementalInfo = {
-    items: ChatSyncIncrementalConv[];
-    removals: string[];
+    items: ChatSyncIncrementalConv[] | null;
+    removals: string[] | null;
 };
 export declare type ChatSyncResult = {
     syncType: SyncInboxResType.CURRENT;
@@ -2320,6 +2360,8 @@ export declare type ChatSyncResult = {
 } | {
     syncType: SyncInboxResType.INCREMENTAL;
     INCREMENTAL: ChatSyncIncrementalInfo | null;
+} | {
+    syncType: Exclude<SyncInboxResType, SyncInboxResType.CURRENT | SyncInboxResType.CLEAR | SyncInboxResType.INCREMENTAL>;
 };
 export declare type MessageBoxed = {
     version: MessageBoxedVersion;
@@ -2338,7 +2380,7 @@ export declare enum MessageBoxedVersion {
     V4 = "v4"
 }
 export declare type ThreadViewBoxed = {
-    messages: MessageBoxed[];
+    messages: MessageBoxed[] | null;
     pagination?: Pagination;
 };
 export declare type GetInboxRemoteRes = {
@@ -2346,7 +2388,7 @@ export declare type GetInboxRemoteRes = {
     rateLimit?: RateLimit;
 };
 export declare type GetInboxByTLFIDRemoteRes = {
-    convs: Conversation[];
+    convs: Conversation[] | null;
     rateLimit?: RateLimit;
 };
 export declare type GetThreadRemoteRes = {
@@ -2369,7 +2411,7 @@ export declare type NewConversationRemoteRes = {
     rateLimit?: RateLimit;
 };
 export declare type GetMessagesRemoteRes = {
-    msgs: MessageBoxed[];
+    msgs: MessageBoxed[] | null;
     rateLimit?: RateLimit;
 };
 export declare type MarkAsReadRes = {
@@ -2379,7 +2421,7 @@ export declare type SetConversationStatusRes = {
     rateLimit?: RateLimit;
 };
 export declare type GetPublicConversationsRes = {
-    conversations: Conversation[];
+    conversations: Conversation[] | null;
     rateLimit?: RateLimit;
 };
 export declare type GetUnreadlineRemoteRes = {
@@ -2395,7 +2437,7 @@ export declare type UnreadUpdateFull = {
     ignore: boolean;
     inboxVers: InboxVers;
     inboxSyncStatus: SyncInboxResType;
-    updates: UnreadUpdate[];
+    updates: UnreadUpdate[] | null;
 };
 export declare type S3Params = {
     bucket: string;
@@ -2408,7 +2450,7 @@ export declare type S3Params = {
 };
 export declare type SyncIncrementalRes = {
     vers: InboxVers;
-    convs: Conversation[];
+    convs: Conversation[] | null;
 };
 export declare type ServerCacheVers = {
     inboxVers: number;
@@ -2421,6 +2463,8 @@ export declare type SyncInboxRes = {
     INCREMENTAL: SyncIncrementalRes | null;
 } | {
     typ: SyncInboxResType.CLEAR;
+} | {
+    typ: Exclude<SyncInboxResType, SyncInboxResType.CURRENT | SyncInboxResType.INCREMENTAL | SyncInboxResType.CLEAR>;
 };
 export declare type SyncChatRes = {
     cacheVers: ServerCacheVers;
@@ -2440,6 +2484,8 @@ export declare type SyncAllNotificationRes = {
 } | {
     typ: SyncAllNotificationType.INCREMENTAL;
     INCREMENTAL: gregor1.SyncResult | null;
+} | {
+    typ: Exclude<SyncAllNotificationType, SyncAllNotificationType.STATE | SyncAllNotificationType.INCREMENTAL>;
 };
 export declare type SyncAllResult = {
     auth: gregor1.AuthResult;
@@ -2458,7 +2504,7 @@ export declare type GetMessageBeforeRes = {
     rateLimit?: RateLimit;
 };
 export declare type GetTLFConversationsRes = {
-    conversations: Conversation[];
+    conversations: Conversation[] | null;
     rateLimit?: RateLimit;
 };
 export declare type SetAppNotificationSettingsRes = {
@@ -2489,8 +2535,10 @@ export declare type ExternalAPIKey = {
 } | {
     typ: ExternalAPIKeyTyp.GIPHY;
     GIPHY: string | null;
+} | {
+    typ: Exclude<ExternalAPIKeyTyp, ExternalAPIKeyTyp.GOOGLEMAPS | ExternalAPIKeyTyp.GIPHY>;
 };
-export declare type CommandConvVers = number;
+export declare type CommandConvVers = never;
 export declare type RemoteBotCommandsAdvertisementPublic = {
     convId: ConversationID;
 };
@@ -2507,6 +2555,8 @@ export declare type RemoteBotCommandsAdvertisement = {
 } | {
     typ: BotCommandsAdvertisementTyp.TLFID_CONVS;
     TLFID_CONVS: RemoteBotCommandsAdvertisementTLFID | null;
+} | {
+    typ: Exclude<BotCommandsAdvertisementTyp, BotCommandsAdvertisementTyp.PUBLIC | BotCommandsAdvertisementTyp.TLFID_MEMBERS | BotCommandsAdvertisementTyp.TLFID_CONVS>;
 };
 export declare type BotCommandConv = {
     uid: gregor1.UID;
@@ -2515,7 +2565,7 @@ export declare type BotCommandConv = {
     mtime: gregor1.Time;
 };
 export declare type BotInfo = {
-    commandConvs: BotCommandConv[];
+    commandConvs: BotCommandConv[] | null;
 };
 export declare type AdvertiseBotCommandsRes = {
     rateLimit?: RateLimit;
@@ -2532,6 +2582,8 @@ export declare type BotInfoResponse = {
 } | {
     typ: BotInfoResponseTyp.INFO;
     INFO: BotInfo | null;
+} | {
+    typ: Exclude<BotInfoResponseTyp, BotInfoResponseTyp.UPTODATE | BotInfoResponseTyp.INFO>;
 };
 export declare type GetBotInfoRes = {
     response: BotInfoResponse;
@@ -2586,6 +2638,8 @@ export declare type UnfurlRaw = {
 } | {
     unfurlType: UnfurlType.MAPS;
     MAPS: UnfurlMapsRaw | null;
+} | {
+    unfurlType: Exclude<UnfurlType, UnfurlType.GENERIC | UnfurlType.YOUTUBE | UnfurlType.GIPHY | UnfurlType.MAPS>;
 };
 export declare type UnfurlGeneric = {
     title: string;
@@ -2611,6 +2665,8 @@ export declare type Unfurl = {
 } | {
     unfurlType: UnfurlType.GIPHY;
     GIPHY: UnfurlGiphy | null;
+} | {
+    unfurlType: Exclude<UnfurlType, UnfurlType.GENERIC | UnfurlType.YOUTUBE | UnfurlType.GIPHY>;
 };
 export declare type UnfurlResult = {
     unfurl: Unfurl;
@@ -2646,6 +2702,8 @@ export declare type UnfurlDisplay = {
 } | {
     unfurlType: UnfurlType.GIPHY;
     GIPHY: UnfurlGiphyDisplay | null;
+} | {
+    unfurlType: Exclude<UnfurlType, UnfurlType.GENERIC | UnfurlType.YOUTUBE | UnfurlType.GIPHY>;
 };
 export declare enum UnfurlMode {
     ALWAYS = "always",
@@ -2660,5 +2718,5 @@ export declare type UnfurlSettings = {
 };
 export declare type UnfurlSettingsDisplay = {
     mode: UnfurlMode;
-    whitelist: string[];
+    whitelist: string[] | null;
 };

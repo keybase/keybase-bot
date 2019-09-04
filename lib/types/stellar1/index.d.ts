@@ -1,6 +1,6 @@
 /// <reference types="node" />
 import * as keybase1 from '../keybase1';
-export declare type BundleRevision = number;
+export declare type BundleRevision = never;
 export declare type EncryptedBundle = {
     v: number;
     e: Buffer;
@@ -49,15 +49,17 @@ export declare type BundleSecretVersioned = {
 } | {
     version: BundleVersion.V10;
     V10: BundleSecretUnsupported | null;
+} | {
+    version: Exclude<BundleVersion, BundleVersion.V1 | BundleVersion.V2 | BundleVersion.V3 | BundleVersion.V4 | BundleVersion.V5 | BundleVersion.V6 | BundleVersion.V7 | BundleVersion.V8 | BundleVersion.V9 | BundleVersion.V10>;
 };
 export declare type BundleVisibleV2 = {
     revision: BundleRevision;
     prev: Hash;
-    accounts: BundleVisibleEntryV2[];
+    accounts: BundleVisibleEntryV2[] | null;
 };
 export declare type BundleSecretV2 = {
     visibleHash: Hash;
-    accounts: BundleSecretEntryV2[];
+    accounts: BundleSecretEntryV2[] | null;
 };
 export declare type BundleVisibleEntryV2 = {
     accountId: AccountID;
@@ -119,17 +121,19 @@ export declare type AccountBundleSecretVersioned = {
 } | {
     version: AccountBundleVersion.V10;
     V10: AccountBundleSecretUnsupported | null;
+} | {
+    version: Exclude<AccountBundleVersion, AccountBundleVersion.V1 | AccountBundleVersion.V2 | AccountBundleVersion.V3 | AccountBundleVersion.V4 | AccountBundleVersion.V5 | AccountBundleVersion.V6 | AccountBundleVersion.V7 | AccountBundleVersion.V8 | AccountBundleVersion.V9 | AccountBundleVersion.V10>;
 };
 export declare type AccountBundleSecretV1 = {
     accountId: AccountID;
-    signers: SecretKey[];
+    signers: SecretKey[] | null;
 };
 export declare type AccountBundleSecretUnsupported = {};
 export declare type Bundle = {
     revision: BundleRevision;
     prev: Hash;
     ownHash: Hash;
-    accounts: BundleEntry[];
+    accounts: BundleEntry[] | null;
     accountBundles: {
         [key: string]: AccountBundle;
     };
@@ -146,14 +150,14 @@ export declare type AccountBundle = {
     prev: Hash;
     ownHash: Hash;
     accountId: AccountID;
-    signers: SecretKey[];
+    signers: SecretKey[] | null;
 };
 export declare type AccountID = string;
 export declare type SecretKey = string;
 export declare type TransactionID = string;
 export declare type PaymentID = string;
 export declare type KeybaseTransactionID = string;
-export declare type TimeMs = number;
+export declare type TimeMs = never;
 export declare type Hash = Buffer;
 export declare type KeybaseRequestID = string;
 export declare type AssetCode = string;
@@ -175,7 +179,7 @@ export declare type Asset = {
     authEndpoint: string;
 };
 export declare type AssetListResult = {
-    assets: Asset[];
+    assets: Asset[] | null;
     totalCount: number;
 };
 export declare type Balance = {
@@ -282,7 +286,7 @@ export declare type PaymentPath = {
     sourceAmount: string;
     sourceAmountMax: string;
     sourceAsset: Asset;
-    path: Asset[];
+    path: Asset[] | null;
     destinationAmount: string;
     destinationAsset: Asset;
     sourceInsufficientBalance: string;
@@ -324,7 +328,7 @@ export declare type AccountAssetLocal = {
     worthCurrency: string;
     worth: string;
     availableToSendWorth: string;
-    reserves: AccountReserve[];
+    reserves: AccountReserve[] | null;
     desc: string;
     infoUrl: string;
     infoUrlText: string;
@@ -359,7 +363,7 @@ export declare type PaymentOrErrorLocal = {
     err?: string;
 };
 export declare type PaymentsPageLocal = {
-    payments: PaymentOrErrorLocal[];
+    payments: PaymentOrErrorLocal[] | null;
     cursor?: PageCursor;
     oldestUnread?: PaymentID;
 };
@@ -396,7 +400,7 @@ export declare type PaymentLocal = {
     sourceConvRate: string;
     isAdvanced: boolean;
     summaryAdvanced: string;
-    operations: string[];
+    operations: string[] | null;
     unread: boolean;
     batchId: string;
     fromAirdrop: boolean;
@@ -413,7 +417,7 @@ export declare type PaymentDetailsOnlyLocal = {
     publicNoteType: string;
     externalTxUrl: string;
     feeChargedDescription: string;
-    pathIntermediate: Asset[];
+    pathIntermediate: Asset[] | null;
 };
 export declare type PaymentTrustlineLocal = {
     asset: Asset;
@@ -448,7 +452,7 @@ export declare type BuildPaymentResLocal = {
     displayAmountFiat: string;
     sendingIntentionXlm: boolean;
     amountAvailable: string;
-    banners: SendBannerLocal[];
+    banners: SendBannerLocal[] | null;
 };
 export declare enum AdvancedBanner {
     NO_BANNER = "no_banner",
@@ -476,7 +480,7 @@ export declare type BuildRequestResLocal = {
     displayAmountXlm: string;
     displayAmountFiat: string;
     sendingIntentionXlm: boolean;
-    banners: SendBannerLocal[];
+    banners: SendBannerLocal[] | null;
 };
 export declare type RequestDetailsLocal = {
     id: KeybaseRequestID;
@@ -517,10 +521,10 @@ export declare type AirdropQualification = {
 };
 export declare type AirdropStatus = {
     state: AirdropState;
-    rows: AirdropQualification[];
+    rows: AirdropQualification[] | null;
 };
 export declare type RecipientTrustlinesLocal = {
-    trustlines: Balance[];
+    trustlines: Balance[] | null;
     recipientType: ParticipantType;
 };
 export declare type PaymentPathLocal = {
@@ -558,7 +562,7 @@ export declare type PaymentCLILocal = {
     sourceAsset: Asset;
     isAdvanced: boolean;
     summaryAdvanced: string;
-    operations: string[];
+    operations: string[] | null;
     fromStellar: AccountID;
     toStellar?: AccountID;
     fromUsername?: string;
@@ -575,7 +579,7 @@ export declare type OwnAccountCLILocal = {
     accountId: AccountID;
     isPrimary: boolean;
     name: string;
-    balance: Balance[];
+    balance: Balance[] | null;
     exchangeRate?: OutsideExchangeRate;
     accountMode: AccountMode;
 };
@@ -603,7 +607,7 @@ export declare type BatchResultLocal = {
     allSubmittedTime: TimeMs;
     allCompleteTime: TimeMs;
     endTime: TimeMs;
-    payments: BatchPaymentResult[];
+    payments: BatchPaymentResult[] | null;
     overallDurationMs: TimeMs;
     prepareDurationMs: TimeMs;
     submitDurationMs: TimeMs;
@@ -630,7 +634,7 @@ export declare type TxDisplaySummary = {
     fee: number;
     memo: string;
     memoType: string;
-    operations: string[];
+    operations: string[] | null;
 };
 export declare type ValidateStellarURIResultLocal = {
     operation: string;
@@ -726,7 +730,7 @@ export declare type PaymentOp = {
 export declare type PaymentMultiPost = {
     fromDeviceId: keybase1.DeviceID;
     signedTransaction: string;
-    operations: PaymentOp[];
+    operations: PaymentOp[] | null;
     batchId: string;
 };
 export declare enum PaymentSummaryType {
@@ -744,6 +748,8 @@ export declare type PaymentSummary = {
 } | {
     typ: PaymentSummaryType.RELAY;
     RELAY: PaymentSummaryRelay | null;
+} | {
+    typ: Exclude<PaymentSummaryType, PaymentSummaryType.STELLAR | PaymentSummaryType.DIRECT | PaymentSummaryType.RELAY>;
 };
 export declare type PaymentSummaryStellar = {
     txId: TransactionID;
@@ -761,7 +767,7 @@ export declare type PaymentSummaryStellar = {
     sourceAsset: Asset;
     isAdvanced: boolean;
     summaryAdvanced: string;
-    operations: string[];
+    operations: string[] | null;
     trustline?: PaymentTrustlineLocal;
 };
 export declare type PaymentSummaryDirect = {
@@ -831,22 +837,22 @@ export declare type PaymentDetails = {
     memoType: string;
     externalTxUrl: string;
     feeCharged: string;
-    pathIntermediate: Asset[];
+    pathIntermediate: Asset[] | null;
 };
 export declare type AccountDetails = {
     accountId: AccountID;
     seqno: string;
-    balances: Balance[];
+    balances: Balance[] | null;
     subentryCount: number;
     available: string;
-    reserves: AccountReserve[];
+    reserves: AccountReserve[] | null;
     readTransactionId?: TransactionID;
     unreadPayments: number;
     displayCurrency: string;
     inflationDestination?: AccountID;
 };
 export declare type PaymentsPage = {
-    payments: PaymentSummary[];
+    payments: PaymentSummary[] | null;
     cursor?: PageCursor;
     oldestUnread?: TransactionID;
 };
@@ -880,15 +886,15 @@ export declare type RequestDetails = {
 };
 export declare type TimeboundsRecommendation = {
     timeNow: keybase1.UnixTime;
-    timeout: number;
+    timeout: never;
 };
 export declare type NetworkOptions = {
-    baseFee: number;
+    baseFee: never;
 };
 export declare type DetailsPlusPayments = {
     details: AccountDetails;
     recentPayments: PaymentsPage;
-    pendingPayments: PaymentSummary[];
+    pendingPayments: PaymentSummary[] | null;
 };
 export declare type PaymentPathQuery = {
     source: AccountID;
@@ -901,6 +907,6 @@ export declare type UIPaymentReviewed = {
     bid: BuildPaymentID;
     reviewId: number;
     seqno: number;
-    banners: SendBannerLocal[];
+    banners: SendBannerLocal[] | null;
     nextButton: string;
 };
