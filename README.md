@@ -1136,6 +1136,32 @@ We run tests using [Jest](https://jestjs.io/). All tests are run against actual 
 2. Edit `__tests__/test.config.ts` as it specifies, replacing the placeholder values with actual usernames, paperkeys, and team names.
 3. Run `yarn test`. Everything should pass!
 
+### Generating Types
+
+Most of the types the bot uses are generated from definitions defined in the [`protocol/`](https://github.com/keybase/client/tree/master/protocol) directory inside the Keybase client repo. This ensures that the types that the bot uses are consistent across bots and always up to date with the output of the API.
+
+To build the types for the TypeScript bot, you'll need to clone the `client` repo. This requires [Go](https://golang.org/) and your [GOPATH](https://github.com/golang/go/wiki/SettingGOPATH) to be set up.
+
+```shell
+go get github.com/keybase/client/go/keybase
+```
+
+and install the necessary dependencies for compiling the protocol files. This requires [node.js](https://nodejs.org) and [Yarn](https://yarnpkg.com).
+
+```shell
+cd client/protocol
+yarn install
+```
+
+Then you can generate the types by using the provided Makefile in this repo.
+
+```shell
+cd path/to/keybase-bot
+make
+```
+
+Should you need to remove all the types for some reason, you can run `make clean`.
+
 ### Release
 
 We automatically generate a CHANGELOG and version (using [Semantic Versioning](https://semver.org)) `keybase-bot` with [`standard-version`](https://github.com/conventional-changelog/standard-version). To cut a new release:

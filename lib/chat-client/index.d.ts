@@ -1,9 +1,95 @@
 import ClientBase from '../client-base';
-import { Advertisement, AdvertisementsList, AdvertisementsLookup, ChatConversation, ChatChannel, ChatMessage, MessageSummary, ListenOptions, ReadResult, SendResult, ChatListOptions, ChatListChannelsOptions, ChatReadOptions, ChatSendOptions, ChatAttachOptions, ChatDownloadOptions, ChatDeleteOptions, ChatReactOptions, UnfurlMode, FlipSummary } from './types';
+import * as chat1 from '../types/chat1';
 /** A function to call when a message is received. */
-export declare type OnMessage = (message: MessageSummary) => void | Promise<void>;
+export declare type OnMessage = (message: chat1.MsgSummary) => void | Promise<void>;
 /** A function to call when an error occurs. */
 export declare type OnError = (error: Error) => void | Promise<void>;
+/**
+ * Options for the `list` method of the chat module.
+ */
+export interface ChatListOptions {
+    failOffline?: boolean;
+    showErrors?: boolean;
+    topicType?: chat1.TopicType;
+    unreadOnly?: boolean;
+}
+/**
+ * Options for the `listChannels` method of the chat module.
+ */
+export interface ChatListChannelsOptions {
+    topicType?: chat1.TopicType;
+    membersType?: chat1.ConversationMembersType;
+}
+/**
+ * Options for the `read` method of the chat module.
+ */
+export interface ChatReadOptions {
+    conversationId?: string;
+    failOffline?: boolean;
+    pagination?: chat1.Pagination;
+    peek?: boolean;
+    unreadOnly?: boolean;
+}
+/**
+ * Options for the `send` method of the chat module.
+ */
+export interface ChatSendOptions {
+    conversationId?: string;
+    nonblock?: boolean;
+    membersType?: chat1.ConversationMembersType;
+    confirmLumenSend?: boolean;
+}
+/**
+ * Options for the `attach` method of the chat module.
+ */
+export interface ChatAttachOptions {
+    conversationId?: string;
+    title?: string;
+    preview?: string;
+}
+/**
+ * Options for the `download` method of the chat module.
+ */
+export interface ChatDownloadOptions {
+    conversationId?: string;
+    preview?: string;
+    noStream?: boolean;
+}
+/**
+ * Options for the `react` method of the chat module.
+ */
+export interface ChatReactOptions {
+    conversationId?: string;
+}
+/**
+ * Options for the `delete` method of the chat module.
+ */
+export interface ChatDeleteOptions {
+    conversationId?: string;
+}
+/**
+ * Options for the methods in the chat module that listen for new messages.
+ * Local messages are ones sent by your device. Including them in the output is
+ * useful for applications such as logging conversations, monitoring own flips
+ * and building tools that seamlessly integrate with a running client used by
+ * the user.
+ */
+export interface ListenOptions {
+    hideExploding: boolean;
+    showLocal: boolean;
+}
+export interface Advertisement {
+    alias?: string;
+    advertisements: chat1.AdvertiseCommandAPIParam[];
+}
+export interface AdvertisementsLookup {
+    channel: chat1.ChatChannel;
+    conversationID?: string;
+}
+export interface ReadResult {
+    messages: chat1.MsgSummary[];
+    pagination: chat1.Pagination;
+}
 /** The chat module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase chat api`. */
 declare class Chat extends ClientBase {
     /**
@@ -14,7 +100,7 @@ declare class Chat extends ClientBase {
      * @example
      * bot.chat.list({unreadOnly: true}).then(chatConversations => console.log(chatConversations))
      */
-    list(options?: ChatListOptions): Promise<ChatConversation[]>;
+    list(options?: ChatListOptions): Promise<chat1.ConvSummary[]>;
     /**
      * Lists conversation channels in a team
      * @memberof Chat
@@ -24,7 +110,7 @@ declare class Chat extends ClientBase {
      * @example
      * bot.chat.listChannels('team_name').then(chatConversations => console.log(chatConversations))
      */
-    listChannels(name: string, options?: ChatListChannelsOptions): Promise<ChatConversation[]>;
+    listChannels(name: string, options?: ChatListChannelsOptions): Promise<chat1.ConvSummary[]>;
     /**
      * Reads the messages in a channel. You can read with or without marking as read.
      * @memberof Chat
@@ -34,7 +120,7 @@ declare class Chat extends ClientBase {
      * @example
      * alice.chat.read(channel).then(messages => console.log(messages))
      */
-    read(channel: ChatChannel, options?: ChatReadOptions): Promise<ReadResult>;
+    read(channel: chat1.ChatChannel, options?: ChatReadOptions): Promise<ReadResult>;
     /**
      * Joins a team conversation.
      * @param channel - The team chat channel to join.
@@ -48,7 +134,7 @@ declare class Chat extends ClientBase {
      *  }
      * })
      */
-    joinChannel(channel: ChatChannel): Promise<void>;
+    joinChannel(channel: chat1.ChatChannel): Promise<void>;
     /**
      * Leaves a team conversation.
      * @param channel - The team chat channel to leave.
@@ -62,7 +148,7 @@ declare class Chat extends ClientBase {
      *  }
      * })
      */
-    leaveChannel(channel: ChatChannel): Promise<void>;
+    leaveChannel(channel: chat1.ChatChannel): Promise<void>;
     /**
      * Send a message to a certain channel.
      * @memberof Chat
@@ -74,7 +160,7 @@ declare class Chat extends ClientBase {
      * const message = {body: 'Hello kbot!'}
      * bot.chat.send(channel, message).then(() => console.log('message sent!'))
      */
-    send(channel: ChatChannel, message: ChatMessage, options?: ChatSendOptions): Promise<SendResult>;
+    send(channel: chat1.ChatChannel, message: chat1.ChatMessage, options?: ChatSendOptions): Promise<chat1.SendRes>;
     /**
      * Creates a new blank conversation.
      * @memberof Chat
@@ -82,7 +168,7 @@ declare class Chat extends ClientBase {
      * @example
      * bot.chat.createChannel(channel).then(() => console.log('conversation created'))
      */
-    createChannel(channel: ChatChannel): Promise<void>;
+    createChannel(channel: chat1.ChatChannel): Promise<void>;
     /**
      * Send a file to a channel.
      * @memberof Chat
@@ -92,7 +178,7 @@ declare class Chat extends ClientBase {
      * @example
      * bot.chat.attach(channel, '/Users/nathan/my_picture.png').then(() => console.log('Sent a picture!'))
      */
-    attach(channel: ChatChannel, filename: string, options?: ChatAttachOptions): Promise<SendResult>;
+    attach(channel: chat1.ChatChannel, filename: string, options?: ChatAttachOptions): Promise<chat1.SendRes>;
     /**
      * Download a file send via Keybase chat.
      * @memberof Chat
@@ -103,7 +189,7 @@ declare class Chat extends ClientBase {
      * @example
      * bot.chat.download(channel, 325, '/Users/nathan/Downloads/file.png')
      */
-    download(channel: ChatChannel, messageId: number, output: string, options?: ChatDownloadOptions): Promise<void>;
+    download(channel: chat1.ChatChannel, messageId: number, output: string, options?: ChatDownloadOptions): Promise<void>;
     /**
      * Reacts to a given message in a channel. Messages have messageId's associated with
      * them, which you can learn in `bot.chat.read`.
@@ -115,7 +201,7 @@ declare class Chat extends ClientBase {
      * @example
      * bot.chat.react(channel, 314, ':+1:').then(() => console.log('Thumbs up!'))
      */
-    react(channel: ChatChannel, messageId: number, reaction: string, options?: ChatReactOptions): Promise<SendResult>;
+    react(channel: chat1.ChatChannel, messageId: number, reaction: string, options?: ChatReactOptions): Promise<chat1.SendRes>;
     /**
      * Deletes a message in a channel. Messages have messageId's associated with
      * them, which you can learn in `bot.chat.read`. Known bug: the GUI has a cache,
@@ -127,13 +213,13 @@ declare class Chat extends ClientBase {
      * @example
      * bot.chat.delete(channel, 314).then(() => console.log('message deleted!'))
      */
-    delete(channel: ChatChannel, messageId: number, options?: ChatDeleteOptions): Promise<void>;
+    delete(channel: chat1.ChatChannel, messageId: number, options?: ChatDeleteOptions): Promise<void>;
     /**
      * Gets current unfurling settings
      * @example
      * bot.chat.getUnfurlSettings().then((mode) => console.log(mode))
      */
-    getUnfurlSettings(): Promise<UnfurlMode>;
+    getUnfurlSettings(): Promise<chat1.UnfurlSettings>;
     /**
      * Sets the unfurling mode
      * In Keybase, unfurling means generating previews for links that you're sending
@@ -146,7 +232,7 @@ declare class Chat extends ClientBase {
      *   "mode": "always",
      * }).then((mode) => console.log('mode updated!'))
      */
-    setUnfurlSettings(mode: UnfurlMode): Promise<void>;
+    setUnfurlSettings(mode: chat1.UnfurlSettings): Promise<void>;
     /**
      * Loads a flip's details
      * @param conversationID - conversation ID received in API listen.
@@ -156,7 +242,7 @@ declare class Chat extends ClientBase {
      * @example
      * // check demos/es7/poker-hands.js
      */
-    loadFlip(conversationID: string, flipConversationID: string, messageID: number, gameID: string): Promise<FlipSummary>;
+    loadFlip(conversationID: string, flipConversationID: string, messageID: number, gameID: string): Promise<chat1.UICoinFlipStatus>;
     /**
      * Publishes a commands advertisement which is shown in the "!" chat autocomplete.
      * @param advertisement - details of the advertisement
@@ -204,7 +290,9 @@ declare class Chat extends ClientBase {
      * //   ]
      * // }
      */
-    listCommands(lookup: AdvertisementsLookup): Promise<AdvertisementsList>;
+    listCommands(lookup: AdvertisementsLookup): Promise<{
+        commands: chat1.UserBotCommandOutput[];
+    }>;
     /**
      * Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel. Note that it receives messages your own bot posts, but from other devices. You can filter out your own messages by looking at a message's sender object.
      * Hides exploding messages by default.
@@ -222,7 +310,7 @@ declare class Chat extends ClientBase {
      * }
      * bot.chat.watchChannelForNewMessages(channel, onMessage)
      */
-    watchChannelForNewMessages(channel: ChatChannel, onMessage: OnMessage, onError?: OnError, options?: ListenOptions): Promise<void>;
+    watchChannelForNewMessages(channel: chat1.ChatChannel, onMessage: OnMessage, onError?: OnError, options?: ListenOptions): Promise<void>;
     /**
      * This function will put your bot into full-read mode, where it reads
      * everything it can and every new message it finds it will pass to you, so

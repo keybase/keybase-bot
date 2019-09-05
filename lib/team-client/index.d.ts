@@ -1,5 +1,17 @@
 import ClientBase from '../client-base';
-import { AddMembersParam, RemoveMemberParam, ListTeamMembershipsParam, AddMembersResult, RemoveMemberResult, ListTeamMembershipsResult } from './types';
+import * as keybase1 from '../types/keybase1';
+export interface AddMembersParam {
+    team: string;
+    emails?: keybase1.MemberEmail[];
+    usernames?: keybase1.MemberUsername[];
+}
+export interface RemoveMemberParam {
+    team: string;
+    username: string;
+}
+export interface ListTeamMembershipsParam {
+    team: string;
+}
 /** The wallet module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase wallet api`. */
 declare class Team extends ClientBase {
     /**
@@ -10,7 +22,7 @@ declare class Team extends ClientBase {
      * @example
      * bot.team.addMembers({"team": "phoenix", "emails": [{"email": "alice@keybase.io", "role": "writer"}, {"email": "cleo@keybase.io", "role": "admin"}], "usernames": [{"username": "frank", "role": "reader"}, {"username": "keybaseio@twitter", "role": "writer"}]}).then(res => console.log(res))
      */
-    addMembers(additions: AddMembersParam): Promise<AddMembersResult>;
+    addMembers(additions: AddMembersParam): Promise<keybase1.TeamAddMemberResult>;
     /**
      * Remove someone from a team
      * @memberof Team
@@ -19,7 +31,7 @@ declare class Team extends ClientBase {
      * @example
      * bot.team.removeMember({"team": "phoenix", "username": "frank"}).then(res => console.log(res))
      */
-    removeMember(removal: RemoveMemberParam): Promise<RemoveMemberResult>;
+    removeMember(removal: RemoveMemberParam): Promise<void>;
     /**
      * List a team's members
      * @memberof Team
@@ -28,6 +40,6 @@ declare class Team extends ClientBase {
      * @example
      * bot.team.listTeamMemberships({"team": "phoenix"}).then(res => console.log(res))
      */
-    listTeamMemberships(team: ListTeamMembershipsParam): Promise<ListTeamMembershipsResult>;
+    listTeamMemberships(team: ListTeamMembershipsParam): Promise<keybase1.TeamDetails>;
 }
 export default Team;

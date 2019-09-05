@@ -5,7 +5,8 @@ import config from './tests.config'
 import {timeout} from '../lib/utils'
 import {pollFor} from './test-utils'
 import {promisify} from 'util'
-import {ChatChannel, ReadResult, MessageSummary} from '../lib/chat-client/types'
+import {TopicType, ChatChannel, MsgSummary, BotCommandsAdvertisementTyp} from '../lib/types/chat1'
+import {ReadResult} from '../lib/chat-client'
 import {OnMessage} from '../lib/chat-client'
 
 test('Chat methods with an uninitialized bot', (): void => {
@@ -104,7 +105,7 @@ describe('Chat Methods', (): void => {
     })
 
     it('Shows only messages of a specific topic type if given the option', async (): Promise<void> => {
-      const conversations = await alice1.chat.list({topicType: 'dev'})
+      const conversations = await alice1.chat.list({topicType: TopicType.DEV})
       for (const conversation of conversations) {
         expect(conversation.channel).toHaveProperty('topicType', 'dev')
       }
@@ -266,7 +267,7 @@ describe('Chat Methods', (): void => {
       const channelBob = {name: config.bots.alice1.username}
       const body = 'Dearest Bob, how are you?'
       let incoming: any = null
-      const watcher: OnMessage = (message: MessageSummary): void => {
+      const watcher: OnMessage = (message: MsgSummary): void => {
         incoming = message
       }
       bob.chat.watchChannelForNewMessages(channelBob, watcher)
@@ -285,7 +286,7 @@ describe('Chat Methods', (): void => {
       const channel3 = {name: `${channel2.name},${config.bots.charlie1.username}`}
       const body = 'Total protonic reversal. That would be bad.'
       let receipts = 0
-      const bobOnMessage = (message: MessageSummary): void => {
+      const bobOnMessage = (message: MsgSummary): void => {
         if (message.content.type === 'text' && message.content.text.body === body) {
           receipts++
         }
@@ -514,7 +515,7 @@ describe('Chat Methods', (): void => {
       await alice1.chat.advertiseCommands({
         advertisements: [
           {
-            type: 'public',
+            type: BotCommandsAdvertisementTyp.PUBLIC,
             commands: [
               {
                 name: '!helloworld',
@@ -589,7 +590,7 @@ describe('Chat Methods', (): void => {
       let totalMessagesSeen = 0
       let highestReached = 0
       const onMessageForBot = (bot: Bot): any => {
-        const onMessage = async (message: MessageSummary): Promise<void> => {
+        const onMessage = async (message: MsgSummary): Promise<void> => {
           if (message.content.type === 'text') {
             const body = message.content.text.body
             if (body.indexOf(convoCode) !== -1) {

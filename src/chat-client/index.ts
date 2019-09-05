@@ -2,34 +2,110 @@ import {spawn} from 'child_process'
 import readline from 'readline'
 import ClientBase from '../client-base'
 import {formatAPIObjectOutput, formatAPIObjectInput} from '../utils'
-import {
-  Advertisement,
-  AdvertisementsList,
-  AdvertisementsLookup,
-  ChatConversation,
-  ChatChannel,
-  ChatMessage,
-  MessageSummary,
-  ListenOptions,
-  ReadResult,
-  SendResult,
-  ChatListOptions,
-  ChatListChannelsOptions,
-  ChatReadOptions,
-  ChatSendOptions,
-  ChatAttachOptions,
-  ChatDownloadOptions,
-  ChatDeleteOptions,
-  ChatReactOptions,
-  MessageNotification,
-  UnfurlMode,
-  FlipSummary,
-} from './types'
+import * as chat1 from '../types/chat1'
 
 /** A function to call when a message is received. */
-export type OnMessage = (message: MessageSummary) => void | Promise<void>
+export type OnMessage = (message: chat1.MsgSummary) => void | Promise<void>
 /** A function to call when an error occurs. */
 export type OnError = (error: Error) => void | Promise<void>
+
+/**
+ * Options for the `list` method of the chat module.
+ */
+export interface ChatListOptions {
+  failOffline?: boolean
+  showErrors?: boolean
+  topicType?: chat1.TopicType
+  unreadOnly?: boolean
+}
+
+/**
+ * Options for the `listChannels` method of the chat module.
+ */
+export interface ChatListChannelsOptions {
+  topicType?: chat1.TopicType
+  membersType?: chat1.ConversationMembersType
+}
+
+/**
+ * Options for the `read` method of the chat module.
+ */
+export interface ChatReadOptions {
+  conversationId?: string
+  failOffline?: boolean
+  pagination?: chat1.Pagination
+  peek?: boolean
+  unreadOnly?: boolean
+}
+
+/**
+ * Options for the `send` method of the chat module.
+ */
+export interface ChatSendOptions {
+  conversationId?: string
+  nonblock?: boolean
+  membersType?: chat1.ConversationMembersType
+  confirmLumenSend?: boolean
+}
+
+/**
+ * Options for the `attach` method of the chat module.
+ */
+export interface ChatAttachOptions {
+  conversationId?: string
+  title?: string
+  preview?: string
+}
+
+/**
+ * Options for the `download` method of the chat module.
+ */
+export interface ChatDownloadOptions {
+  conversationId?: string
+  preview?: string
+  noStream?: boolean
+}
+
+/**
+ * Options for the `react` method of the chat module.
+ */
+export interface ChatReactOptions {
+  conversationId?: string
+}
+
+/**
+ * Options for the `delete` method of the chat module.
+ */
+export interface ChatDeleteOptions {
+  conversationId?: string
+}
+
+/**
+ * Options for the methods in the chat module that listen for new messages.
+ * Local messages are ones sent by your device. Including them in the output is
+ * useful for applications such as logging conversations, monitoring own flips
+ * and building tools that seamlessly integrate with a running client used by
+ * the user.
+ */
+export interface ListenOptions {
+  hideExploding: boolean
+  showLocal: boolean
+}
+
+export interface Advertisement {
+  alias?: string
+  advertisements: chat1.AdvertiseCommandAPIParam[]
+}
+
+export interface AdvertisementsLookup {
+  channel: chat1.ChatChannel
+  conversationID?: string
+}
+
+export interface ReadResult {
+  messages: chat1.MsgSummary[]
+  pagination: chat1.Pagination
+}
 
 /** The chat module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase chat api`. */
 class Chat extends ClientBase {
@@ -41,7 +117,7 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.list({unreadOnly: true}).then(chatConversations => console.log(chatConversations))
    */
-  public async list(options?: ChatListOptions): Promise<ChatConversation[]> {
+  public async list(options?: ChatListOptions): Promise<chat1.ConvSummary[]> {
     await this._guardInitialized()
     const res = await this._runApiCommand({apiName: 'chat', method: 'list', options})
     if (!res) {
@@ -59,7 +135,7 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.listChannels('team_name').then(chatConversations => console.log(chatConversations))
    */
-  public async listChannels(name: string, options?: ChatListChannelsOptions): Promise<ChatConversation[]> {
+  public async listChannels(name: string, options?: ChatListChannelsOptions): Promise<chat1.ConvSummary[]> {
     await this._guardInitialized()
     const optionsWithDefaults = {
       ...options,
@@ -86,7 +162,7 @@ class Chat extends ClientBase {
    * @example
    * alice.chat.read(channel).then(messages => console.log(messages))
    */
-  public async read(channel: ChatChannel, options?: ChatReadOptions): Promise<ReadResult> {
+  public async read(channel: chat1.ChatChannel, options?: ChatReadOptions): Promise<ReadResult> {
     await this._guardInitialized()
     const optionsWithDefaults = {
       ...options,
@@ -101,7 +177,7 @@ class Chat extends ClientBase {
     // Pagination gets passed as-is, while the messages get cleaned up
     return {
       pagination: res.pagination,
-      messages: res.messages.map((message: MessageNotification): MessageSummary => message.msg),
+      messages: res.messages.map((message: chat1.MsgNotification): chat1.MsgSummary => message.msg),
     }
   }
 
@@ -118,7 +194,7 @@ class Chat extends ClientBase {
    *  }
    * })
    */
-  public async joinChannel(channel: ChatChannel): Promise<void> {
+  public async joinChannel(channel: chat1.ChatChannel): Promise<void> {
     await this._guardInitialized()
     const res = await this._runApiCommand({
       apiName: 'chat',
@@ -145,7 +221,7 @@ class Chat extends ClientBase {
    *  }
    * })
    */
-  public async leaveChannel(channel: ChatChannel): Promise<void> {
+  public async leaveChannel(channel: chat1.ChatChannel): Promise<void> {
     await this._guardInitialized()
     const res = await this._runApiCommand({
       apiName: 'chat',
@@ -170,7 +246,7 @@ class Chat extends ClientBase {
    * const message = {body: 'Hello kbot!'}
    * bot.chat.send(channel, message).then(() => console.log('message sent!'))
    */
-  public async send(channel: ChatChannel, message: ChatMessage, options?: ChatSendOptions): Promise<SendResult> {
+  public async send(channel: chat1.ChatChannel, message: chat1.ChatMessage, options?: ChatSendOptions): Promise<chat1.SendRes> {
     await this._guardInitialized()
     const args = {
       ...options,
@@ -187,7 +263,7 @@ class Chat extends ClientBase {
       throw new Error('Keybase chat send returned nothing')
     }
     this._adminDebugLogger.info(`message sent with id ${res.id}`)
-    return {id: res.id}
+    return res
   }
 
   /**
@@ -197,7 +273,7 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.createChannel(channel).then(() => console.log('conversation created'))
    */
-  public async createChannel(channel: ChatChannel): Promise<void> {
+  public async createChannel(channel: chat1.ChatChannel): Promise<void> {
     await this._guardInitialized()
     const args = {
       channel,
@@ -221,14 +297,14 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.attach(channel, '/Users/nathan/my_picture.png').then(() => console.log('Sent a picture!'))
    */
-  public async attach(channel: ChatChannel, filename: string, options?: ChatAttachOptions): Promise<SendResult> {
+  public async attach(channel: chat1.ChatChannel, filename: string, options?: ChatAttachOptions): Promise<chat1.SendRes> {
     await this._guardInitialized()
     const args = {...options, channel, filename}
     const res = await this._runApiCommand({apiName: 'chat', method: 'attach', options: args})
     if (!res) {
       throw new Error('Keybase chat attach returned nothing')
     }
-    return {id: res.id}
+    return res
   }
 
   /**
@@ -241,7 +317,7 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.download(channel, 325, '/Users/nathan/Downloads/file.png')
    */
-  public async download(channel: ChatChannel, messageId: number, output: string, options?: ChatDownloadOptions): Promise<void> {
+  public async download(channel: chat1.ChatChannel, messageId: number, output: string, options?: ChatDownloadOptions): Promise<void> {
     await this._guardInitialized()
     const args = {...options, channel, messageId, output}
     const res = await this._runApiCommand({apiName: 'chat', method: 'download', options: args})
@@ -261,7 +337,7 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.react(channel, 314, ':+1:').then(() => console.log('Thumbs up!'))
    */
-  public async react(channel: ChatChannel, messageId: number, reaction: string, options?: ChatReactOptions): Promise<SendResult> {
+  public async react(channel: chat1.ChatChannel, messageId: number, reaction: string, options?: ChatReactOptions): Promise<chat1.SendRes> {
     await this._guardInitialized()
     const args = {
       ...options,
@@ -274,7 +350,7 @@ class Chat extends ClientBase {
       throw new Error('Keybase chat react returned nothing.')
     }
 
-    return {id: res.id}
+    return res
   }
 
   /**
@@ -288,7 +364,7 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.delete(channel, 314).then(() => console.log('message deleted!'))
    */
-  public async delete(channel: ChatChannel, messageId: number, options?: ChatDeleteOptions): Promise<void> {
+  public async delete(channel: chat1.ChatChannel, messageId: number, options?: ChatDeleteOptions): Promise<void> {
     await this._guardInitialized()
     const args = {
       ...options,
@@ -306,7 +382,7 @@ class Chat extends ClientBase {
    * @example
    * bot.chat.getUnfurlSettings().then((mode) => console.log(mode))
    */
-  public async getUnfurlSettings(): Promise<UnfurlMode> {
+  public async getUnfurlSettings(): Promise<chat1.UnfurlSettings> {
     await this._guardInitialized()
     const res = await this._runApiCommand({apiName: 'chat', method: 'getunfurlsettings', options: {}})
     if (!res) {
@@ -327,7 +403,7 @@ class Chat extends ClientBase {
    *   "mode": "always",
    * }).then((mode) => console.log('mode updated!'))
    */
-  public async setUnfurlSettings(mode: UnfurlMode): Promise<void> {
+  public async setUnfurlSettings(mode: chat1.UnfurlSettings): Promise<void> {
     await this._guardInitialized()
     const res = await this._runApiCommand({apiName: 'chat', method: 'setunfurlsettings', options: mode})
     if (!res) {
@@ -344,7 +420,12 @@ class Chat extends ClientBase {
    * @example
    * // check demos/es7/poker-hands.js
    */
-  public async loadFlip(conversationID: string, flipConversationID: string, messageID: number, gameID: string): Promise<FlipSummary> {
+  public async loadFlip(
+    conversationID: string,
+    flipConversationID: string,
+    messageID: number,
+    gameID: string
+  ): Promise<chat1.UICoinFlipStatus> {
     await this._guardInitialized()
     const res = await this._runApiCommand({
       apiName: 'chat',
@@ -419,15 +500,13 @@ class Chat extends ClientBase {
    * //   ]
    * // }
    */
-  public async listCommands(lookup: AdvertisementsLookup): Promise<AdvertisementsList> {
+  public async listCommands(lookup: AdvertisementsLookup): Promise<{commands: chat1.UserBotCommandOutput[]}> {
     await this._guardInitialized()
     const res = await this._runApiCommand({apiName: 'chat', method: 'listcommands', options: lookup})
     if (!res) {
       throw new Error('Keybase chat list commands returned nothing.')
     }
-    return {
-      commands: res && res.commands ? res.commands : [],
-    }
+    return {commands: res.commands || []}
   }
 
   /**
@@ -448,7 +527,7 @@ class Chat extends ClientBase {
    * bot.chat.watchChannelForNewMessages(channel, onMessage)
    */
   public async watchChannelForNewMessages(
-    channel: ChatChannel,
+    channel: chat1.ChatChannel,
     onMessage: OnMessage,
     onError?: OnError,
     options?: ListenOptions
@@ -494,7 +573,7 @@ class Chat extends ClientBase {
    * @example
    * this._chatListen(onMessage, onError)
    */
-  private _chatListen(onMessage: OnMessage, onError?: OnError, channel?: ChatChannel, options?: ListenOptions): void {
+  private _chatListen(onMessage: OnMessage, onError?: OnError, channel?: chat1.ChatChannel, options?: ListenOptions): void {
     const args = ['chat', 'api-listen']
     if (this.homeDir) {
       args.unshift('--home', this.homeDir)
@@ -533,7 +612,7 @@ class Chat extends ClientBase {
     const onLine = (line: string): void => {
       this._adminDebugLogger.info(`stdout from listener: ${line}`)
       try {
-        const messageObject: MessageNotification = formatAPIObjectOutput(JSON.parse(line))
+        const messageObject: chat1.MsgNotification = formatAPIObjectOutput(JSON.parse(line))
         if (messageObject.hasOwnProperty('error')) {
           throw new Error(messageObject.error)
         } else if (

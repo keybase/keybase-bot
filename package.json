@@ -50,7 +50,8 @@
     "release": "standard-version",
     "build": "rm -rf lib/ && tsc",
     "clean": "rm -rf lib/",
-    "send": "node ./lib/send.js"
+    "send": "node ./lib/send.js",
+    "typegen": "make types"
   },
   "dependencies": {
     "isexe": "2.0.0",
