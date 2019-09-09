@@ -1,6 +1,10 @@
 import ClientBase from '../client-base'
 import * as keybase1 from '../types/keybase1'
 
+export interface CreateTeamParam {
+  team: string
+}
+
 export interface AddMembersParam {
   team: string
   emails?: keybase1.MemberEmail[]
@@ -16,8 +20,25 @@ export interface ListTeamMembershipsParam {
   team: string
 }
 
-/** The wallet module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase wallet api`. */
+/** The team module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase team api`. */
 class Team extends ClientBase {
+  /**
+   * Create a new Keybase team or subteam
+   * @memberof Team
+   * @param creation - the name of the team to create
+   * @returns -
+   * @example
+   * bot.team.create({"team": "phoenix"}).then(res => console.log(res))
+   */
+  public async create(creation: CreateTeamParam): Promise<keybase1.TeamCreateResult> {
+    await this._guardInitialized()
+    const options = creation
+    const res = await this._runApiCommand({apiName: 'team', method: 'create-team', options})
+    if (!res) {
+      throw new Error('create')
+    }
+    return res
+  }
   /**
    * Add a bunch of people with different privileges to a team
    * @memberof Team

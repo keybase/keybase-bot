@@ -77,6 +77,27 @@ describe('Team Methods', (): void => {
       ).rejects.toThrowError()
     })
 
+    it('Throws an error if Alice creates a team that already exists', async (): Promise<void> => {
+      expect(
+        alice1.team.create({
+          team: teamName,
+        })
+      ).rejects.toThrowError()
+    })
+
+    it('Lets Alice create a new team', async (): Promise<void> => {
+      const unixTime = Date.now()
+        .toString()
+        .substr(0, 10)
+      const randomDigits = Math.floor(Math.random() * 100).toString()
+      const newTeamName = 'test' + unixTime + randomDigits
+      const result = await alice1.team.create({
+        team: newTeamName,
+      })
+      expect(typeof result.chatSent).toBe('boolean')
+      expect(typeof result.creatorAdded).toBe('boolean')
+    })
+
     it('Lets Alice remove Bob from her team', async (): Promise<void> => {
       await alice1.team.removeMember({
         team: teamName,
