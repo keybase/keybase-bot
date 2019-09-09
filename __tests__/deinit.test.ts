@@ -6,7 +6,7 @@ import Bot from '../lib'
 import config from './tests.config'
 import {startServiceManually, stopServiceManually} from './test-utils'
 import {randomTempDir, timeout} from '../lib/utils'
-import {MessageSummary} from '../lib/chat-client/types'
+import {MsgSummary} from '../lib/types/chat1'
 import {InitOptions} from '../lib/utils/options'
 
 async function doesFileOrDirectoryExist(fpath: string): Promise<boolean> {
@@ -56,11 +56,11 @@ describe('Keybase bot deinitialization', (): void => {
     expect(await countProcessesMentioning(bobHomeDir)).toBe(1)
 
     // get a couple listen processes going
-    alice.chat.watchAllChannelsForNewMessages((msg: MessageSummary): void => console.log(msg))
-    alice.chat.watchAllChannelsForNewMessages((msg: MessageSummary): void => console.log(msg))
-    bob.chat.watchAllChannelsForNewMessages((msg: MessageSummary): void => console.log(msg))
-    bob.chat.watchAllChannelsForNewMessages((msg: MessageSummary): void => console.log(msg))
-    bob.chat.watchAllChannelsForNewMessages((msg: MessageSummary): void => console.log(msg))
+    alice.chat.watchAllChannelsForNewMessages((msg: MsgSummary): void => console.log(msg))
+    alice.chat.watchAllChannelsForNewMessages((msg: MsgSummary): void => console.log(msg))
+    bob.chat.watchAllChannelsForNewMessages((msg: MsgSummary): void => console.log(msg))
+    bob.chat.watchAllChannelsForNewMessages((msg: MsgSummary): void => console.log(msg))
+    bob.chat.watchAllChannelsForNewMessages((msg: MsgSummary): void => console.log(msg))
 
     // Give just a couple seconds for the processes to get going
     await timeout(3000)
