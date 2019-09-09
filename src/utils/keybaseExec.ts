@@ -1,10 +1,11 @@
 import {spawn} from 'child_process'
 import readline from 'readline'
 import path from 'path'
+import keybaseBinaryName from './keybaseBinaryName'
 
 export type ExecOptions = {
   stdinBuffer?: Buffer | string
-  onStdOut?: ((line: string) => void)
+  onStdOut?: (line: string) => void
   json?: boolean
   timeout?: number
 }
@@ -19,7 +20,7 @@ const keybaseExec = (
   if (homeDir) {
     runArgs.unshift('--home', homeDir)
   }
-  const keybasePath = path.join(workingDir, 'keybase')
+  const keybasePath = path.join(workingDir, keybaseBinaryName)
   const child = spawn(keybasePath, runArgs)
   const stdOutBuffer: Buffer[] = []
   const stdErrBuffer: Buffer[] = []

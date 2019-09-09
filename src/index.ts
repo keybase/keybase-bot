@@ -4,7 +4,7 @@ import WalletClient from './wallet-client'
 import TeamClient from './team-client'
 import {BotInfo} from './utils/keybaseStatus'
 import mkdirp from 'mkdirp'
-import {whichKeybase, rmdirRecursive} from './utils'
+import {keybaseBinaryName, whichKeybase, rmdirRecursive} from './utils'
 import {promisify} from 'util'
 import {copyFile} from 'fs'
 import path from 'path'
@@ -164,7 +164,7 @@ class Bot {
     if (!keybaseBinaryLocation) {
       keybaseBinaryLocation = await whichKeybase()
     }
-    const destination = path.join(this._workingDir, 'keybase')
+    const destination = path.join(this._workingDir, keybaseBinaryName)
     await promisify(mkdirp)(this._workingDir)
     await promisify(copyFile)(keybaseBinaryLocation, destination)
   }
