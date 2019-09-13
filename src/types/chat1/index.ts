@@ -1,7 +1,7 @@
 /*
  * chat.1
  *
- * Auto-generated to TypeScript types by avdl-compiler v1.4.1 (https://github.com/keybase/node-avdl-compiler)
+ * Auto-generated to TypeScript types by avdl-compiler v1.4.2 (https://github.com/keybase/node-avdl-compiler)
  * Input files:
  * - ../client/protocol/avdl/chat1/api.avdl
  * - ../client/protocol/avdl/chat1/chat_ui.avdl
@@ -51,139 +51,9 @@ export type MsgSender = {
   deviceName?: string
 }
 
-export type MsgFlipContent = {
-  text: string
-  gameId: string
-  flipConvId: string
-  userMentions: KnownUserMention[] | null
-  teamMentions: KnownTeamMention[] | null
-}
-
-export type MsgContent = {
-  type: string
-  text?: MessageText
-  attachment?: MessageAttachment
-  edit?: MessageEdit
-  reaction?: MessageReaction
-  delete?: MessageDelete
-  metadata?: MessageConversationMetadata
-  headline?: MessageHeadline
-  attachmentUploaded?: MessageAttachmentUploaded
-  system?: MessageSystem
-  sendPayment?: MessageSendPayment
-  requestPayment?: MessageRequestPayment
-  unfurl?: MessageUnfurl
-  flip?: MsgFlipContent
-}
-
-export type MsgSummary = {
-  id: MessageID
+export type ResetConvMemberAPI = {
   conversationId: string
-  channel: ChatChannel
-  sender: MsgSender
-  sentAt: never
-  sentAtMs: never
-  content: MsgContent
-  prev: MessagePreviousPointer[] | null
-  unread: boolean
-  revokedDevice?: boolean
-  offline?: boolean
-  kbfsEncrypted?: boolean
-  isEphemeral?: boolean
-  isEphemeralExpired?: boolean
-  eTime?: gregor1.Time
-  reactions?: ReactionMap
-  hasPairwiseMacs?: boolean
-  atMentionUsernames?: string[] | null
-  channelMention?: string
-  channelNameMentions?: UIChannelNameMention[] | null
-}
-
-export type Message = {
-  msg?: MsgSummary
-  error?: string
-}
-
-export type Thread = {
-  messages: Message[] | null
-  pagination?: Pagination
-  offline?: boolean
-  identifyFailures?: keybase1.TLFIdentifyFailure[] | null
-  ratelimits?: RateLimitRes[] | null
-}
-
-/**
- * A chat conversation. This is essentially a chat channel plus some additional metadata.
- */
-export type ConvSummary = {
-  id: string
-  channel: ChatChannel
-  unread: boolean
-  activeAt: never
-  activeAtMs: never
-  memberStatus: string
-  resetUsers?: string[] | null
-  finalizeInfo?: ConversationFinalizeInfo
-  supersedes?: string[] | null
-  supersededBy?: string[] | null
-  error?: string
-}
-
-export type ChatList = {
-  conversations: ConvSummary[] | null
-  offline: boolean
-  identifyFailures?: keybase1.TLFIdentifyFailure[] | null
-  pagination?: Pagination
-  ratelimits?: RateLimitRes[] | null
-}
-
-export type SendRes = {
-  message: string
-  id?: MessageID
-  outboxId?: OutboxID
-  identifyFailures?: keybase1.TLFIdentifyFailure[] | null
-  ratelimits?: RateLimitRes[] | null
-}
-
-export type SearchInboxResOutput = {
-  results?: ChatSearchInboxResults
-  identifyFailures?: keybase1.TLFIdentifyFailure[] | null
-  ratelimits?: RateLimitRes[] | null
-}
-
-export type RegexpRes = {
-  hits: ChatSearchHit[] | null
-  identifyFailures?: keybase1.TLFIdentifyFailure[] | null
-  ratelimits?: RateLimitRes[] | null
-}
-
-export type NewConvRes = {
-  id: string
-  identifyFailures?: keybase1.TLFIdentifyFailure[] | null
-  ratelimits?: RateLimitRes[] | null
-}
-
-export type ListCommandsRes = {
-  commands: UserBotCommandOutput[] | null
-  ratelimits?: RateLimitRes[] | null
-}
-
-export type EmptyRes = {
-  ratelimits?: RateLimitRes[] | null
-}
-
-export type MsgNotification = {
-  type: string
-  source: string
-  msg?: MsgSummary
-  error?: string
-  pagination?: UIPagination
-}
-
-export type AdvertiseCommandAPIParam = {
-  type: string
-  commands: UserBotCommandInput[] | null
-  teamName?: string
+  username: string
 }
 
 export type UIPagination = {
@@ -203,108 +73,11 @@ export type UnverifiedInboxUIItemMetadata = {
   resetParticipants: string[] | null
 }
 
-export type UnverifiedInboxUIItem = {
-  convId: string
-  topicType: TopicType
-  isPublic: boolean
-  name: string
-  visibility: keybase1.TLFVisibility
-  status: ConversationStatus
-  membersType: ConversationMembersType
-  memberStatus: ConversationMemberStatus
-  teamType: TeamType
-  notifications?: ConversationNotificationInfo
-  time: gregor1.Time
-  version: ConversationVers
-  localVersion: LocalConversationVers
-  convRetention?: RetentionPolicy
-  teamRetention?: RetentionPolicy
-  maxMsgId: MessageID
-  maxVisibleMsgId: MessageID
-  readMsgId: MessageID
-  localMetadata?: UnverifiedInboxUIItemMetadata
-  draft?: string
-  finalizeInfo?: ConversationFinalizeInfo
-  supersedes: ConversationMetadata[] | null
-  supersededBy: ConversationMetadata[] | null
-  commands: ConversationCommandGroups
-}
-
-export type UnverifiedInboxUIItems = {
-  items: UnverifiedInboxUIItem[] | null
-  pagination?: UIPagination
-  offline: boolean
-}
-
 export enum UIParticipantType {
   NONE = 'none',
   USER = 'user',
   PHONENO = 'phoneno',
   EMAIL = 'email',
-}
-
-export type UIParticipant = {
-  type: UIParticipantType
-  assertion: string
-  fullName?: string
-  contactName?: string
-}
-
-export type UIPinnedMessage = {
-  message: UIMessage
-  pinnerUsername: string
-}
-
-export type InboxUIItem = {
-  convId: string
-  topicType: TopicType
-  isPublic: boolean
-  isEmpty: boolean
-  name: string
-  snippet: string
-  snippetDecoration: string
-  channel: string
-  headline: string
-  headlineDecorated: string
-  draft?: string
-  visibility: keybase1.TLFVisibility
-  participants: UIParticipant[] | null
-  resetParticipants: string[] | null
-  status: ConversationStatus
-  membersType: ConversationMembersType
-  memberStatus: ConversationMemberStatus
-  teamType: TeamType
-  time: gregor1.Time
-  notifications?: ConversationNotificationInfo
-  creatorInfo?: ConversationCreatorInfoLocal
-  version: ConversationVers
-  localVersion: LocalConversationVers
-  maxMsgId: MessageID
-  maxVisibleMsgId: MessageID
-  readMsgId: MessageID
-  convRetention?: RetentionPolicy
-  teamRetention?: RetentionPolicy
-  convSettings?: ConversationSettingsLocal
-  finalizeInfo?: ConversationFinalizeInfo
-  supersedes: ConversationMetadata[] | null
-  supersededBy: ConversationMetadata[] | null
-  commands: ConversationCommandGroups
-  botCommands: ConversationCommandGroups
-  pinnedMsg?: UIPinnedMessage
-}
-
-export type InboxUIItemError = {
-  typ: ConversationErrorType
-  message: string
-  unverifiedTlfName: string
-  rekeyInfo?: ConversationErrorRekey
-  remoteConv: UnverifiedInboxUIItem
-}
-
-export type InboxUIItems = {
-  items: InboxUIItem[] | null
-  pagination?: UIPagination
-  offline: boolean
 }
 
 export type UIChannelNameMention = {
@@ -349,86 +122,11 @@ export type UIRequestInfo = {
   status: stellar1.RequestStatus
 }
 
-export type UIMessageUnfurlInfo = {
-  unfurlMessageId: MessageID
-  url: string
-  unfurl: UnfurlDisplay
-  isCollapsed: boolean
-}
-
-export type UIMessageValid = {
-  messageId: MessageID
-  ctime: gregor1.Time
-  outboxId?: string
-  messageBody: MessageBody
-  decoratedTextBody?: string
-  bodySummary: string
-  senderUsername: string
-  senderDeviceName: string
-  senderDeviceType: string
-  senderUid: gregor1.UID
-  senderDeviceId: gregor1.DeviceID
-  superseded: boolean
-  assetUrlInfo?: UIAssetUrlInfo
-  senderDeviceRevokedAt?: gregor1.Time
-  atMentions: string[] | null
-  channelMention: ChannelMention
-  channelNameMentions: UIChannelNameMention[] | null
-  isEphemeral: boolean
-  isEphemeralExpired: boolean
-  explodedBy?: string
-  etime: gregor1.Time
-  reactions: ReactionMap
-  hasPairwiseMacs: boolean
-  paymentInfos: UIPaymentInfo[] | null
-  requestInfo?: UIRequestInfo
-  unfurls: UIMessageUnfurlInfo[] | null
-  isCollapsed: boolean
-  flipGameId?: string
-  isDeleteable: boolean
-  isEditable: boolean
-  replyTo?: UIMessage
-  botUid?: gregor1.UID
-}
-
-export type UIMessageOutbox = {
-  state: OutboxState
-  outboxId: string
-  messageType: MessageType
-  body: string
-  decoratedTextBody?: string
-  ctime: gregor1.Time
-  ordinal: number
-  isEphemeral: boolean
-  flipGameId?: string
-  replyTo?: UIMessage
-  filename: string
-  title: string
-  preview?: MakePreviewRes
-}
-
 export enum MessageUnboxedState {
   VALID = 'valid',
   ERROR = 'error',
   OUTBOX = 'outbox',
   PLACEHOLDER = 'placeholder',
-}
-
-export type UIMessage =
-  | {state: MessageUnboxedState.VALID; VALID: UIMessageValid | null}
-  | {state: MessageUnboxedState.ERROR; ERROR: MessageUnboxedError | null}
-  | {state: MessageUnboxedState.OUTBOX; OUTBOX: UIMessageOutbox | null}
-  | {state: MessageUnboxedState.PLACEHOLDER; PLACEHOLDER: MessageUnboxedPlaceholder | null}
-  | {
-      state: Exclude<
-        MessageUnboxedState,
-        MessageUnboxedState.VALID | MessageUnboxedState.ERROR | MessageUnboxedState.OUTBOX | MessageUnboxedState.PLACEHOLDER
-      >
-    }
-
-export type UIMessages = {
-  messages: UIMessage[] | null
-  pagination?: UIPagination
 }
 
 export type UITeamMention = {
@@ -462,39 +160,6 @@ export type UILinkDecoration = {
   url: string
 }
 
-export type UIMaybeMentionInfo =
-  | {status: UIMaybeMentionStatus.UNKNOWN}
-  | {status: UIMaybeMentionStatus.USER}
-  | {status: UIMaybeMentionStatus.TEAM; TEAM: UITeamMention | null}
-  | {status: UIMaybeMentionStatus.NOTHING}
-  | {
-      status: Exclude<
-        UIMaybeMentionStatus,
-        UIMaybeMentionStatus.UNKNOWN | UIMaybeMentionStatus.USER | UIMaybeMentionStatus.TEAM | UIMaybeMentionStatus.NOTHING
-      >
-    }
-
-export type UITextDecoration =
-  | {typ: UITextDecorationTyp.PAYMENT; PAYMENT: TextPayment | null}
-  | {typ: UITextDecorationTyp.ATMENTION; ATMENTION: string | null}
-  | {typ: UITextDecorationTyp.CHANNELNAMEMENTION; CHANNELNAMEMENTION: UIChannelNameMention | null}
-  | {typ: UITextDecorationTyp.MAYBEMENTION; MAYBEMENTION: MaybeMention | null}
-  | {typ: UITextDecorationTyp.LINK; LINK: UILinkDecoration | null}
-  | {typ: UITextDecorationTyp.MAILTO; MAILTO: UILinkDecoration | null}
-  | {typ: UITextDecorationTyp.KBFSPATH; KBFSPATH: KBFSPath | null}
-  | {
-      typ: Exclude<
-        UITextDecorationTyp,
-        | UITextDecorationTyp.PAYMENT
-        | UITextDecorationTyp.ATMENTION
-        | UITextDecorationTyp.CHANNELNAMEMENTION
-        | UITextDecorationTyp.MAYBEMENTION
-        | UITextDecorationTyp.LINK
-        | UITextDecorationTyp.MAILTO
-        | UITextDecorationTyp.KBFSPATH
-      >
-    }
-
 export enum UIChatThreadStatusTyp {
   NONE = 'none',
   SERVER = 'server',
@@ -514,18 +179,6 @@ export type UIChatThreadStatus =
       >
     }
 
-export type UIChatSearchConvHit = {
-  convId: string
-  teamType: TeamType
-  name: string
-  mtime: gregor1.Time
-}
-
-export type UIChatSearchConvHits = {
-  hits: UIChatSearchConvHit[] | null
-  unreadMatches: boolean
-}
-
 export type UIChatPayment = {
   username: string
   fullName: string
@@ -534,23 +187,12 @@ export type UIChatPayment = {
   displayAmount?: string
 }
 
-export type UIChatPaymentSummary = {
-  xlmTotal: string
-  displayTotal: string
-  payments: UIChatPayment[] | null
-}
-
 export type GiphySearchResult = {
   targetUrl: string
   previewUrl: string
   previewWidth: number
   previewHeight: number
   previewIsVideo: boolean
-}
-
-export type GiphySearchResults = {
-  results: GiphySearchResult[] | null
-  galleryUrl: string
 }
 
 export enum UICoinFlipPhase {
@@ -565,10 +207,6 @@ export type UICoinFlipErrorParticipant = {
   device: string
 }
 
-export type UICoinFlipAbsenteeError = {
-  absentees: UICoinFlipErrorParticipant[] | null
-}
-
 export enum UICoinFlipErrorTyp {
   GENERIC = 'generic',
   ABSENTEE = 'absentee',
@@ -579,29 +217,6 @@ export enum UICoinFlipErrorTyp {
   DUPREVEAL = 'dupreveal',
   COMMITMISMATCH = 'commitmismatch',
 }
-
-export type UICoinFlipError =
-  | {typ: UICoinFlipErrorTyp.GENERIC; GENERIC: string | null}
-  | {typ: UICoinFlipErrorTyp.ABSENTEE; ABSENTEE: UICoinFlipAbsenteeError | null}
-  | {typ: UICoinFlipErrorTyp.TIMEOUT}
-  | {typ: UICoinFlipErrorTyp.ABORTED}
-  | {typ: UICoinFlipErrorTyp.DUPREG; DUPREG: UICoinFlipErrorParticipant | null}
-  | {typ: UICoinFlipErrorTyp.DUPCOMMITCOMPLETE; DUPCOMMITCOMPLETE: UICoinFlipErrorParticipant | null}
-  | {typ: UICoinFlipErrorTyp.DUPREVEAL; DUPREVEAL: UICoinFlipErrorParticipant | null}
-  | {typ: UICoinFlipErrorTyp.COMMITMISMATCH; COMMITMISMATCH: UICoinFlipErrorParticipant | null}
-  | {
-      typ: Exclude<
-        UICoinFlipErrorTyp,
-        | UICoinFlipErrorTyp.GENERIC
-        | UICoinFlipErrorTyp.ABSENTEE
-        | UICoinFlipErrorTyp.TIMEOUT
-        | UICoinFlipErrorTyp.ABORTED
-        | UICoinFlipErrorTyp.DUPREG
-        | UICoinFlipErrorTyp.DUPCOMMITCOMPLETE
-        | UICoinFlipErrorTyp.DUPREVEAL
-        | UICoinFlipErrorTyp.COMMITMISMATCH
-      >
-    }
 
 export enum UICoinFlipResultTyp {
   NUMBER = 'number',
@@ -616,23 +231,6 @@ export type UICoinFlipHand = {
   hand: number[] | null
 }
 
-export type UICoinFlipResult =
-  | {typ: UICoinFlipResultTyp.NUMBER; NUMBER: string | null}
-  | {typ: UICoinFlipResultTyp.SHUFFLE; SHUFFLE: string[] | null}
-  | {typ: UICoinFlipResultTyp.DECK; DECK: number[] | null}
-  | {typ: UICoinFlipResultTyp.HANDS; HANDS: UICoinFlipHand[] | null}
-  | {typ: UICoinFlipResultTyp.COIN; COIN: boolean | null}
-  | {
-      typ: Exclude<
-        UICoinFlipResultTyp,
-        | UICoinFlipResultTyp.NUMBER
-        | UICoinFlipResultTyp.SHUFFLE
-        | UICoinFlipResultTyp.DECK
-        | UICoinFlipResultTyp.HANDS
-        | UICoinFlipResultTyp.COIN
-      >
-    }
-
 export type UICoinFlipParticipant = {
   uid: string
   deviceId: string
@@ -642,24 +240,17 @@ export type UICoinFlipParticipant = {
   reveal?: string
 }
 
-export type UICoinFlipStatus = {
-  gameId: string
-  phase: UICoinFlipPhase
-  progressText: string
-  resultText: string
-  commitmentVisualization: string
-  revealVisualization: string
-  participants: UICoinFlipParticipant[] | null
-  errorInfo?: UICoinFlipError
-  resultInfo?: UICoinFlipResult
-}
-
 export type UICommandMarkdown = {
   body: string
   title?: string
 }
 
-export type LocationWatchID = never
+export type LocationWatchID = number
+
+export enum UIWatchPositionPerm {
+  BASE = 'base',
+  ALWAYS = 'always',
+}
 
 export enum UICommandStatusDisplayTyp {
   STATUS = 'status',
@@ -700,21 +291,6 @@ export enum ConversationBuiltinCommandTyp {
   BIGTEAMGENERAL = 'bigteamgeneral',
 }
 
-export type ConversationCommandGroupsCustom = {
-  commands: ConversationCommand[] | null
-}
-
-export type ConversationCommandGroups =
-  | {typ: ConversationCommandGroupsTyp.BUILTIN; BUILTIN: ConversationBuiltinCommandTyp | null}
-  | {typ: ConversationCommandGroupsTyp.CUSTOM; CUSTOM: ConversationCommandGroupsCustom | null}
-  | {typ: ConversationCommandGroupsTyp.NONE}
-  | {
-      typ: Exclude<
-        ConversationCommandGroupsTyp,
-        ConversationCommandGroupsTyp.BUILTIN | ConversationCommandGroupsTyp.CUSTOM | ConversationCommandGroupsTyp.NONE
-      >
-    }
-
 export type ThreadID = Buffer
 
 export type MessageID = number
@@ -729,22 +305,17 @@ export type TLFID = Buffer
 
 export type Hash = Buffer
 
-export type InboxVers = never
+export type InboxVers = number
 
-export type LocalConversationVers = never
+export type LocalConversationVers = number
 
-export type ConversationVers = never
+export type ConversationVers = number
 
 export type OutboxID = Buffer
 
 export type TopicNameState = Buffer
 
 export type FlipGameID = Buffer
-
-export type InboxVersInfo = {
-  uid: gregor1.UID
-  vers: InboxVers
-}
 
 export enum ConversationExistence {
   ACTIVE = 'active',
@@ -827,26 +398,6 @@ export enum ConversationStatus {
   REPORTED = 'reported',
 }
 
-export type ConversationMember = {
-  uid: gregor1.UID
-  convId: ConversationID
-  topicType: TopicType
-}
-
-export type ConversationIDMessageIDPair = {
-  convId: ConversationID
-  msgId: MessageID
-}
-
-export type ConversationIDMessageIDPairs = {
-  pairs: ConversationIDMessageIDPair[] | null
-}
-
-export type ChannelNameMention = {
-  convId: ConversationID
-  topicName: string
-}
-
 export type KBFSPath = {
   startIndex: number
   rawPath: string
@@ -878,33 +429,6 @@ export type RateLimit = {
   maxCalls: number
 }
 
-export type GetInboxQuery = {
-  convId?: ConversationID
-  topicType?: TopicType
-  tlfId?: TLFID
-  tlfVisibility?: keybase1.TLFVisibility
-  before?: gregor1.Time
-  after?: gregor1.Time
-  oneChatTypePerTlf?: boolean
-  topicName?: string
-  status: ConversationStatus[] | null
-  memberStatus: ConversationMemberStatus[] | null
-  existences: ConversationExistence[] | null
-  membersTypes: ConversationMembersType[] | null
-  convIDs: ConversationID[] | null
-  unreadOnly: boolean
-  readOnly: boolean
-  computeActiveList: boolean
-  summarizeMaxMsgs: boolean
-  skipBgLoads: boolean
-}
-
-export type ConversationIDTriple = {
-  tlfid: TLFID
-  topicType: TopicType
-  topicId: TopicID
-}
-
 export type ConversationFinalizeInfo = {
   resetUser: string
   resetDate: string
@@ -916,39 +440,9 @@ export type ConversationResolveInfo = {
   newTlfName: string
 }
 
-export type Expunge = {
-  upto: MessageID
-  basis: MessageID
-}
-
-export type ConversationMetadata = {
-  idTriple: ConversationIDTriple
-  conversationId: ConversationID
-  visibility: keybase1.TLFVisibility
-  status: ConversationStatus
-  membersType: ConversationMembersType
-  teamType: TeamType
-  existence: ConversationExistence
-  version: ConversationVers
-  localVersion: LocalConversationVers
-  finalizeInfo?: ConversationFinalizeInfo
-  supersedes: ConversationMetadata[] | null
-  supersededBy: ConversationMetadata[] | null
-  activeList: gregor1.UID[] | null
-  allList: gregor1.UID[] | null
-  resetList: gregor1.UID[] | null
-}
-
 export type ConversationNotificationInfo = {
   channelWide: boolean
   settings: {[key: string]: {[key: string]: boolean}}
-}
-
-export type ConversationReaderInfo = {
-  mtime: gregor1.Time
-  readMsgid: MessageID
-  maxMsgid: MessageID
-  status: ConversationMemberStatus
 }
 
 export type ConversationCreatorInfo = {
@@ -966,111 +460,10 @@ export type ConversationMinWriterRoleInfo = {
   role: keybase1.TeamRole
 }
 
-export type ConversationSettings = {
-  mwr?: ConversationMinWriterRoleInfo
-}
-
-export type Conversation = {
-  metadata: ConversationMetadata
-  readerInfo?: ConversationReaderInfo
-  notifications?: ConversationNotificationInfo
-  maxMsgs: MessageBoxed[] | null
-  maxMsgSummaries: MessageSummary[] | null
-  creatorInfo?: ConversationCreatorInfo
-  pinnedMsg?: MessageID
-  expunge: Expunge
-  convRetention?: RetentionPolicy
-  teamRetention?: RetentionPolicy
-  cs?: ConversationSettings
-}
-
-export type MessageSummary = {
-  msgId: MessageID
-  messageType: MessageType
-  tlfName: string
-  tlfPublic: boolean
-  ctime: gregor1.Time
-}
-
-export type Reaction = {
-  ctime: gregor1.Time
-  reactionMsgId: MessageID
-}
-
-export type ReactionMap = {
-  reactions: {[key: string]: {[key: string]: Reaction}}
-}
-
-export type MessageServerHeader = {
-  messageId: MessageID
-  supersededBy: MessageID
-  r: MessageID[] | null
-  u: MessageID[] | null
-  replies: MessageID[] | null
-  ctime: gregor1.Time
-  n: gregor1.Time
-  rt?: gregor1.Time
-}
-
-export type MessagePreviousPointer = {
-  id: MessageID
-  hash: Hash
-}
-
-export type OutboxInfo = {
-  prev: MessageID
-  composeTime: gregor1.Time
-}
-
 export type MsgEphemeralMetadata = {
   l: gregor1.DurationSec
   g: keybase1.EkGeneration
   u?: string
-}
-
-export type EphemeralPurgeInfo = {
-  c: ConversationID
-  a: boolean
-  n: gregor1.Time
-  e: MessageID
-}
-
-export type MessageClientHeader = {
-  conv: ConversationIDTriple
-  tlfName: string
-  tlfPublic: boolean
-  messageType: MessageType
-  supersedes: MessageID
-  kbfsCryptKeysUsed?: boolean
-  deletes: MessageID[] | null
-  prev: MessagePreviousPointer[] | null
-  deleteHistory?: MessageDeleteHistory
-  sender: gregor1.UID
-  senderDevice: gregor1.DeviceID
-  merkleRoot?: MerkleRoot
-  outboxId?: OutboxID
-  outboxInfo?: OutboxInfo
-  em?: MsgEphemeralMetadata
-  pm: {[key: string]: Buffer}
-  b?: gregor1.UID
-}
-
-export type MessageClientHeaderVerified = {
-  conv: ConversationIDTriple
-  tlfName: string
-  tlfPublic: boolean
-  messageType: MessageType
-  prev: MessagePreviousPointer[] | null
-  sender: gregor1.UID
-  senderDevice: gregor1.DeviceID
-  kbfsCryptKeysUsed?: boolean
-  merkleRoot?: MerkleRoot
-  outboxId?: OutboxID
-  outboxInfo?: OutboxInfo
-  em?: MsgEphemeralMetadata
-  rt: gregor1.Time
-  pm: boolean
-  b?: gregor1.UID
 }
 
 export type EncryptedData = {
@@ -1098,7 +491,7 @@ export type SignatureInfo = {
 }
 
 export type MerkleRoot = {
-  seqno: never
+  seqno: number
   hash: Buffer
 }
 
@@ -1107,17 +500,6 @@ export enum InboxResType {
   FULL = 'full',
 }
 
-export type InboxViewFull = {
-  vers: InboxVers
-  conversations: Conversation[] | null
-  pagination?: Pagination
-}
-
-export type InboxView =
-  | {rtype: InboxResType.VERSIONHIT}
-  | {rtype: InboxResType.FULL; FULL: InboxViewFull | null}
-  | {rtype: Exclude<InboxResType, InboxResType.VERSIONHIT | InboxResType.FULL>}
-
 export enum RetentionPolicyType {
   NONE = 'none',
   RETAIN = 'retain',
@@ -1125,18 +507,6 @@ export enum RetentionPolicyType {
   INHERIT = 'inherit',
   EPHEMERAL = 'ephemeral',
 }
-
-export type RetentionPolicy =
-  | {typ: RetentionPolicyType.RETAIN; RETAIN: RpRetain | null}
-  | {typ: RetentionPolicyType.EXPIRE; EXPIRE: RpExpire | null}
-  | {typ: RetentionPolicyType.INHERIT; INHERIT: RpInherit | null}
-  | {typ: RetentionPolicyType.EPHEMERAL; EPHEMERAL: RpEphemeral | null}
-  | {
-      typ: Exclude<
-        RetentionPolicyType,
-        RetentionPolicyType.RETAIN | RetentionPolicyType.EXPIRE | RetentionPolicyType.INHERIT | RetentionPolicyType.EPHEMERAL
-      >
-    }
 
 export type RpRetain = {}
 
@@ -1170,52 +540,12 @@ export enum ReIndexingMode {
   POSTSEARCH_SYNC = 'postsearch_sync',
 }
 
-export type SearchOpts = {
-  isRegex: boolean
-  sentBy: string
-  sentTo: string
-  matchMentions: boolean
-  sentBefore: gregor1.Time
-  sentAfter: gregor1.Time
-  maxHits: number
-  maxMessages: number
-  beforeContext: number
-  afterContext: number
-  initialPagination?: Pagination
-  reindexMode: ReIndexingMode
-  maxConvsSearched: number
-  maxConvsHit: number
-  convId?: ConversationID
-  maxNameConvs: number
-}
-
 export type EmptyStruct = {}
 
 export type ChatSearchMatch = {
   startIndex: number
   endIndex: number
   match: string
-}
-
-export type ChatSearchHit = {
-  beforeMessages: UIMessage[] | null
-  hitMessage: UIMessage
-  afterMessages: UIMessage[] | null
-  matches: ChatSearchMatch[] | null
-}
-
-export type ChatSearchInboxHit = {
-  convId: ConversationID
-  teamType: TeamType
-  convName: string
-  query: string
-  time: gregor1.Time
-  hits: ChatSearchHit[] | null
-}
-
-export type ChatSearchInboxResults = {
-  hits: ChatSearchInboxHit[] | null
-  percentIndexed: number
 }
 
 export type ChatSearchInboxDone = {
@@ -1251,31 +581,8 @@ export enum AssetMetadataType {
   AUDIO = 'audio',
 }
 
-export type AssetMetadata =
-  | {assetType: AssetMetadataType.IMAGE; IMAGE: AssetMetadataImage | null}
-  | {assetType: AssetMetadataType.VIDEO; VIDEO: AssetMetadataVideo | null}
-  | {assetType: AssetMetadataType.AUDIO; AUDIO: AssetMetadataAudio | null}
-  | {assetType: Exclude<AssetMetadataType, AssetMetadataType.IMAGE | AssetMetadataType.VIDEO | AssetMetadataType.AUDIO>}
-
 export enum AssetTag {
   PRIMARY = 'primary',
-}
-
-export type Asset = {
-  filename: string
-  region: string
-  endpoint: string
-  bucket: string
-  path: string
-  size: never
-  mimeType: string
-  encHash: Hash
-  key: Buffer
-  verifyKey: Buffer
-  title: string
-  nonce: Buffer
-  metadata: AssetMetadata
-  tag: AssetTag
 }
 
 export enum BotCommandsAdvertisementTyp {
@@ -1290,156 +597,6 @@ export type TeamMember = {
   status: keybase1.TeamMemberStatus
 }
 
-export type GenericPayload = {
-  action: string
-  inboxVers: InboxVers
-  convId: ConversationID
-  topicType: TopicType
-  unreadUpdate?: UnreadUpdate
-}
-
-export type NewConversationPayload = {
-  action: string
-  convId: ConversationID
-  inboxVers: InboxVers
-  topicType: TopicType
-  unreadUpdate?: UnreadUpdate
-}
-
-export type NewMessagePayload = {
-  action: string
-  convId: ConversationID
-  message: MessageBoxed
-  inboxVers: InboxVers
-  topicType: TopicType
-  unreadUpdate?: UnreadUpdate
-  maxMsgs: MessageSummary[] | null
-}
-
-export type ReadMessagePayload = {
-  action: string
-  convId: ConversationID
-  msgId: MessageID
-  inboxVers: InboxVers
-  topicType: TopicType
-  unreadUpdate?: UnreadUpdate
-}
-
-export type SetStatusPayload = {
-  action: string
-  convId: ConversationID
-  status: ConversationStatus
-  inboxVers: InboxVers
-  topicType: TopicType
-  unreadUpdate?: UnreadUpdate
-}
-
-export type TeamTypePayload = {
-  action: string
-  convId: ConversationID
-  teamType: TeamType
-  inboxVers: InboxVers
-  topicType: TopicType
-  unreadUpdate?: UnreadUpdate
-}
-
-export type SetAppNotificationSettingsPayload = {
-  action: string
-  convId: ConversationID
-  inboxVers: InboxVers
-  settings: ConversationNotificationInfo
-  topicType: TopicType
-  unreadUpdate?: UnreadUpdate
-}
-
-export type ExpungePayload = {
-  action: string
-  convId: ConversationID
-  inboxVers: InboxVers
-  expunge: Expunge
-  maxMsgs: MessageSummary[] | null
-  topicType: TopicType
-  unreadUpdate?: UnreadUpdate
-}
-
-export type UnreadUpdate = {
-  convId: ConversationID
-  unreadMessages: number
-  unreadNotifyingMessages: {[key: string]: number}
-  diff: boolean
-}
-
-export type TLFFinalizeUpdate = {
-  finalizeInfo: ConversationFinalizeInfo
-  convIDs: ConversationID[] | null
-  inboxVers: InboxVers
-}
-
-export type TLFResolveUpdate = {
-  convId: ConversationID
-  inboxVers: InboxVers
-}
-
-export type RemoteUserTypingUpdate = {
-  uid: gregor1.UID
-  deviceId: gregor1.DeviceID
-  convId: ConversationID
-  typing: boolean
-}
-
-export type UpdateConversationMembership = {
-  inboxVers: InboxVers
-  joined: ConversationMember[] | null
-  removed: ConversationMember[] | null
-  reset: ConversationMember[] | null
-  previewed: ConversationID[] | null
-  unreadUpdate?: UnreadUpdate
-  unreadUpdates: UnreadUpdate[] | null
-}
-
-export type ConversationUpdate = {
-  convId: ConversationID
-  existence: ConversationExistence
-}
-
-export type UpdateConversations = {
-  inboxVers: InboxVers
-  convUpdates: ConversationUpdate[] | null
-}
-
-export type TeamChannelUpdate = {
-  teamId: TLFID
-}
-
-export type SetConvRetentionUpdate = {
-  inboxVers: InboxVers
-  convId: ConversationID
-  policy: RetentionPolicy
-}
-
-export type SetTeamRetentionUpdate = {
-  inboxVers: InboxVers
-  teamId: keybase1.TeamID
-  policy: RetentionPolicy
-}
-
-export type SetConvSettingsUpdate = {
-  inboxVers: InboxVers
-  convId: ConversationID
-  convSettings?: ConversationSettings
-}
-
-export type KBFSImpteamUpgradeUpdate = {
-  convId: ConversationID
-  inboxVers: InboxVers
-  topicType: TopicType
-}
-
-export type SubteamRenameUpdate = {
-  convIDs: ConversationID[] | null
-  inboxVers: InboxVers
-}
-
 export type VersionKind = string
 
 export enum TextPaymentResultTyp {
@@ -1451,12 +608,6 @@ export type TextPaymentResult =
   | {resultTyp: TextPaymentResultTyp.ERROR; ERROR: string | null}
   | {resultTyp: TextPaymentResultTyp.SENT; SENT: stellar1.PaymentID | null}
   | {resultTyp: Exclude<TextPaymentResultTyp, TextPaymentResultTyp.ERROR | TextPaymentResultTyp.SENT>}
-
-export type TextPayment = {
-  username: string
-  paymentText: string
-  result: TextPaymentResult
-}
 
 export type KnownUserMention = {
   text: string
@@ -1483,45 +634,12 @@ export type LiveLocation = {
   endTime: gregor1.Time
 }
 
-export type MessageText = {
-  body: string
-  payments: TextPayment[] | null
-  replyTo?: MessageID
-  replyToUid?: gregor1.UID
-  userMentions: KnownUserMention[] | null
-  teamMentions: KnownTeamMention[] | null
-  liveLocation?: LiveLocation
-}
-
 export type MessageConversationMetadata = {
   conversationTitle: string
 }
 
-export type MessageEdit = {
-  messageId: MessageID
-  body: string
-  userMentions: KnownUserMention[] | null
-  teamMentions: KnownTeamMention[] | null
-}
-
-export type MessageDelete = {
-  messageIDs: MessageID[] | null
-}
-
 export type MessageHeadline = {
   headline: string
-}
-
-export type MessageFlip = {
-  text: string
-  gameId: FlipGameID
-  flipConvId: ConversationID
-  userMentions: KnownUserMention[] | null
-  teamMentions: KnownTeamMention[] | null
-}
-
-export type MessagePin = {
-  msgId: MessageID
 }
 
 export enum MessageSystemType {
@@ -1579,6 +697,1242 @@ export type MessageSystemChangeAvatar = {
   user: string
 }
 
+export type MessageSystemBulkAddToConv = {
+  usernames: string[] | null
+}
+
+export type MessageJoin = {
+  joiners: string[] | null
+  leavers: string[] | null
+}
+
+export type MessageLeave = {}
+
+export type MessageSendPayment = {
+  paymentId: stellar1.PaymentID
+}
+
+export type MessageRequestPayment = {
+  requestId: stellar1.KeybaseRequestID
+  note: string
+}
+
+export enum OutboxStateType {
+  SENDING = 'sending',
+  ERROR = 'error',
+}
+
+export enum OutboxErrorType {
+  MISC = 'misc',
+  OFFLINE = 'offline',
+  IDENTIFY = 'identify',
+  TOOLONG = 'toolong',
+  DUPLICATE = 'duplicate',
+  EXPIRED = 'expired',
+  TOOMANYATTEMPTS = 'toomanyattempts',
+  ALREADY_DELETED = 'already_deleted',
+  UPLOADFAILED = 'uploadfailed',
+}
+
+export enum HeaderPlaintextVersion {
+  V1 = 'v1',
+  V2 = 'v2',
+  V3 = 'v3',
+  V4 = 'v4',
+  V5 = 'v5',
+  V6 = 'v6',
+  V7 = 'v7',
+  V8 = 'v8',
+  V9 = 'v9',
+  V10 = 'v10',
+}
+
+export type HeaderPlaintextMetaInfo = {
+  crit: boolean
+}
+
+export enum BodyPlaintextVersion {
+  V1 = 'v1',
+  V2 = 'v2',
+  V3 = 'v3',
+  V4 = 'v4',
+  V5 = 'v5',
+  V6 = 'v6',
+  V7 = 'v7',
+  V8 = 'v8',
+  V9 = 'v9',
+  V10 = 'v10',
+}
+
+export type BodyPlaintextMetaInfo = {
+  crit: boolean
+}
+
+export enum MessageUnboxedErrorType {
+  MISC = 'misc',
+  BADVERSION_CRITICAL = 'badversion_critical',
+  BADVERSION = 'badversion',
+  IDENTIFY = 'identify',
+  EPHEMERAL = 'ephemeral',
+  PAIRWISE_MISSING = 'pairwise_missing',
+}
+
+export type UnreadFirstNumLimit = {
+  numRead: number
+  atLeast: number
+  atMost: number
+}
+
+export type ConversationLocalParticipant = {
+  username: string
+  fullname?: string
+  contactName?: string
+}
+
+export enum ConversationErrorType {
+  PERMANENT = 'permanent',
+  MISSINGINFO = 'missinginfo',
+  SELFREKEYNEEDED = 'selfrekeyneeded',
+  OTHERREKEYNEEDED = 'otherrekeyneeded',
+  IDENTIFY = 'identify',
+  TRANSIENT = 'transient',
+  NONE = 'none',
+}
+
+export type ConversationErrorRekey = {
+  tlfName: string
+  tlfPublic: boolean
+  rekeyers: string[] | null
+  writerNames: string[] | null
+  readerNames: string[] | null
+}
+
+export type ConversationMinWriterRoleInfoLocal = {
+  changedBy: string
+  cannotWrite: boolean
+  role: keybase1.TeamRole
+}
+
+export enum MessageIDControlMode {
+  OLDERMESSAGES = 'oldermessages',
+  NEWERMESSAGES = 'newermessages',
+  CENTERED = 'centered',
+  UNREADLINE = 'unreadline',
+}
+
+export enum GetThreadNonblockCbMode {
+  FULL = 'full',
+  INCREMENTAL = 'incremental',
+}
+
+export enum GetThreadNonblockPgMode {
+  DEFAULT = 'default',
+  SERVER = 'server',
+}
+
+export enum PreviewLocationTyp {
+  URL = 'url',
+  FILE = 'file',
+  BYTES = 'bytes',
+}
+
+export type PreviewLocation =
+  | {ltyp: PreviewLocationTyp.URL; URL: string | null}
+  | {ltyp: PreviewLocationTyp.FILE; FILE: string | null}
+  | {ltyp: PreviewLocationTyp.BYTES; BYTES: Buffer | null}
+  | {ltyp: Exclude<PreviewLocationTyp, PreviewLocationTyp.URL | PreviewLocationTyp.FILE | PreviewLocationTyp.BYTES>}
+
+export enum UnfurlPromptAction {
+  ALWAYS = 'always',
+  NEVER = 'never',
+  ACCEPT = 'accept',
+  NOTNOW = 'notnow',
+  ONETIME = 'onetime',
+}
+
+export type UnfurlPromptResult =
+  | {actionType: UnfurlPromptAction.ALWAYS}
+  | {actionType: UnfurlPromptAction.NEVER}
+  | {actionType: UnfurlPromptAction.NOTNOW}
+  | {actionType: UnfurlPromptAction.ACCEPT; ACCEPT: string | null}
+  | {actionType: UnfurlPromptAction.ONETIME; ONETIME: string | null}
+  | {
+      actionType: Exclude<
+        UnfurlPromptAction,
+        | UnfurlPromptAction.ALWAYS
+        | UnfurlPromptAction.NEVER
+        | UnfurlPromptAction.NOTNOW
+        | UnfurlPromptAction.ACCEPT
+        | UnfurlPromptAction.ONETIME
+      >
+    }
+
+export enum GalleryItemTyp {
+  MEDIA = 'media',
+  LINK = 'link',
+  DOC = 'doc',
+}
+
+export type UserBotExtendedDescription = {
+  title: string
+  desktopBody: string
+  mobileBody: string
+}
+
+export enum ChatActivitySource {
+  LOCAL = 'local',
+  REMOTE = 'remote',
+}
+
+export enum ChatActivityType {
+  RESERVED = 'reserved',
+  INCOMING_MESSAGE = 'incoming_message',
+  READ_MESSAGE = 'read_message',
+  NEW_CONVERSATION = 'new_conversation',
+  SET_STATUS = 'set_status',
+  FAILED_MESSAGE = 'failed_message',
+  MEMBERS_UPDATE = 'members_update',
+  SET_APP_NOTIFICATION_SETTINGS = 'set_app_notification_settings',
+  TEAMTYPE = 'teamtype',
+  EXPUNGE = 'expunge',
+  EPHEMERAL_PURGE = 'ephemeral_purge',
+  REACTION_UPDATE = 'reaction_update',
+  MESSAGES_UPDATED = 'messages_updated',
+}
+
+export type TyperInfo = {
+  uid: keybase1.UID
+  username: string
+  deviceId: keybase1.DeviceID
+  deviceName: string
+  deviceType: string
+}
+
+export enum StaleUpdateType {
+  CLEAR = 'clear',
+  NEWACTIVITY = 'newactivity',
+  CONVUPDATE = 'convupdate',
+}
+
+export enum MessageBoxedVersion {
+  VNONE = 'vnone',
+  V1 = 'v1',
+  V2 = 'v2',
+  V3 = 'v3',
+  V4 = 'v4',
+}
+
+export enum ChannelMention {
+  NONE = 'none',
+  ALL = 'all',
+  HERE = 'here',
+}
+
+export type S3Params = {
+  bucket: string
+  objectKey: string
+  accessKey: string
+  acl: string
+  regionName: string
+  regionEndpoint: string
+  regionBucketEndpoint: string
+}
+
+export type ServerCacheVers = {
+  inboxVers: number
+  bodiesVers: number
+}
+
+export enum SyncAllProtVers {
+  V0 = 'v0',
+  V1 = 'v1',
+}
+
+export enum SyncAllNotificationType {
+  STATE = 'state',
+  INCREMENTAL = 'incremental',
+}
+
+export type SyncAllNotificationRes =
+  | {typ: SyncAllNotificationType.STATE; STATE: gregor1.State | null}
+  | {typ: SyncAllNotificationType.INCREMENTAL; INCREMENTAL: gregor1.SyncResult | null}
+  | {typ: Exclude<SyncAllNotificationType, SyncAllNotificationType.STATE | SyncAllNotificationType.INCREMENTAL>}
+
+export enum ExternalAPIKeyTyp {
+  GOOGLEMAPS = 'googlemaps',
+  GIPHY = 'giphy',
+}
+
+export type ExternalAPIKey =
+  | {typ: ExternalAPIKeyTyp.GOOGLEMAPS; GOOGLEMAPS: string | null}
+  | {typ: ExternalAPIKeyTyp.GIPHY; GIPHY: string | null}
+  | {typ: Exclude<ExternalAPIKeyTyp, ExternalAPIKeyTyp.GOOGLEMAPS | ExternalAPIKeyTyp.GIPHY>}
+
+export type CommandConvVers = number
+
+export enum BotInfoResponseTyp {
+  UPTODATE = 'uptodate',
+  INFO = 'info',
+}
+
+export type BotInfoHash = Buffer
+
+export enum UnfurlType {
+  GENERIC = 'generic',
+  YOUTUBE = 'youtube',
+  GIPHY = 'giphy',
+  MAPS = 'maps',
+}
+
+export type UnfurlVideo = {
+  url: string
+  mimeType: string
+  height: number
+  width: number
+}
+
+export type UnfurlYoutubeRaw = {}
+
+export type UnfurlYoutube = {}
+
+export type UnfurlImageDisplay = {
+  url: string
+  height: number
+  width: number
+  isVideo: boolean
+}
+
+export type UnfurlYoutubeDisplay = {}
+
+export enum UnfurlMode {
+  ALWAYS = 'always',
+  NEVER = 'never',
+  WHITELISTED = 'whitelisted',
+}
+
+export type MsgFlipContent = {
+  text: string
+  gameId: string
+  flipConvId: string
+  userMentions: KnownUserMention[] | null
+  teamMentions: KnownTeamMention[] | null
+}
+
+/**
+ * A chat conversation. This is essentially a chat channel plus some additional metadata.
+ */
+export type ConvSummary = {
+  id: string
+  channel: ChatChannel
+  unread: boolean
+  activeAt: number
+  activeAtMs: number
+  memberStatus: string
+  resetUsers?: string[] | null
+  finalizeInfo?: ConversationFinalizeInfo
+  supersedes?: string[] | null
+  supersededBy?: string[] | null
+  error?: string
+}
+
+export type SendRes = {
+  message: string
+  id?: MessageID
+  outboxId?: OutboxID
+  identifyFailures?: keybase1.TLFIdentifyFailure[] | null
+  ratelimits?: RateLimitRes[] | null
+}
+
+export type NewConvRes = {
+  id: string
+  identifyFailures?: keybase1.TLFIdentifyFailure[] | null
+  ratelimits?: RateLimitRes[] | null
+}
+
+export type EmptyRes = {
+  ratelimits?: RateLimitRes[] | null
+}
+
+export type GetResetConvMembersRes = {
+  members: ResetConvMemberAPI[] | null
+  rateLimits: RateLimitRes[] | null
+}
+
+export type UIParticipant = {
+  type: UIParticipantType
+  assertion: string
+  fullName?: string
+  contactName?: string
+}
+
+export type UIMaybeMentionInfo =
+  | {status: UIMaybeMentionStatus.UNKNOWN}
+  | {status: UIMaybeMentionStatus.USER}
+  | {status: UIMaybeMentionStatus.TEAM; TEAM: UITeamMention | null}
+  | {status: UIMaybeMentionStatus.NOTHING}
+  | {
+      status: Exclude<
+        UIMaybeMentionStatus,
+        UIMaybeMentionStatus.UNKNOWN | UIMaybeMentionStatus.USER | UIMaybeMentionStatus.TEAM | UIMaybeMentionStatus.NOTHING
+      >
+    }
+
+export type UIChatSearchConvHit = {
+  convId: string
+  teamType: TeamType
+  name: string
+  mtime: gregor1.Time
+}
+
+export type UIChatPaymentSummary = {
+  xlmTotal: string
+  displayTotal: string
+  payments: UIChatPayment[] | null
+}
+
+export type GiphySearchResults = {
+  results: GiphySearchResult[] | null
+  galleryUrl: string
+}
+
+export type UICoinFlipAbsenteeError = {
+  absentees: UICoinFlipErrorParticipant[] | null
+}
+
+export type UICoinFlipResult =
+  | {typ: UICoinFlipResultTyp.NUMBER; NUMBER: string | null}
+  | {typ: UICoinFlipResultTyp.SHUFFLE; SHUFFLE: string[] | null}
+  | {typ: UICoinFlipResultTyp.DECK; DECK: number[] | null}
+  | {typ: UICoinFlipResultTyp.HANDS; HANDS: UICoinFlipHand[] | null}
+  | {typ: UICoinFlipResultTyp.COIN; COIN: boolean | null}
+  | {
+      typ: Exclude<
+        UICoinFlipResultTyp,
+        | UICoinFlipResultTyp.NUMBER
+        | UICoinFlipResultTyp.SHUFFLE
+        | UICoinFlipResultTyp.DECK
+        | UICoinFlipResultTyp.HANDS
+        | UICoinFlipResultTyp.COIN
+      >
+    }
+
+export type ConversationCommandGroupsCustom = {
+  commands: ConversationCommand[] | null
+}
+
+export type InboxVersInfo = {
+  uid: gregor1.UID
+  vers: InboxVers
+}
+
+export type ConversationMember = {
+  uid: gregor1.UID
+  convId: ConversationID
+  topicType: TopicType
+}
+
+export type ConversationIDMessageIDPair = {
+  convId: ConversationID
+  msgId: MessageID
+}
+
+export type ChannelNameMention = {
+  convId: ConversationID
+  topicName: string
+}
+
+export type GetInboxQuery = {
+  convId?: ConversationID
+  topicType?: TopicType
+  tlfId?: TLFID
+  tlfVisibility?: keybase1.TLFVisibility
+  before?: gregor1.Time
+  after?: gregor1.Time
+  oneChatTypePerTlf?: boolean
+  topicName?: string
+  status: ConversationStatus[] | null
+  memberStatus: ConversationMemberStatus[] | null
+  existences: ConversationExistence[] | null
+  membersTypes: ConversationMembersType[] | null
+  convIDs: ConversationID[] | null
+  unreadOnly: boolean
+  readOnly: boolean
+  computeActiveList: boolean
+  summarizeMaxMsgs: boolean
+  skipBgLoads: boolean
+}
+
+export type ConversationIDTriple = {
+  tlfid: TLFID
+  topicType: TopicType
+  topicId: TopicID
+}
+
+export type Expunge = {
+  upto: MessageID
+  basis: MessageID
+}
+
+export type ConversationReaderInfo = {
+  mtime: gregor1.Time
+  readMsgid: MessageID
+  maxMsgid: MessageID
+  status: ConversationMemberStatus
+}
+
+export type ConversationSettings = {
+  mwr?: ConversationMinWriterRoleInfo
+}
+
+export type MessageSummary = {
+  msgId: MessageID
+  messageType: MessageType
+  tlfName: string
+  tlfPublic: boolean
+  ctime: gregor1.Time
+}
+
+export type Reaction = {
+  ctime: gregor1.Time
+  reactionMsgId: MessageID
+}
+
+export type MessageServerHeader = {
+  messageId: MessageID
+  supersededBy: MessageID
+  r: MessageID[] | null
+  u: MessageID[] | null
+  replies: MessageID[] | null
+  ctime: gregor1.Time
+  n: gregor1.Time
+  rt?: gregor1.Time
+}
+
+export type MessagePreviousPointer = {
+  id: MessageID
+  hash: Hash
+}
+
+export type OutboxInfo = {
+  prev: MessageID
+  composeTime: gregor1.Time
+}
+
+export type EphemeralPurgeInfo = {
+  c: ConversationID
+  a: boolean
+  n: gregor1.Time
+  e: MessageID
+}
+
+export type RetentionPolicy =
+  | {typ: RetentionPolicyType.RETAIN; RETAIN: RpRetain | null}
+  | {typ: RetentionPolicyType.EXPIRE; EXPIRE: RpExpire | null}
+  | {typ: RetentionPolicyType.INHERIT; INHERIT: RpInherit | null}
+  | {typ: RetentionPolicyType.EPHEMERAL; EPHEMERAL: RpEphemeral | null}
+  | {
+      typ: Exclude<
+        RetentionPolicyType,
+        RetentionPolicyType.RETAIN | RetentionPolicyType.EXPIRE | RetentionPolicyType.INHERIT | RetentionPolicyType.EPHEMERAL
+      >
+    }
+
+export type SearchOpts = {
+  isRegex: boolean
+  sentBy: string
+  sentTo: string
+  matchMentions: boolean
+  sentBefore: gregor1.Time
+  sentAfter: gregor1.Time
+  maxHits: number
+  maxMessages: number
+  beforeContext: number
+  afterContext: number
+  initialPagination?: Pagination
+  reindexMode: ReIndexingMode
+  maxConvsSearched: number
+  maxConvsHit: number
+  convId?: ConversationID
+  maxNameConvs: number
+}
+
+export type AssetMetadata =
+  | {assetType: AssetMetadataType.IMAGE; IMAGE: AssetMetadataImage | null}
+  | {assetType: AssetMetadataType.VIDEO; VIDEO: AssetMetadataVideo | null}
+  | {assetType: AssetMetadataType.AUDIO; AUDIO: AssetMetadataAudio | null}
+  | {assetType: Exclude<AssetMetadataType, AssetMetadataType.IMAGE | AssetMetadataType.VIDEO | AssetMetadataType.AUDIO>}
+
+export type UnreadUpdate = {
+  convId: ConversationID
+  unreadMessages: number
+  unreadNotifyingMessages: {[key: string]: number}
+  diff: boolean
+}
+
+export type TLFFinalizeUpdate = {
+  finalizeInfo: ConversationFinalizeInfo
+  convIDs: ConversationID[] | null
+  inboxVers: InboxVers
+}
+
+export type TLFResolveUpdate = {
+  convId: ConversationID
+  inboxVers: InboxVers
+}
+
+export type RemoteUserTypingUpdate = {
+  uid: gregor1.UID
+  deviceId: gregor1.DeviceID
+  convId: ConversationID
+  typing: boolean
+}
+
+export type ConversationUpdate = {
+  convId: ConversationID
+  existence: ConversationExistence
+}
+
+export type TeamChannelUpdate = {
+  teamId: TLFID
+}
+
+export type KBFSImpteamUpgradeUpdate = {
+  convId: ConversationID
+  inboxVers: InboxVers
+  topicType: TopicType
+}
+
+export type SubteamRenameUpdate = {
+  convIDs: ConversationID[] | null
+  inboxVers: InboxVers
+}
+
+export type TextPayment = {
+  username: string
+  paymentText: string
+  result: TextPaymentResult
+}
+
+export type MessageEdit = {
+  messageId: MessageID
+  body: string
+  userMentions: KnownUserMention[] | null
+  teamMentions: KnownTeamMention[] | null
+}
+
+export type MessageDelete = {
+  messageIDs: MessageID[] | null
+}
+
+export type MessageFlip = {
+  text: string
+  gameId: FlipGameID
+  flipConvId: ConversationID
+  userMentions: KnownUserMention[] | null
+  teamMentions: KnownTeamMention[] | null
+}
+
+export type MessagePin = {
+  msgId: MessageID
+}
+
+export type MessageDeleteHistory = {
+  upto: MessageID
+}
+
+export type MessageReaction = {
+  m: MessageID
+  b: string
+}
+
+export type SenderPrepareOptions = {
+  skipTopicNameState: boolean
+  replyTo?: MessageID
+}
+
+export type SenderSendOptions = {
+  joinMentionsAs?: ConversationMemberStatus
+}
+
+export type OutboxStateError = {
+  message: string
+  typ: OutboxErrorType
+}
+
+export type HeaderPlaintextUnsupported = {
+  mi: HeaderPlaintextMetaInfo
+}
+
+export type BodyPlaintextUnsupported = {
+  mi: BodyPlaintextMetaInfo
+}
+
+export type MessageUnboxedError = {
+  errType: MessageUnboxedErrorType
+  errMsg: string
+  internalErrMsg: string
+  versionKind: VersionKind
+  versionNumber: number
+  isCritical: boolean
+  senderUsername: string
+  senderDeviceName: string
+  senderDeviceType: string
+  messageId: MessageID
+  messageType: MessageType
+  ctime: gregor1.Time
+  isEphemeral: boolean
+  isEphemeralExpired: boolean
+  etime: gregor1.Time
+}
+
+export type MessageUnboxedPlaceholder = {
+  messageId: MessageID
+  hidden: boolean
+}
+
+export type ConversationSettingsLocal = {
+  minWriterRoleInfo?: ConversationMinWriterRoleInfoLocal
+}
+
+export type NonblockFetchRes = {
+  offline: boolean
+  rateLimits: RateLimit[] | null
+  identifyFailures: keybase1.TLFIdentifyFailure[] | null
+}
+
+export type MessageIDControl = {
+  pivot?: MessageID
+  mode: MessageIDControlMode
+  num: number
+}
+
+export type UnreadlineRes = {
+  offline: boolean
+  rateLimits: RateLimit[] | null
+  identifyFailures: keybase1.TLFIdentifyFailure[] | null
+  unreadlineId?: MessageID
+}
+
+export type NameQuery = {
+  name: string
+  tlfId?: TLFID
+  membersType: ConversationMembersType
+}
+
+export type PostLocalRes = {
+  rateLimits: RateLimit[] | null
+  messageId: MessageID
+  identifyFailures: keybase1.TLFIdentifyFailure[] | null
+}
+
+export type PostLocalNonblockRes = {
+  rateLimits: RateLimit[] | null
+  outboxId: OutboxID
+  identifyFailures: keybase1.TLFIdentifyFailure[] | null
+}
+
+export type EditTarget = {
+  messageId?: MessageID
+  outboxId?: OutboxID
+}
+
+export type SetConversationStatusLocalRes = {
+  rateLimits: RateLimit[] | null
+  identifyFailures: keybase1.TLFIdentifyFailure[] | null
+}
+
+export type GetInboxSummaryForCLILocalQuery = {
+  topicType: TopicType
+  after: string
+  before: string
+  visibility: keybase1.TLFVisibility
+  status: ConversationStatus[] | null
+  unreadFirst: boolean
+  unreadFirstLimit: UnreadFirstNumLimit
+  activitySortedLimit: number
+}
+
+export type DownloadAttachmentLocalRes = {
+  rateLimits: RateLimit[] | null
+  identifyFailures: keybase1.TLFIdentifyFailure[] | null
+}
+
+export type DownloadFileAttachmentLocalRes = {
+  filename: string
+  rateLimits: RateLimit[] | null
+  identifyFailures: keybase1.TLFIdentifyFailure[] | null
+}
+
+export type MarkAsReadLocalRes = {
+  offline: boolean
+  rateLimits: RateLimit[] | null
+}
+
+export type JoinLeaveConversationLocalRes = {
+  offline: boolean
+  rateLimits: RateLimit[] | null
+}
+
+export type DeleteConversationLocalRes = {
+  offline: boolean
+  rateLimits: RateLimit[] | null
+}
+
+export type SetAppNotificationSettingsLocalRes = {
+  offline: boolean
+  rateLimits: RateLimit[] | null
+}
+
+export type AppNotificationSettingLocal = {
+  deviceType: keybase1.DeviceType
+  kind: NotificationKind
+  enabled: boolean
+}
+
+export type ResetConvMember = {
+  username: string
+  uid: gregor1.UID
+  conv: ConversationID
+}
+
+export type ProfileSearchConvStats = {
+  err: string
+  convName: string
+  minConvId: MessageID
+  maxConvId: MessageID
+  numMissing: number
+  numMessages: number
+  indexSizeDisk: number
+  indexSizeMem: number
+  durationMsec: gregor1.DurationMsec
+  percentIndexed: number
+}
+
+export type BuiltinCommandGroup = {
+  typ: ConversationBuiltinCommandTyp
+  commands: ConversationCommand[] | null
+}
+
+export type UserBotCommandOutput = {
+  name: string
+  description: string
+  usage: string
+  extendedDescription?: UserBotExtendedDescription
+  username: string
+}
+
+export type UserBotCommandInput = {
+  name: string
+  description: string
+  usage: string
+  extendedDescription?: UserBotExtendedDescription
+}
+
+export type AdvertiseBotCommandsLocalRes = {
+  rateLimits: RateLimit[] | null
+}
+
+export type ClearBotCommandsLocalRes = {
+  rateLimits: RateLimit[] | null
+}
+
+export type PinMessageRes = {
+  rateLimits: RateLimit[] | null
+}
+
+export type SetAppNotificationSettingsInfo = {
+  convId: ConversationID
+  settings: ConversationNotificationInfo
+}
+
+export type MemberInfo = {
+  member: string
+  status: ConversationMemberStatus
+}
+
+export type ConvTypingUpdate = {
+  convId: ConversationID
+  typers: TyperInfo[] | null
+}
+
+export type ConversationStaleUpdate = {
+  convId: ConversationID
+  updateType: StaleUpdateType
+}
+
+export type NewConversationRemoteRes = {
+  convId: ConversationID
+  createdComplexTeam: boolean
+  rateLimit?: RateLimit
+}
+
+export type MarkAsReadRes = {
+  rateLimit?: RateLimit
+}
+
+export type SetConversationStatusRes = {
+  rateLimit?: RateLimit
+}
+
+export type GetUnreadlineRemoteRes = {
+  unreadlineId?: MessageID
+  rateLimit?: RateLimit
+}
+
+export type JoinLeaveConversationRemoteRes = {
+  rateLimit?: RateLimit
+}
+
+export type DeleteConversationRemoteRes = {
+  rateLimit?: RateLimit
+}
+
+export type GetMessageBeforeRes = {
+  msgId: MessageID
+  rateLimit?: RateLimit
+}
+
+export type SetAppNotificationSettingsRes = {
+  rateLimit?: RateLimit
+}
+
+export type SetRetentionRes = {
+  rateLimit?: RateLimit
+}
+
+export type SetConvMinWriterRoleRes = {
+  rateLimit?: RateLimit
+}
+
+export type ServerNowRes = {
+  rateLimit?: RateLimit
+  now: gregor1.Time
+}
+
+export type RemoteBotCommandsAdvertisementPublic = {
+  convId: ConversationID
+}
+
+export type RemoteBotCommandsAdvertisementTLFID = {
+  convId: ConversationID
+  tlfId: TLFID
+}
+
+export type BotCommandConv = {
+  uid: gregor1.UID
+  convId: ConversationID
+  vers: CommandConvVers
+  mtime: gregor1.Time
+}
+
+export type AdvertiseBotCommandsRes = {
+  rateLimit?: RateLimit
+}
+
+export type ClearBotCommandsRes = {
+  rateLimit?: RateLimit
+}
+
+export type UnfurlGenericRaw = {
+  title: string
+  url: string
+  siteName: string
+  faviconUrl?: string
+  imageUrl?: string
+  video?: UnfurlVideo
+  publishTime?: number
+  description?: string
+}
+
+export type UnfurlGiphyRaw = {
+  imageUrl?: string
+  video?: UnfurlVideo
+  faviconUrl?: string
+}
+
+export type UnfurlMapsRaw = {
+  title: string
+  url: string
+  siteName: string
+  imageUrl: string
+  historyImageUrl?: string
+  description: string
+  coord: Coordinate
+  time: gregor1.Time
+  liveLocationEndTime?: gregor1.Time
+  liveLocationDone: boolean
+}
+
+export type UnfurlGenericMapInfo = {
+  coord: Coordinate
+  time: gregor1.Time
+  liveLocationEndTime?: gregor1.Time
+  isLiveLocationDone: boolean
+}
+
+export type UnfurlGiphyDisplay = {
+  favicon?: UnfurlImageDisplay
+  image?: UnfurlImageDisplay
+  video?: UnfurlImageDisplay
+}
+
+export type UnfurlSettings = {
+  mode: UnfurlMode
+  whitelist: {[key: string]: boolean}
+}
+
+export type UnfurlSettingsDisplay = {
+  mode: UnfurlMode
+  whitelist: string[] | null
+}
+
+export type ChatList = {
+  conversations: ConvSummary[] | null
+  offline: boolean
+  identifyFailures?: keybase1.TLFIdentifyFailure[] | null
+  pagination?: Pagination
+  ratelimits?: RateLimitRes[] | null
+}
+
+export type ListCommandsRes = {
+  commands: UserBotCommandOutput[] | null
+  ratelimits?: RateLimitRes[] | null
+}
+
+export type AdvertiseCommandAPIParam = {
+  type: string
+  commands: UserBotCommandInput[] | null
+  teamName?: string
+}
+
+export type UITextDecoration =
+  | {typ: UITextDecorationTyp.PAYMENT; PAYMENT: TextPayment | null}
+  | {typ: UITextDecorationTyp.ATMENTION; ATMENTION: string | null}
+  | {typ: UITextDecorationTyp.CHANNELNAMEMENTION; CHANNELNAMEMENTION: UIChannelNameMention | null}
+  | {typ: UITextDecorationTyp.MAYBEMENTION; MAYBEMENTION: MaybeMention | null}
+  | {typ: UITextDecorationTyp.LINK; LINK: UILinkDecoration | null}
+  | {typ: UITextDecorationTyp.MAILTO; MAILTO: UILinkDecoration | null}
+  | {typ: UITextDecorationTyp.KBFSPATH; KBFSPATH: KBFSPath | null}
+  | {
+      typ: Exclude<
+        UITextDecorationTyp,
+        | UITextDecorationTyp.PAYMENT
+        | UITextDecorationTyp.ATMENTION
+        | UITextDecorationTyp.CHANNELNAMEMENTION
+        | UITextDecorationTyp.MAYBEMENTION
+        | UITextDecorationTyp.LINK
+        | UITextDecorationTyp.MAILTO
+        | UITextDecorationTyp.KBFSPATH
+      >
+    }
+
+export type UIChatSearchConvHits = {
+  hits: UIChatSearchConvHit[] | null
+  unreadMatches: boolean
+}
+
+export type UICoinFlipError =
+  | {typ: UICoinFlipErrorTyp.GENERIC; GENERIC: string | null}
+  | {typ: UICoinFlipErrorTyp.ABSENTEE; ABSENTEE: UICoinFlipAbsenteeError | null}
+  | {typ: UICoinFlipErrorTyp.TIMEOUT}
+  | {typ: UICoinFlipErrorTyp.ABORTED}
+  | {typ: UICoinFlipErrorTyp.DUPREG; DUPREG: UICoinFlipErrorParticipant | null}
+  | {typ: UICoinFlipErrorTyp.DUPCOMMITCOMPLETE; DUPCOMMITCOMPLETE: UICoinFlipErrorParticipant | null}
+  | {typ: UICoinFlipErrorTyp.DUPREVEAL; DUPREVEAL: UICoinFlipErrorParticipant | null}
+  | {typ: UICoinFlipErrorTyp.COMMITMISMATCH; COMMITMISMATCH: UICoinFlipErrorParticipant | null}
+  | {
+      typ: Exclude<
+        UICoinFlipErrorTyp,
+        | UICoinFlipErrorTyp.GENERIC
+        | UICoinFlipErrorTyp.ABSENTEE
+        | UICoinFlipErrorTyp.TIMEOUT
+        | UICoinFlipErrorTyp.ABORTED
+        | UICoinFlipErrorTyp.DUPREG
+        | UICoinFlipErrorTyp.DUPCOMMITCOMPLETE
+        | UICoinFlipErrorTyp.DUPREVEAL
+        | UICoinFlipErrorTyp.COMMITMISMATCH
+      >
+    }
+
+export type ConversationCommandGroups =
+  | {typ: ConversationCommandGroupsTyp.BUILTIN; BUILTIN: ConversationBuiltinCommandTyp | null}
+  | {typ: ConversationCommandGroupsTyp.CUSTOM; CUSTOM: ConversationCommandGroupsCustom | null}
+  | {typ: ConversationCommandGroupsTyp.NONE}
+  | {
+      typ: Exclude<
+        ConversationCommandGroupsTyp,
+        ConversationCommandGroupsTyp.BUILTIN | ConversationCommandGroupsTyp.CUSTOM | ConversationCommandGroupsTyp.NONE
+      >
+    }
+
+export type ConversationIDMessageIDPairs = {
+  pairs: ConversationIDMessageIDPair[] | null
+}
+
+export type ReactionMap = {
+  reactions: {[key: string]: {[key: string]: Reaction}}
+}
+
+export type MessageClientHeader = {
+  conv: ConversationIDTriple
+  tlfName: string
+  tlfPublic: boolean
+  messageType: MessageType
+  supersedes: MessageID
+  kbfsCryptKeysUsed?: boolean
+  deletes: MessageID[] | null
+  prev: MessagePreviousPointer[] | null
+  deleteHistory?: MessageDeleteHistory
+  sender: gregor1.UID
+  senderDevice: gregor1.DeviceID
+  merkleRoot?: MerkleRoot
+  outboxId?: OutboxID
+  outboxInfo?: OutboxInfo
+  em?: MsgEphemeralMetadata
+  pm: {[key: string]: Buffer}
+  b?: gregor1.UID
+}
+
+export type MessageClientHeaderVerified = {
+  conv: ConversationIDTriple
+  tlfName: string
+  tlfPublic: boolean
+  messageType: MessageType
+  prev: MessagePreviousPointer[] | null
+  sender: gregor1.UID
+  senderDevice: gregor1.DeviceID
+  kbfsCryptKeysUsed?: boolean
+  merkleRoot?: MerkleRoot
+  outboxId?: OutboxID
+  outboxInfo?: OutboxInfo
+  em?: MsgEphemeralMetadata
+  rt: gregor1.Time
+  pm: boolean
+  b?: gregor1.UID
+}
+
+export type Asset = {
+  filename: string
+  region: string
+  endpoint: string
+  bucket: string
+  path: string
+  size: number
+  mimeType: string
+  encHash: Hash
+  key: Buffer
+  verifyKey: Buffer
+  title: string
+  nonce: Buffer
+  metadata: AssetMetadata
+  tag: AssetTag
+}
+
+export type GenericPayload = {
+  action: string
+  inboxVers: InboxVers
+  convId: ConversationID
+  topicType: TopicType
+  unreadUpdate?: UnreadUpdate
+}
+
+export type NewConversationPayload = {
+  action: string
+  convId: ConversationID
+  inboxVers: InboxVers
+  topicType: TopicType
+  unreadUpdate?: UnreadUpdate
+}
+
+export type ReadMessagePayload = {
+  action: string
+  convId: ConversationID
+  msgId: MessageID
+  inboxVers: InboxVers
+  topicType: TopicType
+  unreadUpdate?: UnreadUpdate
+}
+
+export type SetStatusPayload = {
+  action: string
+  convId: ConversationID
+  status: ConversationStatus
+  inboxVers: InboxVers
+  topicType: TopicType
+  unreadUpdate?: UnreadUpdate
+}
+
+export type TeamTypePayload = {
+  action: string
+  convId: ConversationID
+  teamType: TeamType
+  inboxVers: InboxVers
+  topicType: TopicType
+  unreadUpdate?: UnreadUpdate
+}
+
+export type SetAppNotificationSettingsPayload = {
+  action: string
+  convId: ConversationID
+  inboxVers: InboxVers
+  settings: ConversationNotificationInfo
+  topicType: TopicType
+  unreadUpdate?: UnreadUpdate
+}
+
+export type ExpungePayload = {
+  action: string
+  convId: ConversationID
+  inboxVers: InboxVers
+  expunge: Expunge
+  maxMsgs: MessageSummary[] | null
+  topicType: TopicType
+  unreadUpdate?: UnreadUpdate
+}
+
+export type UpdateConversationMembership = {
+  inboxVers: InboxVers
+  joined: ConversationMember[] | null
+  removed: ConversationMember[] | null
+  reset: ConversationMember[] | null
+  previewed: ConversationID[] | null
+  unreadUpdate?: UnreadUpdate
+  unreadUpdates: UnreadUpdate[] | null
+}
+
+export type UpdateConversations = {
+  inboxVers: InboxVers
+  convUpdates: ConversationUpdate[] | null
+}
+
+export type SetConvRetentionUpdate = {
+  inboxVers: InboxVers
+  convId: ConversationID
+  policy: RetentionPolicy
+}
+
+export type SetTeamRetentionUpdate = {
+  inboxVers: InboxVers
+  teamId: keybase1.TeamID
+  policy: RetentionPolicy
+}
+
+export type SetConvSettingsUpdate = {
+  inboxVers: InboxVers
+  convId: ConversationID
+  convSettings?: ConversationSettings
+}
+
+export type MessageText = {
+  body: string
+  payments: TextPayment[] | null
+  replyTo?: MessageID
+  replyToUid?: gregor1.UID
+  userMentions: KnownUserMention[] | null
+  teamMentions: KnownTeamMention[] | null
+  liveLocation?: LiveLocation
+}
+
 export type MessageSystemChangeRetention = {
   isTeam: boolean
   isInherit: boolean
@@ -1587,8 +1941,156 @@ export type MessageSystemChangeRetention = {
   user: string
 }
 
-export type MessageSystemBulkAddToConv = {
-  usernames: string[] | null
+export type OutboxState =
+  | {state: OutboxStateType.SENDING; SENDING: number | null}
+  | {state: OutboxStateType.ERROR; ERROR: OutboxStateError | null}
+  | {state: Exclude<OutboxStateType, OutboxStateType.SENDING | OutboxStateType.ERROR>}
+
+export type HeaderPlaintextV1 = {
+  conv: ConversationIDTriple
+  tlfName: string
+  tlfPublic: boolean
+  messageType: MessageType
+  prev: MessagePreviousPointer[] | null
+  sender: gregor1.UID
+  senderDevice: gregor1.DeviceID
+  kbfsCryptKeysUsed?: boolean
+  bodyHash: Hash
+  outboxInfo?: OutboxInfo
+  outboxId?: OutboxID
+  headerSignature?: SignatureInfo
+  merkleRoot?: MerkleRoot
+  em?: MsgEphemeralMetadata
+  b?: gregor1.UID
+}
+
+export type GetThreadQuery = {
+  markAsRead: boolean
+  messageTypes: MessageType[] | null
+  disableResolveSupersedes: boolean
+  enableDeletePlaceholders: boolean
+  disablePostProcessThread: boolean
+  before?: gregor1.Time
+  after?: gregor1.Time
+  messageIdControl?: MessageIDControl
+}
+
+export type GetInboxLocalQuery = {
+  name?: NameQuery
+  topicName?: string
+  convIDs: ConversationID[] | null
+  topicType?: TopicType
+  tlfVisibility?: keybase1.TLFVisibility
+  before?: gregor1.Time
+  after?: gregor1.Time
+  oneChatTypePerTlf?: boolean
+  status: ConversationStatus[] | null
+  memberStatus: ConversationMemberStatus[] | null
+  unreadOnly: boolean
+  readOnly: boolean
+  computeActiveList: boolean
+}
+
+export type MakePreviewRes = {
+  mimeType: string
+  previewMimeType?: string
+  location?: PreviewLocation
+  metadata?: AssetMetadata
+  baseMetadata?: AssetMetadata
+}
+
+export type GetAllResetConvMembersRes = {
+  members: ResetConvMember[] | null
+  rateLimits: RateLimit[] | null
+}
+
+export type StaticConfig = {
+  deletableByDeleteHistory: MessageType[] | null
+  builtinCommands: BuiltinCommandGroup[] | null
+}
+
+export type AdvertiseCommandsParam = {
+  typ: BotCommandsAdvertisementTyp
+  commands: UserBotCommandInput[] | null
+  teamName?: string
+}
+
+export type ListBotCommandsLocalRes = {
+  commands: UserBotCommandOutput[] | null
+  rateLimits: RateLimit[] | null
+}
+
+export type MembersUpdateInfo = {
+  convId: ConversationID
+  members: MemberInfo[] | null
+}
+
+export type ExpungeInfo = {
+  convId: ConversationID
+  expunge: Expunge
+}
+
+export type PostRemoteRes = {
+  msgHeader: MessageServerHeader
+  rateLimit?: RateLimit
+}
+
+export type UnreadUpdateFull = {
+  ignore: boolean
+  inboxVers: InboxVers
+  inboxSyncStatus: SyncInboxResType
+  updates: UnreadUpdate[] | null
+}
+
+export type SweepRes = {
+  foundTask: boolean
+  deletedMessages: boolean
+  expunge: Expunge
+}
+
+export type RemoteBotCommandsAdvertisement =
+  | {typ: BotCommandsAdvertisementTyp.PUBLIC; PUBLIC: RemoteBotCommandsAdvertisementPublic | null}
+  | {typ: BotCommandsAdvertisementTyp.TLFID_MEMBERS; TLFID_MEMBERS: RemoteBotCommandsAdvertisementTLFID | null}
+  | {typ: BotCommandsAdvertisementTyp.TLFID_CONVS; TLFID_CONVS: RemoteBotCommandsAdvertisementTLFID | null}
+  | {
+      typ: Exclude<
+        BotCommandsAdvertisementTyp,
+        BotCommandsAdvertisementTyp.PUBLIC | BotCommandsAdvertisementTyp.TLFID_MEMBERS | BotCommandsAdvertisementTyp.TLFID_CONVS
+      >
+    }
+
+export type BotInfo = {
+  commandConvs: BotCommandConv[] | null
+}
+
+export type UnfurlRaw =
+  | {unfurlType: UnfurlType.GENERIC; GENERIC: UnfurlGenericRaw | null}
+  | {unfurlType: UnfurlType.YOUTUBE; YOUTUBE: UnfurlYoutubeRaw | null}
+  | {unfurlType: UnfurlType.GIPHY; GIPHY: UnfurlGiphyRaw | null}
+  | {unfurlType: UnfurlType.MAPS; MAPS: UnfurlMapsRaw | null}
+  | {unfurlType: Exclude<UnfurlType, UnfurlType.GENERIC | UnfurlType.YOUTUBE | UnfurlType.GIPHY | UnfurlType.MAPS>}
+
+export type UnfurlGenericDisplay = {
+  title: string
+  url: string
+  siteName: string
+  favicon?: UnfurlImageDisplay
+  media?: UnfurlImageDisplay
+  publishTime?: number
+  description?: string
+  mapInfo?: UnfurlGenericMapInfo
+}
+
+export type UICoinFlipStatus = {
+  gameId: string
+  phase: UICoinFlipPhase
+  progressText: string
+  resultText: string
+  commitmentVisualization: string
+  revealVisualization: string
+  participants: UICoinFlipParticipant[] | null
+  errorInfo?: UICoinFlipError
+  resultInfo?: UICoinFlipResult
 }
 
 export type MessageSystem =
@@ -1614,10 +2116,6 @@ export type MessageSystem =
       >
     }
 
-export type MessageDeleteHistory = {
-  upto: MessageID
-}
-
 export type MessageAttachment = {
   object: Asset
   preview?: Asset
@@ -1633,30 +2131,171 @@ export type MessageAttachmentUploaded = {
   metadata: Buffer
 }
 
-export type MessageJoin = {
-  joiners: string[] | null
-  leavers: string[] | null
+export type HeaderPlaintext =
+  | {version: HeaderPlaintextVersion.V1; V1: HeaderPlaintextV1 | null}
+  | {version: HeaderPlaintextVersion.V2; V2: HeaderPlaintextUnsupported | null}
+  | {version: HeaderPlaintextVersion.V3; V3: HeaderPlaintextUnsupported | null}
+  | {version: HeaderPlaintextVersion.V4; V4: HeaderPlaintextUnsupported | null}
+  | {version: HeaderPlaintextVersion.V5; V5: HeaderPlaintextUnsupported | null}
+  | {version: HeaderPlaintextVersion.V6; V6: HeaderPlaintextUnsupported | null}
+  | {version: HeaderPlaintextVersion.V7; V7: HeaderPlaintextUnsupported | null}
+  | {version: HeaderPlaintextVersion.V8; V8: HeaderPlaintextUnsupported | null}
+  | {version: HeaderPlaintextVersion.V9; V9: HeaderPlaintextUnsupported | null}
+  | {version: HeaderPlaintextVersion.V10; V10: HeaderPlaintextUnsupported | null}
+  | {
+      version: Exclude<
+        HeaderPlaintextVersion,
+        | HeaderPlaintextVersion.V1
+        | HeaderPlaintextVersion.V2
+        | HeaderPlaintextVersion.V3
+        | HeaderPlaintextVersion.V4
+        | HeaderPlaintextVersion.V5
+        | HeaderPlaintextVersion.V6
+        | HeaderPlaintextVersion.V7
+        | HeaderPlaintextVersion.V8
+        | HeaderPlaintextVersion.V9
+        | HeaderPlaintextVersion.V10
+      >
+    }
+
+export type PostFileAttachmentArg = {
+  conversationId: ConversationID
+  tlfName: string
+  visibility: keybase1.TLFVisibility
+  filename: string
+  title: string
+  metadata: Buffer
+  identifyBehavior: keybase1.TLFIdentifyBehavior
+  callerPreview?: MakePreviewRes
+  outboxId?: OutboxID
+  ephemeralLifetime?: gregor1.DurationSec
 }
 
-export type MessageLeave = {}
-
-export type MessageReaction = {
-  m: MessageID
-  b: string
+export type ReactionUpdate = {
+  reactions: ReactionMap
+  targetMsgId: MessageID
 }
 
-export type MessageSendPayment = {
-  paymentId: stellar1.PaymentID
+export type MessageBoxed = {
+  version: MessageBoxedVersion
+  serverHeader?: MessageServerHeader
+  clientHeader: MessageClientHeader
+  headerCiphertext: SealedData
+  bodyCiphertext: EncryptedData
+  verifyKey: Buffer
+  keyGeneration: number
 }
 
-export type MessageRequestPayment = {
-  requestId: stellar1.KeybaseRequestID
-  note: string
+export type BotInfoResponse =
+  | {typ: BotInfoResponseTyp.UPTODATE}
+  | {typ: BotInfoResponseTyp.INFO; INFO: BotInfo | null}
+  | {typ: Exclude<BotInfoResponseTyp, BotInfoResponseTyp.UPTODATE | BotInfoResponseTyp.INFO>}
+
+export type UnfurlGeneric = {
+  title: string
+  url: string
+  siteName: string
+  favicon?: Asset
+  image?: Asset
+  publishTime?: number
+  description?: string
+  mapInfo?: UnfurlGenericMapInfo
+}
+
+export type UnfurlGiphy = {
+  favicon?: Asset
+  image?: Asset
+  video?: Asset
+}
+
+export type UnfurlDisplay =
+  | {unfurlType: UnfurlType.GENERIC; GENERIC: UnfurlGenericDisplay | null}
+  | {unfurlType: UnfurlType.YOUTUBE; YOUTUBE: UnfurlYoutubeDisplay | null}
+  | {unfurlType: UnfurlType.GIPHY; GIPHY: UnfurlGiphyDisplay | null}
+  | {unfurlType: Exclude<UnfurlType, UnfurlType.GENERIC | UnfurlType.YOUTUBE | UnfurlType.GIPHY>}
+
+export type UIMessageUnfurlInfo = {
+  unfurlMessageId: MessageID
+  url: string
+  unfurl: UnfurlDisplay
+  isCollapsed: boolean
+}
+
+export type NewMessagePayload = {
+  action: string
+  convId: ConversationID
+  message: MessageBoxed
+  inboxVers: InboxVers
+  topicType: TopicType
+  unreadUpdate?: UnreadUpdate
+  maxMsgs: MessageSummary[] | null
+}
+
+export type LoadFlipRes = {
+  status: UICoinFlipStatus
+  rateLimits: RateLimit[] | null
+  identifyFailures: keybase1.TLFIdentifyFailure[] | null
+}
+
+export type ReactionUpdateNotif = {
+  convId: ConversationID
+  userReacjis: keybase1.UserReacjis
+  reactionUpdates: ReactionUpdate[] | null
+}
+
+export type ThreadViewBoxed = {
+  messages: MessageBoxed[] | null
+  pagination?: Pagination
+}
+
+export type GetMessagesRemoteRes = {
+  msgs: MessageBoxed[] | null
+  rateLimit?: RateLimit
+}
+
+export type GetBotInfoRes = {
+  response: BotInfoResponse
+  rateLimit?: RateLimit
+}
+
+export type Unfurl =
+  | {unfurlType: UnfurlType.GENERIC; GENERIC: UnfurlGeneric | null}
+  | {unfurlType: UnfurlType.YOUTUBE; YOUTUBE: UnfurlYoutube | null}
+  | {unfurlType: UnfurlType.GIPHY; GIPHY: UnfurlGiphy | null}
+  | {unfurlType: Exclude<UnfurlType, UnfurlType.GENERIC | UnfurlType.YOUTUBE | UnfurlType.GIPHY>}
+
+export type GetThreadRemoteRes = {
+  thread: ThreadViewBoxed
+  membersType: ConversationMembersType
+  visibility: keybase1.TLFVisibility
+  rateLimit?: RateLimit
+}
+
+export type UnfurlResult = {
+  unfurl: Unfurl
+  url: string
 }
 
 export type MessageUnfurl = {
   unfurl: UnfurlResult
   messageId: MessageID
+}
+
+export type MsgContent = {
+  type: string
+  text?: MessageText
+  attachment?: MessageAttachment
+  edit?: MessageEdit
+  reaction?: MessageReaction
+  delete?: MessageDelete
+  metadata?: MessageConversationMetadata
+  headline?: MessageHeadline
+  attachmentUploaded?: MessageAttachmentUploaded
+  system?: MessageSystem
+  sendPayment?: MessageSendPayment
+  requestPayment?: MessageRequestPayment
+  unfurl?: MessageUnfurl
+  flip?: MsgFlipContent
 }
 
 export type MessageBody =
@@ -1700,141 +2339,27 @@ export type MessageBody =
       >
     }
 
-export type SenderPrepareOptions = {
-  skipTopicNameState: boolean
-  replyTo?: MessageID
-}
-
-export type SenderSendOptions = {
-  joinMentionsAs?: ConversationMemberStatus
-}
-
-export enum OutboxStateType {
-  SENDING = 'sending',
-  ERROR = 'error',
-}
-
-export enum OutboxErrorType {
-  MISC = 'misc',
-  OFFLINE = 'offline',
-  IDENTIFY = 'identify',
-  TOOLONG = 'toolong',
-  DUPLICATE = 'duplicate',
-  EXPIRED = 'expired',
-  TOOMANYATTEMPTS = 'toomanyattempts',
-  ALREADY_DELETED = 'already_deleted',
-  UPLOADFAILED = 'uploadfailed',
-}
-
-export type OutboxStateError = {
-  message: string
-  typ: OutboxErrorType
-}
-
-export type OutboxState =
-  | {state: OutboxStateType.SENDING; SENDING: number | null}
-  | {state: OutboxStateType.ERROR; ERROR: OutboxStateError | null}
-  | {state: Exclude<OutboxStateType, OutboxStateType.SENDING | OutboxStateType.ERROR>}
-
-export type OutboxRecord = {
-  state: OutboxState
-  outboxId: OutboxID
-  convId: ConversationID
-  ctime: gregor1.Time
-  msg: MessagePlaintext
-  identifyBehavior: keybase1.TLFIdentifyBehavior
-  prepareOpts?: SenderPrepareOptions
-  sendOpts?: SenderSendOptions
-  ordinal: number
-  preview?: MakePreviewRes
-  replyTo?: MessageUnboxed
-}
-
-export enum HeaderPlaintextVersion {
-  V1 = 'v1',
-  V2 = 'v2',
-  V3 = 'v3',
-  V4 = 'v4',
-  V5 = 'v5',
-  V6 = 'v6',
-  V7 = 'v7',
-  V8 = 'v8',
-  V9 = 'v9',
-  V10 = 'v10',
-}
-
-export type HeaderPlaintextMetaInfo = {
-  crit: boolean
-}
-
-export type HeaderPlaintextUnsupported = {
-  mi: HeaderPlaintextMetaInfo
-}
-
-export type HeaderPlaintextV1 = {
-  conv: ConversationIDTriple
-  tlfName: string
-  tlfPublic: boolean
-  messageType: MessageType
+export type MsgSummary = {
+  id: MessageID
+  conversationId: string
+  channel: ChatChannel
+  sender: MsgSender
+  sentAt: number
+  sentAtMs: number
+  content: MsgContent
   prev: MessagePreviousPointer[] | null
-  sender: gregor1.UID
-  senderDevice: gregor1.DeviceID
-  kbfsCryptKeysUsed?: boolean
-  bodyHash: Hash
-  outboxInfo?: OutboxInfo
-  outboxId?: OutboxID
-  headerSignature?: SignatureInfo
-  merkleRoot?: MerkleRoot
-  em?: MsgEphemeralMetadata
-  b?: gregor1.UID
-}
-
-export type HeaderPlaintext =
-  | {version: HeaderPlaintextVersion.V1; V1: HeaderPlaintextV1 | null}
-  | {version: HeaderPlaintextVersion.V2; V2: HeaderPlaintextUnsupported | null}
-  | {version: HeaderPlaintextVersion.V3; V3: HeaderPlaintextUnsupported | null}
-  | {version: HeaderPlaintextVersion.V4; V4: HeaderPlaintextUnsupported | null}
-  | {version: HeaderPlaintextVersion.V5; V5: HeaderPlaintextUnsupported | null}
-  | {version: HeaderPlaintextVersion.V6; V6: HeaderPlaintextUnsupported | null}
-  | {version: HeaderPlaintextVersion.V7; V7: HeaderPlaintextUnsupported | null}
-  | {version: HeaderPlaintextVersion.V8; V8: HeaderPlaintextUnsupported | null}
-  | {version: HeaderPlaintextVersion.V9; V9: HeaderPlaintextUnsupported | null}
-  | {version: HeaderPlaintextVersion.V10; V10: HeaderPlaintextUnsupported | null}
-  | {
-      version: Exclude<
-        HeaderPlaintextVersion,
-        | HeaderPlaintextVersion.V1
-        | HeaderPlaintextVersion.V2
-        | HeaderPlaintextVersion.V3
-        | HeaderPlaintextVersion.V4
-        | HeaderPlaintextVersion.V5
-        | HeaderPlaintextVersion.V6
-        | HeaderPlaintextVersion.V7
-        | HeaderPlaintextVersion.V8
-        | HeaderPlaintextVersion.V9
-        | HeaderPlaintextVersion.V10
-      >
-    }
-
-export enum BodyPlaintextVersion {
-  V1 = 'v1',
-  V2 = 'v2',
-  V3 = 'v3',
-  V4 = 'v4',
-  V5 = 'v5',
-  V6 = 'v6',
-  V7 = 'v7',
-  V8 = 'v8',
-  V9 = 'v9',
-  V10 = 'v10',
-}
-
-export type BodyPlaintextMetaInfo = {
-  crit: boolean
-}
-
-export type BodyPlaintextUnsupported = {
-  mi: BodyPlaintextMetaInfo
+  unread: boolean
+  revokedDevice?: boolean
+  offline?: boolean
+  kbfsEncrypted?: boolean
+  isEphemeral?: boolean
+  isEphemeralExpired?: boolean
+  eTime?: gregor1.Time
+  reactions?: ReactionMap
+  hasPairwiseMacs?: boolean
+  atMentionUsernames?: string[] | null
+  channelMention?: string
+  channelNameMentions?: UIChannelNameMention[] | null
 }
 
 export type BodyPlaintextV1 = {
@@ -1844,6 +2369,25 @@ export type BodyPlaintextV1 = {
 export type BodyPlaintextV2 = {
   messageBody: MessageBody
   mi: BodyPlaintextMetaInfo
+}
+
+export type MessagePlaintext = {
+  clientHeader: MessageClientHeader
+  messageBody: MessageBody
+  supersedesOutboxId?: OutboxID
+}
+
+export type Message = {
+  msg?: MsgSummary
+  error?: string
+}
+
+export type MsgNotification = {
+  type: string
+  source: string
+  msg?: MsgSummary
+  error?: string
+  pagination?: UIPagination
 }
 
 export type BodyPlaintext =
@@ -1873,1105 +2417,10 @@ export type BodyPlaintext =
       >
     }
 
-export type MessagePlaintext = {
-  clientHeader: MessageClientHeader
-  messageBody: MessageBody
-  supersedesOutboxId?: OutboxID
-}
-
-export type MessageUnboxedValid = {
-  clientHeader: MessageClientHeaderVerified
-  serverHeader: MessageServerHeader
-  messageBody: MessageBody
-  senderUsername: string
-  senderDeviceName: string
-  senderDeviceType: string
-  bodyHash: Hash
-  headerHash: Hash
-  headerSignature?: SignatureInfo
-  verificationKey?: Buffer
-  senderDeviceRevokedAt?: gregor1.Time
-  atMentionUsernames: string[] | null
-  atMentions: gregor1.UID[] | null
-  channelMention: ChannelMention
-  maybeMentions: MaybeMention[] | null
-  channelNameMentions: ChannelNameMention[] | null
-  reactions: ReactionMap
-  unfurls: {[key: string]: UnfurlResult}
-  replyTo?: MessageUnboxed
-}
-
-export enum MessageUnboxedErrorType {
-  MISC = 'misc',
-  BADVERSION_CRITICAL = 'badversion_critical',
-  BADVERSION = 'badversion',
-  IDENTIFY = 'identify',
-  EPHEMERAL = 'ephemeral',
-  PAIRWISE_MISSING = 'pairwise_missing',
-}
-
-export type MessageUnboxedError = {
-  errType: MessageUnboxedErrorType
-  errMsg: string
-  internalErrMsg: string
-  versionKind: VersionKind
-  versionNumber: number
-  isCritical: boolean
-  senderUsername: string
-  senderDeviceName: string
-  senderDeviceType: string
-  messageId: MessageID
-  messageType: MessageType
-  ctime: gregor1.Time
-  isEphemeral: boolean
-  isEphemeralExpired: boolean
-  etime: gregor1.Time
-}
-
-export type MessageUnboxedPlaceholder = {
-  messageId: MessageID
-  hidden: boolean
-}
-
-export type MessageUnboxed =
-  | {state: MessageUnboxedState.VALID; VALID: MessageUnboxedValid | null}
-  | {state: MessageUnboxedState.ERROR; ERROR: MessageUnboxedError | null}
-  | {state: MessageUnboxedState.OUTBOX; OUTBOX: OutboxRecord | null}
-  | {state: MessageUnboxedState.PLACEHOLDER; PLACEHOLDER: MessageUnboxedPlaceholder | null}
-  | {
-      state: Exclude<
-        MessageUnboxedState,
-        MessageUnboxedState.VALID | MessageUnboxedState.ERROR | MessageUnboxedState.OUTBOX | MessageUnboxedState.PLACEHOLDER
-      >
-    }
-
-export type UnreadFirstNumLimit = {
-  numRead: number
-  atLeast: number
-  atMost: number
-}
-
-export type ConversationLocalParticipant = {
-  username: string
-  fullname?: string
-  contactName?: string
-}
-
-export type ConversationPinnedMessage = {
-  message: MessageUnboxed
-  pinnerUsername: string
-}
-
-export type ConversationInfoLocal = {
-  id: ConversationID
-  triple: ConversationIDTriple
-  tlfName: string
-  topicName: string
-  headline: string
-  snippetMsg?: MessageUnboxed
-  pinnedMsg?: ConversationPinnedMessage
-  draft?: string
-  visibility: keybase1.TLFVisibility
-  status: ConversationStatus
-  membersType: ConversationMembersType
-  memberStatus: ConversationMemberStatus
-  teamType: TeamType
-  existence: ConversationExistence
-  version: ConversationVers
-  localVersion: LocalConversationVers
-  participants: ConversationLocalParticipant[] | null
-  finalizeInfo?: ConversationFinalizeInfo
-  resetNames: string[] | null
-}
-
-export enum ConversationErrorType {
-  PERMANENT = 'permanent',
-  MISSINGINFO = 'missinginfo',
-  SELFREKEYNEEDED = 'selfrekeyneeded',
-  OTHERREKEYNEEDED = 'otherrekeyneeded',
-  IDENTIFY = 'identify',
-  TRANSIENT = 'transient',
-  NONE = 'none',
-}
-
-export type ConversationErrorLocal = {
-  typ: ConversationErrorType
-  message: string
-  remoteConv: Conversation
-  unverifiedTlfName: string
-  rekeyInfo?: ConversationErrorRekey
-}
-
-export type ConversationErrorRekey = {
-  tlfName: string
-  tlfPublic: boolean
-  rekeyers: string[] | null
-  writerNames: string[] | null
-  readerNames: string[] | null
-}
-
-export type ConversationMinWriterRoleInfoLocal = {
-  changedBy: string
-  cannotWrite: boolean
-  role: keybase1.TeamRole
-}
-
-export type ConversationSettingsLocal = {
-  minWriterRoleInfo?: ConversationMinWriterRoleInfoLocal
-}
-
-export type ConversationLocal = {
-  error?: ConversationErrorLocal
-  info: ConversationInfoLocal
-  readerInfo: ConversationReaderInfo
-  creatorInfo?: ConversationCreatorInfoLocal
-  notifications?: ConversationNotificationInfo
-  supersedes: ConversationMetadata[] | null
-  supersededBy: ConversationMetadata[] | null
-  maxMessages: MessageSummary[] | null
-  isEmpty: boolean
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-  expunge: Expunge
-  convRetention?: RetentionPolicy
-  teamRetention?: RetentionPolicy
-  convSettings?: ConversationSettingsLocal
-  commands: ConversationCommandGroups
-  botCommands: ConversationCommandGroups
-}
-
-export type NonblockFetchRes = {
-  offline: boolean
-  rateLimits: RateLimit[] | null
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-}
-
-export type ThreadView = {
-  messages: MessageUnboxed[] | null
+export type Thread = {
+  messages: Message[] | null
   pagination?: Pagination
-}
-
-export enum MessageIDControlMode {
-  OLDERMESSAGES = 'oldermessages',
-  NEWERMESSAGES = 'newermessages',
-  CENTERED = 'centered',
-  UNREADLINE = 'unreadline',
-}
-
-export type MessageIDControl = {
-  pivot?: MessageID
-  mode: MessageIDControlMode
-  num: number
-}
-
-export type GetThreadQuery = {
-  markAsRead: boolean
-  messageTypes: MessageType[] | null
-  disableResolveSupersedes: boolean
-  enableDeletePlaceholders: boolean
-  disablePostProcessThread: boolean
-  before?: gregor1.Time
-  after?: gregor1.Time
-  messageIdControl?: MessageIDControl
-}
-
-export type GetThreadLocalRes = {
-  thread: ThreadView
-  offline: boolean
-  rateLimits: RateLimit[] | null
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-}
-
-export enum GetThreadNonblockCbMode {
-  FULL = 'full',
-  INCREMENTAL = 'incremental',
-}
-
-export enum GetThreadNonblockPgMode {
-  DEFAULT = 'default',
-  SERVER = 'server',
-}
-
-export type UnreadlineRes = {
-  offline: boolean
-  rateLimits: RateLimit[] | null
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-  unreadlineId?: MessageID
-}
-
-export type NameQuery = {
-  name: string
-  tlfId?: TLFID
-  membersType: ConversationMembersType
-}
-
-export type GetInboxLocalQuery = {
-  name?: NameQuery
-  topicName?: string
-  convIDs: ConversationID[] | null
-  topicType?: TopicType
-  tlfVisibility?: keybase1.TLFVisibility
-  before?: gregor1.Time
-  after?: gregor1.Time
-  oneChatTypePerTlf?: boolean
-  status: ConversationStatus[] | null
-  memberStatus: ConversationMemberStatus[] | null
-  unreadOnly: boolean
-  readOnly: boolean
-  computeActiveList: boolean
-}
-
-export type GetInboxAndUnboxLocalRes = {
-  conversations: ConversationLocal[] | null
-  pagination?: Pagination
-  offline: boolean
-  rateLimits: RateLimit[] | null
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-}
-
-export type GetInboxAndUnboxUILocalRes = {
-  conversations: InboxUIItem[] | null
-  pagination?: Pagination
-  offline: boolean
-  rateLimits: RateLimit[] | null
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-}
-
-export type PostLocalRes = {
-  rateLimits: RateLimit[] | null
-  messageId: MessageID
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-}
-
-export type PostLocalNonblockRes = {
-  rateLimits: RateLimit[] | null
-  outboxId: OutboxID
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-}
-
-export type EditTarget = {
-  messageId?: MessageID
-  outboxId?: OutboxID
-}
-
-export type SetConversationStatusLocalRes = {
-  rateLimits: RateLimit[] | null
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-}
-
-export type NewConversationLocalRes = {
-  conv: ConversationLocal
-  uiConv: InboxUIItem
-  rateLimits: RateLimit[] | null
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-}
-
-export type GetInboxSummaryForCLILocalQuery = {
-  topicType: TopicType
-  after: string
-  before: string
-  visibility: keybase1.TLFVisibility
-  status: ConversationStatus[] | null
-  unreadFirst: boolean
-  unreadFirstLimit: UnreadFirstNumLimit
-  activitySortedLimit: number
-}
-
-export type GetInboxSummaryForCLILocalRes = {
-  conversations: ConversationLocal[] | null
-  offline: boolean
-  rateLimits: RateLimit[] | null
-}
-
-export type GetConversationForCLILocalQuery = {
-  markAsRead: boolean
-  messageTypes: MessageType[] | null
-  since?: string
-  limit: UnreadFirstNumLimit
-  conv: ConversationLocal
-}
-
-export type GetConversationForCLILocalRes = {
-  conversation: ConversationLocal
-  messages: MessageUnboxed[] | null
-  offline: boolean
-  rateLimits: RateLimit[] | null
-}
-
-export type GetMessagesLocalRes = {
-  messages: MessageUnboxed[] | null
-  offline: boolean
-  rateLimits: RateLimit[] | null
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-}
-
-export type PostFileAttachmentArg = {
-  conversationId: ConversationID
-  tlfName: string
-  visibility: keybase1.TLFVisibility
-  filename: string
-  title: string
-  metadata: Buffer
-  identifyBehavior: keybase1.TLFIdentifyBehavior
-  callerPreview?: MakePreviewRes
-  outboxId?: OutboxID
-  ephemeralLifetime?: gregor1.DurationSec
-}
-
-export type GetNextAttachmentMessageLocalRes = {
-  message?: UIMessage
-  offline: boolean
-  rateLimits: RateLimit[] | null
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-}
-
-export type DownloadAttachmentLocalRes = {
-  rateLimits: RateLimit[] | null
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-}
-
-export type DownloadFileAttachmentLocalRes = {
-  filename: string
-  rateLimits: RateLimit[] | null
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-}
-
-export enum PreviewLocationTyp {
-  URL = 'url',
-  FILE = 'file',
-  BYTES = 'bytes',
-}
-
-export type PreviewLocation =
-  | {ltyp: PreviewLocationTyp.URL; URL: string | null}
-  | {ltyp: PreviewLocationTyp.FILE; FILE: string | null}
-  | {ltyp: PreviewLocationTyp.BYTES; BYTES: Buffer | null}
-  | {ltyp: Exclude<PreviewLocationTyp, PreviewLocationTyp.URL | PreviewLocationTyp.FILE | PreviewLocationTyp.BYTES>}
-
-export type MakePreviewRes = {
-  mimeType: string
-  previewMimeType?: string
-  location?: PreviewLocation
-  metadata?: AssetMetadata
-  baseMetadata?: AssetMetadata
-}
-
-export type MarkAsReadLocalRes = {
-  offline: boolean
-  rateLimits: RateLimit[] | null
-}
-
-export type FindConversationsLocalRes = {
-  conversations: ConversationLocal[] | null
-  uiConversations: InboxUIItem[] | null
-  offline: boolean
-  rateLimits: RateLimit[] | null
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-}
-
-export type JoinLeaveConversationLocalRes = {
-  offline: boolean
-  rateLimits: RateLimit[] | null
-}
-
-export type PreviewConversationLocalRes = {
-  conv: InboxUIItem
-  offline: boolean
-  rateLimits: RateLimit[] | null
-}
-
-export type DeleteConversationLocalRes = {
-  offline: boolean
-  rateLimits: RateLimit[] | null
-}
-
-export type GetTLFConversationsLocalRes = {
-  convs: InboxUIItem[] | null
-  offline: boolean
-  rateLimits: RateLimit[] | null
-}
-
-export type SetAppNotificationSettingsLocalRes = {
-  offline: boolean
-  rateLimits: RateLimit[] | null
-}
-
-export type AppNotificationSettingLocal = {
-  deviceType: keybase1.DeviceType
-  kind: NotificationKind
-  enabled: boolean
-}
-
-export type SearchRegexpRes = {
-  offline: boolean
-  hits: ChatSearchHit[] | null
-  rateLimits: RateLimit[] | null
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-}
-
-export type SearchInboxRes = {
-  offline: boolean
-  res?: ChatSearchInboxResults
-  rateLimits: RateLimit[] | null
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-}
-
-export type ProfileSearchConvStats = {
-  err: string
-  convName: string
-  minConvId: MessageID
-  maxConvId: MessageID
-  numMissing: number
-  numMessages: number
-  indexSizeDisk: number
-  indexSizeMem: never
-  durationMsec: gregor1.DurationMsec
-  percentIndexed: number
-}
-
-export type BuiltinCommandGroup = {
-  typ: ConversationBuiltinCommandTyp
-  commands: ConversationCommand[] | null
-}
-
-export type StaticConfig = {
-  deletableByDeleteHistory: MessageType[] | null
-  builtinCommands: BuiltinCommandGroup[] | null
-}
-
-export enum UnfurlPromptAction {
-  ALWAYS = 'always',
-  NEVER = 'never',
-  ACCEPT = 'accept',
-  NOTNOW = 'notnow',
-  ONETIME = 'onetime',
-}
-
-export type UnfurlPromptResult =
-  | {actionType: UnfurlPromptAction.ALWAYS}
-  | {actionType: UnfurlPromptAction.NEVER}
-  | {actionType: UnfurlPromptAction.NOTNOW}
-  | {actionType: UnfurlPromptAction.ACCEPT; ACCEPT: string | null}
-  | {actionType: UnfurlPromptAction.ONETIME; ONETIME: string | null}
-  | {
-      actionType: Exclude<
-        UnfurlPromptAction,
-        | UnfurlPromptAction.ALWAYS
-        | UnfurlPromptAction.NEVER
-        | UnfurlPromptAction.NOTNOW
-        | UnfurlPromptAction.ACCEPT
-        | UnfurlPromptAction.ONETIME
-      >
-    }
-
-export enum GalleryItemTyp {
-  MEDIA = 'media',
-  LINK = 'link',
-  DOC = 'doc',
-}
-
-export type LoadGalleryRes = {
-  messages: UIMessage[] | null
-  last: boolean
-  rateLimits: RateLimit[] | null
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-}
-
-export type LoadFlipRes = {
-  status: UICoinFlipStatus
-  rateLimits: RateLimit[] | null
-  identifyFailures: keybase1.TLFIdentifyFailure[] | null
-}
-
-export type UserBotExtendedDescription = {
-  title: string
-  desktopBody: string
-  mobileBody: string
-}
-
-export type UserBotCommandOutput = {
-  name: string
-  description: string
-  usage: string
-  extendedDescription?: UserBotExtendedDescription
-  username: string
-}
-
-export type UserBotCommandInput = {
-  name: string
-  description: string
-  usage: string
-  extendedDescription?: UserBotExtendedDescription
-}
-
-export type AdvertiseCommandsParam = {
-  typ: BotCommandsAdvertisementTyp
-  commands: UserBotCommandInput[] | null
-  teamName?: string
-}
-
-export type AdvertiseBotCommandsLocalRes = {
-  rateLimits: RateLimit[] | null
-}
-
-export type ListBotCommandsLocalRes = {
-  commands: UserBotCommandOutput[] | null
-  rateLimits: RateLimit[] | null
-}
-
-export type ClearBotCommandsLocalRes = {
-  rateLimits: RateLimit[] | null
-}
-
-export type PinMessageRes = {
-  rateLimits: RateLimit[] | null
-}
-
-export enum ChatActivitySource {
-  LOCAL = 'local',
-  REMOTE = 'remote',
-}
-
-export enum ChatActivityType {
-  RESERVED = 'reserved',
-  INCOMING_MESSAGE = 'incoming_message',
-  READ_MESSAGE = 'read_message',
-  NEW_CONVERSATION = 'new_conversation',
-  SET_STATUS = 'set_status',
-  FAILED_MESSAGE = 'failed_message',
-  MEMBERS_UPDATE = 'members_update',
-  SET_APP_NOTIFICATION_SETTINGS = 'set_app_notification_settings',
-  TEAMTYPE = 'teamtype',
-  EXPUNGE = 'expunge',
-  EPHEMERAL_PURGE = 'ephemeral_purge',
-  REACTION_UPDATE = 'reaction_update',
-  MESSAGES_UPDATED = 'messages_updated',
-}
-
-export type IncomingMessage = {
-  message: UIMessage
-  modifiedMessage?: UIMessage
-  convId: ConversationID
-  displayDesktopNotification: boolean
-  desktopNotificationSnippet: string
-  conv?: InboxUIItem
-  pagination?: UIPagination
-}
-
-export type ReadMessageInfo = {
-  convId: ConversationID
-  msgId: MessageID
-  conv?: InboxUIItem
-}
-
-export type NewConversationInfo = {
-  convId: ConversationID
-  conv?: InboxUIItem
-}
-
-export type SetStatusInfo = {
-  convId: ConversationID
-  status: ConversationStatus
-  conv?: InboxUIItem
-}
-
-export type SetAppNotificationSettingsInfo = {
-  convId: ConversationID
-  settings: ConversationNotificationInfo
-}
-
-export type FailedMessageInfo = {
-  outboxRecords: OutboxRecord[] | null
-  isEphemeralPurge: boolean
-}
-
-export type MemberInfo = {
-  member: string
-  status: ConversationMemberStatus
-}
-
-export type MembersUpdateInfo = {
-  convId: ConversationID
-  members: MemberInfo[] | null
-}
-
-export type TeamTypeInfo = {
-  convId: ConversationID
-  teamType: TeamType
-  conv?: InboxUIItem
-}
-
-export type ExpungeInfo = {
-  convId: ConversationID
-  expunge: Expunge
-}
-
-export type EphemeralPurgeNotifInfo = {
-  convId: ConversationID
-  msgs: UIMessage[] | null
-}
-
-export type ReactionUpdate = {
-  reactions: ReactionMap
-  targetMsgId: MessageID
-}
-
-export type ReactionUpdateNotif = {
-  convId: ConversationID
-  userReacjis: keybase1.UserReacjis
-  reactionUpdates: ReactionUpdate[] | null
-}
-
-export type MessagesUpdated = {
-  convId: ConversationID
-  updates: UIMessage[] | null
-}
-
-export type ChatActivity =
-  | {activityType: ChatActivityType.INCOMING_MESSAGE; INCOMING_MESSAGE: IncomingMessage | null}
-  | {activityType: ChatActivityType.READ_MESSAGE; READ_MESSAGE: ReadMessageInfo | null}
-  | {activityType: ChatActivityType.NEW_CONVERSATION; NEW_CONVERSATION: NewConversationInfo | null}
-  | {activityType: ChatActivityType.SET_STATUS; SET_STATUS: SetStatusInfo | null}
-  | {activityType: ChatActivityType.FAILED_MESSAGE; FAILED_MESSAGE: FailedMessageInfo | null}
-  | {activityType: ChatActivityType.MEMBERS_UPDATE; MEMBERS_UPDATE: MembersUpdateInfo | null}
-  | {activityType: ChatActivityType.SET_APP_NOTIFICATION_SETTINGS; SET_APP_NOTIFICATION_SETTINGS: SetAppNotificationSettingsInfo | null}
-  | {activityType: ChatActivityType.TEAMTYPE; TEAMTYPE: TeamTypeInfo | null}
-  | {activityType: ChatActivityType.EXPUNGE; EXPUNGE: ExpungeInfo | null}
-  | {activityType: ChatActivityType.EPHEMERAL_PURGE; EPHEMERAL_PURGE: EphemeralPurgeNotifInfo | null}
-  | {activityType: ChatActivityType.REACTION_UPDATE; REACTION_UPDATE: ReactionUpdateNotif | null}
-  | {activityType: ChatActivityType.MESSAGES_UPDATED; MESSAGES_UPDATED: MessagesUpdated | null}
-  | {
-      activityType: Exclude<
-        ChatActivityType,
-        | ChatActivityType.INCOMING_MESSAGE
-        | ChatActivityType.READ_MESSAGE
-        | ChatActivityType.NEW_CONVERSATION
-        | ChatActivityType.SET_STATUS
-        | ChatActivityType.FAILED_MESSAGE
-        | ChatActivityType.MEMBERS_UPDATE
-        | ChatActivityType.SET_APP_NOTIFICATION_SETTINGS
-        | ChatActivityType.TEAMTYPE
-        | ChatActivityType.EXPUNGE
-        | ChatActivityType.EPHEMERAL_PURGE
-        | ChatActivityType.REACTION_UPDATE
-        | ChatActivityType.MESSAGES_UPDATED
-      >
-    }
-
-export type TyperInfo = {
-  uid: keybase1.UID
-  username: string
-  deviceId: keybase1.DeviceID
-  deviceName: string
-  deviceType: string
-}
-
-export type ConvTypingUpdate = {
-  convId: ConversationID
-  typers: TyperInfo[] | null
-}
-
-export enum StaleUpdateType {
-  CLEAR = 'clear',
-  NEWACTIVITY = 'newactivity',
-  CONVUPDATE = 'convupdate',
-}
-
-export type ConversationStaleUpdate = {
-  convId: ConversationID
-  updateType: StaleUpdateType
-}
-
-export type ChatSyncIncrementalConv = {
-  conv: UnverifiedInboxUIItem
-  shouldUnbox: boolean
-}
-
-export type ChatSyncIncrementalInfo = {
-  items: ChatSyncIncrementalConv[] | null
-  removals: string[] | null
-}
-
-export type ChatSyncResult =
-  | {syncType: SyncInboxResType.CURRENT}
-  | {syncType: SyncInboxResType.CLEAR}
-  | {syncType: SyncInboxResType.INCREMENTAL; INCREMENTAL: ChatSyncIncrementalInfo | null}
-  | {syncType: Exclude<SyncInboxResType, SyncInboxResType.CURRENT | SyncInboxResType.CLEAR | SyncInboxResType.INCREMENTAL>}
-
-export type MessageBoxed = {
-  version: MessageBoxedVersion
-  serverHeader?: MessageServerHeader
-  clientHeader: MessageClientHeader
-  headerCiphertext: SealedData
-  bodyCiphertext: EncryptedData
-  verifyKey: Buffer
-  keyGeneration: number
-}
-
-export enum MessageBoxedVersion {
-  VNONE = 'vnone',
-  V1 = 'v1',
-  V2 = 'v2',
-  V3 = 'v3',
-  V4 = 'v4',
-}
-
-export type ThreadViewBoxed = {
-  messages: MessageBoxed[] | null
-  pagination?: Pagination
-}
-
-export type GetInboxRemoteRes = {
-  inbox: InboxView
-  rateLimit?: RateLimit
-}
-
-export type GetInboxByTLFIDRemoteRes = {
-  convs: Conversation[] | null
-  rateLimit?: RateLimit
-}
-
-export type GetThreadRemoteRes = {
-  thread: ThreadViewBoxed
-  membersType: ConversationMembersType
-  visibility: keybase1.TLFVisibility
-  rateLimit?: RateLimit
-}
-
-export type GetConversationMetadataRemoteRes = {
-  conv: Conversation
-  rateLimit?: RateLimit
-}
-
-export type PostRemoteRes = {
-  msgHeader: MessageServerHeader
-  rateLimit?: RateLimit
-}
-
-export type NewConversationRemoteRes = {
-  convId: ConversationID
-  createdComplexTeam: boolean
-  rateLimit?: RateLimit
-}
-
-export type GetMessagesRemoteRes = {
-  msgs: MessageBoxed[] | null
-  rateLimit?: RateLimit
-}
-
-export type MarkAsReadRes = {
-  rateLimit?: RateLimit
-}
-
-export type SetConversationStatusRes = {
-  rateLimit?: RateLimit
-}
-
-export type GetPublicConversationsRes = {
-  conversations: Conversation[] | null
-  rateLimit?: RateLimit
-}
-
-export type GetUnreadlineRemoteRes = {
-  unreadlineId?: MessageID
-  rateLimit?: RateLimit
-}
-
-export enum ChannelMention {
-  NONE = 'none',
-  ALL = 'all',
-  HERE = 'here',
-}
-
-export type UnreadUpdateFull = {
-  ignore: boolean
-  inboxVers: InboxVers
-  inboxSyncStatus: SyncInboxResType
-  updates: UnreadUpdate[] | null
-}
-
-export type S3Params = {
-  bucket: string
-  objectKey: string
-  accessKey: string
-  acl: string
-  regionName: string
-  regionEndpoint: string
-  regionBucketEndpoint: string
-}
-
-export type SyncIncrementalRes = {
-  vers: InboxVers
-  convs: Conversation[] | null
-}
-
-export type ServerCacheVers = {
-  inboxVers: number
-  bodiesVers: number
-}
-
-export type SyncInboxRes =
-  | {typ: SyncInboxResType.CURRENT}
-  | {typ: SyncInboxResType.INCREMENTAL; INCREMENTAL: SyncIncrementalRes | null}
-  | {typ: SyncInboxResType.CLEAR}
-  | {typ: Exclude<SyncInboxResType, SyncInboxResType.CURRENT | SyncInboxResType.INCREMENTAL | SyncInboxResType.CLEAR>}
-
-export type SyncChatRes = {
-  cacheVers: ServerCacheVers
-  inboxRes: SyncInboxRes
-}
-
-export enum SyncAllProtVers {
-  V0 = 'v0',
-  V1 = 'v1',
-}
-
-export enum SyncAllNotificationType {
-  STATE = 'state',
-  INCREMENTAL = 'incremental',
-}
-
-export type SyncAllNotificationRes =
-  | {typ: SyncAllNotificationType.STATE; STATE: gregor1.State | null}
-  | {typ: SyncAllNotificationType.INCREMENTAL; INCREMENTAL: gregor1.SyncResult | null}
-  | {typ: Exclude<SyncAllNotificationType, SyncAllNotificationType.STATE | SyncAllNotificationType.INCREMENTAL>}
-
-export type SyncAllResult = {
-  auth: gregor1.AuthResult
-  chat: SyncChatRes
-  notification: SyncAllNotificationRes
-  badge: UnreadUpdateFull
-}
-
-export type JoinLeaveConversationRemoteRes = {
-  rateLimit?: RateLimit
-}
-
-export type DeleteConversationRemoteRes = {
-  rateLimit?: RateLimit
-}
-
-export type GetMessageBeforeRes = {
-  msgId: MessageID
-  rateLimit?: RateLimit
-}
-
-export type GetTLFConversationsRes = {
-  conversations: Conversation[] | null
-  rateLimit?: RateLimit
-}
-
-export type SetAppNotificationSettingsRes = {
-  rateLimit?: RateLimit
-}
-
-export type SetRetentionRes = {
-  rateLimit?: RateLimit
-}
-
-export type SetConvMinWriterRoleRes = {
-  rateLimit?: RateLimit
-}
-
-export type SweepRes = {
-  foundTask: boolean
-  deletedMessages: boolean
-  expunge: Expunge
-}
-
-export type ServerNowRes = {
-  rateLimit?: RateLimit
-  now: gregor1.Time
-}
-
-export enum ExternalAPIKeyTyp {
-  GOOGLEMAPS = 'googlemaps',
-  GIPHY = 'giphy',
-}
-
-export type ExternalAPIKey =
-  | {typ: ExternalAPIKeyTyp.GOOGLEMAPS; GOOGLEMAPS: string | null}
-  | {typ: ExternalAPIKeyTyp.GIPHY; GIPHY: string | null}
-  | {typ: Exclude<ExternalAPIKeyTyp, ExternalAPIKeyTyp.GOOGLEMAPS | ExternalAPIKeyTyp.GIPHY>}
-
-export type CommandConvVers = never
-
-export type RemoteBotCommandsAdvertisementPublic = {
-  convId: ConversationID
-}
-
-export type RemoteBotCommandsAdvertisementTLFID = {
-  convId: ConversationID
-  tlfId: TLFID
-}
-
-export type RemoteBotCommandsAdvertisement =
-  | {typ: BotCommandsAdvertisementTyp.PUBLIC; PUBLIC: RemoteBotCommandsAdvertisementPublic | null}
-  | {typ: BotCommandsAdvertisementTyp.TLFID_MEMBERS; TLFID_MEMBERS: RemoteBotCommandsAdvertisementTLFID | null}
-  | {typ: BotCommandsAdvertisementTyp.TLFID_CONVS; TLFID_CONVS: RemoteBotCommandsAdvertisementTLFID | null}
-  | {
-      typ: Exclude<
-        BotCommandsAdvertisementTyp,
-        BotCommandsAdvertisementTyp.PUBLIC | BotCommandsAdvertisementTyp.TLFID_MEMBERS | BotCommandsAdvertisementTyp.TLFID_CONVS
-      >
-    }
-
-export type BotCommandConv = {
-  uid: gregor1.UID
-  convId: ConversationID
-  vers: CommandConvVers
-  mtime: gregor1.Time
-}
-
-export type BotInfo = {
-  commandConvs: BotCommandConv[] | null
-}
-
-export type AdvertiseBotCommandsRes = {
-  rateLimit?: RateLimit
-}
-
-export type ClearBotCommandsRes = {
-  rateLimit?: RateLimit
-}
-
-export enum BotInfoResponseTyp {
-  UPTODATE = 'uptodate',
-  INFO = 'info',
-}
-
-export type BotInfoResponse =
-  | {typ: BotInfoResponseTyp.UPTODATE}
-  | {typ: BotInfoResponseTyp.INFO; INFO: BotInfo | null}
-  | {typ: Exclude<BotInfoResponseTyp, BotInfoResponseTyp.UPTODATE | BotInfoResponseTyp.INFO>}
-
-export type GetBotInfoRes = {
-  response: BotInfoResponse
-  rateLimit?: RateLimit
-}
-
-export type BotInfoHash = Buffer
-
-export enum UnfurlType {
-  GENERIC = 'generic',
-  YOUTUBE = 'youtube',
-  GIPHY = 'giphy',
-  MAPS = 'maps',
-}
-
-export type UnfurlVideo = {
-  url: string
-  mimeType: string
-  height: number
-  width: number
-}
-
-export type UnfurlGenericRaw = {
-  title: string
-  url: string
-  siteName: string
-  faviconUrl?: string
-  imageUrl?: string
-  video?: UnfurlVideo
-  publishTime?: number
-  description?: string
-}
-
-export type UnfurlYoutubeRaw = {}
-
-export type UnfurlGiphyRaw = {
-  imageUrl?: string
-  video?: UnfurlVideo
-  faviconUrl?: string
-}
-
-export type UnfurlMapsRaw = {
-  title: string
-  url: string
-  siteName: string
-  imageUrl: string
-  historyImageUrl?: string
-  description: string
-}
-
-export type UnfurlRaw =
-  | {unfurlType: UnfurlType.GENERIC; GENERIC: UnfurlGenericRaw | null}
-  | {unfurlType: UnfurlType.YOUTUBE; YOUTUBE: UnfurlYoutubeRaw | null}
-  | {unfurlType: UnfurlType.GIPHY; GIPHY: UnfurlGiphyRaw | null}
-  | {unfurlType: UnfurlType.MAPS; MAPS: UnfurlMapsRaw | null}
-  | {unfurlType: Exclude<UnfurlType, UnfurlType.GENERIC | UnfurlType.YOUTUBE | UnfurlType.GIPHY | UnfurlType.MAPS>}
-
-export type UnfurlGeneric = {
-  title: string
-  url: string
-  siteName: string
-  favicon?: Asset
-  image?: Asset
-  publishTime?: number
-  description?: string
-}
-
-export type UnfurlYoutube = {}
-
-export type UnfurlGiphy = {
-  favicon?: Asset
-  image?: Asset
-  video?: Asset
-}
-
-export type Unfurl =
-  | {unfurlType: UnfurlType.GENERIC; GENERIC: UnfurlGeneric | null}
-  | {unfurlType: UnfurlType.YOUTUBE; YOUTUBE: UnfurlYoutube | null}
-  | {unfurlType: UnfurlType.GIPHY; GIPHY: UnfurlGiphy | null}
-  | {unfurlType: Exclude<UnfurlType, UnfurlType.GENERIC | UnfurlType.YOUTUBE | UnfurlType.GIPHY>}
-
-export type UnfurlResult = {
-  unfurl: Unfurl
-  url: string
-}
-
-export type UnfurlImageDisplay = {
-  url: string
-  height: number
-  width: number
-  isVideo: boolean
-}
-
-export type UnfurlGenericDisplay = {
-  title: string
-  url: string
-  siteName: string
-  favicon?: UnfurlImageDisplay
-  media?: UnfurlImageDisplay
-  publishTime?: number
-  description?: string
-}
-
-export type UnfurlYoutubeDisplay = {}
-
-export type UnfurlGiphyDisplay = {
-  favicon?: UnfurlImageDisplay
-  image?: UnfurlImageDisplay
-  video?: UnfurlImageDisplay
-}
-
-export type UnfurlDisplay =
-  | {unfurlType: UnfurlType.GENERIC; GENERIC: UnfurlGenericDisplay | null}
-  | {unfurlType: UnfurlType.YOUTUBE; YOUTUBE: UnfurlYoutubeDisplay | null}
-  | {unfurlType: UnfurlType.GIPHY; GIPHY: UnfurlGiphyDisplay | null}
-  | {unfurlType: Exclude<UnfurlType, UnfurlType.GENERIC | UnfurlType.YOUTUBE | UnfurlType.GIPHY>}
-
-export enum UnfurlMode {
-  ALWAYS = 'always',
-  NEVER = 'never',
-  WHITELISTED = 'whitelisted',
-}
-
-export type UnfurlSettings = {
-  mode: UnfurlMode
-  whitelist: {[key: string]: boolean}
-}
-
-export type UnfurlSettingsDisplay = {
-  mode: UnfurlMode
-  whitelist: string[] | null
+  offline?: boolean
+  identifyFailures?: keybase1.TLFIdentifyFailure[] | null
+  ratelimits?: RateLimitRes[] | null
 }

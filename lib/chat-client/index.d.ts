@@ -271,6 +271,22 @@ declare class Chat extends ClientBase {
      */
     clearCommands(): Promise<void>;
     /**
+     * Let's a conversation partner back in after they've reset their account. You can
+     * get a list of such candidates with getResetConvMembers()
+     * @param username - the username of the user who has reset
+     * @param conversationId
+     * @example
+     * await bot.chat.addResetConvMember({username: "chris", conversationId: "abc1234567"})
+     */
+    addResetConvMember(param: chat1.ResetConvMemberAPI): Promise<chat1.GetResetConvMembersRes>;
+    /**
+     * Lists all the direct (non-team) conversations your bot has, in
+     * which their partner has "reset" their account and needs to be let back in
+     * @example
+     * await bot.chat.getResetConvMembers()
+     */
+    getResetConvMembers(): Promise<chat1.GetResetConvMembersRes>;
+    /**
      * Lists all commands advertised in a channel.
      * @param lookup - either conversation id or channel
      * @example
