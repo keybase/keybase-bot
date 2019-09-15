@@ -162,7 +162,7 @@ describe('Chat Methods', (): void => {
           peek: true,
           unreadOnly: true,
           pagination: {
-            num: 3,
+            num: 1,
             next: lastPagination ? lastPagination.next : undefined,
           },
         })
