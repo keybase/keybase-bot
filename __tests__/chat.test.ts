@@ -328,7 +328,7 @@ describe('Chat Methods', (): void => {
 
       const read1 = await alice1.chat.read(teamChannel, {
         pagination: {
-          num: 3,
+          num: 1,
         },
       })
       expect(read1.messages[0].content.type).toEqual('join')
