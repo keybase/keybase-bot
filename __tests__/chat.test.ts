@@ -45,7 +45,6 @@ describe('Chat Methods', (): void => {
 
   const channelMatcher = expect.objectContaining({
     name: expect.any(String),
-    //public: expect.any(Boolean),
     membersType: expect.any(String),
   })
   const conversationMatcher = expect.objectContaining({
