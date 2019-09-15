@@ -312,7 +312,7 @@ describe('Chat Methods', (): void => {
         public: false,
         topicType: 'chat',
         membersType: 'team',
-        topicName: `subchannel-${~~(Math.random() * 1000000000)}`,
+        topicName: `subchannel-${Date.now()}`,
       }
       const generalChannel: ChatChannel = {
         name: config.teams.acme.teamname,
@@ -321,7 +321,7 @@ describe('Chat Methods', (): void => {
         membersType: 'team',
         topicName: 'general',
       }
-      const message = {body: `We're on a road to nowhere!`}
+      const message = {body: `And she's buuuuuuy..ing a stairway....to heav-un.`}
 
       await alice1.chat.createChannel(teamChannel)
       await bob.chat.joinChannel(teamChannel)
