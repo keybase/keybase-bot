@@ -12,6 +12,7 @@ module.exports = {
     exclude: ['lib/'],
   },
   rules: {
+    '@typescript-eslint/ban-ts-ignore': 'off', // we use these in our .ts tests to try to do bad things
     'no-var': 'error',
     'prefer-const': 'error',
     'no-duplicate-imports': 0,

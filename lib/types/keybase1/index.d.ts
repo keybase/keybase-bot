@@ -3,16 +3,6 @@ import * as gregor1 from '../gregor1';
 export declare type HasServerKeysRes = {
     hasServerKeys: boolean;
 };
-export declare type LockdownHistory = {
-    status: boolean;
-    ctime: Time;
-    deviceId: DeviceID;
-    deviceName: string;
-};
-export declare type GetLockdownResponse = {
-    history: LockdownHistory[] | null;
-    status: boolean;
-};
 export declare type APIRes = {
     status: string;
     body: string;
@@ -40,39 +30,15 @@ export declare enum BoxAuditAttemptResult {
     OK_NOT_ATTEMPTED_OPENTEAM = "ok_not_attempted_openteam",
     OK_NOT_ATTEMPTED_SUBTEAM = "ok_not_attempted_subteam"
 }
-export declare type BoxAuditAttempt = {
-    ctime: UnixTime;
-    error?: string;
-    result: BoxAuditAttemptResult;
-    generation?: PerTeamKeyGeneration;
-    rotated: boolean;
-};
 export declare type AvatarUrl = string;
 export declare type AvatarFormat = string;
-export declare type LoadAvatarsRes = {
-    picmap: {
-        [key: string]: {
-            [key: string]: AvatarUrl;
-        };
-    };
-};
-export declare type AvatarClearCacheMsg = {
-    name: string;
-    formats: AvatarFormat[] | null;
-    typ: AvatarUpdateType;
-};
 export declare enum BlockType {
     DATA = "data",
     MD = "md",
     GIT = "git"
 }
-export declare type BlockIdCombo = {
-    blockHash: string;
-    chargedTo: UserOrTeamID;
-    blockType: BlockType;
-};
 export declare type ChallengeInfo = {
-    now: never;
+    now: number;
     challenge: string;
 };
 export declare enum BlockStatus {
@@ -80,46 +46,14 @@ export declare enum BlockStatus {
     LIVE = "live",
     ARCHIVED = "archived"
 }
-export declare type GetBlockRes = {
-    blockKey: string;
-    buf: Buffer;
-    size: number;
-    status: BlockStatus;
-};
 export declare type BlockRefNonce = string | null;
-export declare type BlockReference = {
-    bid: BlockIdCombo;
-    nonce: BlockRefNonce;
-    chargedTo: UserOrTeamID;
-};
-export declare type BlockReferenceCount = {
-    ref: BlockReference;
-    liveCount: number;
-};
-export declare type DowngradeReferenceRes = {
-    completed: BlockReferenceCount[] | null;
-    failed: BlockReference;
-};
-export declare type BlockIdCount = {
-    id: BlockIdCombo;
-    liveCount: number;
-};
-export declare type ReferenceCountRes = {
-    counts: BlockIdCount[] | null;
-};
 export declare type BlockPingResponse = {};
-export declare type Time = never;
-export declare type UnixTime = never;
+export declare type Time = number;
+export declare type UnixTime = number;
 export declare type DurationSec = number;
 export declare type StringKVPair = {
     key: string;
     value: string;
-};
-export declare type Status = {
-    code: number;
-    name: string;
-    desc: string;
-    fields: StringKVPair[] | null;
 };
 export declare type UID = string;
 export declare type DeviceID = string;
@@ -137,38 +71,17 @@ export declare type TeamID = string;
 export declare type UserOrTeamID = string;
 export declare type GitRepoName = string;
 export declare type HashMeta = Buffer;
-export declare type UserVersion = {
-    uid: UID;
-    eldestSeqno: Seqno;
-};
 export declare enum TeamType {
     NONE = "none",
     LEGACY = "legacy",
     MODERN = "modern"
 }
-export declare type CompatibilityTeamID = {
-    typ: TeamType.LEGACY;
-    LEGACY: TLFID | null;
-} | {
-    typ: TeamType.MODERN;
-    MODERN: TeamID | null;
-} | {
-    typ: Exclude<TeamType, TeamType.LEGACY | TeamType.MODERN>;
-};
 export declare enum TLFVisibility {
     ANY = "any",
     PUBLIC = "public",
     PRIVATE = "private"
 }
-export declare type TeamIDWithVisibility = {
-    teamId: TeamID;
-    visibility: TLFVisibility;
-};
-export declare type TeamIDAndName = {
-    id: TeamID;
-    name: TeamName;
-};
-export declare type Seqno = never;
+export declare type Seqno = number;
 export declare enum SeqType {
     NONE = "none",
     PUBLIC = "public",
@@ -186,44 +99,6 @@ export declare type PGPIdentity = {
     username: string;
     comment: string;
     email: string;
-};
-export declare type PublicKey = {
-    kid: KID;
-    pgpFingerprint: string;
-    pgpIdentities: PGPIdentity[] | null;
-    isSibkey: boolean;
-    isEldest: boolean;
-    parentId: string;
-    deviceId: DeviceID;
-    deviceDescription: string;
-    deviceType: string;
-    cTime: Time;
-    eTime: Time;
-    isRevoked: boolean;
-};
-export declare type KeybaseTime = {
-    unix: Time;
-    chain: Seqno;
-};
-export declare type RevokedKey = {
-    key: PublicKey;
-    time: KeybaseTime;
-    by: KID;
-};
-export declare type User = {
-    uid: UID;
-    username: string;
-};
-export declare type Device = {
-    type: string;
-    name: string;
-    deviceId: DeviceID;
-    cTime: Time;
-    mTime: Time;
-    lastUsedTime: Time;
-    encryptKey: KID;
-    verifyKey: KID;
-    status: number;
 };
 export declare enum DeviceType {
     DESKTOP = "desktop",
@@ -254,51 +129,11 @@ export declare type KBFSPathInfo = {
     deeplinkPath: string;
     platformAfterMountPath: string;
 };
-export declare type UserVersionVector = {
-    id: never;
-    sigHints: number;
-    sigChain: never;
-    cachedAt: Time;
-};
 export declare type PerUserKeyGeneration = number;
-export declare type PerUserKey = {
-    gen: number;
-    seqno: Seqno;
-    sigKid: KID;
-    encKid: KID;
-    signedByKid: KID;
-};
-export declare type UserPlusKeys = {
-    uid: UID;
-    username: string;
-    eldestSeqno: Seqno;
-    status: StatusCode;
-    deviceKeys: PublicKey[] | null;
-    revokedDeviceKeys: RevokedKey[] | null;
-    pgpKeyCount: number;
-    uvv: UserVersionVector;
-    deletedDeviceKeys: PublicKey[] | null;
-    perUserKeys: PerUserKey[] | null;
-    resets: ResetSummary[] | null;
-};
-export declare type UserOrTeamLite = {
-    id: UserOrTeamID;
-    name: string;
-};
 export declare enum UserOrTeamResult {
     USER = "user",
     TEAM = "team"
 }
-export declare type RemoteTrack = {
-    username: string;
-    uid: UID;
-    linkId: LinkID;
-};
-export declare type UserPlusAllKeys = {
-    base: UserPlusKeys;
-    pgpKeys: PublicKey[] | null;
-    remoteTracks: RemoteTrack[] | null;
-};
 export declare enum MerkleTreeID {
     MASTER = "master",
     KBFS_PUBLIC = "kbfs_public",
@@ -310,45 +145,17 @@ export declare enum MerkleTreeID {
  *     user.
  */
 export declare type SocialAssertionService = string;
-/**
- * SocialAssertion contains a service and username for that service, that
- *     together form an assertion about a user. It can either be a social
- *     assertion (like "facebook" or "twitter") or a server trust assertion (like
- *     "phone" or "email").
- *
- *     If the assertion is for social network, resolving an assertion requires
- *     that the user posts a Keybase proof on the asserted service as the asserted
- *     user.
- *
- *     For server trust assertion, we have to trust the server.
- */
-export declare type SocialAssertion = {
-    user: string;
-    service: SocialAssertionService;
-};
 export declare type FullName = string;
 export declare enum FullNamePackageVersion {
     V0 = "v0",
     V1 = "v1",
     V2 = "v2"
 }
-export declare type FullNamePackage = {
-    version: FullNamePackageVersion;
-    fullName: FullName;
-    eldestSeqno: Seqno;
-    status: StatusCode;
-    cachedAt: Time;
-};
 export declare type ImageCropRect = {
     x0: number;
     y0: number;
     x1: number;
     y1: number;
-};
-export declare type PhoneLookupResult = {
-    uid: UID;
-    username: string;
-    ctime: UnixTime;
 };
 export declare enum IdentityVisibility {
     PRIVATE = "private",
@@ -363,35 +170,12 @@ export declare enum OfflineAvailability {
     BEST_EFFORT = "best_effort"
 }
 export declare type ReacjiSkinTone = number;
-export declare type UserReacjis = {
-    topReacjis: string[] | null;
-    skinTone: ReacjiSkinTone;
-};
-export declare type CurrentStatus = {
-    configured: boolean;
-    registered: boolean;
-    loggedIn: boolean;
-    sessionIsValid: boolean;
-    user?: User;
-};
 export declare type SessionStatus = {
     sessionFor: string;
     loaded: boolean;
     cleared: boolean;
     saltOnly: boolean;
     expired: boolean;
-};
-export declare type ClientDetails = {
-    pid: number;
-    clientType: ClientType;
-    argv: string[] | null;
-    desc: string;
-    version: string;
-};
-export declare type ClientStatus = {
-    details: ClientDetails;
-    connectionId: number;
-    notificationChannels: NotificationChannels;
 };
 export declare type PlatformInfo = {
     os: string;
@@ -407,37 +191,6 @@ export declare type DirSizeInfo = {
     numFiles: number;
     name: string;
     humanSize: string;
-};
-export declare type ExtendedStatus = {
-    standalone: boolean;
-    passphraseStreamCached: boolean;
-    tsecCached: boolean;
-    deviceSigKeyCached: boolean;
-    deviceEncKeyCached: boolean;
-    paperSigKeyCached: boolean;
-    paperEncKeyCached: boolean;
-    storedSecret: boolean;
-    secretPromptSkip: boolean;
-    rememberPassphrase: boolean;
-    device?: Device;
-    deviceErr?: LoadDeviceErr;
-    logDir: string;
-    session?: SessionStatus;
-    defaultUsername: string;
-    provisionedUsernames: string[] | null;
-    configuredAccounts: ConfiguredAccount[] | null;
-    clients: ClientStatus[] | null;
-    deviceEkNames: string[] | null;
-    platformInfo: PlatformInfo;
-    defaultDeviceId: DeviceID;
-    localDbStats: string[] | null;
-    localChatDbStats: string[] | null;
-    localBlockCacheDbStats: string[] | null;
-    localSyncCacheDbStats: string[] | null;
-    cacheDirSizeInfo: DirSizeInfo[] | null;
-    uiRouterMapping: {
-        [key: string]: number;
-    };
 };
 export declare type KbClientStatus = {
     version: string;
@@ -471,19 +224,6 @@ export declare type StartStatus = {
 export declare type GitStatus = {
     log: string;
 };
-export declare type FullStatus = {
-    username: string;
-    configPath: string;
-    curStatus: CurrentStatus;
-    extStatus: ExtendedStatus;
-    client: KbClientStatus;
-    service: KbServiceStatus;
-    kbfs: KBFSStatus;
-    desktop: DesktopStatus;
-    updater: UpdaterStatus;
-    start: StartStatus;
-    git: GitStatus;
-};
 export declare type LogSendID = string;
 export declare type AllProvisionedUsernames = {
     defaultUsername: string;
@@ -497,22 +237,6 @@ export declare enum ForkType {
     LAUNCHD = "launchd",
     SYSTEMD = "systemd"
 }
-export declare type Config = {
-    serverUri: string;
-    socketFile: string;
-    label: string;
-    runMode: string;
-    gpgExists: boolean;
-    gpgPath: string;
-    version: string;
-    path: string;
-    binaryRealpath: string;
-    configPath: string;
-    versionShort: string;
-    versionFull: string;
-    isAutoForked: boolean;
-    forkType: ForkType;
-};
 export declare type ConfigValue = {
     isNull: boolean;
     b?: boolean;
@@ -524,28 +248,13 @@ export declare type OutOfDateInfo = {
     upgradeTo: string;
     upgradeUri: string;
     customMessage: string;
-    criticalClockSkew: never;
+    criticalClockSkew: number;
 };
 export declare enum UpdateInfoStatus {
     UP_TO_DATE = "up_to_date",
     NEED_UPDATE = "need_update",
     CRITICALLY_OUT_OF_DATE = "critically_out_of_date"
 }
-export declare type UpdateInfo = {
-    status: UpdateInfoStatus;
-    message: string;
-};
-export declare type BootstrapStatus = {
-    registered: boolean;
-    loggedIn: boolean;
-    uid: UID;
-    username: string;
-    deviceId: DeviceID;
-    deviceName: string;
-    fullname: FullName;
-    userReacjis: UserReacjis;
-    httpSrvInfo?: HttpSrvInfo;
-};
 export declare enum UpdateInfoStatus2 {
     OK = "ok",
     SUGGESTED = "suggested",
@@ -554,27 +263,11 @@ export declare enum UpdateInfoStatus2 {
 export declare type UpdateDetails = {
     message: string;
 };
-export declare type UpdateInfo2 = {
-    status: UpdateInfoStatus2.OK;
-} | {
-    status: UpdateInfoStatus2.SUGGESTED;
-    SUGGESTED: UpdateDetails | null;
-} | {
-    status: UpdateInfoStatus2.CRITICAL;
-    CRITICAL: UpdateDetails | null;
-} | {
-    status: Exclude<UpdateInfoStatus2, UpdateInfoStatus2.OK | UpdateInfoStatus2.SUGGESTED | UpdateInfoStatus2.CRITICAL>;
-};
 export declare enum ProxyType {
     No_Proxy = "no_proxy",
     HTTP_Connect = "http_connect",
     Socks = "socks"
 }
-export declare type ProxyData = {
-    addressWithPort: string;
-    proxyType: ProxyType;
-    certPinning: boolean;
-};
 export declare enum StatusCode {
     SCOk = "scok",
     SCInputError = "scinputerror",
@@ -797,51 +490,11 @@ export declare enum StatusCode {
     SCTeambotKeyOldBoxedGeneration = "scteambotkeyoldboxedgeneration",
     SCTeambotKeyBadGeneration = "scteambotkeybadgeneration"
 }
-export declare type ContactComponent = {
-    label: string;
-    phoneNumber?: RawPhoneNumber;
-    email?: EmailAddress;
-};
-export declare type Contact = {
-    name: string;
-    components: ContactComponent[] | null;
-};
-export declare type ProcessedContact = {
-    contactIndex: number;
-    contactName: string;
-    component: ContactComponent;
-    resolved: boolean;
-    uid: UID;
-    username: string;
-    fullName: string;
-    following: boolean;
-    serviceMap: {
-        [key: string]: string;
-    };
-    assertion: string;
-    displayName: string;
-    displayLabel: string;
-};
 export declare type ED25519PublicKey = string | null;
 export declare type ED25519Signature = string | null;
-export declare type ED25519SignatureInfo = {
-    sig: ED25519Signature;
-    publicKey: ED25519PublicKey;
-};
 export declare type EncryptedBytes32 = string | null;
 export declare type BoxNonce = string | null;
 export declare type BoxPublicKey = string | null;
-export declare type CiphertextBundle = {
-    kid: KID;
-    ciphertext: EncryptedBytes32;
-    nonce: BoxNonce;
-    publicKey: BoxPublicKey;
-};
-export declare type UnboxAnyRes = {
-    kid: KID;
-    plaintext: Bytes32;
-    index: number;
-};
 export declare type RegisterAddressRes = {
     type: string;
     family: string;
@@ -859,139 +512,15 @@ export declare enum DbType {
     FS_SYNC_BLOCK_CACHE = "fs_sync_block_cache",
     FS_SYNC_BLOCK_CACHE_META = "fs_sync_block_cache_meta"
 }
-export declare type DbKey = {
-    dbType: DbType;
-    objType: number;
-    key: string;
-};
 export declare type DbValue = Buffer;
 export declare type FirstStepResult = {
     valPlusTwo: number;
 };
-export declare type DeviceDetail = {
-    device: Device;
-    eldest: boolean;
-    provisioner?: Device;
-    provisionedAt?: Time;
-    revokedAt?: Time;
-    revokedBy: KID;
-    revokedByDevice?: Device;
-    currentDevice: boolean;
-};
-export declare type EmailLookupResult = {
-    email: EmailAddress;
-    uid?: UID;
-};
-export declare type EmailAddressVerifiedMsg = {
-    email: EmailAddress;
-};
-export declare type EmailAddressChangedMsg = {
-    email: EmailAddress;
-};
-export declare type EkGeneration = never;
-export declare type DeviceEkMetadata = {
-    deviceEphemeralDhPublic: KID;
-    hashMeta: HashMeta;
-    generation: EkGeneration;
-    ctime: Time;
-    deviceCtime: Time;
-};
-export declare type DeviceEkStatement = {
-    currentDeviceEkMetadata: DeviceEkMetadata;
-};
-export declare type DeviceEk = {
-    seed: Bytes32;
-    metadata: DeviceEkMetadata;
-};
-export declare type UserEkStatement = {
-    currentUserEkMetadata: UserEkMetadata;
-};
-export declare type UserEkMetadata = {
-    userEphemeralDhPublic: KID;
-    hashMeta: HashMeta;
-    generation: EkGeneration;
-    ctime: Time;
-};
-export declare type UserEkBoxed = {
-    box: string;
-    deviceEkGeneration: EkGeneration;
-    metadata: UserEkMetadata;
-};
-export declare type UserEkBoxMetadata = {
-    box: string;
-    recipientGeneration: EkGeneration;
-    recipientDeviceId: DeviceID;
-};
-export declare type UserEk = {
-    seed: Bytes32;
-    metadata: UserEkMetadata;
-};
-export declare type UserEkReboxArg = {
-    userEkBoxMetadata: UserEkBoxMetadata;
-    deviceId: DeviceID;
-    deviceEkStatementSig: string;
-};
-export declare type TeamEkMetadata = {
-    teamEphemeralDhPublic: KID;
-    hashMeta: HashMeta;
-    generation: EkGeneration;
-    ctime: Time;
-};
-export declare type TeamEkStatement = {
-    currentTeamEkMetadata: TeamEkMetadata;
-};
-export declare type TeamEkBoxed = {
-    box: string;
-    userEkGeneration: EkGeneration;
-    metadata: TeamEkMetadata;
-};
-export declare type TeamEkBoxMetadata = {
-    box: string;
-    recipientGeneration: EkGeneration;
-    recipientUid: UID;
-};
-export declare type TeamEk = {
-    seed: Bytes32;
-    metadata: TeamEkMetadata;
-};
-export declare type TeambotEkMetadata = {
-    teambotDhPublic: KID;
-    generation: EkGeneration;
-    uid: UID;
-    userEkGeneration: EkGeneration;
-    hashMeta: HashMeta;
-    ctime: Time;
-};
-export declare type TeambotEkBoxed = {
-    box: string;
-    metadata: TeambotEkMetadata;
-};
-export declare type TeambotEk = {
-    seed: Bytes32;
-    metadata: TeambotEkMetadata;
-};
+export declare type EkGeneration = number;
 export declare enum TeamEphemeralKeyType {
     TEAM = "team",
     TEAMBOT = "teambot"
 }
-export declare type TeamEphemeralKey = {
-    keyType: TeamEphemeralKeyType.TEAM;
-    TEAM: TeamEk | null;
-} | {
-    keyType: TeamEphemeralKeyType.TEAMBOT;
-    TEAMBOT: TeambotEk | null;
-} | {
-    keyType: Exclude<TeamEphemeralKeyType, TeamEphemeralKeyType.TEAM | TeamEphemeralKeyType.TEAMBOT>;
-};
-export declare type TeamEphemeralKeyBoxed = {
-    keyType: TeamEphemeralKeyType.TEAM;
-    TEAM: TeamEkBoxed | null;
-} | {
-    keyType: TeamEphemeralKeyType.TEAMBOT;
-    TEAMBOT: TeambotEkBoxed | null;
-} | {
-    keyType: Exclude<TeamEphemeralKeyType, TeamEphemeralKeyType.TEAM | TeamEphemeralKeyType.TEAMBOT>;
-};
 export declare enum FolderType {
     UNKNOWN = "unknown",
     PRIVATE = "private",
@@ -1008,138 +537,25 @@ export declare enum ConflictStateType {
     NormalView = "normalview",
     ManualResolvingLocalView = "manualresolvinglocalview"
 }
-export declare type FolderNormalView = {
-    resolvingConflict: boolean;
-    stuckInConflict: boolean;
-    localViews: Path[] | null;
-};
-export declare type FolderConflictManualResolvingLocalView = {
-    normalView: Path;
-};
-export declare type ConflictState = {
-    conflictStateType: ConflictStateType.NormalView;
-    NormalView: FolderNormalView | null;
-} | {
-    conflictStateType: ConflictStateType.ManualResolvingLocalView;
-    ManualResolvingLocalView: FolderConflictManualResolvingLocalView | null;
-} | {
-    conflictStateType: Exclude<ConflictStateType, ConflictStateType.NormalView | ConflictStateType.ManualResolvingLocalView>;
-};
-/**
- * Folder represents a favorite top-level folder in kbfs.
- *     This type is likely to change significantly as all the various parts are
- *     connected and tested.
- */
-export declare type Folder = {
-    name: string;
-    private: boolean;
-    created: boolean;
-    folderType: FolderType;
-    teamId?: TeamID;
-    resetMembers: User[] | null;
-    mtime?: Time;
-    conflictState?: ConflictState;
-    syncConfig?: FolderSyncConfig;
-};
-export declare type FolderHandle = {
-    name: string;
-    folderType: FolderType;
-    created: boolean;
-};
-export declare type FavoritesResult = {
-    favoriteFolders: Folder[] | null;
-    ignoredFolders: Folder[] | null;
-    newFolders: Folder[] | null;
-};
 export declare type File = {
     path: string;
-};
-export declare type ListResult = {
-    files: File[] | null;
-};
-export declare type EncryptedGitMetadata = {
-    v: number;
-    e: Buffer;
-    n: BoxNonce;
-    gen: PerTeamKeyGeneration;
 };
 export declare type RepoID = string;
 export declare enum GitLocalMetadataVersion {
     V1 = "v1"
 }
-export declare type GitLocalMetadataV1 = {
-    repoName: GitRepoName;
-};
-export declare type GitLocalMetadataVersioned = {
-    version: GitLocalMetadataVersion.V1;
-    V1: GitLocalMetadataV1 | null;
-} | {
-    version: Exclude<GitLocalMetadataVersion, GitLocalMetadataVersion.V1>;
-};
-export declare type GitCommit = {
-    commitHash: string;
-    message: string;
-    authorName: string;
-    authorEmail: string;
-    ctime: Time;
-};
 export declare enum GitPushType {
     DEFAULT = "default",
     CREATEREPO = "createrepo",
     RENAMEREPO = "renamerepo"
 }
-export declare type GitRefMetadata = {
-    refName: string;
-    commits: GitCommit[] | null;
-    moreCommitsAvailable: boolean;
-    isDelete: boolean;
-};
-export declare type GitLocalMetadata = {
-    repoName: GitRepoName;
-    refs: GitRefMetadata[] | null;
-    pushType: GitPushType;
-    previousRepoName: GitRepoName;
-};
-export declare type GitServerMetadata = {
-    ctime: Time;
-    mtime: Time;
-    lastModifyingUsername: string;
-    lastModifyingDeviceId: DeviceID;
-    lastModifyingDeviceName: string;
-};
 export declare enum GitRepoResultState {
     ERR = "err",
     OK = "ok"
 }
-export declare type GitRepoResult = {
-    state: GitRepoResultState.ERR;
-    ERR: string | null;
-} | {
-    state: GitRepoResultState.OK;
-    OK: GitRepoInfo | null;
-} | {
-    state: Exclude<GitRepoResultState, GitRepoResultState.ERR | GitRepoResultState.OK>;
-};
-export declare type GitRepoInfo = {
-    folder: FolderHandle;
-    repoId: RepoID;
-    localMetadata: GitLocalMetadata;
-    serverMetadata: GitServerMetadata;
-    repoUrl: string;
-    globalUniqueId: string;
-    canDelete: boolean;
-    teamRepoSettings?: GitTeamRepoSettings;
-};
 export declare type GitTeamRepoSettings = {
     channelName?: string;
     chatDisabled: boolean;
-};
-export declare type GPGKey = {
-    algorithm: string;
-    keyId: string;
-    creation: string;
-    expiration: string;
-    identities: PGPIdentity[] | null;
 };
 export declare type SelectKeyRes = {
     keyId: string;
@@ -1156,24 +572,6 @@ export declare enum HomeScreenItemType {
     PEOPLE = "people",
     ANNOUNCEMENT = "announcement"
 }
-export declare type HomeScreenItemData = {
-    t: HomeScreenItemType.TODO;
-    TODO: HomeScreenTodo | null;
-} | {
-    t: HomeScreenItemType.PEOPLE;
-    PEOPLE: HomeScreenPeopleNotification | null;
-} | {
-    t: HomeScreenItemType.ANNOUNCEMENT;
-    ANNOUNCEMENT: HomeScreenAnnouncement | null;
-} | {
-    t: Exclude<HomeScreenItemType, HomeScreenItemType.TODO | HomeScreenItemType.PEOPLE | HomeScreenItemType.ANNOUNCEMENT>;
-};
-export declare type HomeScreenItemDataExt = {
-    t: HomeScreenItemType.TODO;
-    TODO: HomeScreenTodoExt | null;
-} | {
-    t: Exclude<HomeScreenItemType, HomeScreenItemType.TODO>;
-};
 export declare enum AppLinkType {
     NONE = "none",
     PEOPLE = "people",
@@ -1187,16 +585,6 @@ export declare enum AppLinkType {
 }
 export declare type HomeScreenAnnouncementID = number;
 export declare type HomeScreenAnnouncementVersion = number;
-export declare type HomeScreenAnnouncement = {
-    id: HomeScreenAnnouncementID;
-    version: HomeScreenAnnouncementVersion;
-    appLink: AppLinkType;
-    confirmLabel: string;
-    dismissable: boolean;
-    iconUrl: string;
-    text: string;
-    url: string;
-};
 export declare enum HomeScreenTodoType {
     NONE = "none",
     BIO = "bio",
@@ -1218,114 +606,16 @@ export declare enum HomeScreenTodoType {
     ADD_EMAIL = "add_email",
     ANNONCEMENT_PLACEHOLDER = "annoncement_placeholder"
 }
-/**
- * Most of TODO items do not carry additional data, but some do. e.g. TODO
- *     item to tell user to verify their email address will carry that email
- *     address.
- *
- *     All new TODO data bundle types should be records rather than single fields
- *     to support adding new data to existing TODOs. If a legacy TODO (such as
- *     VERIFY_ALL_EMAIL) uses a single field, the "TodoExt" field should be used to
- *     introduce more data to the payload.
- */
-export declare type HomeScreenTodo = {
-    t: HomeScreenTodoType.VERIFY_ALL_PHONE_NUMBER;
-    VERIFY_ALL_PHONE_NUMBER: PhoneNumber | null;
-} | {
-    t: HomeScreenTodoType.VERIFY_ALL_EMAIL;
-    VERIFY_ALL_EMAIL: EmailAddress | null;
-} | {
-    t: HomeScreenTodoType.LEGACY_EMAIL_VISIBILITY;
-    LEGACY_EMAIL_VISIBILITY: EmailAddress | null;
-} | {
-    t: Exclude<HomeScreenTodoType, HomeScreenTodoType.VERIFY_ALL_PHONE_NUMBER | HomeScreenTodoType.VERIFY_ALL_EMAIL | HomeScreenTodoType.LEGACY_EMAIL_VISIBILITY>;
-};
-export declare type HomeScreenTodoExt = {
-    t: HomeScreenTodoType.VERIFY_ALL_EMAIL;
-    VERIFY_ALL_EMAIL: VerifyAllEmailTodoExt | null;
-} | {
-    t: Exclude<HomeScreenTodoType, HomeScreenTodoType.VERIFY_ALL_EMAIL>;
-};
-export declare type VerifyAllEmailTodoExt = {
-    lastVerifyEmailDate: UnixTime;
-};
 export declare enum HomeScreenPeopleNotificationType {
     FOLLOWED = "followed",
-    FOLLOWED_MULTI = "followed_multi"
+    FOLLOWED_MULTI = "followed_multi",
+    CONTACT = "contact",
+    CONTACT_MULTI = "contact_multi"
 }
-export declare type HomeScreenPeopleNotificationFollowed = {
-    followTime: Time;
-    followedBack: boolean;
-    user: UserSummary;
-};
-export declare type HomeScreenPeopleNotificationFollowedMulti = {
-    followers: HomeScreenPeopleNotificationFollowed[] | null;
-    numOthers: number;
-};
-export declare type HomeScreenPeopleNotification = {
-    t: HomeScreenPeopleNotificationType.FOLLOWED;
-    FOLLOWED: HomeScreenPeopleNotificationFollowed | null;
-} | {
-    t: HomeScreenPeopleNotificationType.FOLLOWED_MULTI;
-    FOLLOWED_MULTI: HomeScreenPeopleNotificationFollowedMulti | null;
-} | {
-    t: Exclude<HomeScreenPeopleNotificationType, HomeScreenPeopleNotificationType.FOLLOWED | HomeScreenPeopleNotificationType.FOLLOWED_MULTI>;
-};
-export declare type HomeScreenItem = {
-    badged: boolean;
-    data: HomeScreenItemData;
-    dataExt: HomeScreenItemDataExt;
-};
 export declare type Pics = {
     square40: string;
     square200: string;
     square360: string;
-};
-export declare type HomeUserSummary = {
-    uid: UID;
-    username: string;
-    bio: string;
-    fullName: string;
-    pics?: Pics;
-};
-export declare type HomeScreen = {
-    lastViewed: Time;
-    version: number;
-    visits: number;
-    items: HomeScreenItem[] | null;
-    followSuggestions: HomeUserSummary[] | null;
-    announcementsVersion: number;
-};
-export declare type IdentifyProofBreak = {
-    remoteProof: RemoteProof;
-    lcr: LinkCheckResult;
-};
-export declare type IdentifyTrackBreaks = {
-    keys: IdentifyKey[] | null;
-    proofs: IdentifyProofBreak[] | null;
-};
-export declare type Identify2Res = {
-    upk: UserPlusKeys;
-    identifiedAt: Time;
-    trackBreaks?: IdentifyTrackBreaks;
-};
-export declare type Identify2ResUPK2 = {
-    upk: UserPlusKeysV2AllIncarnations;
-    identifiedAt: Time;
-    trackBreaks?: IdentifyTrackBreaks;
-};
-export declare type IdentifyLiteRes = {
-    ul: UserOrTeamLite;
-    trackBreaks?: IdentifyTrackBreaks;
-};
-export declare type ResolveIdentifyImplicitTeamRes = {
-    displayName: string;
-    teamId: TeamID;
-    writers: UserVersion[] | null;
-    trackBreaks: {
-        [key: string]: IdentifyTrackBreaks;
-    };
-    folderId: TLFID;
 };
 export declare type Identify3Assertion = string;
 export declare type Identify3GUIID = string;
@@ -1351,26 +641,6 @@ export declare enum Identify3ResultType {
     NEEDS_UPGRADE = "needs_upgrade",
     CANCELED = "canceled"
 }
-export declare type Identify3RowMeta = {
-    color: Identify3RowColor;
-    label: string;
-};
-export declare type Identify3Row = {
-    guiId: Identify3GUIID;
-    key: string;
-    value: string;
-    priority: number;
-    siteUrl: string;
-    siteIcon: SizedImage[] | null;
-    siteIconFull: SizedImage[] | null;
-    proofUrl: string;
-    sigId: SigID;
-    ctime: Time;
-    state: Identify3RowState;
-    metas: Identify3RowMeta[] | null;
-    color: Identify3RowColor;
-    kid?: KID;
-};
 export declare type TrackToken = string;
 export declare type SigVersion = number;
 export declare enum TrackDiffType {
@@ -1386,15 +656,6 @@ export declare enum TrackDiffType {
     NEW_ELDEST = "new_eldest",
     NONE_VIA_TEMPORARY = "none_via_temporary"
 }
-export declare type TrackDiff = {
-    type: TrackDiffType;
-    displayMarkup: string;
-};
-export declare type TrackSummary = {
-    username: string;
-    time: Time;
-    isRemote: boolean;
-};
 /**
  * TrackStatus is a summary of this track before the track is approved by the
  *     user.
@@ -1416,14 +677,6 @@ export declare enum TrackStatus {
     UPDATE_OK = "update_ok",
     UPDATE_BROKEN_REVOKED = "update_broken_revoked"
 }
-export declare type TrackOptions = {
-    localOnly: boolean;
-    bypassConfirm: boolean;
-    forceRetrack: boolean;
-    expiringLocal: boolean;
-    forPgpPull: boolean;
-    sigVersion?: SigVersion;
-};
 export declare enum IdentifyReasonType {
     NONE = "none",
     ID = "id",
@@ -1434,79 +687,6 @@ export declare enum IdentifyReasonType {
     RESOURCE = "resource",
     BACKGROUND = "background"
 }
-export declare type IdentifyReason = {
-    type: IdentifyReasonType;
-    reason: string;
-    resource: string;
-};
-export declare type IdentifyOutcome = {
-    username: string;
-    status?: Status;
-    warnings: string[] | null;
-    trackUsed?: TrackSummary;
-    trackStatus: TrackStatus;
-    numTrackFailures: number;
-    numTrackChanges: number;
-    numProofFailures: number;
-    numRevoked: number;
-    numProofSuccesses: number;
-    revoked: TrackDiff[] | null;
-    trackOptions: TrackOptions;
-    forPgpPull: boolean;
-    reason: IdentifyReason;
-};
-export declare type RemoteProof = {
-    proofType: ProofType;
-    key: string;
-    value: string;
-    displayMarkup: string;
-    sigId: SigID;
-    mTime: Time;
-};
-export declare type ProofResult = {
-    state: ProofState;
-    status: ProofStatus;
-    desc: string;
-};
-export declare type IdentifyRow = {
-    rowId: number;
-    proof: RemoteProof;
-    trackDiff?: TrackDiff;
-};
-export declare type IdentifyKey = {
-    pgpFingerprint: Buffer;
-    kid: KID;
-    trackDiff?: TrackDiff;
-    breaksTracking: boolean;
-    sigId: SigID;
-};
-export declare type Cryptocurrency = {
-    rowId: number;
-    pkhash: Buffer;
-    address: string;
-    sigId: SigID;
-    type: string;
-    family: string;
-};
-export declare type StellarAccount = {
-    accountId: string;
-    federationAddress: string;
-    sigId: SigID;
-};
-export declare type RevokedProof = {
-    proof: RemoteProof;
-    diff: TrackDiff;
-    snoozed: boolean;
-};
-export declare type Identity = {
-    status?: Status;
-    whenLastTracked: Time;
-    proofs: IdentifyRow[] | null;
-    cryptocurrency: Cryptocurrency[] | null;
-    revoked: TrackDiff[] | null;
-    revokedDetails: RevokedProof[] | null;
-    breaksTracking: boolean;
-};
 export declare type SigHint = {
     remoteId: string;
     humanUrl: string;
@@ -1518,47 +698,6 @@ export declare enum CheckResultFreshness {
     AGED = "aged",
     RANCID = "rancid"
 }
-export declare type CheckResult = {
-    proofResult: ProofResult;
-    time: Time;
-    freshness: CheckResultFreshness;
-};
-export declare type LinkCheckResult = {
-    proofId: number;
-    proofResult: ProofResult;
-    snoozedResult: ProofResult;
-    torWarning: boolean;
-    tmpTrackExpireTime: Time;
-    cached?: CheckResult;
-    diff?: TrackDiff;
-    remoteDiff?: TrackDiff;
-    hint?: SigHint;
-    breaksTracking: boolean;
-};
-export declare type UserTeamShowcase = {
-    fqName: string;
-    open: boolean;
-    teamIsShowcased: boolean;
-    description: string;
-    role: TeamRole;
-    publicAdmins: string[] | null;
-    numMembers: number;
-};
-export declare type UserCard = {
-    following: number;
-    followers: number;
-    uid: UID;
-    fullName: string;
-    location: string;
-    bio: string;
-    website: string;
-    twitter: string;
-    youFollowThem: boolean;
-    theyFollowYou: boolean;
-    teamShowcase: UserTeamShowcase[] | null;
-    registeredForAirdrop: boolean;
-    blocked: boolean;
-};
 export declare type ConfirmResult = {
     identityConfirmed: boolean;
     remoteConfirmed: boolean;
@@ -1569,11 +708,6 @@ export declare enum DismissReasonType {
     NONE = "none",
     HANDLED_ELSEWHERE = "handled_elsewhere"
 }
-export declare type DismissReason = {
-    type: DismissReasonType;
-    reason: string;
-    resource: string;
-};
 /**
  * Install status describes state of install for a component or service.
  */
@@ -1590,53 +724,10 @@ export declare enum InstallAction {
     REINSTALL = "reinstall",
     INSTALL = "install"
 }
-export declare type ServiceStatus = {
-    version: string;
-    label: string;
-    pid: string;
-    lastExitStatus: string;
-    bundleVersion: string;
-    installStatus: InstallStatus;
-    installAction: InstallAction;
-    status: Status;
-};
-export declare type ServicesStatus = {
-    service: ServiceStatus[] | null;
-    kbfs: ServiceStatus[] | null;
-    updater: ServiceStatus[] | null;
-};
 export declare type FuseMountInfo = {
     path: string;
     fstype: string;
     output: string;
-};
-export declare type FuseStatus = {
-    version: string;
-    bundleVersion: string;
-    kextId: string;
-    path: string;
-    kextStarted: boolean;
-    installStatus: InstallStatus;
-    installAction: InstallAction;
-    mountInfos: FuseMountInfo[] | null;
-    status: Status;
-};
-export declare type ComponentResult = {
-    name: string;
-    status: Status;
-    exitCode: number;
-};
-export declare type InstallResult = {
-    componentResults: ComponentResult[] | null;
-    status: Status;
-    fatal: boolean;
-};
-export declare type UninstallResult = {
-    componentResults: ComponentResult[] | null;
-    status: Status;
-};
-export declare type KBFSTeamSettings = {
-    tlfId: TLFID;
 };
 export declare enum FSStatusCode {
     START = "start",
@@ -1677,66 +768,8 @@ export declare enum FSErrorType {
     OFFLINE_ARCHIVED = "offline_archived",
     OFFLINE_UNSYNCED = "offline_unsynced"
 }
-export declare type FSNotification = {
-    filename: string;
-    status: string;
-    statusCode: FSStatusCode;
-    notificationType: FSNotificationType;
-    errorType: FSErrorType;
-    params: {
-        [key: string]: string;
-    };
-    writerUid: UID;
-    localTime: Time;
-    folderType: FolderType;
-};
-export declare type FSEditListRequest = {
-    folder: Folder;
-    requestId: number;
-};
-export declare type FSFolderWriterEdit = {
-    filename: string;
-    notificationType: FSNotificationType;
-    serverTime: Time;
-};
-export declare type FSFolderWriterEditHistory = {
-    writerName: string;
-    edits: FSFolderWriterEdit[] | null;
-    deletes: FSFolderWriterEdit[] | null;
-};
-export declare type FSFolderEditHistory = {
-    folder: Folder;
-    serverTime: Time;
-    history: FSFolderWriterEditHistory[] | null;
-};
 export declare type FSSyncStatusRequest = {
     requestId: number;
-};
-export declare type FSPathSyncStatus = {
-    folderType: FolderType;
-    path: string;
-    syncingBytes: never;
-    syncingOps: never;
-    syncedBytes: never;
-};
-export declare type FSSyncStatus = {
-    totalSyncingBytes: never;
-    syncingPaths: string[] | null;
-    endEstimate?: Time;
-};
-export declare type FolderSyncStatus = {
-    localDiskBytesAvailable: never;
-    localDiskBytesTotal: never;
-    prefetchStatus: PrefetchStatus;
-    prefetchProgress: PrefetchProgress;
-    storedBytesTotal: never;
-    outOfSyncSpace: boolean;
-};
-export declare type GcOptions = {
-    maxLooseRefs: number;
-    pruneMinLooseObjects: number;
-    pruneExpireTime: Time;
-    maxObjectPacks: number;
 };
 export declare type PassphraseStream = {
     passphraseStream: Buffer;
@@ -1745,22 +778,6 @@ export declare type PassphraseStream = {
 export declare type SessionToken = string;
 export declare type CsrfToken = string;
 export declare type HelloRes = string;
-export declare type Hello2Res = {
-    encryptionKey: KID;
-    sigPayload: HelloRes;
-    deviceEkKid: KID;
-};
-export declare type PerUserKeyBox = {
-    generation: PerUserKeyGeneration;
-    box: string;
-    receiverKid: KID;
-};
-export declare type ConfiguredAccount = {
-    username: string;
-    fullname: FullName;
-    hasStoredSecret: boolean;
-    isCurrent: boolean;
-};
 export declare enum ResetPromptType {
     COMPLETE = "complete",
     ENTER_NO_DEVICES = "enter_no_devices",
@@ -1769,76 +786,26 @@ export declare enum ResetPromptType {
 export declare enum PassphraseRecoveryPromptType {
     ENCRYPTED_PGP_KEYS = "encrypted_pgp_keys"
 }
-export declare type MerkleRootAndTime = {
-    root: MerkleRootV2;
-    updateTime: Time;
-    fetchTime: Time;
-};
 export declare type KBFSRootHash = Buffer;
-export declare type KBFSRoot = {
-    treeId: MerkleTreeID;
-    root: KBFSRootHash;
-};
 export declare type MerkleStoreSupportedVersion = number;
 export declare type MerkleStoreKitHash = string;
 export declare type MerkleStoreKit = string;
 export declare type MerkleStoreEntryString = string;
-export declare type MerkleStoreEntry = {
-    hash: MerkleStoreKitHash;
-    entry: MerkleStoreEntryString;
-};
-export declare type KeyHalf = {
-    user: UID;
-    deviceKid: KID;
-    key: Buffer;
-};
-export declare type MDBlock = {
-    version: number;
-    timestamp: Time;
-    block: Buffer;
-};
 export declare type KeyBundle = {
     version: number;
     bundle: Buffer;
-};
-export declare type MetadataResponse = {
-    folderId: string;
-    mdBlocks: MDBlock[] | null;
 };
 export declare type MerkleRoot = {
     version: number;
     root: Buffer;
 };
-export declare type PingResponse = {
-    timestamp: Time;
-};
-export declare type KeyBundleResponse = {
-    writerBundle: KeyBundle;
-    readerBundle: KeyBundle;
-};
-export declare type LockID = never;
+export declare type LockID = number;
 export declare type MDPriority = number;
-export declare type LockContext = {
-    requireLockId: LockID;
-    releaseAfterSuccess: boolean;
-};
-export declare type FindNextMDResponse = {
-    kbfsRoot: MerkleRoot;
-    merkleNodes: Buffer[] | null;
-    rootSeqno: Seqno;
-    rootHash: HashMeta;
-};
 export declare type RekeyRequest = {
     folderId: string;
-    revision: never;
+    revision: number;
 };
 export declare type ChatConversationID = Buffer;
-export declare type TeamMemberOutReset = {
-    teamname: string;
-    username: string;
-    uid: UID;
-    id: gregor1.MsgID;
-};
 export declare type DeletedTeamInfo = {
     teamName: string;
     deletedBy: string;
@@ -1847,36 +814,6 @@ export declare type DeletedTeamInfo = {
 export declare type WalletAccountInfo = {
     accountId: string;
     numUnread: number;
-};
-export declare type ResetState = {
-    endTime: Time;
-    active: boolean;
-};
-export declare type BadgeState = {
-    newTlfs: number;
-    rekeysNeeded: number;
-    newFollowers: number;
-    inboxVers: number;
-    homeTodoItems: number;
-    unverifiedEmails: number;
-    unverifiedPhones: number;
-    newDevices: DeviceID[] | null;
-    revokedDevices: DeviceID[] | null;
-    conversations: BadgeConversationInfo[] | null;
-    newGitRepoGlobalUniqueIDs: string[] | null;
-    newTeamNames: string[] | null;
-    deletedTeams: DeletedTeamInfo[] | null;
-    newTeamAccessRequests: string[] | null;
-    teamsWithResetUsers: TeamMemberOutReset[] | null;
-    unreadWalletAccounts: WalletAccountInfo[] | null;
-    resetState: ResetState;
-};
-export declare type BadgeConversationInfo = {
-    convId: ChatConversationID;
-    badgeCounts: {
-        [key: string]: number;
-    };
-    unreadMessages: number;
 };
 export declare type NotificationChannels = {
     session: boolean;
@@ -1912,33 +849,10 @@ export declare enum StatsSeverityLevel {
     WARNING = "warning",
     SEVERE = "severe"
 }
-export declare type DbStats = {
-    type: DbType;
-    memCompActive: boolean;
-    tableCompActive: boolean;
-};
 export declare enum ProcessType {
     MAIN = "main",
     KBFS = "kbfs"
 }
-export declare type ProcessRuntimeStats = {
-    type: ProcessType;
-    cpu: string;
-    resident: string;
-    virt: string;
-    free: string;
-    goheap: string;
-    goheapsys: string;
-    goreleased: string;
-    cpuSeverity: StatsSeverityLevel;
-    residentSeverity: StatsSeverityLevel;
-};
-export declare type RuntimeStats = {
-    processStats: ProcessRuntimeStats[] | null;
-    dbStats: DbStats[] | null;
-    convLoaderActive: boolean;
-    selectiveSyncActive: boolean;
-};
 export declare type HttpSrvInfo = {
     address: string;
     token: string;
@@ -1966,25 +880,12 @@ export declare type Feature = {
     readonly: boolean;
     label: string;
 };
-export declare type GUIEntryFeatures = {
-    showTyping: Feature;
-};
 export declare enum PassphraseType {
     NONE = "none",
     PAPER_KEY = "paper_key",
     PASS_PHRASE = "pass_phrase",
     VERIFY_PASS_PHRASE = "verify_pass_phrase"
 }
-export declare type GUIEntryArg = {
-    windowTitle: string;
-    prompt: string;
-    username: string;
-    submitLabel: string;
-    cancelLabel: string;
-    retryLabel: string;
-    type: PassphraseType;
-    features: GUIEntryFeatures;
-};
 export declare type GetPassphraseRes = {
     passphrase: string;
     storeSecret: boolean;
@@ -1994,29 +895,12 @@ export declare enum SignMode {
     DETACHED = "detached",
     CLEAR = "clear"
 }
-export declare type PGPSignOptions = {
-    keyQuery: string;
-    mode: SignMode;
-    binaryIn: boolean;
-    binaryOut: boolean;
-};
 export declare type PGPEncryptOptions = {
     recipients: string[] | null;
     noSign: boolean;
     noSelf: boolean;
     binaryOut: boolean;
     keyQuery: string;
-};
-/**
- * PGPSigVerification is returned by pgpDecrypt and pgpVerify with information
- *     about the signature verification. If isSigned is false, there was no
- *     signature, and the rest of the fields should be ignored.
- */
-export declare type PGPSigVerification = {
-    isSigned: boolean;
-    verified: boolean;
-    signer: User;
-    signKey: PublicKey;
 };
 export declare type PGPDecryptOptions = {
     assertSigned: boolean;
@@ -2036,58 +920,17 @@ export declare type PGPQuery = {
     query: string;
     exactMatch: boolean;
 };
-export declare type PGPCreateUids = {
-    useDefault: boolean;
-    ids: PGPIdentity[] | null;
-};
 /**
  * Export all pgp keys in lksec, then if doPurge is true, remove the keys from lksec.
  */
 export declare type PGPPurgeRes = {
     filenames: string[] | null;
 };
-/**
- * Phone number support for TOFU chats.
- */
-export declare type UserPhoneNumber = {
-    phoneNumber: PhoneNumber;
-    verified: boolean;
-    superseded: boolean;
-    visibility: IdentityVisibility;
-    ctime: UnixTime;
-};
-export declare type PhoneNumberLookupResult = {
-    phoneNumber: RawPhoneNumber;
-    coercedPhoneNumber: PhoneNumber;
-    err?: string;
-    uid?: UID;
-};
-export declare type PhoneNumberChangedMsg = {
-    phone: PhoneNumber;
-};
 export declare enum FileType {
     UNKNOWN = "unknown",
     DIRECTORY = "directory",
     FILE = "file"
 }
-export declare type FileDescriptor = {
-    name: string;
-    type: FileType;
-};
-export declare type Process = {
-    pid: string;
-    command: string;
-    fileDescriptors: FileDescriptor[] | null;
-};
-export declare type CheckProofStatus = {
-    found: boolean;
-    status: ProofStatus;
-    proofText: string;
-    state: ProofState;
-};
-export declare type StartProofResult = {
-    sigId: SigID;
-};
 export declare enum ProofState {
     NONE = "none",
     OK = "ok",
@@ -2175,10 +1018,6 @@ export declare type SelectorEntry = {
     isAll: boolean;
     isContents: boolean;
 };
-export declare type ParamProofJSON = {
-    sigHash: SigID;
-    kbUsername: string;
-};
 export declare type ParamProofUsernameConfig = {
     re: string;
     min: number;
@@ -2188,20 +1027,6 @@ export declare type ParamProofLogoConfig = {
     svgBlack: string;
     svgFull: string;
 };
-export declare type ParamProofServiceConfig = {
-    version: number;
-    domain: string;
-    displayName: string;
-    logo?: ParamProofLogoConfig;
-    description: string;
-    username: ParamProofUsernameConfig;
-    brandColor: string;
-    prefillUrl: string;
-    profileUrl: string;
-    checkUrl: string;
-    checkPath: SelectorEntry[] | null;
-    avatarPath: SelectorEntry[] | null;
-};
 export declare type ServiceDisplayConfig = {
     creationDisabled: boolean;
     priority: number;
@@ -2210,23 +1035,10 @@ export declare type ServiceDisplayConfig = {
     new: boolean;
     logoKey: string;
 };
-export declare type ExternalServiceConfig = {
-    schemaVersion: number;
-    display?: ServiceDisplayConfig;
-    config?: ParamProofServiceConfig;
-};
 export declare enum PromptOverwriteType {
     SOCIAL = "social",
     SITE = "site"
 }
-export declare type ProveParameters = {
-    logoFull: SizedImage[] | null;
-    logoBlack: SizedImage[] | null;
-    title: string;
-    subtext: string;
-    suffix: string;
-    buttonLabel: string;
-};
 export declare enum ProvisionMethod {
     DEVICE = "device",
     PAPER_KEY = "paper_key",
@@ -2250,55 +1062,16 @@ export declare type SecretResponse = {
     secret: Buffer;
     phrase: string;
 };
-export declare type VerifySessionRes = {
-    uid: UID;
-    sid: string;
-    generated: number;
-    lifetime: number;
-};
 export declare enum Reachable {
     UNKNOWN = "unknown",
     YES = "yes",
     NO = "no"
 }
-export declare type Reachability = {
-    reachable: Reachable;
-};
-export declare type TLF = {
-    id: TLFID;
-    name: string;
-    writers: string[] | null;
-    readers: string[] | null;
-    isPrivate: boolean;
-};
-export declare type ProblemTLF = {
-    tlf: TLF;
-    score: number;
-    solutionKids: KID[] | null;
-};
-/**
- * ProblemSet is for a particular (user,kid) that initiated a rekey problem.
- *    This problem consists of one or more problem TLFs, which are individually scored
- *    and have attendant solutions --- devices that if they came online can rekey and
- *    solve the ProblemTLF.
- */
-export declare type ProblemSet = {
-    user: User;
-    kid: KID;
-    tlfs: ProblemTLF[] | null;
-};
-export declare type ProblemSetDevices = {
-    problemSet: ProblemSet;
-    devices: Device[] | null;
-};
 export declare enum Outcome {
     NONE = "none",
     FIXED = "fixed",
     IGNORED = "ignored"
 }
-export declare type RevokeWarning = {
-    endangeredTlFs: TLF[] | null;
-};
 export declare enum RekeyEventType {
     NONE = "none",
     NOT_LOGGED_IN = "not_logged_in",
@@ -2310,57 +1083,17 @@ export declare enum RekeyEventType {
     HARASS = "harass",
     NO_GREGOR_MESSAGES = "no_gregor_messages"
 }
-export declare type RekeyEvent = {
-    eventType: RekeyEventType;
-    interruptType: number;
-};
 export declare type SHA512 = Buffer;
 export declare enum ResetType {
     NONE = "none",
     RESET = "reset",
     DELETE = "delete"
 }
-export declare type ResetMerkleRoot = {
-    hashMeta: HashMeta;
-    seqno: Seqno;
-};
-export declare type ResetPrev = {
-    eldestKid?: KID;
-    publicSeqno: Seqno;
-    reset: SHA512;
-};
-export declare type ResetLink = {
-    ctime: UnixTime;
-    merkleRoot: ResetMerkleRoot;
-    prev: ResetPrev;
-    resetSeqno: Seqno;
-    type: ResetType;
-    uid: UID;
-};
-export declare type ResetSummary = {
-    ctime: UnixTime;
-    merkleRoot: ResetMerkleRoot;
-    resetSeqno: Seqno;
-    eldestSeqno: Seqno;
-    type: ResetType;
-};
 export declare enum AuthenticityType {
     SIGNED = "signed",
     REPUDIABLE = "repudiable",
     ANONYMOUS = "anonymous"
 }
-export declare type SaltpackEncryptOptions = {
-    recipients: string[] | null;
-    teamRecipients: string[] | null;
-    authenticityType: AuthenticityType;
-    useEntityKeys: boolean;
-    useDeviceKeys: boolean;
-    usePaperKeys: boolean;
-    noSelfEncrypt: boolean;
-    binary: boolean;
-    saltpackVersion: number;
-    useKbfsKeysOnlyForTesting: boolean;
-};
 export declare type SaltpackDecryptOptions = {
     interactive: boolean;
     forceRemoteCheck: boolean;
@@ -2375,12 +1108,6 @@ export declare type SaltpackVerifyOptions = {
     signedBy: string;
     signature: Buffer;
 };
-export declare type SaltpackEncryptedMessageInfo = {
-    devices: Device[] | null;
-    numAnonReceivers: number;
-    receiverIsAnon: boolean;
-    sender: SaltpackSender;
-};
 export declare enum SaltpackSenderType {
     NOT_TRACKED = "not_tracked",
     UNKNOWN = "unknown",
@@ -2391,11 +1118,6 @@ export declare enum SaltpackSenderType {
     REVOKED = "revoked",
     EXPIRED = "expired"
 }
-export declare type SaltpackSender = {
-    uid: UID;
-    username: string;
-    senderType: SaltpackSenderType;
-};
 export declare type SecretEntryArg = {
     desc: string;
     prompt: string;
@@ -2414,32 +1136,10 @@ export declare type NaclSigningKeyPublic = string | null;
 export declare type NaclSigningKeyPrivate = string | null;
 export declare type NaclDHKeyPublic = string | null;
 export declare type NaclDHKeyPrivate = string | null;
-export declare type SecretKeys = {
-    signing: NaclSigningKeyPrivate;
-    encryption: NaclDHKeyPrivate;
-};
-export declare type Session = {
-    uid: UID;
-    username: string;
-    token: string;
-    deviceSubkeyKid: KID;
-    deviceSibkeyKid: KID;
-};
 export declare type SignupRes = {
     passphraseOk: boolean;
     postOk: boolean;
     writeOk: boolean;
-};
-export declare type Sig = {
-    seqno: Seqno;
-    sigId: SigID;
-    sigIdDisplay: string;
-    type: string;
-    cTime: Time;
-    revoked: boolean;
-    active: boolean;
-    key: string;
-    body: string;
 };
 export declare type SigTypes = {
     track: boolean;
@@ -2447,64 +1147,19 @@ export declare type SigTypes = {
     cryptocurrency: boolean;
     isSelf: boolean;
 };
-export declare type SigListArgs = {
-    sessionId: number;
-    username: string;
-    allKeys: boolean;
-    types?: SigTypes;
-    filterx: string;
-    verbose: boolean;
-    revoked: boolean;
-};
 export declare type OpID = string | null;
-export declare type KBFSRevision = never;
+export declare type KBFSRevision = number;
 export declare enum KBFSArchivedType {
     REVISION = "revision",
     TIME = "time",
     TIME_STRING = "time_string",
     REL_TIME_STRING = "rel_time_string"
 }
-export declare type KBFSArchivedParam = {
-    KBFSArchivedType: KBFSArchivedType.REVISION;
-    REVISION: KBFSRevision | null;
-} | {
-    KBFSArchivedType: KBFSArchivedType.TIME;
-    TIME: Time | null;
-} | {
-    KBFSArchivedType: KBFSArchivedType.TIME_STRING;
-    TIME_STRING: string | null;
-} | {
-    KBFSArchivedType: KBFSArchivedType.REL_TIME_STRING;
-    REL_TIME_STRING: string | null;
-} | {
-    KBFSArchivedType: Exclude<KBFSArchivedType, KBFSArchivedType.REVISION | KBFSArchivedType.TIME | KBFSArchivedType.TIME_STRING | KBFSArchivedType.REL_TIME_STRING>;
-};
-export declare type KBFSArchivedPath = {
-    path: string;
-    archivedParam: KBFSArchivedParam;
-    identifyBehavior?: TLFIdentifyBehavior;
-};
-export declare type KBFSPath = {
-    path: string;
-    identifyBehavior?: TLFIdentifyBehavior;
-};
 export declare enum PathType {
     LOCAL = "local",
     KBFS = "kbfs",
     KBFS_ARCHIVED = "kbfs_archived"
 }
-export declare type Path = {
-    PathType: PathType.LOCAL;
-    LOCAL: string | null;
-} | {
-    PathType: PathType.KBFS;
-    KBFS: KBFSPath | null;
-} | {
-    PathType: PathType.KBFS_ARCHIVED;
-    KBFS_ARCHIVED: KBFSArchivedPath | null;
-} | {
-    PathType: Exclude<PathType, PathType.LOCAL | PathType.KBFS | PathType.KBFS_ARCHIVED>;
-};
 export declare enum DirentType {
     FILE = "file",
     DIR = "dir",
@@ -2516,26 +1171,6 @@ export declare enum PrefetchStatus {
     IN_PROGRESS = "in_progress",
     COMPLETE = "complete"
 }
-export declare type PrefetchProgress = {
-    start: Time;
-    endEstimate: Time;
-    bytesTotal: never;
-    bytesFetched: never;
-};
-export declare type Dirent = {
-    time: Time;
-    size: number;
-    name: string;
-    direntType: DirentType;
-    lastWriterUnverified: User;
-    writable: boolean;
-    prefetchStatus: PrefetchStatus;
-    prefetchProgress: PrefetchProgress;
-};
-export declare type DirentWithRevision = {
-    entry: Dirent;
-    revision: KBFSRevision;
-};
 export declare enum RevisionSpanType {
     DEFAULT = "default",
     LAST_FIVE = "last_five"
@@ -2550,14 +1185,6 @@ export declare enum OpenFlags {
     DIRECTORY = "directory"
 }
 export declare type Progress = number;
-export declare type SimpleFSListResult = {
-    entries: Dirent[] | null;
-    progress: Progress;
-};
-export declare type FileContent = {
-    data: Buffer;
-    progress: Progress;
-};
 export declare enum AsyncOps {
     LIST = "list",
     LIST_RECURSIVE = "list_recursive",
@@ -2574,135 +1201,25 @@ export declare enum ListFilter {
     FILTER_ALL_HIDDEN = "filter_all_hidden",
     FILTER_SYSTEM_HIDDEN = "filter_system_hidden"
 }
-export declare type ListArgs = {
-    opId: OpID;
-    path: Path;
-    filter: ListFilter;
-};
-export declare type ListToDepthArgs = {
-    opId: OpID;
-    path: Path;
-    filter: ListFilter;
-    depth: number;
-};
-export declare type RemoveArgs = {
-    opId: OpID;
-    path: Path;
-    recursive: boolean;
-};
-export declare type ReadArgs = {
-    opId: OpID;
-    path: Path;
-    offset: never;
-    size: number;
-};
-export declare type WriteArgs = {
-    opId: OpID;
-    path: Path;
-    offset: never;
-};
-export declare type CopyArgs = {
-    opId: OpID;
-    src: Path;
-    dest: Path;
-};
-export declare type MoveArgs = {
-    opId: OpID;
-    src: Path;
-    dest: Path;
-};
-export declare type GetRevisionsArgs = {
-    opId: OpID;
-    path: Path;
-    spanType: RevisionSpanType;
-};
-export declare type OpDescription = {
-    asyncOp: AsyncOps.LIST;
-    LIST: ListArgs | null;
-} | {
-    asyncOp: AsyncOps.LIST_RECURSIVE;
-    LIST_RECURSIVE: ListArgs | null;
-} | {
-    asyncOp: AsyncOps.LIST_RECURSIVE_TO_DEPTH;
-    LIST_RECURSIVE_TO_DEPTH: ListToDepthArgs | null;
-} | {
-    asyncOp: AsyncOps.READ;
-    READ: ReadArgs | null;
-} | {
-    asyncOp: AsyncOps.WRITE;
-    WRITE: WriteArgs | null;
-} | {
-    asyncOp: AsyncOps.COPY;
-    COPY: CopyArgs | null;
-} | {
-    asyncOp: AsyncOps.MOVE;
-    MOVE: MoveArgs | null;
-} | {
-    asyncOp: AsyncOps.REMOVE;
-    REMOVE: RemoveArgs | null;
-} | {
-    asyncOp: AsyncOps.GET_REVISIONS;
-    GET_REVISIONS: GetRevisionsArgs | null;
-} | {
-    asyncOp: Exclude<AsyncOps, AsyncOps.LIST | AsyncOps.LIST_RECURSIVE | AsyncOps.LIST_RECURSIVE_TO_DEPTH | AsyncOps.READ | AsyncOps.WRITE | AsyncOps.COPY | AsyncOps.MOVE | AsyncOps.REMOVE | AsyncOps.GET_REVISIONS>;
-};
-export declare type GetRevisionsResult = {
-    revisions: DirentWithRevision[] | null;
-    progress: Progress;
-};
-export declare type OpProgress = {
-    start: Time;
-    endEstimate: Time;
-    opType: AsyncOps;
-    bytesTotal: never;
-    bytesRead: never;
-    bytesWritten: never;
-    filesTotal: never;
-    filesRead: never;
-    filesWritten: never;
-};
 export declare type SimpleFSGetHTTPAddressAndTokenResponse = {
     address: string;
     token: string;
 };
 export declare type SimpleFSQuotaUsage = {
-    usageBytes: never;
-    archiveBytes: never;
-    limitBytes: never;
-    gitUsageBytes: never;
-    gitArchiveBytes: never;
-    gitLimitBytes: never;
+    usageBytes: number;
+    archiveBytes: number;
+    limitBytes: number;
+    gitUsageBytes: number;
+    gitArchiveBytes: number;
+    gitLimitBytes: number;
 };
 export declare enum FolderSyncMode {
     DISABLED = "disabled",
     ENABLED = "enabled",
     PARTIAL = "partial"
 }
-export declare type FolderSyncConfig = {
-    mode: FolderSyncMode;
-    paths: string[] | null;
-};
-export declare type FolderSyncConfigAndStatus = {
-    config: FolderSyncConfig;
-    status: FolderSyncStatus;
-};
-export declare type FolderSyncConfigAndStatusWithFolder = {
-    folder: Folder;
-    config: FolderSyncConfig;
-    status: FolderSyncStatus;
-};
-export declare type SyncConfigAndStatusRes = {
-    folders: FolderSyncConfigAndStatusWithFolder[] | null;
-    overallStatus: FolderSyncStatus;
-};
 export declare type FSSettings = {
-    spaceAvailableNotificationThreshold: never;
-};
-export declare type SimpleFSStats = {
-    processStats: ProcessRuntimeStats;
-    blockCacheDbStats: string[] | null;
-    syncCacheDbStats: string[] | null;
-    runtimeDbStats: DbStats[] | null;
+    spaceAvailableNotificationThreshold: number;
 };
 export declare enum SubscriptionTopic {
     FAVORITES = "favorites",
@@ -2713,21 +1230,7 @@ export declare enum PathSubscriptionTopic {
     CHILDREN = "children",
     STAT = "stat"
 }
-export declare type TeambotKeyGeneration = never;
-export declare type TeambotKeyMetadata = {
-    teambotDhPublic: KID;
-    generation: TeambotKeyGeneration;
-    uid: UID;
-    pukGeneration: PerUserKeyGeneration;
-};
-export declare type TeambotKeyBoxed = {
-    box: string;
-    metadata: TeambotKeyMetadata;
-};
-export declare type TeambotKey = {
-    seed: Bytes32;
-    metadata: TeambotKeyMetadata;
-};
+export declare type TeambotKeyGeneration = number;
 export declare enum TeamRole {
     NONE = "none",
     READER = "reader",
@@ -2758,12 +1261,943 @@ export declare enum PTKType {
 export declare enum PerTeamSeedCheckVersion {
     V1 = "v1"
 }
+export declare type PerTeamSeedCheckValue = Buffer;
+export declare type PerTeamSeedCheckValuePostImage = Buffer;
+export declare type MaskB64 = Buffer;
+export declare type TeamInviteID = string;
+export declare type PerTeamKeySeed = string | null;
+export declare enum TeamMemberStatus {
+    ACTIVE = "active",
+    RESET = "reset",
+    DELETED = "deleted"
+}
+export declare type UserVersionPercentForm = string;
+export declare enum RatchetType {
+    MAIN = "main",
+    BLINDED = "blinded",
+    SELF = "self"
+}
+export declare enum AuditVersion {
+    V0 = "v0",
+    V1 = "v1",
+    V2 = "v2",
+    V3 = "v3"
+}
+export declare enum TeamInviteCategory {
+    NONE = "none",
+    UNKNOWN = "unknown",
+    KEYBASE = "keybase",
+    EMAIL = "email",
+    SBS = "sbs",
+    SEITAN = "seitan",
+    PHONE = "phone"
+}
+export declare type TeamInviteSocialNetwork = string;
+export declare type TeamInviteName = string;
+export declare type TeamEncryptedKBFSKeyset = {
+    v: number;
+    e: Buffer;
+    n: Buffer;
+};
+export declare type TeamEncryptedKBFSKeysetHash = string;
+export declare type BoxSummaryHash = string;
+export declare type TeamNamePart = string;
+export declare type SeitanAKey = string;
+export declare type SeitanIKey = string;
+export declare type SeitanPubKey = string;
+export declare type SeitanIKeyV2 = string;
+export declare enum SeitanKeyAndLabelVersion {
+    V1 = "v1",
+    V2 = "v2"
+}
+export declare enum SeitanKeyLabelType {
+    SMS = "sms"
+}
+export declare type SeitanKeyLabelSms = {
+    f: string;
+    n: string;
+};
+export declare type TeamJoinRequest = {
+    name: string;
+    username: string;
+};
+export declare type TeamBotSettings = {
+    cmds: boolean;
+    mentions: boolean;
+    triggers: string[] | null;
+    convs: string[] | null;
+};
+export declare type TeamRequestAccessResult = {
+    open: boolean;
+};
+export declare type TeamAcceptOrRequestResult = {
+    wasToken: boolean;
+    wasSeitan: boolean;
+    wasTeamName: boolean;
+    wasOpenTeam: boolean;
+};
+export declare type BulkRes = {
+    invited: string[] | null;
+    alreadyInvited: string[] | null;
+    malformed: string[] | null;
+};
+export declare type ConflictGeneration = number;
+export declare type TeamOperation = {
+    manageMembers: boolean;
+    manageSubteams: boolean;
+    createChannel: boolean;
+    chat: boolean;
+    deleteChannel: boolean;
+    renameChannel: boolean;
+    renameTeam: boolean;
+    editChannelDescription: boolean;
+    editTeamDescription: boolean;
+    setTeamShowcase: boolean;
+    setMemberShowcase: boolean;
+    setRetentionPolicy: boolean;
+    setMinWriterRole: boolean;
+    changeOpenTeam: boolean;
+    leaveTeam: boolean;
+    joinTeam: boolean;
+    setPublicityAny: boolean;
+    listFirst: boolean;
+    changeTarsDisabled: boolean;
+    deleteChatHistory: boolean;
+    deleteOtherMessages: boolean;
+    deleteTeam: boolean;
+    pinMessage: boolean;
+};
+export declare type ProfileTeamLoadRes = {
+    loadTimeNsec: number;
+};
+export declare enum RotationType {
+    VISIBLE = "visible",
+    HIDDEN = "hidden",
+    CLKR = "clkr"
+}
+export declare type MemberEmail = {
+    email: string;
+    role: string;
+};
+export declare type MemberUsername = {
+    username: string;
+    role: string;
+};
+/**
+ * Result from calling test(..).
+ */
+export declare type Test = {
+    reply: string;
+};
+export declare enum TLFIdentifyBehavior {
+    UNSET = "unset",
+    CHAT_CLI = "chat_cli",
+    CHAT_GUI = "chat_gui",
+    REMOVED_AND_UNUSED = "removed_and_unused",
+    KBFS_REKEY = "kbfs_rekey",
+    KBFS_QR = "kbfs_qr",
+    CHAT_SKIP = "chat_skip",
+    SALTPACK = "saltpack",
+    CLI = "cli",
+    GUI = "gui",
+    DEFAULT_KBFS = "default_kbfs",
+    KBFS_CHAT = "kbfs_chat",
+    RESOLVE_AND_CHECK = "resolve_and_check",
+    GUI_PROFILE = "gui_profile",
+    KBFS_INIT = "kbfs_init",
+    FS_GUI = "fs_gui"
+}
+export declare type CanonicalTlfName = string;
+export declare enum PromptDefault {
+    NONE = "none",
+    YES = "yes",
+    NO = "no"
+}
+export declare enum KeyType {
+    NONE = "none",
+    NACL = "nacl",
+    PGP = "pgp"
+}
+export declare enum UPK2MinorVersion {
+    V0 = "v0",
+    V1 = "v1",
+    V2 = "v2",
+    V3 = "v3",
+    V4 = "v4",
+    V5 = "v5",
+    V6 = "v6"
+}
+export declare type PGPFingerprint = string | null;
+export declare enum UPAKVersion {
+    V1 = "v1",
+    V2 = "v2"
+}
+export declare enum UPKLiteMinorVersion {
+    V0 = "v0"
+}
+export declare type TrackProof = {
+    proofType: string;
+    proofName: string;
+    idString: string;
+};
+export declare type WebProof = {
+    hostname: string;
+    protocols: string[] | null;
+};
+export declare type EmailAddress = string;
+export declare type CanLogoutRes = {
+    canLogout: boolean;
+    reason: string;
+    setPassphrase: boolean;
+};
+export declare type APIUserServiceID = string;
+export declare type ImpTofuSearchResult = {
+    assertion: string;
+    assertionValue: string;
+    assertionKey: string;
+    label: string;
+    prettyName: string;
+    keybaseUsername: string;
+};
+export declare type LockdownHistory = {
+    status: boolean;
+    ctime: Time;
+    deviceId: DeviceID;
+    deviceName: string;
+};
+export declare type BoxAuditAttempt = {
+    ctime: UnixTime;
+    error?: string;
+    result: BoxAuditAttemptResult;
+    generation?: PerTeamKeyGeneration;
+    rotated: boolean;
+};
+export declare type LoadAvatarsRes = {
+    picmap: {
+        [key: string]: {
+            [key: string]: AvatarUrl;
+        };
+    };
+};
+export declare type AvatarClearCacheMsg = {
+    name: string;
+    formats: AvatarFormat[] | null;
+    typ: AvatarUpdateType;
+};
+export declare type BlockIdCombo = {
+    blockHash: string;
+    chargedTo: UserOrTeamID;
+    blockType: BlockType;
+};
+export declare type GetBlockRes = {
+    blockKey: string;
+    buf: Buffer;
+    size: number;
+    status: BlockStatus;
+};
+export declare type Status = {
+    code: number;
+    name: string;
+    desc: string;
+    fields: StringKVPair[] | null;
+};
+export declare type UserVersion = {
+    uid: UID;
+    eldestSeqno: Seqno;
+};
+export declare type CompatibilityTeamID = {
+    typ: TeamType.LEGACY;
+    LEGACY: TLFID | null;
+} | {
+    typ: TeamType.MODERN;
+    MODERN: TeamID | null;
+} | {
+    typ: Exclude<TeamType, TeamType.LEGACY | TeamType.MODERN>;
+};
+export declare type TeamIDWithVisibility = {
+    teamId: TeamID;
+    visibility: TLFVisibility;
+};
+export declare type PublicKey = {
+    kid: KID;
+    pgpFingerprint: string;
+    pgpIdentities: PGPIdentity[] | null;
+    isSibkey: boolean;
+    isEldest: boolean;
+    parentId: string;
+    deviceId: DeviceID;
+    deviceDescription: string;
+    deviceType: string;
+    cTime: Time;
+    eTime: Time;
+    isRevoked: boolean;
+};
+export declare type KeybaseTime = {
+    unix: Time;
+    chain: Seqno;
+};
+export declare type User = {
+    uid: UID;
+    username: string;
+};
+export declare type Device = {
+    type: string;
+    name: string;
+    deviceId: DeviceID;
+    cTime: Time;
+    mTime: Time;
+    lastUsedTime: Time;
+    encryptKey: KID;
+    verifyKey: KID;
+    status: number;
+};
+export declare type UserVersionVector = {
+    id: number;
+    sigHints: number;
+    sigChain: number;
+    cachedAt: Time;
+};
+export declare type PerUserKey = {
+    gen: number;
+    seqno: Seqno;
+    sigKid: KID;
+    encKid: KID;
+    signedByKid: KID;
+};
+export declare type UserOrTeamLite = {
+    id: UserOrTeamID;
+    name: string;
+};
+export declare type RemoteTrack = {
+    username: string;
+    uid: UID;
+    linkId: LinkID;
+};
+/**
+ * SocialAssertion contains a service and username for that service, that
+ *     together form an assertion about a user. It can either be a social
+ *     assertion (like "facebook" or "twitter") or a server trust assertion (like
+ *     "phone" or "email").
+ *
+ *     If the assertion is for social network, resolving an assertion requires
+ *     that the user posts a Keybase proof on the asserted service as the asserted
+ *     user.
+ *
+ *     For server trust assertion, we have to trust the server.
+ */
+export declare type SocialAssertion = {
+    user: string;
+    service: SocialAssertionService;
+};
+export declare type FullNamePackage = {
+    version: FullNamePackageVersion;
+    fullName: FullName;
+    eldestSeqno: Seqno;
+    status: StatusCode;
+    cachedAt: Time;
+};
+export declare type PhoneLookupResult = {
+    uid: UID;
+    username: string;
+    ctime: UnixTime;
+};
+export declare type UserReacjis = {
+    topReacjis: string[] | null;
+    skinTone: ReacjiSkinTone;
+};
+export declare type ClientDetails = {
+    pid: number;
+    clientType: ClientType;
+    argv: string[] | null;
+    desc: string;
+    version: string;
+};
+export declare type Config = {
+    serverUri: string;
+    socketFile: string;
+    label: string;
+    runMode: string;
+    gpgExists: boolean;
+    gpgPath: string;
+    version: string;
+    path: string;
+    binaryRealpath: string;
+    configPath: string;
+    versionShort: string;
+    versionFull: string;
+    isAutoForked: boolean;
+    forkType: ForkType;
+};
+export declare type UpdateInfo = {
+    status: UpdateInfoStatus;
+    message: string;
+};
+export declare type UpdateInfo2 = {
+    status: UpdateInfoStatus2.OK;
+} | {
+    status: UpdateInfoStatus2.SUGGESTED;
+    SUGGESTED: UpdateDetails | null;
+} | {
+    status: UpdateInfoStatus2.CRITICAL;
+    CRITICAL: UpdateDetails | null;
+} | {
+    status: Exclude<UpdateInfoStatus2, UpdateInfoStatus2.OK | UpdateInfoStatus2.SUGGESTED | UpdateInfoStatus2.CRITICAL>;
+};
+export declare type ProxyData = {
+    addressWithPort: string;
+    proxyType: ProxyType;
+    certPinning: boolean;
+};
+export declare type ContactComponent = {
+    label: string;
+    phoneNumber?: RawPhoneNumber;
+    email?: EmailAddress;
+};
+export declare type ED25519SignatureInfo = {
+    sig: ED25519Signature;
+    publicKey: ED25519PublicKey;
+};
+export declare type CiphertextBundle = {
+    kid: KID;
+    ciphertext: EncryptedBytes32;
+    nonce: BoxNonce;
+    publicKey: BoxPublicKey;
+};
+export declare type UnboxAnyRes = {
+    kid: KID;
+    plaintext: Bytes32;
+    index: number;
+};
+export declare type DbKey = {
+    dbType: DbType;
+    objType: number;
+    key: string;
+};
+export declare type EmailLookupResult = {
+    email: EmailAddress;
+    uid?: UID;
+};
+export declare type EmailAddressVerifiedMsg = {
+    email: EmailAddress;
+};
+export declare type EmailAddressChangedMsg = {
+    email: EmailAddress;
+};
+export declare type DeviceEkMetadata = {
+    deviceEphemeralDhPublic: KID;
+    hashMeta: HashMeta;
+    generation: EkGeneration;
+    ctime: Time;
+    deviceCtime: Time;
+};
+export declare type UserEkMetadata = {
+    userEphemeralDhPublic: KID;
+    hashMeta: HashMeta;
+    generation: EkGeneration;
+    ctime: Time;
+};
+export declare type UserEkBoxMetadata = {
+    box: string;
+    recipientGeneration: EkGeneration;
+    recipientDeviceId: DeviceID;
+};
+export declare type TeamEkMetadata = {
+    teamEphemeralDhPublic: KID;
+    hashMeta: HashMeta;
+    generation: EkGeneration;
+    ctime: Time;
+};
+export declare type TeamEkBoxMetadata = {
+    box: string;
+    recipientGeneration: EkGeneration;
+    recipientUid: UID;
+};
+export declare type TeambotEkMetadata = {
+    teambotDhPublic: KID;
+    generation: EkGeneration;
+    uid: UID;
+    userEkGeneration: EkGeneration;
+    hashMeta: HashMeta;
+    ctime: Time;
+};
+export declare type FolderHandle = {
+    name: string;
+    folderType: FolderType;
+    created: boolean;
+};
+export declare type ListResult = {
+    files: File[] | null;
+};
+export declare type EncryptedGitMetadata = {
+    v: number;
+    e: Buffer;
+    n: BoxNonce;
+    gen: PerTeamKeyGeneration;
+};
+export declare type GitLocalMetadataV1 = {
+    repoName: GitRepoName;
+};
+export declare type GitCommit = {
+    commitHash: string;
+    message: string;
+    authorName: string;
+    authorEmail: string;
+    ctime: Time;
+};
+export declare type GitServerMetadata = {
+    ctime: Time;
+    mtime: Time;
+    lastModifyingUsername: string;
+    lastModifyingDeviceId: DeviceID;
+    lastModifyingDeviceName: string;
+};
+export declare type GPGKey = {
+    algorithm: string;
+    keyId: string;
+    creation: string;
+    expiration: string;
+    identities: PGPIdentity[] | null;
+};
+export declare type HomeScreenAnnouncement = {
+    id: HomeScreenAnnouncementID;
+    version: HomeScreenAnnouncementVersion;
+    appLink: AppLinkType;
+    confirmLabel: string;
+    dismissable: boolean;
+    iconUrl: string;
+    text: string;
+    url: string;
+};
+/**
+ * Most of TODO items do not carry additional data, but some do. e.g. TODO
+ *     item to tell user to verify their email address will carry that email
+ *     address.
+ *
+ *     All new TODO data bundle types should be records rather than single fields
+ *     to support adding new data to existing TODOs. If a legacy TODO (such as
+ *     VERIFY_ALL_EMAIL) uses a single field, the "TodoExt" field should be used to
+ *     introduce more data to the payload.
+ */
+export declare type HomeScreenTodo = {
+    t: HomeScreenTodoType.VERIFY_ALL_PHONE_NUMBER;
+    VERIFY_ALL_PHONE_NUMBER: PhoneNumber | null;
+} | {
+    t: HomeScreenTodoType.VERIFY_ALL_EMAIL;
+    VERIFY_ALL_EMAIL: EmailAddress | null;
+} | {
+    t: HomeScreenTodoType.LEGACY_EMAIL_VISIBILITY;
+    LEGACY_EMAIL_VISIBILITY: EmailAddress | null;
+} | {
+    t: Exclude<HomeScreenTodoType, HomeScreenTodoType.VERIFY_ALL_PHONE_NUMBER | HomeScreenTodoType.VERIFY_ALL_EMAIL | HomeScreenTodoType.LEGACY_EMAIL_VISIBILITY>;
+};
+export declare type VerifyAllEmailTodoExt = {
+    lastVerifyEmailDate: UnixTime;
+};
+export declare type HomeScreenPeopleNotificationContact = {
+    resolveTime: Time;
+    username: string;
+    description: string;
+    resolvedContactBlob: string;
+};
+export declare type HomeUserSummary = {
+    uid: UID;
+    username: string;
+    bio: string;
+    fullName: string;
+    pics?: Pics;
+};
+export declare type Identify3RowMeta = {
+    color: Identify3RowColor;
+    label: string;
+};
+export declare type TrackDiff = {
+    type: TrackDiffType;
+    displayMarkup: string;
+};
+export declare type TrackSummary = {
+    username: string;
+    time: Time;
+    isRemote: boolean;
+};
+export declare type TrackOptions = {
+    localOnly: boolean;
+    bypassConfirm: boolean;
+    forceRetrack: boolean;
+    expiringLocal: boolean;
+    forPgpPull: boolean;
+    sigVersion?: SigVersion;
+};
+export declare type IdentifyReason = {
+    type: IdentifyReasonType;
+    reason: string;
+    resource: string;
+};
+export declare type RemoteProof = {
+    proofType: ProofType;
+    key: string;
+    value: string;
+    displayMarkup: string;
+    sigId: SigID;
+    mTime: Time;
+};
+export declare type ProofResult = {
+    state: ProofState;
+    status: ProofStatus;
+    desc: string;
+};
+export declare type Cryptocurrency = {
+    rowId: number;
+    pkhash: Buffer;
+    address: string;
+    sigId: SigID;
+    type: string;
+    family: string;
+};
+export declare type StellarAccount = {
+    accountId: string;
+    federationAddress: string;
+    sigId: SigID;
+};
+export declare type UserTeamShowcase = {
+    fqName: string;
+    open: boolean;
+    teamIsShowcased: boolean;
+    description: string;
+    role: TeamRole;
+    publicAdmins: string[] | null;
+    numMembers: number;
+};
+export declare type DismissReason = {
+    type: DismissReasonType;
+    reason: string;
+    resource: string;
+};
+export declare type KBFSTeamSettings = {
+    tlfId: TLFID;
+};
+export declare type FSNotification = {
+    filename: string;
+    status: string;
+    statusCode: FSStatusCode;
+    notificationType: FSNotificationType;
+    errorType: FSErrorType;
+    params: {
+        [key: string]: string;
+    };
+    writerUid: UID;
+    localTime: Time;
+    folderType: FolderType;
+};
+export declare type FSFolderWriterEdit = {
+    filename: string;
+    notificationType: FSNotificationType;
+    serverTime: Time;
+};
+export declare type FSPathSyncStatus = {
+    folderType: FolderType;
+    path: string;
+    syncingBytes: number;
+    syncingOps: number;
+    syncedBytes: number;
+};
+export declare type FSSyncStatus = {
+    totalSyncingBytes: number;
+    syncingPaths: string[] | null;
+    endEstimate?: Time;
+};
+export declare type GcOptions = {
+    maxLooseRefs: number;
+    pruneMinLooseObjects: number;
+    pruneExpireTime: Time;
+    maxObjectPacks: number;
+};
+export declare type Hello2Res = {
+    encryptionKey: KID;
+    sigPayload: HelloRes;
+    deviceEkKid: KID;
+};
+export declare type PerUserKeyBox = {
+    generation: PerUserKeyGeneration;
+    box: string;
+    receiverKid: KID;
+};
+export declare type ConfiguredAccount = {
+    username: string;
+    fullname: FullName;
+    hasStoredSecret: boolean;
+    isCurrent: boolean;
+};
+export declare type KBFSRoot = {
+    treeId: MerkleTreeID;
+    root: KBFSRootHash;
+};
+export declare type MerkleStoreEntry = {
+    hash: MerkleStoreKitHash;
+    entry: MerkleStoreEntryString;
+};
+export declare type KeyHalf = {
+    user: UID;
+    deviceKid: KID;
+    key: Buffer;
+};
+export declare type MDBlock = {
+    version: number;
+    timestamp: Time;
+    block: Buffer;
+};
+export declare type PingResponse = {
+    timestamp: Time;
+};
+export declare type KeyBundleResponse = {
+    writerBundle: KeyBundle;
+    readerBundle: KeyBundle;
+};
+export declare type LockContext = {
+    requireLockId: LockID;
+    releaseAfterSuccess: boolean;
+};
+export declare type FindNextMDResponse = {
+    kbfsRoot: MerkleRoot;
+    merkleNodes: Buffer[] | null;
+    rootSeqno: Seqno;
+    rootHash: HashMeta;
+};
+export declare type TeamMemberOutReset = {
+    teamname: string;
+    username: string;
+    uid: UID;
+    id: gregor1.MsgID;
+};
+export declare type ResetState = {
+    endTime: Time;
+    active: boolean;
+};
+export declare type BadgeConversationInfo = {
+    convId: ChatConversationID;
+    badgeCounts: {
+        [key: string]: number;
+    };
+    unreadMessages: number;
+};
+export declare type DbStats = {
+    type: DbType;
+    memCompActive: boolean;
+    tableCompActive: boolean;
+};
+export declare type ProcessRuntimeStats = {
+    type: ProcessType;
+    cpu: string;
+    resident: string;
+    virt: string;
+    free: string;
+    goheap: string;
+    goheapsys: string;
+    goreleased: string;
+    cpuSeverity: StatsSeverityLevel;
+    residentSeverity: StatsSeverityLevel;
+};
+export declare type GUIEntryFeatures = {
+    showTyping: Feature;
+};
+export declare type PGPSignOptions = {
+    keyQuery: string;
+    mode: SignMode;
+    binaryIn: boolean;
+    binaryOut: boolean;
+};
+export declare type PGPCreateUids = {
+    useDefault: boolean;
+    ids: PGPIdentity[] | null;
+};
+/**
+ * Phone number support for TOFU chats.
+ */
+export declare type UserPhoneNumber = {
+    phoneNumber: PhoneNumber;
+    verified: boolean;
+    superseded: boolean;
+    visibility: IdentityVisibility;
+    ctime: UnixTime;
+};
+export declare type PhoneNumberLookupResult = {
+    phoneNumber: RawPhoneNumber;
+    coercedPhoneNumber: PhoneNumber;
+    err?: string;
+    uid?: UID;
+};
+export declare type PhoneNumberChangedMsg = {
+    phone: PhoneNumber;
+};
+export declare type FileDescriptor = {
+    name: string;
+    type: FileType;
+};
+export declare type CheckProofStatus = {
+    found: boolean;
+    status: ProofStatus;
+    proofText: string;
+    state: ProofState;
+};
+export declare type StartProofResult = {
+    sigId: SigID;
+};
+export declare type ParamProofJSON = {
+    sigHash: SigID;
+    kbUsername: string;
+};
+export declare type ParamProofServiceConfig = {
+    version: number;
+    domain: string;
+    displayName: string;
+    logo?: ParamProofLogoConfig;
+    description: string;
+    username: ParamProofUsernameConfig;
+    brandColor: string;
+    prefillUrl: string;
+    profileUrl: string;
+    checkUrl: string;
+    checkPath: SelectorEntry[] | null;
+    avatarPath: SelectorEntry[] | null;
+};
+export declare type ProveParameters = {
+    logoFull: SizedImage[] | null;
+    logoBlack: SizedImage[] | null;
+    title: string;
+    subtext: string;
+    suffix: string;
+    buttonLabel: string;
+};
+export declare type VerifySessionRes = {
+    uid: UID;
+    sid: string;
+    generated: number;
+    lifetime: number;
+};
+export declare type Reachability = {
+    reachable: Reachable;
+};
+export declare type TLF = {
+    id: TLFID;
+    name: string;
+    writers: string[] | null;
+    readers: string[] | null;
+    isPrivate: boolean;
+};
+export declare type RekeyEvent = {
+    eventType: RekeyEventType;
+    interruptType: number;
+};
+export declare type ResetMerkleRoot = {
+    hashMeta: HashMeta;
+    seqno: Seqno;
+};
+export declare type ResetPrev = {
+    eldestKid?: KID;
+    publicSeqno: Seqno;
+    reset: SHA512;
+};
+export declare type SaltpackEncryptOptions = {
+    recipients: string[] | null;
+    teamRecipients: string[] | null;
+    authenticityType: AuthenticityType;
+    useEntityKeys: boolean;
+    useDeviceKeys: boolean;
+    usePaperKeys: boolean;
+    noSelfEncrypt: boolean;
+    binary: boolean;
+    saltpackVersion: number;
+    useKbfsKeysOnlyForTesting: boolean;
+};
+export declare type SaltpackSender = {
+    uid: UID;
+    username: string;
+    senderType: SaltpackSenderType;
+};
+export declare type SecretKeys = {
+    signing: NaclSigningKeyPrivate;
+    encryption: NaclDHKeyPrivate;
+};
+export declare type Session = {
+    uid: UID;
+    username: string;
+    token: string;
+    deviceSubkeyKid: KID;
+    deviceSibkeyKid: KID;
+};
+export declare type Sig = {
+    seqno: Seqno;
+    sigId: SigID;
+    sigIdDisplay: string;
+    type: string;
+    cTime: Time;
+    revoked: boolean;
+    active: boolean;
+    key: string;
+    body: string;
+};
+export declare type SigListArgs = {
+    sessionId: number;
+    username: string;
+    allKeys: boolean;
+    types?: SigTypes;
+    filterx: string;
+    verbose: boolean;
+    revoked: boolean;
+};
+export declare type KBFSArchivedParam = {
+    KBFSArchivedType: KBFSArchivedType.REVISION;
+    REVISION: KBFSRevision | null;
+} | {
+    KBFSArchivedType: KBFSArchivedType.TIME;
+    TIME: Time | null;
+} | {
+    KBFSArchivedType: KBFSArchivedType.TIME_STRING;
+    TIME_STRING: string | null;
+} | {
+    KBFSArchivedType: KBFSArchivedType.REL_TIME_STRING;
+    REL_TIME_STRING: string | null;
+} | {
+    KBFSArchivedType: Exclude<KBFSArchivedType, KBFSArchivedType.REVISION | KBFSArchivedType.TIME | KBFSArchivedType.TIME_STRING | KBFSArchivedType.REL_TIME_STRING>;
+};
+export declare type KBFSPath = {
+    path: string;
+    identifyBehavior?: TLFIdentifyBehavior;
+};
+export declare type PrefetchProgress = {
+    start: Time;
+    endEstimate: Time;
+    bytesTotal: number;
+    bytesFetched: number;
+};
+export declare type FileContent = {
+    data: Buffer;
+    progress: Progress;
+};
+export declare type OpProgress = {
+    start: Time;
+    endEstimate: Time;
+    opType: AsyncOps;
+    bytesTotal: number;
+    bytesRead: number;
+    bytesWritten: number;
+    filesTotal: number;
+    filesRead: number;
+    filesWritten: number;
+};
+export declare type FolderSyncConfig = {
+    mode: FolderSyncMode;
+    paths: string[] | null;
+};
+export declare type TeambotKeyMetadata = {
+    teambotDhPublic: KID;
+    generation: TeambotKeyGeneration;
+    uid: UID;
+    pukGeneration: PerUserKeyGeneration;
+};
 export declare type PerTeamSeedCheck = {
     version: PerTeamSeedCheckVersion;
     value: PerTeamSeedCheckValue;
 };
-export declare type PerTeamSeedCheckValue = Buffer;
-export declare type PerTeamSeedCheckValuePostImage = Buffer;
 export declare type PerTeamSeedCheckPostImage = {
     h: PerTeamSeedCheckValuePostImage;
     v: PerTeamSeedCheckVersion;
@@ -2773,8 +2207,6 @@ export declare type TeamApplicationKey = {
     keyGeneration: PerTeamKeyGeneration;
     key: Bytes32;
 };
-export declare type MaskB64 = Buffer;
-export declare type TeamInviteID = string;
 export declare type ReaderKeyMask = {
     application: TeamApplication;
     generation: PerTeamKeyGeneration;
@@ -2786,22 +2218,595 @@ export declare type PerTeamKey = {
     sigKid: KID;
     encKid: KID;
 };
-export declare type PerTeamKeyAndCheck = {
-    ptk: PerTeamKey;
-    check: PerTeamSeedCheckPostImage;
-};
-export declare type PerTeamKeySeed = string | null;
-export declare type PerTeamKeySeedItem = {
-    seed: PerTeamKeySeed;
-    generation: PerTeamKeyGeneration;
-    seqno: Seqno;
-    check?: PerTeamSeedCheck;
-};
 export declare type TeamMember = {
     uid: UID;
     role: TeamRole;
     eldestSeqno: Seqno;
     status: TeamMemberStatus;
+};
+export declare type LinkTriple = {
+    seqno: Seqno;
+    seqType: SeqType;
+    linkId: LinkID;
+};
+export declare type UpPointer = {
+    ourSeqno: Seqno;
+    parentId: TeamID;
+    parentSeqno: Seqno;
+    deletion: boolean;
+};
+export declare type DownPointer = {
+    id: TeamID;
+    nameComponent: string;
+    isDeleted: boolean;
+};
+export declare type Signer = {
+    e: Seqno;
+    k: KID;
+    u: UID;
+};
+export declare type Audit = {
+    time: Time;
+    mms: Seqno;
+    mcs: Seqno;
+    mmp: Seqno;
+};
+export declare type Probe = {
+    i: number;
+    t: Seqno;
+};
+export declare type TeamInviteType = {
+    c: TeamInviteCategory.UNKNOWN;
+    UNKNOWN: string | null;
+} | {
+    c: TeamInviteCategory.SBS;
+    SBS: TeamInviteSocialNetwork | null;
+} | {
+    c: Exclude<TeamInviteCategory, TeamInviteCategory.UNKNOWN | TeamInviteCategory.SBS>;
+};
+export declare type TeamGetLegacyTLFUpgrade = {
+    encryptedKeyset: string;
+    teamGeneration: PerTeamKeyGeneration;
+    legacyGeneration: number;
+    appType: TeamApplication;
+};
+export declare type TeamLegacyTLFUpgradeChainInfo = {
+    keysetHash: TeamEncryptedKBFSKeysetHash;
+    teamGeneration: PerTeamKeyGeneration;
+    legacyGeneration: number;
+    appType: TeamApplication;
+};
+export declare type TeamNameLogPoint = {
+    lastPart: TeamNamePart;
+    seqno: Seqno;
+};
+export declare type TeamName = {
+    parts: TeamNamePart[] | null;
+};
+export declare type TeamCLKRResetUser = {
+    uid: UID;
+    userEldest: Seqno;
+    memberEldest: Seqno;
+};
+export declare type TeamResetUser = {
+    username: string;
+    uid: UID;
+    eldestSeqno: Seqno;
+    isDelete: boolean;
+};
+export declare type TeamChangeRow = {
+    id: TeamID;
+    name: string;
+    keyRotated: boolean;
+    membershipChanged: boolean;
+    latestSeqno: Seqno;
+    latestHiddenSeqno: Seqno;
+    implicitTeam: boolean;
+    misc: boolean;
+    removedResetUsers: boolean;
+};
+export declare type TeamExitRow = {
+    id: TeamID;
+};
+export declare type TeamNewlyAddedRow = {
+    id: TeamID;
+    name: string;
+};
+export declare type TeamInvitee = {
+    inviteId: TeamInviteID;
+    uid: UID;
+    eldestSeqno: Seqno;
+    role: TeamRole;
+};
+export declare type TeamAccessRequest = {
+    uid: UID;
+    eldestSeqno: Seqno;
+};
+export declare type SeitanKeyLabel = {
+    t: SeitanKeyLabelType.SMS;
+    SMS: SeitanKeyLabelSms | null;
+} | {
+    t: Exclude<SeitanKeyLabelType, SeitanKeyLabelType.SMS>;
+};
+export declare type TeamSeitanRequest = {
+    inviteId: TeamInviteID;
+    uid: UID;
+    eldestSeqno: Seqno;
+    akey: SeitanAKey;
+    role: TeamRole;
+    ctime: number;
+};
+export declare type TeamKBFSKeyRefresher = {
+    generation: number;
+    appType: TeamApplication;
+};
+export declare type ImplicitRole = {
+    role: TeamRole;
+    ancestor: TeamID;
+};
+export declare type TeamCreateResult = {
+    teamId: TeamID;
+    chatSent: boolean;
+    creatorAdded: boolean;
+};
+export declare type TeamSettings = {
+    open: boolean;
+    joinAs: TeamRole;
+};
+export declare type TeamShowcase = {
+    isShowcased: boolean;
+    description?: string;
+    setByUid?: UID;
+    anyMemberShowcase: boolean;
+};
+export declare type UserRolePair = {
+    assertionOrEmail: string;
+    role: TeamRole;
+    botSettings?: TeamBotSettings;
+};
+export declare type ImplicitTeamConflictInfo = {
+    generation: ConflictGeneration;
+    time: Time;
+};
+export declare type CryptKey = {
+    keyGeneration: number;
+    key: Bytes32;
+};
+export declare type TLFQuery = {
+    tlfName: string;
+    identifyBehavior: TLFIdentifyBehavior;
+};
+export declare type MerkleRootV2 = {
+    seqno: Seqno;
+    hashMeta: HashMeta;
+};
+export declare type SigChainLocation = {
+    seqno: Seqno;
+    seqType: SeqType;
+};
+export declare type Email = {
+    email: EmailAddress;
+    isVerified: boolean;
+    isPrimary: boolean;
+    visibility: IdentityVisibility;
+    lastVerifyEmailDate: UnixTime;
+};
+export declare type UserSummary2 = {
+    uid: UID;
+    username: string;
+    thumbnail: string;
+    fullName: string;
+    isFollower: boolean;
+    isFollowee: boolean;
+};
+export declare type InterestingPerson = {
+    uid: UID;
+    username: string;
+    fullname: string;
+};
+export declare type APIUserKeybaseResult = {
+    username: string;
+    uid: UID;
+    pictureUrl?: string;
+    fullName?: string;
+    rawScore: number;
+    stellar?: string;
+    isFollowee: boolean;
+};
+export declare type APIUserServiceResult = {
+    serviceName: APIUserServiceID;
+    username: string;
+    pictureUrl: string;
+    bio: string;
+    location: string;
+    fullName: string;
+    confirmed?: boolean;
+};
+export declare type APIUserServiceSummary = {
+    serviceName: APIUserServiceID;
+    username: string;
+};
+export declare type GetLockdownResponse = {
+    history: LockdownHistory[] | null;
+    status: boolean;
+};
+export declare type BlockReference = {
+    bid: BlockIdCombo;
+    nonce: BlockRefNonce;
+    chargedTo: UserOrTeamID;
+};
+export declare type BlockIdCount = {
+    id: BlockIdCombo;
+    liveCount: number;
+};
+export declare type TeamIDAndName = {
+    id: TeamID;
+    name: TeamName;
+};
+export declare type RevokedKey = {
+    key: PublicKey;
+    time: KeybaseTime;
+    by: KID;
+};
+export declare type CurrentStatus = {
+    configured: boolean;
+    registered: boolean;
+    loggedIn: boolean;
+    sessionIsValid: boolean;
+    user?: User;
+};
+export declare type ClientStatus = {
+    details: ClientDetails;
+    connectionId: number;
+    notificationChannels: NotificationChannels;
+};
+export declare type BootstrapStatus = {
+    registered: boolean;
+    loggedIn: boolean;
+    uid: UID;
+    username: string;
+    deviceId: DeviceID;
+    deviceName: string;
+    fullname: FullName;
+    userReacjis: UserReacjis;
+    httpSrvInfo?: HttpSrvInfo;
+};
+export declare type Contact = {
+    name: string;
+    components: ContactComponent[] | null;
+};
+export declare type ProcessedContact = {
+    contactIndex: number;
+    contactName: string;
+    component: ContactComponent;
+    resolved: boolean;
+    uid: UID;
+    username: string;
+    fullName: string;
+    following: boolean;
+    serviceMap: {
+        [key: string]: string;
+    };
+    assertion: string;
+    displayName: string;
+    displayLabel: string;
+};
+export declare type DeviceDetail = {
+    device: Device;
+    eldest: boolean;
+    provisioner?: Device;
+    provisionedAt?: Time;
+    revokedAt?: Time;
+    revokedBy: KID;
+    revokedByDevice?: Device;
+    currentDevice: boolean;
+};
+export declare type DeviceEkStatement = {
+    currentDeviceEkMetadata: DeviceEkMetadata;
+};
+export declare type DeviceEk = {
+    seed: Bytes32;
+    metadata: DeviceEkMetadata;
+};
+export declare type UserEkStatement = {
+    currentUserEkMetadata: UserEkMetadata;
+};
+export declare type UserEkBoxed = {
+    box: string;
+    deviceEkGeneration: EkGeneration;
+    metadata: UserEkMetadata;
+};
+export declare type UserEk = {
+    seed: Bytes32;
+    metadata: UserEkMetadata;
+};
+export declare type UserEkReboxArg = {
+    userEkBoxMetadata: UserEkBoxMetadata;
+    deviceId: DeviceID;
+    deviceEkStatementSig: string;
+};
+export declare type TeamEkStatement = {
+    currentTeamEkMetadata: TeamEkMetadata;
+};
+export declare type TeamEkBoxed = {
+    box: string;
+    userEkGeneration: EkGeneration;
+    metadata: TeamEkMetadata;
+};
+export declare type TeamEk = {
+    seed: Bytes32;
+    metadata: TeamEkMetadata;
+};
+export declare type TeambotEkBoxed = {
+    box: string;
+    metadata: TeambotEkMetadata;
+};
+export declare type TeambotEk = {
+    seed: Bytes32;
+    metadata: TeambotEkMetadata;
+};
+export declare type GitLocalMetadataVersioned = {
+    version: GitLocalMetadataVersion.V1;
+    V1: GitLocalMetadataV1 | null;
+} | {
+    version: Exclude<GitLocalMetadataVersion, GitLocalMetadataVersion.V1>;
+};
+export declare type GitRefMetadata = {
+    refName: string;
+    commits: GitCommit[] | null;
+    moreCommitsAvailable: boolean;
+    isDelete: boolean;
+};
+export declare type HomeScreenTodoExt = {
+    t: HomeScreenTodoType.VERIFY_ALL_EMAIL;
+    VERIFY_ALL_EMAIL: VerifyAllEmailTodoExt | null;
+} | {
+    t: Exclude<HomeScreenTodoType, HomeScreenTodoType.VERIFY_ALL_EMAIL>;
+};
+export declare type HomeScreenPeopleNotificationContactMulti = {
+    contacts: HomeScreenPeopleNotificationContact[] | null;
+    numOthers: number;
+};
+export declare type Identify3Row = {
+    guiId: Identify3GUIID;
+    key: string;
+    value: string;
+    priority: number;
+    siteUrl: string;
+    siteIcon: SizedImage[] | null;
+    siteIconFull: SizedImage[] | null;
+    proofUrl: string;
+    sigId: SigID;
+    ctime: Time;
+    state: Identify3RowState;
+    metas: Identify3RowMeta[] | null;
+    color: Identify3RowColor;
+    kid?: KID;
+};
+export declare type IdentifyOutcome = {
+    username: string;
+    status?: Status;
+    warnings: string[] | null;
+    trackUsed?: TrackSummary;
+    trackStatus: TrackStatus;
+    numTrackFailures: number;
+    numTrackChanges: number;
+    numProofFailures: number;
+    numRevoked: number;
+    numProofSuccesses: number;
+    revoked: TrackDiff[] | null;
+    trackOptions: TrackOptions;
+    forPgpPull: boolean;
+    reason: IdentifyReason;
+};
+export declare type IdentifyRow = {
+    rowId: number;
+    proof: RemoteProof;
+    trackDiff?: TrackDiff;
+};
+export declare type IdentifyKey = {
+    pgpFingerprint: Buffer;
+    kid: KID;
+    trackDiff?: TrackDiff;
+    breaksTracking: boolean;
+    sigId: SigID;
+};
+export declare type RevokedProof = {
+    proof: RemoteProof;
+    diff: TrackDiff;
+    snoozed: boolean;
+};
+export declare type CheckResult = {
+    proofResult: ProofResult;
+    time: Time;
+    freshness: CheckResultFreshness;
+};
+export declare type UserCard = {
+    following: number;
+    followers: number;
+    uid: UID;
+    fullName: string;
+    location: string;
+    bio: string;
+    website: string;
+    twitter: string;
+    youFollowThem: boolean;
+    theyFollowYou: boolean;
+    teamShowcase: UserTeamShowcase[] | null;
+    registeredForAirdrop: boolean;
+    blocked: boolean;
+};
+export declare type ServiceStatus = {
+    version: string;
+    label: string;
+    pid: string;
+    lastExitStatus: string;
+    bundleVersion: string;
+    installStatus: InstallStatus;
+    installAction: InstallAction;
+    status: Status;
+};
+export declare type FuseStatus = {
+    version: string;
+    bundleVersion: string;
+    kextId: string;
+    path: string;
+    kextStarted: boolean;
+    installStatus: InstallStatus;
+    installAction: InstallAction;
+    mountInfos: FuseMountInfo[] | null;
+    status: Status;
+};
+export declare type ComponentResult = {
+    name: string;
+    status: Status;
+    exitCode: number;
+};
+export declare type FSFolderWriterEditHistory = {
+    writerName: string;
+    edits: FSFolderWriterEdit[] | null;
+    deletes: FSFolderWriterEdit[] | null;
+};
+export declare type FolderSyncStatus = {
+    localDiskBytesAvailable: number;
+    localDiskBytesTotal: number;
+    prefetchStatus: PrefetchStatus;
+    prefetchProgress: PrefetchProgress;
+    storedBytesTotal: number;
+    outOfSyncSpace: boolean;
+};
+export declare type MerkleRootAndTime = {
+    root: MerkleRootV2;
+    updateTime: Time;
+    fetchTime: Time;
+};
+export declare type MetadataResponse = {
+    folderId: string;
+    mdBlocks: MDBlock[] | null;
+};
+export declare type BadgeState = {
+    newTlfs: number;
+    rekeysNeeded: number;
+    newFollowers: number;
+    inboxVers: number;
+    homeTodoItems: number;
+    unverifiedEmails: number;
+    unverifiedPhones: number;
+    newDevices: DeviceID[] | null;
+    revokedDevices: DeviceID[] | null;
+    conversations: BadgeConversationInfo[] | null;
+    newGitRepoGlobalUniqueIDs: string[] | null;
+    newTeamNames: string[] | null;
+    deletedTeams: DeletedTeamInfo[] | null;
+    newTeamAccessRequests: string[] | null;
+    teamsWithResetUsers: TeamMemberOutReset[] | null;
+    unreadWalletAccounts: WalletAccountInfo[] | null;
+    resetState: ResetState;
+};
+export declare type RuntimeStats = {
+    processStats: ProcessRuntimeStats[] | null;
+    dbStats: DbStats[] | null;
+    convLoaderActive: boolean;
+    selectiveSyncActive: boolean;
+};
+export declare type GUIEntryArg = {
+    windowTitle: string;
+    prompt: string;
+    username: string;
+    submitLabel: string;
+    cancelLabel: string;
+    retryLabel: string;
+    type: PassphraseType;
+    features: GUIEntryFeatures;
+};
+/**
+ * PGPSigVerification is returned by pgpDecrypt and pgpVerify with information
+ *     about the signature verification. If isSigned is false, there was no
+ *     signature, and the rest of the fields should be ignored.
+ */
+export declare type PGPSigVerification = {
+    isSigned: boolean;
+    verified: boolean;
+    signer: User;
+    signKey: PublicKey;
+};
+export declare type Process = {
+    pid: string;
+    command: string;
+    fileDescriptors: FileDescriptor[] | null;
+};
+export declare type ExternalServiceConfig = {
+    schemaVersion: number;
+    display?: ServiceDisplayConfig;
+    config?: ParamProofServiceConfig;
+};
+export declare type ProblemTLF = {
+    tlf: TLF;
+    score: number;
+    solutionKids: KID[] | null;
+};
+export declare type RevokeWarning = {
+    endangeredTlFs: TLF[] | null;
+};
+export declare type ResetLink = {
+    ctime: UnixTime;
+    merkleRoot: ResetMerkleRoot;
+    prev: ResetPrev;
+    resetSeqno: Seqno;
+    type: ResetType;
+    uid: UID;
+};
+export declare type ResetSummary = {
+    ctime: UnixTime;
+    merkleRoot: ResetMerkleRoot;
+    resetSeqno: Seqno;
+    eldestSeqno: Seqno;
+    type: ResetType;
+};
+export declare type SaltpackEncryptedMessageInfo = {
+    devices: Device[] | null;
+    numAnonReceivers: number;
+    receiverIsAnon: boolean;
+    sender: SaltpackSender;
+};
+export declare type KBFSArchivedPath = {
+    path: string;
+    archivedParam: KBFSArchivedParam;
+    identifyBehavior?: TLFIdentifyBehavior;
+};
+export declare type Dirent = {
+    time: Time;
+    size: number;
+    name: string;
+    direntType: DirentType;
+    lastWriterUnverified: User;
+    writable: boolean;
+    prefetchStatus: PrefetchStatus;
+    prefetchProgress: PrefetchProgress;
+};
+export declare type SimpleFSStats = {
+    processStats: ProcessRuntimeStats;
+    blockCacheDbStats: string[] | null;
+    syncCacheDbStats: string[] | null;
+    runtimeDbStats: DbStats[] | null;
+};
+export declare type TeambotKeyBoxed = {
+    box: string;
+    metadata: TeambotKeyMetadata;
+};
+export declare type TeambotKey = {
+    seed: Bytes32;
+    metadata: TeambotKeyMetadata;
+};
+export declare type PerTeamKeyAndCheck = {
+    ptk: PerTeamKey;
+    check: PerTeamSeedCheckPostImage;
+};
+export declare type PerTeamKeySeedItem = {
+    seed: PerTeamKeySeed;
+    generation: PerTeamKeyGeneration;
+    seqno: Seqno;
+    check?: PerTeamSeedCheck;
 };
 export declare type TeamMembers = {
     owners: UserVersion[] | null;
@@ -2811,11 +2816,6 @@ export declare type TeamMembers = {
     bots: UserVersion[] | null;
     restrictedBots: UserVersion[] | null;
 };
-export declare enum TeamMemberStatus {
-    ACTIVE = "active",
-    RESET = "reset",
-    DELETED = "deleted"
-}
 export declare type TeamMemberDetails = {
     uv: UserVersion;
     username: string;
@@ -2823,24 +2823,6 @@ export declare type TeamMemberDetails = {
     needsPuk: boolean;
     status: TeamMemberStatus;
 };
-export declare type TeamMembersDetails = {
-    owners: TeamMemberDetails[] | null;
-    admins: TeamMemberDetails[] | null;
-    writers: TeamMemberDetails[] | null;
-    readers: TeamMemberDetails[] | null;
-    bots: TeamMemberDetails[] | null;
-    restrictedBots: TeamMemberDetails[] | null;
-};
-export declare type TeamDetails = {
-    members: TeamMembersDetails;
-    keyGeneration: PerTeamKeyGeneration;
-    annotatedActiveInvites: {
-        [key: string]: AnnotatedTeamInvite;
-    };
-    settings: TeamSettings;
-    showcase: TeamShowcase;
-};
-export declare type UserVersionPercentForm = string;
 export declare type TeamChangeReq = {
     owners: UserVersion[] | null;
     admins: UserVersion[] | null;
@@ -2866,26 +2848,390 @@ export declare type TeamPlusApplicationKeys = {
     onlyRestrictedBots: UserVersion[] | null;
     applicationKeys: TeamApplicationKey[] | null;
 };
-export declare type TeamData = {
-    v: number;
-    frozen: boolean;
-    tombstoned: boolean;
-    secretless: boolean;
+export declare type LinkTripleAndTime = {
+    triple: LinkTriple;
+    time: Time;
+};
+export declare type FastTeamSigChainState = {
+    id: TeamID;
+    public: boolean;
+    rootAncestor: TeamName;
+    nameDepth: number;
+    last?: LinkTriple;
+    perTeamKeys: {
+        [key: string]: PerTeamKey;
+    };
+    perTeamKeySeedsVerified: {
+        [key: string]: PerTeamKeySeed;
+    };
+    downPointers: {
+        [key: string]: DownPointer;
+    };
+    lastUpPointer?: UpPointer;
+    perTeamKeyCTime: UnixTime;
+    linkIDs: {
+        [key: string]: LinkID;
+    };
+    merkleInfo: {
+        [key: string]: MerkleRootV2;
+    };
+};
+export declare type AuditHistory = {
+    id: TeamID;
+    public: boolean;
+    priorMerkleSeqno: Seqno;
+    version: AuditVersion;
+    audits: Audit[] | null;
+    preProbes: {
+        [key: string]: Probe;
+    };
+    postProbes: {
+        [key: string]: Probe;
+    };
+    tails: {
+        [key: string]: LinkID;
+    };
+    skipUntil: Time;
+};
+export declare type TeamInvite = {
+    role: TeamRole;
+    id: TeamInviteID;
+    type: TeamInviteType;
+    name: TeamInviteName;
+    inviter: UserVersion;
+};
+export declare type AnnotatedTeamInvite = {
+    role: TeamRole;
+    id: TeamInviteID;
+    type: TeamInviteType;
+    name: TeamInviteName;
+    uv: UserVersion;
+    inviter: UserVersion;
+    inviterUsername: string;
+    teamName: string;
+    status: TeamMemberStatus;
+};
+export declare type SubteamLogPoint = {
     name: TeamName;
-    chain: TeamSigChainState;
-    perTeamKeySeedsUnverified: {
-        [key: string]: PerTeamKeySeedItem;
+    seqno: Seqno;
+};
+export declare type TeamCLKRMsg = {
+    teamId: TeamID;
+    generation: PerTeamKeyGeneration;
+    score: number;
+    resetUsers: TeamCLKRResetUser[] | null;
+};
+export declare type TeamMemberOutFromReset = {
+    teamName: string;
+    resetUser: TeamResetUser;
+};
+export declare type TeamSBSMsg = {
+    teamId: TeamID;
+    score: number;
+    invitees: TeamInvitee[] | null;
+};
+export declare type TeamOpenReqMsg = {
+    teamId: TeamID;
+    tars: TeamAccessRequest[] | null;
+};
+export declare type SeitanKeyAndLabelVersion1 = {
+    i: SeitanIKey;
+    l: SeitanKeyLabel;
+};
+export declare type SeitanKeyAndLabelVersion2 = {
+    k: SeitanPubKey;
+    l: SeitanKeyLabel;
+};
+export declare type TeamSeitanMsg = {
+    teamId: TeamID;
+    seitans: TeamSeitanRequest[] | null;
+};
+export declare type TeamOpenSweepMsg = {
+    teamId: TeamID;
+    resetUsers: TeamCLKRResetUser[] | null;
+};
+/**
+ * * TeamRefreshData are needed or wanted data requirements that, if unmet, will cause
+ *    * a refresh of the cache.
+ */
+export declare type TeamRefreshers = {
+    needKeyGeneration: PerTeamKeyGeneration;
+    needApplicationsAtGenerations: {
+        [key: string]: TeamApplication[] | null;
     };
-    readerKeyMasks: {
-        [key: string]: {
-            [key: string]: MaskB64;
-        };
+    needApplicationsAtGenerationsWithKbfs: {
+        [key: string]: TeamApplication[] | null;
     };
-    latestSeqnoHint: Seqno;
-    cachedAt: Time;
-    tlfCryptKeys: {
-        [key: string]: CryptKey[] | null;
+    wantMembers: UserVersion[] | null;
+    wantMembersRole: TeamRole;
+    needKbfsKeyGeneration: TeamKBFSKeyRefresher;
+};
+export declare type FastTeamLoadArg = {
+    id: TeamID;
+    public: boolean;
+    assertTeamName?: TeamName;
+    applications: TeamApplication[] | null;
+    keyGenerationsNeeded: PerTeamKeyGeneration[] | null;
+    needLatestKey: boolean;
+    forceRefresh: boolean;
+};
+export declare type FastTeamLoadRes = {
+    name: TeamName;
+    applicationKeys: TeamApplicationKey[] | null;
+};
+export declare type MemberInfo = {
+    uid: UID;
+    teamId: TeamID;
+    fqName: string;
+    isImplicitTeam: boolean;
+    isOpenTeam: boolean;
+    role: TeamRole;
+    implicit?: ImplicitRole;
+    memberCount: number;
+    allowProfilePromote: boolean;
+    isMemberShowcased: boolean;
+};
+export declare type AnnotatedMemberInfo = {
+    uid: UID;
+    teamId: TeamID;
+    username: string;
+    fullName: string;
+    fqName: string;
+    isImplicitTeam: boolean;
+    implicitTeamDisplayName: string;
+    isOpenTeam: boolean;
+    role: TeamRole;
+    implicit?: ImplicitRole;
+    needsPuk: boolean;
+    memberCount: number;
+    memberEldestSeqno: Seqno;
+    allowProfilePromote: boolean;
+    isMemberShowcased: boolean;
+    status: TeamMemberStatus;
+};
+export declare type TeamAddMemberResult = {
+    invited: boolean;
+    user?: User;
+    emailSent: boolean;
+    chatSending: boolean;
+};
+export declare type TeamTreeEntry = {
+    name: TeamName;
+    admin: boolean;
+};
+export declare type SubteamListEntry = {
+    name: TeamName;
+    memberCount: number;
+};
+export declare type TeamAndMemberShowcase = {
+    teamShowcase: TeamShowcase;
+    isMemberShowcased: boolean;
+};
+export declare type ImplicitTeamUserSet = {
+    keybaseUsers: string[] | null;
+    unresolvedUsers: SocialAssertion[] | null;
+};
+export declare type TeamProfileAddEntry = {
+    teamName: TeamName;
+    open: boolean;
+    disabledReason: string;
+};
+export declare type MerkleTreeLocation = {
+    leaf: UserOrTeamID;
+    loc: SigChainLocation;
+};
+export declare type SignatureMetadata = {
+    signingKid: KID;
+    prevMerkleRootSigned: MerkleRootV2;
+    firstAppearedUnverified: Seqno;
+    time: Time;
+    sigChainLocation: SigChainLocation;
+};
+export declare type Proofs = {
+    social: TrackProof[] | null;
+    web: WebProof[] | null;
+    publicKeys: PublicKey[] | null;
+};
+export declare type UserSettings = {
+    emails: Email[] | null;
+    phoneNumbers: UserPhoneNumber[] | null;
+};
+export declare type UserSummary2Set = {
+    users: UserSummary2[] | null;
+    time: Time;
+    version: number;
+};
+export declare type ProofSuggestion = {
+    key: string;
+    belowFold: boolean;
+    profileText: string;
+    profileIcon: SizedImage[] | null;
+    pickerText: string;
+    pickerSubtext: string;
+    pickerIcon: SizedImage[] | null;
+    metas: Identify3RowMeta[] | null;
+};
+export declare type NextMerkleRootRes = {
+    res?: MerkleRootV2;
+};
+export declare type BlockReferenceCount = {
+    ref: BlockReference;
+    liveCount: number;
+};
+export declare type ReferenceCountRes = {
+    counts: BlockIdCount[] | null;
+};
+export declare type UserPlusKeys = {
+    uid: UID;
+    username: string;
+    eldestSeqno: Seqno;
+    status: StatusCode;
+    deviceKeys: PublicKey[] | null;
+    revokedDeviceKeys: RevokedKey[] | null;
+    pgpKeyCount: number;
+    uvv: UserVersionVector;
+    deletedDeviceKeys: PublicKey[] | null;
+    perUserKeys: PerUserKey[] | null;
+    resets: ResetSummary[] | null;
+};
+export declare type ExtendedStatus = {
+    standalone: boolean;
+    passphraseStreamCached: boolean;
+    tsecCached: boolean;
+    deviceSigKeyCached: boolean;
+    deviceEncKeyCached: boolean;
+    paperSigKeyCached: boolean;
+    paperEncKeyCached: boolean;
+    storedSecret: boolean;
+    secretPromptSkip: boolean;
+    rememberPassphrase: boolean;
+    device?: Device;
+    deviceErr?: LoadDeviceErr;
+    logDir: string;
+    session?: SessionStatus;
+    defaultUsername: string;
+    provisionedUsernames: string[] | null;
+    configuredAccounts: ConfiguredAccount[] | null;
+    clients: ClientStatus[] | null;
+    deviceEkNames: string[] | null;
+    platformInfo: PlatformInfo;
+    defaultDeviceId: DeviceID;
+    localDbStats: string[] | null;
+    localChatDbStats: string[] | null;
+    localBlockCacheDbStats: string[] | null;
+    localSyncCacheDbStats: string[] | null;
+    cacheDirSizeInfo: DirSizeInfo[] | null;
+    uiRouterMapping: {
+        [key: string]: number;
     };
+};
+export declare type TeamEphemeralKey = {
+    keyType: TeamEphemeralKeyType.TEAM;
+    TEAM: TeamEk | null;
+} | {
+    keyType: TeamEphemeralKeyType.TEAMBOT;
+    TEAMBOT: TeambotEk | null;
+} | {
+    keyType: Exclude<TeamEphemeralKeyType, TeamEphemeralKeyType.TEAM | TeamEphemeralKeyType.TEAMBOT>;
+};
+export declare type TeamEphemeralKeyBoxed = {
+    keyType: TeamEphemeralKeyType.TEAM;
+    TEAM: TeamEkBoxed | null;
+} | {
+    keyType: TeamEphemeralKeyType.TEAMBOT;
+    TEAMBOT: TeambotEkBoxed | null;
+} | {
+    keyType: Exclude<TeamEphemeralKeyType, TeamEphemeralKeyType.TEAM | TeamEphemeralKeyType.TEAMBOT>;
+};
+export declare type GitLocalMetadata = {
+    repoName: GitRepoName;
+    refs: GitRefMetadata[] | null;
+    pushType: GitPushType;
+    previousRepoName: GitRepoName;
+};
+export declare type HomeScreenItemDataExt = {
+    t: HomeScreenItemType.TODO;
+    TODO: HomeScreenTodoExt | null;
+} | {
+    t: Exclude<HomeScreenItemType, HomeScreenItemType.TODO>;
+};
+export declare type Identity = {
+    status?: Status;
+    whenLastTracked: Time;
+    proofs: IdentifyRow[] | null;
+    cryptocurrency: Cryptocurrency[] | null;
+    revoked: TrackDiff[] | null;
+    revokedDetails: RevokedProof[] | null;
+    breaksTracking: boolean;
+};
+export declare type LinkCheckResult = {
+    proofId: number;
+    proofResult: ProofResult;
+    snoozedResult: ProofResult;
+    torWarning: boolean;
+    tmpTrackExpireTime: Time;
+    cached?: CheckResult;
+    diff?: TrackDiff;
+    remoteDiff?: TrackDiff;
+    hint?: SigHint;
+    breaksTracking: boolean;
+};
+export declare type ServicesStatus = {
+    service: ServiceStatus[] | null;
+    kbfs: ServiceStatus[] | null;
+    updater: ServiceStatus[] | null;
+};
+export declare type InstallResult = {
+    componentResults: ComponentResult[] | null;
+    status: Status;
+    fatal: boolean;
+};
+export declare type UninstallResult = {
+    componentResults: ComponentResult[] | null;
+    status: Status;
+};
+/**
+ * ProblemSet is for a particular (user,kid) that initiated a rekey problem.
+ *    This problem consists of one or more problem TLFs, which are individually scored
+ *    and have attendant solutions --- devices that if they came online can rekey and
+ *    solve the ProblemTLF.
+ */
+export declare type ProblemSet = {
+    user: User;
+    kid: KID;
+    tlfs: ProblemTLF[] | null;
+};
+export declare type Path = {
+    PathType: PathType.LOCAL;
+    LOCAL: string | null;
+} | {
+    PathType: PathType.KBFS;
+    KBFS: KBFSPath | null;
+} | {
+    PathType: PathType.KBFS_ARCHIVED;
+    KBFS_ARCHIVED: KBFSArchivedPath | null;
+} | {
+    PathType: Exclude<PathType, PathType.LOCAL | PathType.KBFS | PathType.KBFS_ARCHIVED>;
+};
+export declare type DirentWithRevision = {
+    entry: Dirent;
+    revision: KBFSRevision;
+};
+export declare type SimpleFSListResult = {
+    entries: Dirent[] | null;
+    progress: Progress;
+};
+export declare type FolderSyncConfigAndStatus = {
+    config: FolderSyncConfig;
+    status: FolderSyncStatus;
+};
+export declare type TeamMembersDetails = {
+    owners: TeamMemberDetails[] | null;
+    admins: TeamMemberDetails[] | null;
+    writers: TeamMemberDetails[] | null;
+    readers: TeamMemberDetails[] | null;
+    bots: TeamMemberDetails[] | null;
+    restrictedBots: TeamMemberDetails[] | null;
 };
 export declare type FastTeamData = {
     frozen: boolean;
@@ -2910,15 +3256,222 @@ export declare type FastTeamData = {
     cachedAt: Time;
     loadedLatest: boolean;
 };
-export declare enum RatchetType {
-    MAIN = "main",
-    BLINDED = "blinded",
-    SELF = "self"
-}
 export declare type HiddenTeamChainRatchetSet = {
     ratchets: {
         [key: string]: LinkTripleAndTime;
     };
+};
+export declare type HiddenTeamChainLink = {
+    m: MerkleRootV2;
+    p: LinkTriple;
+    s: Signer;
+    k: {
+        [key: string]: PerTeamKeyAndCheck;
+    };
+};
+export declare type UserLogPoint = {
+    role: TeamRole;
+    sigMeta: SignatureMetadata;
+};
+export declare type SeitanKeyAndLabel = {
+    v: SeitanKeyAndLabelVersion.V1;
+    V1: SeitanKeyAndLabelVersion1 | null;
+} | {
+    v: SeitanKeyAndLabelVersion.V2;
+    V2: SeitanKeyAndLabelVersion2 | null;
+} | {
+    v: Exclude<SeitanKeyAndLabelVersion, SeitanKeyAndLabelVersion.V1 | SeitanKeyAndLabelVersion.V2>;
+};
+export declare type LoadTeamArg = {
+    id: TeamID;
+    name: string;
+    public: boolean;
+    needAdmin: boolean;
+    refreshUidMapper: boolean;
+    refreshers: TeamRefreshers;
+    forceFullReload: boolean;
+    forceRepoll: boolean;
+    staleOk: boolean;
+    allowNameLookupBurstCache: boolean;
+    skipAudit: boolean;
+    skipNeedHiddenRotateCheck: boolean;
+};
+export declare type TeamList = {
+    teams: MemberInfo[] | null;
+};
+export declare type AnnotatedTeamList = {
+    teams: AnnotatedMemberInfo[] | null;
+    annotatedActiveInvites: {
+        [key: string]: AnnotatedTeamInvite;
+    };
+};
+export declare type TeamTreeResult = {
+    entries: TeamTreeEntry[] | null;
+};
+export declare type SubteamListResult = {
+    entries: SubteamListEntry[] | null;
+};
+/**
+ * * iTeams
+ */
+export declare type ImplicitTeamDisplayName = {
+    isPublic: boolean;
+    writers: ImplicitTeamUserSet;
+    readers: ImplicitTeamUserSet;
+    conflictInfo?: ImplicitTeamConflictInfo;
+};
+export declare type PublicKeyV2Base = {
+    kid: KID;
+    isSibkey: boolean;
+    isEldest: boolean;
+    cTime: Time;
+    eTime: Time;
+    provisioning: SignatureMetadata;
+    revocation?: SignatureMetadata;
+};
+export declare type UserSummary = {
+    uid: UID;
+    username: string;
+    thumbnail: string;
+    idVersion: number;
+    fullName: string;
+    bio: string;
+    proofs: Proofs;
+    sigIdDisplay: string;
+    trackTime: Time;
+};
+export declare type ProofSuggestionsRes = {
+    suggestions: ProofSuggestion[] | null;
+    showMore: boolean;
+};
+export declare type APIUserSearchResult = {
+    score: number;
+    keybase?: APIUserKeybaseResult;
+    service?: APIUserServiceResult;
+    contact?: ProcessedContact;
+    imptofu?: ImpTofuSearchResult;
+    servicesSummary: {
+        [key: string]: APIUserServiceSummary;
+    };
+    rawScore: number;
+};
+export declare type NonUserDetails = {
+    isNonUser: boolean;
+    assertionValue: string;
+    assertionKey: string;
+    description: string;
+    contact?: ProcessedContact;
+    service?: APIUserServiceResult;
+    siteIcon: SizedImage[] | null;
+    siteIconFull: SizedImage[] | null;
+};
+export declare type DowngradeReferenceRes = {
+    completed: BlockReferenceCount[] | null;
+    failed: BlockReference;
+};
+export declare type UserPlusAllKeys = {
+    base: UserPlusKeys;
+    pgpKeys: PublicKey[] | null;
+    remoteTracks: RemoteTrack[] | null;
+};
+export declare type FullStatus = {
+    username: string;
+    configPath: string;
+    curStatus: CurrentStatus;
+    extStatus: ExtendedStatus;
+    client: KbClientStatus;
+    service: KbServiceStatus;
+    kbfs: KBFSStatus;
+    desktop: DesktopStatus;
+    updater: UpdaterStatus;
+    start: StartStatus;
+    git: GitStatus;
+};
+export declare type FolderNormalView = {
+    resolvingConflict: boolean;
+    stuckInConflict: boolean;
+    localViews: Path[] | null;
+};
+export declare type FolderConflictManualResolvingLocalView = {
+    normalView: Path;
+};
+export declare type GitRepoInfo = {
+    folder: FolderHandle;
+    repoId: RepoID;
+    localMetadata: GitLocalMetadata;
+    serverMetadata: GitServerMetadata;
+    repoUrl: string;
+    globalUniqueId: string;
+    canDelete: boolean;
+    teamRepoSettings?: GitTeamRepoSettings;
+};
+export declare type HomeScreenPeopleNotificationFollowed = {
+    followTime: Time;
+    followedBack: boolean;
+    user: UserSummary;
+};
+export declare type IdentifyProofBreak = {
+    remoteProof: RemoteProof;
+    lcr: LinkCheckResult;
+};
+export declare type ProblemSetDevices = {
+    problemSet: ProblemSet;
+    devices: Device[] | null;
+};
+export declare type ListArgs = {
+    opId: OpID;
+    path: Path;
+    filter: ListFilter;
+};
+export declare type ListToDepthArgs = {
+    opId: OpID;
+    path: Path;
+    filter: ListFilter;
+    depth: number;
+};
+export declare type RemoveArgs = {
+    opId: OpID;
+    path: Path;
+    recursive: boolean;
+};
+export declare type ReadArgs = {
+    opId: OpID;
+    path: Path;
+    offset: number;
+    size: number;
+};
+export declare type WriteArgs = {
+    opId: OpID;
+    path: Path;
+    offset: number;
+};
+export declare type CopyArgs = {
+    opId: OpID;
+    src: Path;
+    dest: Path;
+};
+export declare type MoveArgs = {
+    opId: OpID;
+    src: Path;
+    dest: Path;
+};
+export declare type GetRevisionsArgs = {
+    opId: OpID;
+    path: Path;
+    spanType: RevisionSpanType;
+};
+export declare type GetRevisionsResult = {
+    revisions: DirentWithRevision[] | null;
+    progress: Progress;
+};
+export declare type TeamDetails = {
+    members: TeamMembersDetails;
+    keyGeneration: PerTeamKeyGeneration;
+    annotatedActiveInvites: {
+        [key: string]: AnnotatedTeamInvite;
+    };
+    settings: TeamSettings;
+    showcase: TeamShowcase;
 };
 export declare type HiddenTeamChain = {
     id: TeamID;
@@ -2946,152 +3499,6 @@ export declare type HiddenTeamChain = {
     merkleRoots: {
         [key: string]: MerkleRootV2;
     };
-};
-export declare type LinkTriple = {
-    seqno: Seqno;
-    seqType: SeqType;
-    linkId: LinkID;
-};
-export declare type LinkTripleAndTime = {
-    triple: LinkTriple;
-    time: Time;
-};
-export declare type UpPointer = {
-    ourSeqno: Seqno;
-    parentId: TeamID;
-    parentSeqno: Seqno;
-    deletion: boolean;
-};
-export declare type DownPointer = {
-    id: TeamID;
-    nameComponent: string;
-    isDeleted: boolean;
-};
-export declare type Signer = {
-    e: Seqno;
-    k: KID;
-    u: UID;
-};
-export declare type HiddenTeamChainLink = {
-    m: MerkleRootV2;
-    p: LinkTriple;
-    s: Signer;
-    k: {
-        [key: string]: PerTeamKeyAndCheck;
-    };
-};
-export declare type FastTeamSigChainState = {
-    id: TeamID;
-    public: boolean;
-    rootAncestor: TeamName;
-    nameDepth: number;
-    last?: LinkTriple;
-    perTeamKeys: {
-        [key: string]: PerTeamKey;
-    };
-    perTeamKeySeedsVerified: {
-        [key: string]: PerTeamKeySeed;
-    };
-    downPointers: {
-        [key: string]: DownPointer;
-    };
-    lastUpPointer?: UpPointer;
-    perTeamKeyCTime: UnixTime;
-    linkIDs: {
-        [key: string]: LinkID;
-    };
-    merkleInfo: {
-        [key: string]: MerkleRootV2;
-    };
-};
-export declare type Audit = {
-    time: Time;
-    mms: Seqno;
-    mcs: Seqno;
-    mmp: Seqno;
-};
-export declare type Probe = {
-    i: number;
-    t: Seqno;
-};
-export declare enum AuditVersion {
-    V0 = "v0",
-    V1 = "v1",
-    V2 = "v2",
-    V3 = "v3"
-}
-export declare type AuditHistory = {
-    id: TeamID;
-    public: boolean;
-    priorMerkleSeqno: Seqno;
-    version: AuditVersion;
-    audits: Audit[] | null;
-    preProbes: {
-        [key: string]: Probe;
-    };
-    postProbes: {
-        [key: string]: Probe;
-    };
-    tails: {
-        [key: string]: LinkID;
-    };
-    skipUntil: Time;
-};
-export declare enum TeamInviteCategory {
-    NONE = "none",
-    UNKNOWN = "unknown",
-    KEYBASE = "keybase",
-    EMAIL = "email",
-    SBS = "sbs",
-    SEITAN = "seitan",
-    PHONE = "phone"
-}
-export declare type TeamInviteType = {
-    c: TeamInviteCategory.UNKNOWN;
-    UNKNOWN: string | null;
-} | {
-    c: TeamInviteCategory.SBS;
-    SBS: TeamInviteSocialNetwork | null;
-} | {
-    c: Exclude<TeamInviteCategory, TeamInviteCategory.UNKNOWN | TeamInviteCategory.SBS>;
-};
-export declare type TeamInviteSocialNetwork = string;
-export declare type TeamInviteName = string;
-export declare type TeamInvite = {
-    role: TeamRole;
-    id: TeamInviteID;
-    type: TeamInviteType;
-    name: TeamInviteName;
-    inviter: UserVersion;
-};
-export declare type AnnotatedTeamInvite = {
-    role: TeamRole;
-    id: TeamInviteID;
-    type: TeamInviteType;
-    name: TeamInviteName;
-    uv: UserVersion;
-    inviter: UserVersion;
-    inviterUsername: string;
-    teamName: string;
-    status: TeamMemberStatus;
-};
-export declare type TeamEncryptedKBFSKeyset = {
-    v: number;
-    e: Buffer;
-    n: Buffer;
-};
-export declare type TeamGetLegacyTLFUpgrade = {
-    encryptedKeyset: string;
-    teamGeneration: PerTeamKeyGeneration;
-    legacyGeneration: number;
-    appType: TeamApplication;
-};
-export declare type TeamEncryptedKBFSKeysetHash = string;
-export declare type TeamLegacyTLFUpgradeChainInfo = {
-    keysetHash: TeamEncryptedKBFSKeysetHash;
-    teamGeneration: PerTeamKeyGeneration;
-    legacyGeneration: number;
-    appType: TeamApplication;
 };
 export declare type TeamSigChainState = {
     reader: UserVersion;
@@ -3143,461 +3550,11 @@ export declare type TeamSigChainState = {
         [key: string]: MerkleRootV2;
     };
 };
-export declare type BoxSummaryHash = string;
-export declare type TeamNameLogPoint = {
-    lastPart: TeamNamePart;
-    seqno: Seqno;
-};
-export declare type UserLogPoint = {
-    role: TeamRole;
-    sigMeta: SignatureMetadata;
-};
-export declare type SubteamLogPoint = {
-    name: TeamName;
-    seqno: Seqno;
-};
-export declare type TeamNamePart = string;
-export declare type TeamName = {
-    parts: TeamNamePart[] | null;
-};
-export declare type TeamCLKRResetUser = {
-    uid: UID;
-    userEldest: Seqno;
-    memberEldest: Seqno;
-};
-export declare type TeamCLKRMsg = {
-    teamId: TeamID;
-    generation: PerTeamKeyGeneration;
-    score: number;
-    resetUsers: TeamCLKRResetUser[] | null;
-};
-export declare type TeamResetUser = {
-    username: string;
-    uid: UID;
-    eldestSeqno: Seqno;
-    isDelete: boolean;
-};
-export declare type TeamMemberOutFromReset = {
-    teamName: string;
-    resetUser: TeamResetUser;
-};
-export declare type TeamChangeRow = {
-    id: TeamID;
-    name: string;
-    keyRotated: boolean;
-    membershipChanged: boolean;
-    latestSeqno: Seqno;
-    latestHiddenSeqno: Seqno;
-    implicitTeam: boolean;
-    misc: boolean;
-    removedResetUsers: boolean;
-};
-export declare type TeamExitRow = {
-    id: TeamID;
-};
-export declare type TeamNewlyAddedRow = {
-    id: TeamID;
-    name: string;
-};
-export declare type TeamInvitee = {
-    inviteId: TeamInviteID;
-    uid: UID;
-    eldestSeqno: Seqno;
-    role: TeamRole;
-};
-export declare type TeamSBSMsg = {
-    teamId: TeamID;
-    score: number;
-    invitees: TeamInvitee[] | null;
-};
-export declare type TeamAccessRequest = {
-    uid: UID;
-    eldestSeqno: Seqno;
-};
-export declare type TeamOpenReqMsg = {
-    teamId: TeamID;
-    tars: TeamAccessRequest[] | null;
-};
-export declare type SeitanAKey = string;
-export declare type SeitanIKey = string;
-export declare type SeitanPubKey = string;
-export declare type SeitanIKeyV2 = string;
-export declare enum SeitanKeyAndLabelVersion {
-    V1 = "v1",
-    V2 = "v2"
-}
-export declare type SeitanKeyAndLabel = {
-    v: SeitanKeyAndLabelVersion.V1;
-    V1: SeitanKeyAndLabelVersion1 | null;
-} | {
-    v: SeitanKeyAndLabelVersion.V2;
-    V2: SeitanKeyAndLabelVersion2 | null;
-} | {
-    v: Exclude<SeitanKeyAndLabelVersion, SeitanKeyAndLabelVersion.V1 | SeitanKeyAndLabelVersion.V2>;
-};
-export declare type SeitanKeyAndLabelVersion1 = {
-    i: SeitanIKey;
-    l: SeitanKeyLabel;
-};
-export declare type SeitanKeyAndLabelVersion2 = {
-    k: SeitanPubKey;
-    l: SeitanKeyLabel;
-};
-export declare enum SeitanKeyLabelType {
-    SMS = "sms"
-}
-export declare type SeitanKeyLabel = {
-    t: SeitanKeyLabelType.SMS;
-    SMS: SeitanKeyLabelSms | null;
-} | {
-    t: Exclude<SeitanKeyLabelType, SeitanKeyLabelType.SMS>;
-};
-export declare type SeitanKeyLabelSms = {
-    f: string;
-    n: string;
-};
-export declare type TeamSeitanRequest = {
-    inviteId: TeamInviteID;
-    uid: UID;
-    eldestSeqno: Seqno;
-    akey: SeitanAKey;
-    role: TeamRole;
-    ctime: never;
-};
-export declare type TeamSeitanMsg = {
-    teamId: TeamID;
-    seitans: TeamSeitanRequest[] | null;
-};
-export declare type TeamOpenSweepMsg = {
-    teamId: TeamID;
-    resetUsers: TeamCLKRResetUser[] | null;
-};
-export declare type TeamKBFSKeyRefresher = {
-    generation: number;
-    appType: TeamApplication;
-};
-/**
- * * TeamRefreshData are needed or wanted data requirements that, if unmet, will cause
- *    * a refresh of the cache.
- */
-export declare type TeamRefreshers = {
-    needKeyGeneration: PerTeamKeyGeneration;
-    needApplicationsAtGenerations: {
-        [key: string]: TeamApplication[] | null;
-    };
-    needApplicationsAtGenerationsWithKbfs: {
-        [key: string]: TeamApplication[] | null;
-    };
-    wantMembers: UserVersion[] | null;
-    wantMembersRole: TeamRole;
-    needKbfsKeyGeneration: TeamKBFSKeyRefresher;
-};
-export declare type LoadTeamArg = {
-    id: TeamID;
-    name: string;
-    public: boolean;
-    needAdmin: boolean;
-    refreshUidMapper: boolean;
-    refreshers: TeamRefreshers;
-    forceFullReload: boolean;
-    forceRepoll: boolean;
-    staleOk: boolean;
-    allowNameLookupBurstCache: boolean;
-    skipAudit: boolean;
-    skipNeedHiddenRotateCheck: boolean;
-};
-export declare type FastTeamLoadArg = {
-    id: TeamID;
-    public: boolean;
-    assertTeamName?: TeamName;
-    applications: TeamApplication[] | null;
-    keyGenerationsNeeded: PerTeamKeyGeneration[] | null;
-    needLatestKey: boolean;
-    forceRefresh: boolean;
-};
-export declare type FastTeamLoadRes = {
-    name: TeamName;
-    applicationKeys: TeamApplicationKey[] | null;
-};
-export declare type ImplicitRole = {
-    role: TeamRole;
-    ancestor: TeamID;
-};
-export declare type MemberInfo = {
-    uid: UID;
-    teamId: TeamID;
-    fqName: string;
-    isImplicitTeam: boolean;
-    isOpenTeam: boolean;
-    role: TeamRole;
-    implicit?: ImplicitRole;
-    memberCount: number;
-    allowProfilePromote: boolean;
-    isMemberShowcased: boolean;
-};
-export declare type TeamList = {
-    teams: MemberInfo[] | null;
-};
-export declare type AnnotatedMemberInfo = {
-    uid: UID;
-    teamId: TeamID;
-    username: string;
-    fullName: string;
-    fqName: string;
-    isImplicitTeam: boolean;
-    implicitTeamDisplayName: string;
-    isOpenTeam: boolean;
-    role: TeamRole;
-    implicit?: ImplicitRole;
-    needsPuk: boolean;
-    memberCount: number;
-    memberEldestSeqno: Seqno;
-    allowProfilePromote: boolean;
-    isMemberShowcased: boolean;
-    status: TeamMemberStatus;
-};
-export declare type AnnotatedTeamList = {
-    teams: AnnotatedMemberInfo[] | null;
-    annotatedActiveInvites: {
-        [key: string]: AnnotatedTeamInvite;
-    };
-};
-export declare type TeamAddMemberResult = {
-    invited: boolean;
-    user?: User;
-    emailSent: boolean;
-    chatSending: boolean;
-};
-export declare type TeamJoinRequest = {
-    name: string;
-    username: string;
-};
-export declare type TeamTreeResult = {
-    entries: TeamTreeEntry[] | null;
-};
-export declare type TeamTreeEntry = {
-    name: TeamName;
-    admin: boolean;
-};
-export declare type SubteamListEntry = {
-    name: TeamName;
-    memberCount: number;
-};
-export declare type SubteamListResult = {
-    entries: SubteamListEntry[] | null;
-};
-export declare type TeamCreateResult = {
-    teamId: TeamID;
-    chatSent: boolean;
-    creatorAdded: boolean;
-};
-export declare type TeamSettings = {
-    open: boolean;
-    joinAs: TeamRole;
-};
-export declare type TeamBotSettings = {
-    cmds: boolean;
-    mentions: boolean;
-    triggers: string[] | null;
-    convs: string[] | null;
-};
-export declare type TeamRequestAccessResult = {
-    open: boolean;
-};
-export declare type TeamAcceptOrRequestResult = {
-    wasToken: boolean;
-    wasSeitan: boolean;
-    wasTeamName: boolean;
-    wasOpenTeam: boolean;
-};
-export declare type TeamShowcase = {
-    isShowcased: boolean;
-    description?: string;
-    setByUid?: UID;
-    anyMemberShowcase: boolean;
-};
-export declare type TeamAndMemberShowcase = {
-    teamShowcase: TeamShowcase;
-    isMemberShowcased: boolean;
-};
-export declare type UserRolePair = {
-    assertionOrEmail: string;
-    role: TeamRole;
-    botSettings?: TeamBotSettings;
-};
-export declare type BulkRes = {
-    invited: string[] | null;
-    alreadyInvited: string[] | null;
-    malformed: string[] | null;
-};
-export declare type ImplicitTeamUserSet = {
-    keybaseUsers: string[] | null;
-    unresolvedUsers: SocialAssertion[] | null;
-};
-/**
- * * iTeams
- */
-export declare type ImplicitTeamDisplayName = {
-    isPublic: boolean;
-    writers: ImplicitTeamUserSet;
-    readers: ImplicitTeamUserSet;
-    conflictInfo?: ImplicitTeamConflictInfo;
-};
-export declare type ConflictGeneration = number;
-export declare type ImplicitTeamConflictInfo = {
-    generation: ConflictGeneration;
-    time: Time;
-};
 export declare type LookupImplicitTeamRes = {
     teamId: TeamID;
     name: TeamName;
     displayName: ImplicitTeamDisplayName;
     tlfId: TLFID;
-};
-export declare type TeamOperation = {
-    manageMembers: boolean;
-    manageSubteams: boolean;
-    createChannel: boolean;
-    chat: boolean;
-    deleteChannel: boolean;
-    renameChannel: boolean;
-    renameTeam: boolean;
-    editChannelDescription: boolean;
-    editTeamDescription: boolean;
-    setTeamShowcase: boolean;
-    setMemberShowcase: boolean;
-    setRetentionPolicy: boolean;
-    setMinWriterRole: boolean;
-    changeOpenTeam: boolean;
-    leaveTeam: boolean;
-    joinTeam: boolean;
-    setPublicityAny: boolean;
-    listFirst: boolean;
-    changeTarsDisabled: boolean;
-    deleteChatHistory: boolean;
-    deleteOtherMessages: boolean;
-    deleteTeam: boolean;
-    pinMessage: boolean;
-};
-export declare type ProfileTeamLoadRes = {
-    loadTimeNsec: never;
-};
-export declare enum RotationType {
-    VISIBLE = "visible",
-    HIDDEN = "hidden",
-    CLKR = "clkr"
-}
-export declare type TeamDebugRes = {
-    chain: TeamSigChainState;
-};
-export declare type TeamProfileAddEntry = {
-    teamName: TeamName;
-    open: boolean;
-    disabledReason: string;
-};
-export declare type MemberEmail = {
-    email: string;
-    role: string;
-};
-export declare type MemberUsername = {
-    username: string;
-    role: string;
-};
-/**
- * Result from calling test(..).
- */
-export declare type Test = {
-    reply: string;
-};
-export declare enum TLFIdentifyBehavior {
-    UNSET = "unset",
-    CHAT_CLI = "chat_cli",
-    CHAT_GUI = "chat_gui",
-    REMOVED_AND_UNUSED = "removed_and_unused",
-    KBFS_REKEY = "kbfs_rekey",
-    KBFS_QR = "kbfs_qr",
-    CHAT_SKIP = "chat_skip",
-    SALTPACK = "saltpack",
-    CLI = "cli",
-    GUI = "gui",
-    DEFAULT_KBFS = "default_kbfs",
-    KBFS_CHAT = "kbfs_chat",
-    RESOLVE_AND_CHECK = "resolve_and_check",
-    GUI_PROFILE = "gui_profile",
-    KBFS_INIT = "kbfs_init",
-    FS_GUI = "fs_gui"
-}
-export declare type CanonicalTlfName = string;
-export declare type CryptKey = {
-    keyGeneration: number;
-    key: Bytes32;
-};
-export declare type TLFBreak = {
-    breaks: TLFIdentifyFailure[] | null;
-};
-export declare type TLFIdentifyFailure = {
-    user: User;
-    breaks?: IdentifyTrackBreaks;
-};
-export declare type CanonicalTLFNameAndIDWithBreaks = {
-    tlfId: TLFID;
-    canonicalName: CanonicalTlfName;
-    breaks: TLFBreak;
-};
-export declare type GetTLFCryptKeysRes = {
-    nameIdBreaks: CanonicalTLFNameAndIDWithBreaks;
-    cryptKeys: CryptKey[] | null;
-};
-export declare type TLFQuery = {
-    tlfName: string;
-    identifyBehavior: TLFIdentifyBehavior;
-};
-export declare enum PromptDefault {
-    NONE = "none",
-    YES = "yes",
-    NO = "no"
-}
-export declare enum KeyType {
-    NONE = "none",
-    NACL = "nacl",
-    PGP = "pgp"
-}
-export declare enum UPK2MinorVersion {
-    V0 = "v0",
-    V1 = "v1",
-    V2 = "v2",
-    V3 = "v3",
-    V4 = "v4",
-    V5 = "v5",
-    V6 = "v6"
-}
-export declare type MerkleRootV2 = {
-    seqno: Seqno;
-    hashMeta: HashMeta;
-};
-export declare type SigChainLocation = {
-    seqno: Seqno;
-    seqType: SeqType;
-};
-export declare type MerkleTreeLocation = {
-    leaf: UserOrTeamID;
-    loc: SigChainLocation;
-};
-export declare type SignatureMetadata = {
-    signingKid: KID;
-    prevMerkleRootSigned: MerkleRootV2;
-    firstAppearedUnverified: Seqno;
-    time: Time;
-    sigChainLocation: SigChainLocation;
-};
-export declare type PublicKeyV2Base = {
-    kid: KID;
-    isSibkey: boolean;
-    isEldest: boolean;
-    cTime: Time;
-    eTime: Time;
-    provisioning: SignatureMetadata;
-    revocation?: SignatureMetadata;
 };
 export declare type PublicKeyV2NaCl = {
     base: PublicKeyV2Base;
@@ -3606,11 +3563,90 @@ export declare type PublicKeyV2NaCl = {
     deviceDescription: string;
     deviceType: string;
 };
-export declare type PGPFingerprint = string | null;
 export declare type PublicKeyV2PGPSummary = {
     base: PublicKeyV2Base;
     fingerprint: PGPFingerprint;
     identities: PGPIdentity[] | null;
+};
+export declare type ConflictState = {
+    conflictStateType: ConflictStateType.NormalView;
+    NormalView: FolderNormalView | null;
+} | {
+    conflictStateType: ConflictStateType.ManualResolvingLocalView;
+    ManualResolvingLocalView: FolderConflictManualResolvingLocalView | null;
+} | {
+    conflictStateType: Exclude<ConflictStateType, ConflictStateType.NormalView | ConflictStateType.ManualResolvingLocalView>;
+};
+export declare type GitRepoResult = {
+    state: GitRepoResultState.ERR;
+    ERR: string | null;
+} | {
+    state: GitRepoResultState.OK;
+    OK: GitRepoInfo | null;
+} | {
+    state: Exclude<GitRepoResultState, GitRepoResultState.ERR | GitRepoResultState.OK>;
+};
+export declare type HomeScreenPeopleNotificationFollowedMulti = {
+    followers: HomeScreenPeopleNotificationFollowed[] | null;
+    numOthers: number;
+};
+export declare type IdentifyTrackBreaks = {
+    keys: IdentifyKey[] | null;
+    proofs: IdentifyProofBreak[] | null;
+};
+export declare type OpDescription = {
+    asyncOp: AsyncOps.LIST;
+    LIST: ListArgs | null;
+} | {
+    asyncOp: AsyncOps.LIST_RECURSIVE;
+    LIST_RECURSIVE: ListArgs | null;
+} | {
+    asyncOp: AsyncOps.LIST_RECURSIVE_TO_DEPTH;
+    LIST_RECURSIVE_TO_DEPTH: ListToDepthArgs | null;
+} | {
+    asyncOp: AsyncOps.READ;
+    READ: ReadArgs | null;
+} | {
+    asyncOp: AsyncOps.WRITE;
+    WRITE: WriteArgs | null;
+} | {
+    asyncOp: AsyncOps.COPY;
+    COPY: CopyArgs | null;
+} | {
+    asyncOp: AsyncOps.MOVE;
+    MOVE: MoveArgs | null;
+} | {
+    asyncOp: AsyncOps.REMOVE;
+    REMOVE: RemoveArgs | null;
+} | {
+    asyncOp: AsyncOps.GET_REVISIONS;
+    GET_REVISIONS: GetRevisionsArgs | null;
+} | {
+    asyncOp: Exclude<AsyncOps, AsyncOps.LIST | AsyncOps.LIST_RECURSIVE | AsyncOps.LIST_RECURSIVE_TO_DEPTH | AsyncOps.READ | AsyncOps.WRITE | AsyncOps.COPY | AsyncOps.MOVE | AsyncOps.REMOVE | AsyncOps.GET_REVISIONS>;
+};
+export declare type TeamData = {
+    v: number;
+    frozen: boolean;
+    tombstoned: boolean;
+    secretless: boolean;
+    name: TeamName;
+    chain: TeamSigChainState;
+    perTeamKeySeedsUnverified: {
+        [key: string]: PerTeamKeySeedItem;
+    };
+    readerKeyMasks: {
+        [key: string]: {
+            [key: string]: MaskB64;
+        };
+    };
+    latestSeqnoHint: Seqno;
+    cachedAt: Time;
+    tlfCryptKeys: {
+        [key: string]: CryptKey[] | null;
+    };
+};
+export declare type TeamDebugRes = {
+    chain: TeamSigChainState;
 };
 export declare type PublicKeyV2 = {
     keyType: KeyType.NACL;
@@ -3640,6 +3676,69 @@ export declare type UserPlusKeysV2 = {
     reset?: ResetSummary;
     unstubbed: boolean;
 };
+export declare type UPKLiteV1 = {
+    uid: UID;
+    username: string;
+    eldestSeqno: Seqno;
+    status: StatusCode;
+    deviceKeys: {
+        [key: string]: PublicKeyV2NaCl;
+    };
+    reset?: ResetSummary;
+};
+/**
+ * Folder represents a favorite top-level folder in kbfs.
+ *     This type is likely to change significantly as all the various parts are
+ *     connected and tested.
+ */
+export declare type Folder = {
+    name: string;
+    private: boolean;
+    created: boolean;
+    folderType: FolderType;
+    teamId?: TeamID;
+    resetMembers: User[] | null;
+    mtime?: Time;
+    conflictState?: ConflictState;
+    syncConfig?: FolderSyncConfig;
+};
+export declare type HomeScreenPeopleNotification = {
+    t: HomeScreenPeopleNotificationType.FOLLOWED;
+    FOLLOWED: HomeScreenPeopleNotificationFollowed | null;
+} | {
+    t: HomeScreenPeopleNotificationType.FOLLOWED_MULTI;
+    FOLLOWED_MULTI: HomeScreenPeopleNotificationFollowedMulti | null;
+} | {
+    t: HomeScreenPeopleNotificationType.CONTACT;
+    CONTACT: HomeScreenPeopleNotificationContact | null;
+} | {
+    t: HomeScreenPeopleNotificationType.CONTACT_MULTI;
+    CONTACT_MULTI: HomeScreenPeopleNotificationContactMulti | null;
+} | {
+    t: Exclude<HomeScreenPeopleNotificationType, HomeScreenPeopleNotificationType.FOLLOWED | HomeScreenPeopleNotificationType.FOLLOWED_MULTI | HomeScreenPeopleNotificationType.CONTACT | HomeScreenPeopleNotificationType.CONTACT_MULTI>;
+};
+export declare type Identify2Res = {
+    upk: UserPlusKeys;
+    identifiedAt: Time;
+    trackBreaks?: IdentifyTrackBreaks;
+};
+export declare type IdentifyLiteRes = {
+    ul: UserOrTeamLite;
+    trackBreaks?: IdentifyTrackBreaks;
+};
+export declare type ResolveIdentifyImplicitTeamRes = {
+    displayName: string;
+    teamId: TeamID;
+    writers: UserVersion[] | null;
+    trackBreaks: {
+        [key: string]: IdentifyTrackBreaks;
+    };
+    folderId: TLFID;
+};
+export declare type TLFIdentifyFailure = {
+    user: User;
+    breaks?: IdentifyTrackBreaks;
+};
 export declare type UserPlusKeysV2AllIncarnations = {
     current: UserPlusKeysV2;
     pastIncarnations: UserPlusKeysV2[] | null;
@@ -3650,10 +3749,53 @@ export declare type UserPlusKeysV2AllIncarnations = {
     minorVersion: UPK2MinorVersion;
     stale: boolean;
 };
-export declare enum UPAKVersion {
-    V1 = "v1",
-    V2 = "v2"
-}
+export declare type UPKLiteV1AllIncarnations = {
+    current: UPKLiteV1;
+    pastIncarnations: UPKLiteV1[] | null;
+    seqnoLinkIDs: {
+        [key: string]: LinkID;
+    };
+    minorVersion: UPKLiteMinorVersion;
+};
+export declare type FavoritesResult = {
+    favoriteFolders: Folder[] | null;
+    ignoredFolders: Folder[] | null;
+    newFolders: Folder[] | null;
+};
+export declare type HomeScreenItemData = {
+    t: HomeScreenItemType.TODO;
+    TODO: HomeScreenTodo | null;
+} | {
+    t: HomeScreenItemType.PEOPLE;
+    PEOPLE: HomeScreenPeopleNotification | null;
+} | {
+    t: HomeScreenItemType.ANNOUNCEMENT;
+    ANNOUNCEMENT: HomeScreenAnnouncement | null;
+} | {
+    t: Exclude<HomeScreenItemType, HomeScreenItemType.TODO | HomeScreenItemType.PEOPLE | HomeScreenItemType.ANNOUNCEMENT>;
+};
+export declare type Identify2ResUPK2 = {
+    upk: UserPlusKeysV2AllIncarnations;
+    identifiedAt: Time;
+    trackBreaks?: IdentifyTrackBreaks;
+};
+export declare type FSEditListRequest = {
+    folder: Folder;
+    requestId: number;
+};
+export declare type FSFolderEditHistory = {
+    folder: Folder;
+    serverTime: Time;
+    history: FSFolderWriterEditHistory[] | null;
+};
+export declare type FolderSyncConfigAndStatusWithFolder = {
+    folder: Folder;
+    config: FolderSyncConfig;
+    status: FolderSyncStatus;
+};
+export declare type TLFBreak = {
+    breaks: TLFIdentifyFailure[] | null;
+};
 /**
  * * What we're storing for each user. At first it was UPAKs, as defined
  *    * in common.avdl. But going forward, we're going to use UserPlusKeysV2AllIncarnations.
@@ -3667,166 +3809,29 @@ export declare type UPAKVersioned = {
 } | {
     v: Exclude<UPAKVersion, UPAKVersion.V1 | UPAKVersion.V2>;
 };
-export declare enum UPKLiteMinorVersion {
-    V0 = "v0"
-}
-export declare type UPKLiteV1 = {
-    uid: UID;
-    username: string;
-    eldestSeqno: Seqno;
-    status: StatusCode;
-    deviceKeys: {
-        [key: string]: PublicKeyV2NaCl;
-    };
-    reset?: ResetSummary;
+export declare type HomeScreenItem = {
+    badged: boolean;
+    data: HomeScreenItemData;
+    dataExt: HomeScreenItemDataExt;
 };
-export declare type UPKLiteV1AllIncarnations = {
-    current: UPKLiteV1;
-    pastIncarnations: UPKLiteV1[] | null;
-    seqnoLinkIDs: {
-        [key: string]: LinkID;
-    };
-    minorVersion: UPKLiteMinorVersion;
+export declare type SyncConfigAndStatusRes = {
+    folders: FolderSyncConfigAndStatusWithFolder[] | null;
+    overallStatus: FolderSyncStatus;
 };
-export declare type TrackProof = {
-    proofType: string;
-    proofName: string;
-    idString: string;
+export declare type CanonicalTLFNameAndIDWithBreaks = {
+    tlfId: TLFID;
+    canonicalName: CanonicalTlfName;
+    breaks: TLFBreak;
 };
-export declare type WebProof = {
-    hostname: string;
-    protocols: string[] | null;
-};
-export declare type Proofs = {
-    social: TrackProof[] | null;
-    web: WebProof[] | null;
-    publicKeys: PublicKey[] | null;
-};
-export declare type UserSummary = {
-    uid: UID;
-    username: string;
-    thumbnail: string;
-    idVersion: number;
-    fullName: string;
-    bio: string;
-    proofs: Proofs;
-    sigIdDisplay: string;
-    trackTime: Time;
-};
-export declare type EmailAddress = string;
-export declare type Email = {
-    email: EmailAddress;
-    isVerified: boolean;
-    isPrimary: boolean;
-    visibility: IdentityVisibility;
-    lastVerifyEmailDate: UnixTime;
-};
-export declare type UserSettings = {
-    emails: Email[] | null;
-    phoneNumbers: UserPhoneNumber[] | null;
-};
-export declare type UserSummary2 = {
-    uid: UID;
-    username: string;
-    thumbnail: string;
-    fullName: string;
-    isFollower: boolean;
-    isFollowee: boolean;
-};
-export declare type UserSummary2Set = {
-    users: UserSummary2[] | null;
-    time: Time;
+export declare type HomeScreen = {
+    lastViewed: Time;
     version: number;
+    visits: number;
+    items: HomeScreenItem[] | null;
+    followSuggestions: HomeUserSummary[] | null;
+    announcementsVersion: number;
 };
-export declare type InterestingPerson = {
-    uid: UID;
-    username: string;
-    fullname: string;
-};
-export declare type ProofSuggestionsRes = {
-    suggestions: ProofSuggestion[] | null;
-    showMore: boolean;
-};
-export declare type ProofSuggestion = {
-    key: string;
-    belowFold: boolean;
-    profileText: string;
-    profileIcon: SizedImage[] | null;
-    pickerText: string;
-    pickerSubtext: string;
-    pickerIcon: SizedImage[] | null;
-    metas: Identify3RowMeta[] | null;
-};
-export declare type NextMerkleRootRes = {
-    res?: MerkleRootV2;
-};
-export declare type CanLogoutRes = {
-    canLogout: boolean;
-    reason: string;
-    setPassphrase: boolean;
-};
-export declare type APIUserServiceIDWithContact = string;
-export declare type APIUserKeybaseResult = {
-    username: string;
-    uid: UID;
-    pictureUrl?: string;
-    fullName?: string;
-    rawScore: number;
-    stellar?: string;
-    isFollowee: boolean;
-};
-export declare type APIUserServiceResult = {
-    serviceName: APIUserServiceIDWithContact;
-    username: string;
-    pictureUrl: string;
-    bio: string;
-    location: string;
-    fullName: string;
-    confirmed?: boolean;
-};
-export declare type APIUserServiceSummary = {
-    serviceName: APIUserServiceIDWithContact;
-    username: string;
-};
-export declare type ImpTofuSearchResult = {
-    assertion: string;
-    assertionValue: string;
-    assertionKey: string;
-    label: string;
-    prettyName: string;
-    keybaseUsername: string;
-};
-export declare type APIUserSearchResult = {
-    score: number;
-    keybase?: APIUserKeybaseResult;
-    service?: APIUserServiceResult;
-    contact?: ProcessedContact;
-    imptofu?: ImpTofuSearchResult;
-    servicesSummary: {
-        [key: string]: APIUserServiceSummary;
-    };
-    rawScore: number;
-};
-export declare type NonUserDetails = {
-    isNonUser: boolean;
-    assertionValue: string;
-    assertionKey: string;
-    description: string;
-    contact?: ProcessedContact;
-    service?: APIUserServiceResult;
-    siteIcon: SizedImage[] | null;
-    siteIconFull: SizedImage[] | null;
-};
-export declare enum ImpTofuSearchType {
-    PHONE = "phone",
-    EMAIL = "email"
-}
-export declare type ImpTofuQuery = {
-    t: ImpTofuSearchType.PHONE;
-    PHONE: PhoneNumber | null;
-} | {
-    t: ImpTofuSearchType.EMAIL;
-    EMAIL: EmailAddress | null;
-} | {
-    t: Exclude<ImpTofuSearchType, ImpTofuSearchType.PHONE | ImpTofuSearchType.EMAIL>;
+export declare type GetTLFCryptKeysRes = {
+    nameIdBreaks: CanonicalTLFNameAndIDWithBreaks;
+    cryptKeys: CryptKey[] | null;
 };

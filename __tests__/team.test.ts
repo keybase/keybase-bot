@@ -1,6 +1,6 @@
 import Bot from '../lib'
 import config from './tests.config'
-import {ListTeamMembershipsResult, TeamRole, TeamRolePlural} from '../lib/team-client/types'
+import {TeamRole, TeamDetails} from '../lib/types/keybase1'
 
 test('Team methods with an uninitialized bot', (): void => {
   const alice1 = new Bot()
@@ -8,21 +8,21 @@ test('Team methods with an uninitialized bot', (): void => {
   expect(alice1.team.listTeamMemberships(options)).rejects.toThrowError()
 })
 
-function pluralizeRole(r: TeamRole): TeamRolePlural {
+function pluralizeRole(r: TeamRole): 'owners' | 'admins' | 'readers' | 'writers' {
   switch (r) {
-    case 'owner':
+    case TeamRole.OWNER:
       return 'owners'
-    case 'admin':
+    case TeamRole.ADMIN:
       return 'admins'
-    case 'reader':
+    case TeamRole.READER:
       return 'readers'
-    default:
+    case TeamRole.WRITER:
       return 'writers'
   }
 }
 
-function checkMembershipLevel(username: string, teamListResult: ListTeamMembershipsResult): TeamRole | null {
-  const possibleRoles: TeamRole[] = ['owner', 'admin', 'writer', 'reader']
+function checkMembershipLevel(username: string, teamListResult: TeamDetails): TeamRole | null {
+  const possibleRoles: TeamRole[] = [TeamRole.OWNER, TeamRole.ADMIN, TeamRole.WRITER, TeamRole.READER]
   for (const role of possibleRoles) {
     for (const user of teamListResult.members[pluralizeRole(role)]) {
       if (user.username === username) {

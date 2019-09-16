@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es2019",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "rootDir": "demos/typescript",
+    "outDir": "demos/compiled-from-typescript",
+    "lib": ["es2019"]
+  },
+  "include": ["demos/typescript"],
+  "exclude": ["demos/compiled-from-typescript"]
+}

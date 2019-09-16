@@ -1,7 +1,7 @@
 /*
  * gregor.1
  *
- * Auto-generated to TypeScript types by avdl-compiler v1.4.1 (https://github.com/keybase/node-avdl-compiler)
+ * Auto-generated to TypeScript types by avdl-compiler v1.4.2 (https://github.com/keybase/node-avdl-compiler)
  * Input files:
  * - ../client/protocol/avdl/gregor1/auth.avdl
  * - ../client/protocol/avdl/gregor1/auth_internal.avdl
@@ -11,6 +11,28 @@
  * - ../client/protocol/avdl/gregor1/outgoing.avdl
  * - ../client/protocol/avdl/gregor1/remind.avdl
  */
+
+export type DurationMsec = number
+
+export type DurationSec = number
+
+export type Category = string
+
+export type System = string
+
+export type UID = Buffer
+
+export type MsgID = Buffer
+
+export type DeviceID = Buffer
+
+export type Body = Buffer
+
+export type Time = number
+
+export type SessionID = string
+
+export type SessionToken = string
 
 export type AuthResult = {
   uid: UID
@@ -32,54 +54,6 @@ export type Metadata = {
   inBandMsgType: number
 }
 
-export type InBandMessage = {
-  stateUpdate?: StateUpdateMessage
-  stateSync?: StateSyncMessage
-}
-
-export type State = {
-  items: ItemAndMetadata[] | null
-}
-
-export type StateUpdateMessage = {
-  md: Metadata
-  creation?: Item
-  dismissal?: Dismissal
-}
-
-export type StateSyncMessage = {
-  md: Metadata
-}
-
-export type MsgRange = {
-  endTime: TimeOrOffset
-  category: Category
-  skipMsgIDs: MsgID[] | null
-}
-
-export type Dismissal = {
-  msgIDs: MsgID[] | null
-  ranges: MsgRange[] | null
-}
-
-export type Item = {
-  category: Category
-  dtime: TimeOrOffset
-  remindTimes: TimeOrOffset[] | null
-  body: Body
-}
-
-export type ItemAndMetadata = {
-  md?: Metadata
-  item?: Item
-}
-
-export type Reminder = {
-  item: ItemAndMetadata
-  seqno: number
-  remindTime: Time
-}
-
 export type ReminderID = {
   uid: UID
   msgId: MsgID
@@ -90,43 +64,6 @@ export type OutOfBandMessage = {
   uid: UID
   system: System
   body: Body
-}
-
-export type ReminderSet = {
-  reminders: Reminder[] | null
-  moreRemindersReady: boolean
-}
-
-export type Message = {
-  oobm?: OutOfBandMessage
-  ibm?: InBandMessage
-}
-
-export type DurationMsec = never
-
-export type DurationSec = never
-
-export type Category = string
-
-export type System = string
-
-export type UID = Buffer
-
-export type MsgID = Buffer
-
-export type DeviceID = Buffer
-
-export type Body = Buffer
-
-export type Time = never
-
-export type SessionID = string
-
-export type SessionToken = string
-
-export type SyncResult = {
-  msgs: InBandMessage[] | null
-  hash: Buffer
 }
 
 /**
@@ -141,7 +78,70 @@ export type ConnectedDevice = {
   userAgent: string
 }
 
+export type StateSyncMessage = {
+  md: Metadata
+}
+
+export type MsgRange = {
+  endTime: TimeOrOffset
+  category: Category
+  skipMsgIDs: MsgID[] | null
+}
+
+export type Item = {
+  category: Category
+  dtime: TimeOrOffset
+  remindTimes: TimeOrOffset[] | null
+  body: Body
+}
+
 export type ConnectedUser = {
   uid: UID
   devices: ConnectedDevice[] | null
+}
+
+export type Dismissal = {
+  msgIDs: MsgID[] | null
+  ranges: MsgRange[] | null
+}
+
+export type ItemAndMetadata = {
+  md?: Metadata
+  item?: Item
+}
+
+export type State = {
+  items: ItemAndMetadata[] | null
+}
+
+export type StateUpdateMessage = {
+  md: Metadata
+  creation?: Item
+  dismissal?: Dismissal
+}
+
+export type Reminder = {
+  item: ItemAndMetadata
+  seqno: number
+  remindTime: Time
+}
+
+export type InBandMessage = {
+  stateUpdate?: StateUpdateMessage
+  stateSync?: StateSyncMessage
+}
+
+export type ReminderSet = {
+  reminders: Reminder[] | null
+  moreRemindersReady: boolean
+}
+
+export type Message = {
+  oobm?: OutOfBandMessage
+  ibm?: InBandMessage
+}
+
+export type SyncResult = {
+  msgs: InBandMessage[] | null
+  hash: Buffer
 }

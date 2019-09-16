@@ -120,10 +120,10 @@ describe('Wallet Methods', (): void => {
       const batchId = crypto.randomBytes(8).toString('hex')
       const batchRes = await alice1.wallet.batch(batchId, [
         {recipient: config.bots.bob1.username, amount: '0.01', message: 'hi bob'},
-        {recipient: config.bots.alice2.username, amount: '0.02'},
-        {recipient: config.bots.charlie1.username, amount: '0.03'}, // should fail since not enough for relay
+        {recipient: config.bots.alice2.username, amount: '0.02', message: 'hi alice2'},
+        {recipient: config.bots.charlie1.username, amount: '0.03', message: 'hi charlie1'}, // should fail since not enough for relay
       ])
-      expect(batchRes.countSuccess).toBe(2)
+      expect(batchRes.countSuccess + batchRes.countPending).toBe(2)
       expect(batchRes.countError).toBe(1)
     })
     it('Sends money from chat when option set', async (): Promise<void> => {

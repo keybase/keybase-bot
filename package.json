@@ -1,6 +1,6 @@
 {
   "name": "keybase-bot",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Script Keybase in Node.js!",
   "keywords": [
     "keybase",
@@ -49,6 +49,7 @@
     "test": "jest --runInBand",
     "release": "standard-version",
     "build": "rm -rf lib/ && tsc",
+    "build-demos": "rm -rf demos/javascript && tsc -p ./tsconfig.demos.json",
     "clean": "rm -rf lib/",
     "send": "node ./lib/send.js",
     "typegen": "make types"

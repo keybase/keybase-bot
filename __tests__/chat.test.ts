@@ -6,24 +6,23 @@ import {timeout} from '../lib/utils'
 import {pollFor} from './test-utils'
 import {promisify} from 'util'
 import {TopicType, ChatChannel, MsgSummary, BotCommandsAdvertisementTyp} from '../lib/types/chat1'
-import {ReadResult} from '../lib/chat-client'
-import {OnMessage} from '../lib/chat-client'
+import {OnMessage, ReadResult} from '../lib/chat-client'
 
 test('Chat methods with an uninitialized bot', (): void => {
   const alice1 = new Bot()
   const channel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
   const message = {body: 'Testing!'}
 
-  // @ts-ignore because it intentionally has bar arguments
+  // @ts-ignore because it intentionally has bad arguments
   expect(alice1.chat.list()).rejects.toThrowError()
 
-  // @ts-ignore because it intentionally has bar arguments
+  // @ts-ignore because it intentionally has bad arguments
   expect(alice1.chat.read()).rejects.toThrowError()
 
-  // @ts-ignore because it intentionally has bar arguments
+  // @ts-ignore because it intentionally has bad arguments
   expect(alice1.chat.send(channel, message)).rejects.toThrowError()
 
-  // @ts-ignore because it intentionally has bar arguments
+  // @ts-ignore because it intentionally has bad arguments
   expect(alice1.chat.delete(channel, 314)).rejects.toThrowError()
 })
 
@@ -46,7 +45,6 @@ describe('Chat Methods', (): void => {
 
   const channelMatcher = expect.objectContaining({
     name: expect.any(String),
-    public: expect.any(Boolean),
     membersType: expect.any(String),
   })
   const conversationMatcher = expect.objectContaining({
@@ -164,7 +162,7 @@ describe('Chat Methods', (): void => {
           peek: true,
           unreadOnly: true,
           pagination: {
-            num: 3,
+            num: 1,
             next: lastPagination ? lastPagination.next : undefined,
           },
         })
@@ -266,7 +264,7 @@ describe('Chat Methods', (): void => {
       const channelAlice = {name: config.bots.bob1.username}
       const channelBob = {name: config.bots.alice1.username}
       const body = 'Dearest Bob, how are you?'
-      let incoming: any = null
+      let incoming: MsgSummary = null
       const watcher: OnMessage = (message: MsgSummary): void => {
         incoming = message
       }
@@ -314,7 +312,7 @@ describe('Chat Methods', (): void => {
         public: false,
         topicType: 'chat',
         membersType: 'team',
-        topicName: 'subchannel',
+        topicName: `subchannel-${Date.now()}`,
       }
       const generalChannel: ChatChannel = {
         name: config.teams.acme.teamname,
@@ -589,7 +587,7 @@ describe('Chat Methods', (): void => {
       const directChannel = {name: `${bot1.myInfo().username},${bot2.myInfo().username}`}
       let totalMessagesSeen = 0
       let highestReached = 0
-      const onMessageForBot = (bot: Bot): any => {
+      const onMessageForBot = (bot: Bot): OnMessage => {
         const onMessage = async (message: MsgSummary): Promise<void> => {
           if (message.content.type === 'text') {
             const body = message.content.text.body
