@@ -2,6 +2,8 @@ import Service from './service'
 import ChatClient from './chat-client'
 import WalletClient from './wallet-client'
 import TeamClient from './team-client'
+import HelpersClient from './helpers-client'
+
 import {BotInfo} from './utils/keybaseStatus'
 import mkdirp from 'mkdirp'
 import {whichKeybase, rmdirRecursive} from './utils'
@@ -18,6 +20,7 @@ class Bot {
   public chat: ChatClient
   public wallet: WalletClient
   public team: TeamClient
+  public helpers: HelpersClient
   private _workingDir: string // where KB binary copied, and homeDir (if not existing svc)
   private _service: Service
   private _botId: string
@@ -38,6 +41,7 @@ class Bot {
     this.chat = new ChatClient(this._workingDir, this._adminDebugLogger)
     this.wallet = new WalletClient(this._workingDir, this._adminDebugLogger)
     this.team = new TeamClient(this._workingDir, this._adminDebugLogger)
+    this.helpers = new HelpersClient(this._workingDir, this._adminDebugLogger)
     this._initStatus = 'preinit'
   }
 
@@ -175,6 +179,7 @@ class Bot {
       await this.chat._init(info.homeDir, options)
       await this.wallet._init(info.homeDir, options)
       await this.team._init(info.homeDir, options)
+      await this.helpers._init(info.homeDir, options)
     } else {
       throw new Error('Issue initializing bot.')
     }

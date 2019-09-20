@@ -20,7 +20,7 @@ declare class ClientBase {
     homeDir: void | string;
     verbose: boolean;
     protected _spawnedProcesses: ChildProcess[];
-    private _workingDir;
+    protected _workingDir: string;
     private _initializedWithOptions;
     protected _adminDebugLogger: AdminDebugLogger;
     constructor(workingDir: string, adminDebugLogger: AdminDebugLogger);

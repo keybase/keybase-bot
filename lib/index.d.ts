@@ -1,6 +1,7 @@
 import ChatClient from './chat-client';
 import WalletClient from './wallet-client';
 import TeamClient from './team-client';
+import HelpersClient from './helpers-client';
 import { BotInfo } from './utils/keybaseStatus';
 import { InitOptions } from './utils/options';
 /** A Keybase bot. */
@@ -8,6 +9,7 @@ declare class Bot {
     chat: ChatClient;
     wallet: WalletClient;
     team: TeamClient;
+    helpers: HelpersClient;
     private _workingDir;
     private _service;
     private _botId;
