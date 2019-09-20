@@ -24,7 +24,7 @@ class ClientBase {
   public homeDir: void | string
   public verbose: boolean
   protected _spawnedProcesses: ChildProcess[]
-  private _workingDir: string
+  protected _workingDir: string
   private _initializedWithOptions: InitOptions
   protected _adminDebugLogger: AdminDebugLogger
 
