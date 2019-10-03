@@ -72,6 +72,81 @@ node <my-awesome-file-name>.js
 
 This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want to take a look in there. There are also some other cool bots in the demos directory, including a bot that tells you how many unread messages you have and a bot that does math for you and your friends. You can write a bot in any language that can compile to JavaScript and run on Node.js. We have some ES7+ (with `async/await`) demos in [`demos/ES7`](demos/es7) and even a bot in [Iced CoffeeScript](http://maxtaco.github.io/coffee-script/)! (in [`demos/iced`](demos/iced))
 
+## Docker usage
+
+1. Create a bot package, for example save the following code as `index.js`:
+
+```javascript
+#!/usr/bin/env node
+const Bot = require('keybase-bot')
+
+async function main() {
+  const bot = new Bot()
+  try {
+    const username = process.env.KB_USERNAME
+    const paperkey = process.env.KB_PAPERKEY
+    const target = process.env.KB_TARGET
+    await bot.init(username, paperkey, {verbose: false})
+    console.log(`Your bot is initialized. It is logged in as ${bot.myInfo().username}`)
+    const channel = {name: target + ',' + bot.myInfo().username, public: false, topicType: 'chat'}
+    const message = {
+      body: `Hello ${target}! This is ${bot.myInfo().username} saying hello from my device ${bot.myInfo().devicename}`,
+    }
+    await bot.chat.send(channel, message)
+    console.log('Message sent!')
+  } catch (error) {
+    console.error(error)
+  } finally {
+    await bot.deinit()
+  }
+}
+main()
+```
+
+2. Prepare a `package.json`:
+
+```json
+{
+  "name": "keybase-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
+```
+
+3. Prepare a `Dockerfile`:
+
+```dockerfile
+FROM keybaseio/client:nightly-node
+WORKDIR /app
+COPY . /app
+RUN npm install # or use yarn
+CMD node /app/index.js
+```
+
+4. Run the following command to build the image:
+
+```bash
+cd $PROJECT_DIR
+docker build -t "keybase-docker-test" .
+```
+
+5. Start a container to test that it works:
+
+```bash
+docker run \
+  --rm \
+  -e KB_USERNAME="yourbotname" \
+  -e KB_PAPERKEY="your_paper_key" \
+  -e KB_TARGET="yourusername" \
+  keybase-docker-test
+```
+
 ## Development
 
 All the source of this library is now written in TypeScript. If you're working on the library, please use `yarn` to install the necessary modules, and then run `yarn build` to build the JavaScript library files. Finally, make a test config file in `__tests__/` (look at `__tests__/test.config.ts` as an example) and run `yarn test`. If everything passes, you haven't broken everything horribly.
