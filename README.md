@@ -115,7 +115,10 @@ main()
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "keybase-bot": "^3.0.2"
+  }
 }
 ```
 
