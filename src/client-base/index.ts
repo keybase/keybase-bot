@@ -1,6 +1,7 @@
 import {ChildProcess} from 'child_process'
 import {formatAPIObjectInput, formatAPIObjectOutput, keybaseExec, keybaseStatus} from '../utils'
 import safeJSONStringify from '../utils/safeJSONStringify'
+import keybaseBinaryName from '../utils/keybaseBinaryName'
 import {API_VERSIONS, API_TYPES} from '../constants'
 import path from 'path'
 import {InitOptions} from '../utils/options'
@@ -86,7 +87,7 @@ class ClientBase {
     }
   }
   protected _pathToKeybaseBinary(): string {
-    return path.join(this._workingDir, 'keybase')
+    return path.join(this._workingDir, keybaseBinaryName)
   }
 }
 

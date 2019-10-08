@@ -2,6 +2,7 @@ import {keybaseExec, keybaseStatus, pingKeybaseService, timeout} from '../utils'
 import {spawn} from 'child_process'
 import {BotInfo} from '../utils/keybaseStatus'
 import {InitOptions} from '../utils/options'
+import keybaseBinaryName from '../utils/keybaseBinaryName'
 import path from 'path'
 import {AdminDebugLogger} from '../utils/adminDebugLogger'
 
@@ -163,7 +164,7 @@ class Service {
     if (this.botLite) {
       args.unshift('--enable-bot-lite-mode')
     }
-    const child = spawn(path.join(this.workingDir, 'keybase'), args, {env: process.env, detached: this._useDetachedService})
+    const child = spawn(path.join(this.workingDir, keybaseBinaryName), args, {env: process.env, detached: this._useDetachedService})
 
     // keep track of the subprocess' state
     this.running = true
