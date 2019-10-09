@@ -430,7 +430,9 @@ class Chat extends ClientBase {
     const res = await this._runApiCommand({
       apiName: 'chat',
       method: 'loadflip',
-      options: formatAPIObjectInput({conversationID, flipConversationID, messageID, gameID}, 'chat'),
+      // The flip method uses `msg_id` as a parameter instead of `message_id`, like other chat methods
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      options: formatAPIObjectInput({conversationID, flipConversationID, msg_id: messageID, gameID}, 'chat'),
       timeout: 2000,
     })
     if (!res) {
