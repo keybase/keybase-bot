@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const Bot = require('../../lib/index.js')
-const Hand = require('pokersolver').Hand
+const {Hand} = require('pokersolver')
 
 const bot = new Bot()
 
