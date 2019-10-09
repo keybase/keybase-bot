@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const Bot = require('../../lib/index.js')
-const Hand = require('./pokersolver.js').Hand
+const Hand = require('pokersolver').Hand
 
 const bot = new Bot()
 
@@ -36,12 +36,7 @@ async function main() {
             let resolved
             while (!resolved) {
               try {
-                const flip = await bot.chat.loadFlip(
-                  msg.conversationId,
-                  msg.content.flip.flipConvId,
-                  msg.id,
-                  msg.content.flip.gameId
-                )
+                const flip = await bot.chat.loadFlip(msg.conversationId, msg.content.flip.flipConvId, msg.id, msg.content.flip.gameId)
                 if (flip.phase === 2) {
                   resolved = true
 
