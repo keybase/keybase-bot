@@ -82,269 +82,119 @@ All the source of this library is now written in TypeScript. If you're working o
 
 #### Table of Contents
 
-- [Bot](#bot)
-  - [init](#init)
-    - [Parameters](#parameters)
-    - [Examples](#examples)
-  - [initFromRunningService](#initfromrunningservice)
-    - [Parameters](#parameters-1)
-    - [Examples](#examples-1)
-  - [myInfo](#myinfo)
-    - [Examples](#examples-2)
-  - [deinit](#deinit)
-    - [Examples](#examples-3)
-  - [adminDebugLogInfo](#admindebugloginfo)
-    - [Parameters](#parameters-2)
-    - [Examples](#examples-4)
-  - [adminDebugLogError](#admindebuglogerror)
-    - [Parameters](#parameters-3)
-    - [Examples](#examples-5)
 - [Bot Types](#bot-types)
-  - [InitOptions](#initoptions)
-  - [BotInfo](#botinfo)
 - [Chat](#chat)
   - [joinChannel](#joinchannel)
-    - [Parameters](#parameters-4)
-    - [Examples](#examples-6)
+    - [Parameters](#parameters)
+    - [Examples](#examples)
   - [leaveChannel](#leavechannel)
-    - [Parameters](#parameters-5)
-    - [Examples](#examples-7)
+    - [Parameters](#parameters-1)
+    - [Examples](#examples-1)
   - [getUnfurlSettings](#getunfurlsettings)
-    - [Examples](#examples-8)
+    - [Examples](#examples-2)
   - [setUnfurlSettings](#setunfurlsettings)
-    - [Parameters](#parameters-6)
-    - [Examples](#examples-9)
+    - [Parameters](#parameters-2)
+    - [Examples](#examples-3)
   - [loadFlip](#loadflip)
-    - [Parameters](#parameters-7)
-    - [Examples](#examples-10)
+    - [Parameters](#parameters-3)
+    - [Examples](#examples-4)
   - [advertiseCommands](#advertisecommands)
-    - [Parameters](#parameters-8)
-    - [Examples](#examples-11)
+    - [Parameters](#parameters-4)
+    - [Examples](#examples-5)
   - [clearCommands](#clearcommands)
-    - [Parameters](#parameters-9)
-    - [Examples](#examples-12)
+    - [Parameters](#parameters-5)
+    - [Examples](#examples-6)
   - [listCommands](#listcommands)
-    - [Parameters](#parameters-10)
-    - [Examples](#examples-13)
+    - [Parameters](#parameters-6)
+    - [Examples](#examples-7)
   - [list](#list)
-    - [Parameters](#parameters-11)
-    - [Examples](#examples-14)
+    - [Parameters](#parameters-7)
+    - [Examples](#examples-8)
   - [listChannels](#listchannels)
-    - [Parameters](#parameters-12)
-    - [Examples](#examples-15)
+    - [Parameters](#parameters-8)
+    - [Examples](#examples-9)
   - [read](#read)
-    - [Parameters](#parameters-13)
-    - [Examples](#examples-16)
+    - [Parameters](#parameters-9)
+    - [Examples](#examples-10)
   - [send](#send)
-    - [Parameters](#parameters-14)
-    - [Examples](#examples-17)
+    - [Parameters](#parameters-10)
+    - [Examples](#examples-11)
   - [createChannel](#createchannel)
-    - [Parameters](#parameters-15)
-    - [Examples](#examples-18)
+    - [Parameters](#parameters-11)
+    - [Examples](#examples-12)
   - [attach](#attach)
-    - [Parameters](#parameters-16)
-    - [Examples](#examples-19)
+    - [Parameters](#parameters-12)
+    - [Examples](#examples-13)
   - [download](#download)
-    - [Parameters](#parameters-17)
-    - [Examples](#examples-20)
+    - [Parameters](#parameters-13)
+    - [Examples](#examples-14)
   - [react](#react)
-    - [Parameters](#parameters-18)
-    - [Examples](#examples-21)
+    - [Parameters](#parameters-14)
+    - [Examples](#examples-15)
   - [delete](#delete)
-    - [Parameters](#parameters-19)
-    - [Examples](#examples-22)
+    - [Parameters](#parameters-15)
+    - [Examples](#examples-16)
   - [watchChannelForNewMessages](#watchchannelfornewmessages)
-    - [Parameters](#parameters-20)
-    - [Examples](#examples-23)
+    - [Parameters](#parameters-16)
+    - [Examples](#examples-17)
   - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
-    - [Parameters](#parameters-21)
-    - [Examples](#examples-24)
+    - [Parameters](#parameters-17)
+    - [Examples](#examples-18)
 - [Chat Types](#chat-types)
   - [ChatChannel](#chatchannel)
     - [Properties](#properties)
   - [ChatMessage](#chatmessage)
     - [Properties](#properties-1)
-  - [ChatListOptions](#chatlistoptions)
-  - [ChatListChannelsOptions](#chatlistchannelsoptions)
-  - [ChatReadOptions](#chatreadoptions)
-  - [ChatSendOptions](#chatsendoptions)
-  - [ChatReactOptions](#chatreactoptions)
+  - [ConvSummary](#convsummary)
+    - [Properties](#properties-2)
   - [ChatAttachOptions](#chatattachoptions)
   - [ChatDownloadOptions](#chatdownloadoptions)
+  - [ChatReactOptions](#chatreactoptions)
   - [ChatDeleteOptions](#chatdeleteoptions)
-  - [ListenOptions](#listenoptions)
   - [OnMessage](#onmessage)
   - [OnError](#onerror)
-- [Wallet](#wallet)
-  - [balances](#balances)
-    - [Examples](#examples-25)
-  - [history](#history)
-    - [Parameters](#parameters-22)
-    - [Examples](#examples-26)
-  - [details](#details)
-    - [Parameters](#parameters-23)
-    - [Examples](#examples-27)
-  - [lookup](#lookup)
-    - [Parameters](#parameters-24)
-    - [Examples](#examples-28)
-  - [send](#send-1)
-    - [Parameters](#parameters-25)
-    - [Examples](#examples-29)
-  - [batch](#batch)
-    - [Parameters](#parameters-26)
-    - [Examples](#examples-30)
-  - [cancel](#cancel)
-    - [Parameters](#parameters-27)
-    - [Examples](#examples-31)
-- [Wallet Types](#wallet-types)
+  - [ListenOptions](#listenoptions)
 - [Team](#team)
   - [addMembers](#addmembers)
-    - [Parameters](#parameters-28)
-    - [Examples](#examples-32)
+    - [Parameters](#parameters-18)
+    - [Examples](#examples-19)
   - [removeMember](#removemember)
-    - [Parameters](#parameters-29)
-    - [Examples](#examples-33)
+    - [Parameters](#parameters-19)
+    - [Examples](#examples-20)
   - [listTeamMemberships](#listteammemberships)
-    - [Parameters](#parameters-30)
-    - [Examples](#examples-34)
-- [ConvSummary](#convsummary)
-  - [Properties](#properties-2)
-- [ConnectedDevice](#connecteddevice)
-  - [Properties](#properties-3)
-- [SocialAssertionService](#socialassertionservice)
-- [SocialAssertion](#socialassertion)
-  - [Properties](#properties-4)
-- [Folder](#folder)
-  - [Properties](#properties-5)
-- [HomeScreenTodo](#homescreentodo)
-- [TrackStatus](#trackstatus)
-- [InstallStatus](#installstatus)
-- [PGPSigVerification](#pgpsigverification)
-  - [Properties](#properties-6)
-- [PGPPurgeRes](#pgppurgeres)
-  - [Properties](#properties-7)
-- [UserPhoneNumber](#userphonenumber)
-  - [Properties](#properties-8)
-- [ProofStatus](#proofstatus)
-- [SecretResponse](#secretresponse)
-  - [Properties](#properties-9)
-- [ProblemSet](#problemset)
-  - [Properties](#properties-10)
-- [TeamRefreshers](#teamrefreshers)
-  - [Properties](#properties-11)
-- [ImplicitTeamDisplayName](#implicitteamdisplayname)
-  - [Properties](#properties-12)
-- [Test](#test)
-  - [Properties](#properties-13)
-- [UPAKVersioned](#upakversioned)
-
-### Bot
-
-A Keybase bot.
-
-#### init
-
-Initialize your bot by starting an instance of the Keybase service and logging in using oneshot mode.
-
-##### Parameters
-
-- `username` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The username of your bot's Keybase account.
-- `paperkey` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The paperkey of your bot's Keybase account.
-- `options` **[InitOptions](#initoptions)?** The initialization options for your bot.
-
-##### Examples
-
-```javascript
-bot.init('username', 'paperkey')
-```
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
-
-#### initFromRunningService
-
-Initialize your bot by using an existing running service with a logged in user.
-
-##### Parameters
-
-- `homeDir` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** The home directory of this currently running service. Leave blank to use the default homeDir for your system.
-- `options` **[InitOptions](#initoptions)?** The initialization options for your bot.
-
-##### Examples
-
-```javascript
-bot.initFromRunningService()
-```
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
-
-#### myInfo
-
-Get info about your bot!
-
-##### Examples
-
-```javascript
-const info = bot.myInfo()
-```
-
-Returns **([BotInfo](#botinfo) | null)** – Useful information like the username, device, and home directory of your bot. If your bot isn't initialized, you'll get `null`.
-
-#### deinit
-
-Deinitializes the bot by logging out, stopping the keybase service, and removing any leftover login files made by the bot. This should be run before your bot ends.
-
-##### Examples
-
-```javascript
-bot.deinit()
-```
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
-
-#### adminDebugLogInfo
-
-If bot is initialized with an optional directory `adminDebugDirectory`, this will let you write info text into it.
-
-##### Parameters
-
-- `text` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-
-##### Examples
-
-```javascript
-bot.adminDebugLogInfo('My bot is ready to go.')
-```
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
-
-#### adminDebugLogError
-
-If bot is initialized with an optional directory `adminDebugDirectory`, this will let you write error text into it.
-
-##### Parameters
-
-- `text` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-
-##### Examples
-
-```javascript
-bot.adminDebugLogInfo('My bot is ready to go.')
-```
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+    - [Parameters](#parameters-20)
+    - [Examples](#examples-21)
+- [Team Types](#team-types)
+- [Wallet](#wallet)
+  - [balances](#balances)
+    - [Examples](#examples-22)
+  - [history](#history)
+    - [Parameters](#parameters-21)
+    - [Examples](#examples-23)
+  - [details](#details)
+    - [Parameters](#parameters-22)
+    - [Examples](#examples-24)
+  - [lookup](#lookup)
+    - [Parameters](#parameters-23)
+    - [Examples](#examples-25)
+  - [send](#send-1)
+    - [Parameters](#parameters-24)
+    - [Examples](#examples-26)
+  - [batch](#batch)
+    - [Parameters](#parameters-25)
+    - [Examples](#examples-27)
+  - [cancel](#cancel)
+    - [Parameters](#parameters-26)
+    - [Examples](#examples-28)
+- [Wallet Types](#wallet-types)
+- [ChatListOptions](#chatlistoptions)
+- [ChatListChannelsOptions](#chatlistchannelsoptions)
+- [ChatReadOptions](#chatreadoptions)
+- [ChatSendOptions](#chatsendoptions)
 
 ### Bot Types
 
 A collection of types used by the bot.
-
-#### InitOptions
-
-Options for initializing the bot.
-
-#### BotInfo
-
-Useful information like the username, device, home directory of your bot and
-configuration options.
 
 ### Chat
 
@@ -539,7 +389,8 @@ Lists your chats, with info on which ones have unread messages.
 ##### Examples
 
 ```javascript
-bot.chat.list({unreadOnly: true}).then(chatConversations => console.log(chatConversations))
+const chatConversations = await bot.chat.list({unreadOnly: true})
+console.log(chatConversations)
 ```
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;chat1.ConvSummary>>** An array of chat conversations. If there are no conversations, the array is empty.
@@ -775,25 +626,25 @@ Type: {body: [string](https://developer.mozilla.org/docs/Web/JavaScript/Referenc
 
 - `body` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 
-#### ChatListOptions
+#### ConvSummary
 
-Options for the `list` method of the chat module.
+A chat conversation. This is essentially a chat channel plus some additional metadata.
 
-#### ChatListChannelsOptions
+Type: {id: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), channel: [ChatChannel](#chatchannel), unread: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), activeAt: never, activeAtMs: never, memberStatus: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), resetUsers: ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)?, finalizeInfo: ConversationFinalizeInfo?, supersedes: ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)?, supersededBy: ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)?, error: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
 
-Options for the `listChannels` method of the chat module.
+##### Properties
 
-#### ChatReadOptions
-
-Options for the `read` method of the chat module.
-
-#### ChatSendOptions
-
-Options for the `send` method of the chat module.
-
-#### ChatReactOptions
-
-Options for the `react` method of the chat module.
+- `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `channel` **[ChatChannel](#chatchannel)**
+- `unread` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
+- `activeAt` **never**
+- `activeAtMs` **never**
+- `memberStatus` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+- `resetUsers` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)?**
+- `finalizeInfo` **ConversationFinalizeInfo?**
+- `supersedes` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)?**
+- `supersededBy` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)?**
+- `error` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
 
 #### ChatAttachOptions
 
@@ -803,17 +654,13 @@ Options for the `attach` method of the chat module.
 
 Options for the `download` method of the chat module.
 
+#### ChatReactOptions
+
+Options for the `react` method of the chat module.
+
 #### ChatDeleteOptions
 
 Options for the `delete` method of the chat module.
-
-#### ListenOptions
-
-Options for the methods in the chat module that listen for new messages.
-Local messages are ones sent by your device. Including them in the output is
-useful for applications such as logging conversations, monitoring own flips
-and building tools that seamlessly integrate with a running client used by
-the user.
 
 #### OnMessage
 
@@ -826,6 +673,78 @@ Type: function (message: chat1.MsgSummary): (void | [Promise](https://developer.
 A function to call when an error occurs.
 
 Type: function (error: [Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)): (void | [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>)
+
+#### ListenOptions
+
+Options for the methods in the chat module that listen for new messages.
+Local messages are ones sent by your device. Including them in the output is
+useful for applications such as logging conversations, monitoring own flips
+and building tools that seamlessly integrate with a running client used by
+the user.
+
+### Team
+
+**Extends ClientBase**
+
+The team module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase team api`.
+
+#### addMembers
+
+Add a bunch of people with different privileges to a team
+
+##### Parameters
+
+- `additions` **AddMembersParam** an array of the users to add, with privs
+
+##### Examples
+
+```javascript
+bot.team
+  .addMembers({
+    team: 'phoenix',
+    emails: [{email: 'alice@keybase.io', role: 'writer'}, {email: 'cleo@keybase.io', role: 'admin'}],
+    usernames: [{username: 'frank', role: 'reader'}, {username: 'keybaseio@twitter', role: 'writer'}],
+  })
+  .then(res => console.log(res))
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;keybase1.TeamAddMemberResult>** A result object of adding these members to the team.
+
+#### removeMember
+
+Remove someone from a team.
+
+##### Parameters
+
+- `removal` **RemoveMemberParam** object with the `team` name and `username`
+
+##### Examples
+
+```javascript
+bot.team.removeMember({team: 'phoenix', username: 'frank'}).then(res => console.log(res))
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
+#### listTeamMemberships
+
+List a team's members.
+
+##### Parameters
+
+- `team` **ListTeamMembershipsParam** an object with the `team` name in it.
+
+##### Examples
+
+```javascript
+bot.team.listTeamMemberships({team: 'phoenix'}).then(res => console.log(res))
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;keybase1.TeamDetails>** Details about the team.
+
+### Team Types
+
+A collection of types used by the Team module.
 
 ### Wallet
 
@@ -962,297 +881,21 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 A collection of types used by the Wallet module.
 
-### Team
+### ChatListOptions
 
-**Extends ClientBase**
+Options for the `list` method of the chat module.
 
-The wallet module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase wallet api`.
+### ChatListChannelsOptions
 
-#### addMembers
+Options for the `listChannels` method of the chat module.
 
-Add a bunch of people with different privileges to a team
+### ChatReadOptions
 
-##### Parameters
+Options for the `read` method of the chat module.
 
-- `additions` **AddMembersParam** an array of the users to add, with privs
+### ChatSendOptions
 
-##### Examples
-
-```javascript
-bot.team
-  .addMembers({
-    team: 'phoenix',
-    emails: [{email: 'alice@keybase.io', role: 'writer'}, {email: 'cleo@keybase.io', role: 'admin'}],
-    usernames: [{username: 'frank', role: 'reader'}, {username: 'keybaseio@twitter', role: 'writer'}],
-  })
-  .then(res => console.log(res))
-```
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;keybase1.TeamAddMemberResult>** \-
-
-#### removeMember
-
-Remove someone from a team
-
-##### Parameters
-
-- `removal` **RemoveMemberParam** object with the `team` name and `username`
-
-##### Examples
-
-```javascript
-bot.team.removeMember({team: 'phoenix', username: 'frank'}).then(res => console.log(res))
-```
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** \-
-
-#### listTeamMemberships
-
-List a team's members
-
-##### Parameters
-
-- `team` **ListTeamMembershipsParam** an object with the `team` name in it
-
-##### Examples
-
-```javascript
-bot.team.listTeamMemberships({team: 'phoenix'}).then(res => console.log(res))
-```
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;keybase1.TeamDetails>** \-
-
-### ConvSummary
-
-A chat conversation. This is essentially a chat channel plus some additional metadata.
-
-Type: {id: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), channel: [ChatChannel](#chatchannel), unread: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), activeAt: never, activeAtMs: never, memberStatus: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), resetUsers: ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)?, finalizeInfo: ConversationFinalizeInfo?, supersedes: ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)?, supersededBy: ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)?, error: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
-
-#### Properties
-
-- `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-- `channel` **[ChatChannel](#chatchannel)**
-- `unread` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
-- `activeAt` **never**
-- `activeAtMs` **never**
-- `memberStatus` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-- `resetUsers` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)?**
-- `finalizeInfo` **ConversationFinalizeInfo?**
-- `supersedes` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)?**
-- `supersededBy` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)?**
-- `error` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
-
-### ConnectedDevice
-
-DescribeConnectedUsers will take a list of users, and return the list of users
-which are connected to any Gregor in the cluster, and what devices (and device type)
-those users are connected with.
-
-Type: {deviceId: DeviceID, deviceType: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), devicePlatform: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), userAgent: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}
-
-#### Properties
-
-- `deviceId` **DeviceID**
-- `deviceType` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-- `devicePlatform` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-- `userAgent` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-
-### SocialAssertionService
-
-SocialAssertionService is a service that can be used to assert proofs for a
-user.
-
-Type: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)
-
-### SocialAssertion
-
-SocialAssertion contains a service and username for that service, that
-together form an assertion about a user. It can either be a social
-assertion (like "facebook" or "twitter") or a server trust assertion (like
-"phone" or "email").
-
-    If the assertion is for social network, resolving an assertion requires
-    that the user posts a Keybase proof on the asserted service as the asserted
-    user.
-
-    For server trust assertion, we have to trust the server.
-
-Type: {user: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), service: [SocialAssertionService](#socialassertionservice)}
-
-#### Properties
-
-- `user` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-- `service` **[SocialAssertionService](#socialassertionservice)**
-
-### Folder
-
-Folder represents a favorite top-level folder in kbfs.
-This type is likely to change significantly as all the various parts are
-connected and tested.
-
-Type: {name: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), private: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), created: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), folderType: FolderType, teamId: TeamID?, resetMembers: ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;User> | null), mtime: Time?, conflictState: ConflictState?, syncConfig: FolderSyncConfig?}
-
-#### Properties
-
-- `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-- `private` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
-- `created` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
-- `folderType` **FolderType**
-- `teamId` **TeamID?**
-- `resetMembers` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;User> | null)**
-- `mtime` **Time?**
-- `conflictState` **ConflictState?**
-- `syncConfig` **FolderSyncConfig?**
-
-### HomeScreenTodo
-
-Most of TODO items do not carry additional data, but some do. e.g. TODO
-item to tell user to verify their email address will carry that email
-address.
-
-    All new TODO data bundle types should be records rather than single fields
-    to support adding new data to existing TODOs. If a legacy TODO (such as
-    VERIFY_ALL_EMAIL) uses a single field, the "TodoExt" field should be used to
-    introduce more data to the payload.
-
-Type: ({t: HomeScreenTodoType.VERIFY_ALL_PHONE_NUMBER, VERIFY_ALL_PHONE_NUMBER: (PhoneNumber | null)} | {t: HomeScreenTodoType.VERIFY_ALL_EMAIL, VERIFY_ALL_EMAIL: (EmailAddress | null)} | {t: HomeScreenTodoType.LEGACY_EMAIL_VISIBILITY, LEGACY_EMAIL_VISIBILITY: (EmailAddress | null)} | {t: Exclude&lt;HomeScreenTodoType, (HomeScreenTodoType.VERIFY_ALL_PHONE_NUMBER | HomeScreenTodoType.VERIFY_ALL_EMAIL | HomeScreenTodoType.LEGACY_EMAIL_VISIBILITY)>})
-
-### TrackStatus
-
-TrackStatus is a summary of this track before the track is approved by the
-user.
-NEW*\*: New tracks
-UPDATE*\*: Update to an existing track
-NEW_OK: Everything ok
-NEW_ZERO_PROOFS: User being tracked has no proofs
-NEW_FAIL_PROOFS: User being tracked has some failed proofs
-UPDATE_BROKEN: Previous tracking statement broken, this one will fix it.
-UPDATE_NEW_PROOFS: Previous tracking statement ok, but there are new proofs since previous tracking statement generated
-UPDATE_OK: No changes to previous tracking statement
-
-### InstallStatus
-
-Install status describes state of install for a component or service.
-
-### PGPSigVerification
-
-PGPSigVerification is returned by pgpDecrypt and pgpVerify with information
-about the signature verification. If isSigned is false, there was no
-signature, and the rest of the fields should be ignored.
-
-Type: {isSigned: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), verified: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), signer: User, signKey: PublicKey}
-
-#### Properties
-
-- `isSigned` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
-- `verified` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
-- `signer` **User**
-- `signKey` **PublicKey**
-
-### PGPPurgeRes
-
-Export all pgp keys in lksec, then if doPurge is true, remove the keys from lksec.
-
-Type: {filenames: ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)}
-
-#### Properties
-
-- `filenames` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)**
-
-### UserPhoneNumber
-
-Phone number support for TOFU chats.
-
-Type: {phoneNumber: PhoneNumber, verified: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), superseded: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), visibility: IdentityVisibility, ctime: UnixTime}
-
-#### Properties
-
-- `phoneNumber` **PhoneNumber**
-- `verified` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
-- `superseded` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
-- `visibility` **IdentityVisibility**
-- `ctime` **UnixTime**
-
-### ProofStatus
-
-3: It's been found in the hunt, but not proven yet
-1xx: Retryable soft errors; note that this will be put in the proof_cache, but won't
-be returned from the proof cache in most cases. Their freshness will always be
-RANCID.
-2xx: Will likely result in a hard error, if repeated enough
-3xx: Hard final errors
-
-### SecretResponse
-
-SecretResponse should be returned by DisplayAndPromptSecret. Use either secret or phrase.
-
-Type: {secret: [Buffer](https://nodejs.org/api/buffer.html), phrase: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}
-
-#### Properties
-
-- `secret` **[Buffer](https://nodejs.org/api/buffer.html)**
-- `phrase` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-
-### ProblemSet
-
-ProblemSet is for a particular (user,kid) that initiated a rekey problem.
-This problem consists of one or more problem TLFs, which are individually scored
-and have attendant solutions --- devices that if they came online can rekey and
-solve the ProblemTLF.
-
-Type: {user: User, kid: KID, tlfs: ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;ProblemTLF> | null)}
-
-#### Properties
-
-- `user` **User**
-- `kid` **KID**
-- `tlfs` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;ProblemTLF> | null)**
-
-### TeamRefreshers
-
-- TeamRefreshData are needed or wanted data requirements that, if unmet, will cause
-  - a refresh of the cache.
-
-Type: {needKeyGeneration: PerTeamKeyGeneration, needApplicationsAtGenerations: {: ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;TeamApplication> | null)}, needApplicationsAtGenerationsWithKbfs: {: ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;TeamApplication> | null)}, wantMembers: ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;UserVersion> | null), wantMembersRole: TeamRole, needKbfsKeyGeneration: TeamKBFSKeyRefresher}
-
-#### Properties
-
-- `needKeyGeneration` **PerTeamKeyGeneration**
-- `needApplicationsAtGenerations` **{: ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;TeamApplication> | null)}**
-- `needApplicationsAtGenerationsWithKbfs` **{: ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;TeamApplication> | null)}**
-- `wantMembers` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;UserVersion> | null)**
-- `wantMembersRole` **TeamRole**
-- `needKbfsKeyGeneration` **TeamKBFSKeyRefresher**
-
-### ImplicitTeamDisplayName
-
-- iTeams
-
-Type: {isPublic: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), writers: ImplicitTeamUserSet, readers: ImplicitTeamUserSet, conflictInfo: ImplicitTeamConflictInfo?}
-
-#### Properties
-
-- `isPublic` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
-- `writers` **ImplicitTeamUserSet**
-- `readers` **ImplicitTeamUserSet**
-- `conflictInfo` **ImplicitTeamConflictInfo?**
-
-### Test
-
-Result from calling test(..).
-
-Type: {reply: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}
-
-#### Properties
-
-- `reply` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-
-### UPAKVersioned
-
-- What we're storing for each user. At first it was UPAKs, as defined
-  - in common.avdl. But going forward, we're going to use UserPlusKeysV2AllIncarnations.
-
-Type: ({v: UPAKVersion.V1, V1: (UserPlusAllKeys | null)} | {v: UPAKVersion.V2, V2: (UserPlusKeysV2AllIncarnations | null)} | {v: Exclude&lt;UPAKVersion, (UPAKVersion.V1 | UPAKVersion.V2)>})
+Options for the `send` method of the chat module.
 
 ## Contributions
 
