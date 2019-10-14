@@ -82,71 +82,82 @@ All the source of this library is now written in TypeScript. If you're working o
 
 #### Table of Contents
 
+- [Bot](#bot)
+  - [init](#init)
+    - [Parameters](#parameters)
+    - [Examples](#examples)
+  - [initFromRunningService](#initfromrunningservice)
+    - [Parameters](#parameters-1)
+    - [Examples](#examples-1)
+  - [myInfo](#myinfo)
+    - [Examples](#examples-2)
+  - [deinit](#deinit)
+    - [Examples](#examples-3)
+  - [adminDebugLogInfo](#admindebugloginfo)
+    - [Parameters](#parameters-2)
+    - [Examples](#examples-4)
+  - [adminDebugLogError](#admindebuglogerror)
+    - [Parameters](#parameters-3)
+    - [Examples](#examples-5)
 - [Bot Types](#bot-types)
 - [Chat](#chat)
   - [joinChannel](#joinchannel)
-    - [Parameters](#parameters)
-    - [Examples](#examples)
-  - [leaveChannel](#leavechannel)
-    - [Parameters](#parameters-1)
-    - [Examples](#examples-1)
-  - [getUnfurlSettings](#getunfurlsettings)
-    - [Examples](#examples-2)
-  - [setUnfurlSettings](#setunfurlsettings)
-    - [Parameters](#parameters-2)
-    - [Examples](#examples-3)
-  - [loadFlip](#loadflip)
-    - [Parameters](#parameters-3)
-    - [Examples](#examples-4)
-  - [advertiseCommands](#advertisecommands)
     - [Parameters](#parameters-4)
-    - [Examples](#examples-5)
-  - [clearCommands](#clearcommands)
-    - [Parameters](#parameters-5)
     - [Examples](#examples-6)
-  - [listCommands](#listcommands)
-    - [Parameters](#parameters-6)
+  - [leaveChannel](#leavechannel)
+    - [Parameters](#parameters-5)
     - [Examples](#examples-7)
-  - [list](#list)
-    - [Parameters](#parameters-7)
+  - [getUnfurlSettings](#getunfurlsettings)
     - [Examples](#examples-8)
-  - [listChannels](#listchannels)
-    - [Parameters](#parameters-8)
+  - [setUnfurlSettings](#setunfurlsettings)
+    - [Parameters](#parameters-6)
     - [Examples](#examples-9)
-  - [read](#read)
-    - [Parameters](#parameters-9)
+  - [loadFlip](#loadflip)
+    - [Parameters](#parameters-7)
     - [Examples](#examples-10)
-  - [send](#send)
-    - [Parameters](#parameters-10)
+  - [advertiseCommands](#advertisecommands)
+    - [Parameters](#parameters-8)
     - [Examples](#examples-11)
-  - [createChannel](#createchannel)
-    - [Parameters](#parameters-11)
+  - [clearCommands](#clearcommands)
+    - [Parameters](#parameters-9)
     - [Examples](#examples-12)
-  - [attach](#attach)
-    - [Parameters](#parameters-12)
+  - [listCommands](#listcommands)
+    - [Parameters](#parameters-10)
     - [Examples](#examples-13)
-  - [download](#download)
-    - [Parameters](#parameters-13)
+  - [list](#list)
+    - [Parameters](#parameters-11)
     - [Examples](#examples-14)
-  - [react](#react)
-    - [Parameters](#parameters-14)
+  - [listChannels](#listchannels)
+    - [Parameters](#parameters-12)
     - [Examples](#examples-15)
-  - [delete](#delete)
-    - [Parameters](#parameters-15)
+  - [read](#read)
+    - [Parameters](#parameters-13)
     - [Examples](#examples-16)
-  - [watchChannelForNewMessages](#watchchannelfornewmessages)
-    - [Parameters](#parameters-16)
+  - [send](#send)
+    - [Parameters](#parameters-14)
     - [Examples](#examples-17)
-  - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
-    - [Parameters](#parameters-17)
+  - [createChannel](#createchannel)
+    - [Parameters](#parameters-15)
     - [Examples](#examples-18)
+  - [attach](#attach)
+    - [Parameters](#parameters-16)
+    - [Examples](#examples-19)
+  - [download](#download)
+    - [Parameters](#parameters-17)
+    - [Examples](#examples-20)
+  - [react](#react)
+    - [Parameters](#parameters-18)
+    - [Examples](#examples-21)
+  - [delete](#delete)
+    - [Parameters](#parameters-19)
+    - [Examples](#examples-22)
+  - [watchChannelForNewMessages](#watchchannelfornewmessages)
+    - [Parameters](#parameters-20)
+    - [Examples](#examples-23)
+  - [watchAllChannelsForNewMessages](#watchallchannelsfornewmessages)
+    - [Parameters](#parameters-21)
+    - [Examples](#examples-24)
 - [Chat Types](#chat-types)
-  - [ChatChannel](#chatchannel)
-    - [Properties](#properties)
-  - [ChatMessage](#chatmessage)
-    - [Properties](#properties-1)
-  - [ConvSummary](#convsummary)
-    - [Properties](#properties-2)
   - [ChatAttachOptions](#chatattachoptions)
   - [ChatDownloadOptions](#chatdownloadoptions)
   - [ChatReactOptions](#chatreactoptions)
@@ -156,41 +167,150 @@ All the source of this library is now written in TypeScript. If you're working o
   - [ListenOptions](#listenoptions)
 - [Team](#team)
   - [addMembers](#addmembers)
-    - [Parameters](#parameters-18)
-    - [Examples](#examples-19)
+    - [Parameters](#parameters-22)
+    - [Examples](#examples-25)
   - [removeMember](#removemember)
-    - [Parameters](#parameters-19)
-    - [Examples](#examples-20)
+    - [Parameters](#parameters-23)
+    - [Examples](#examples-26)
   - [listTeamMemberships](#listteammemberships)
-    - [Parameters](#parameters-20)
-    - [Examples](#examples-21)
+    - [Parameters](#parameters-24)
+    - [Examples](#examples-27)
 - [Team Types](#team-types)
 - [Wallet](#wallet)
   - [balances](#balances)
-    - [Examples](#examples-22)
-  - [history](#history)
-    - [Parameters](#parameters-21)
-    - [Examples](#examples-23)
-  - [details](#details)
-    - [Parameters](#parameters-22)
-    - [Examples](#examples-24)
-  - [lookup](#lookup)
-    - [Parameters](#parameters-23)
-    - [Examples](#examples-25)
-  - [send](#send-1)
-    - [Parameters](#parameters-24)
-    - [Examples](#examples-26)
-  - [batch](#batch)
-    - [Parameters](#parameters-25)
-    - [Examples](#examples-27)
-  - [cancel](#cancel)
-    - [Parameters](#parameters-26)
     - [Examples](#examples-28)
+  - [history](#history)
+    - [Parameters](#parameters-25)
+    - [Examples](#examples-29)
+  - [details](#details)
+    - [Parameters](#parameters-26)
+    - [Examples](#examples-30)
+  - [lookup](#lookup)
+    - [Parameters](#parameters-27)
+    - [Examples](#examples-31)
+  - [send](#send-1)
+    - [Parameters](#parameters-28)
+    - [Examples](#examples-32)
+  - [batch](#batch)
+    - [Parameters](#parameters-29)
+    - [Examples](#examples-33)
+  - [cancel](#cancel)
+    - [Parameters](#parameters-30)
+    - [Examples](#examples-34)
 - [Wallet Types](#wallet-types)
 - [ChatListOptions](#chatlistoptions)
 - [ChatListChannelsOptions](#chatlistchannelsoptions)
 - [ChatReadOptions](#chatreadoptions)
 - [ChatSendOptions](#chatsendoptions)
+
+### Bot
+
+[src/index.ts:17-182](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/index.ts#L17-L182 'Source code on GitHub')
+
+A Keybase bot.
+
+#### init
+
+[src/index.ts:53-63](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/index.ts#L53-L63 'Source code on GitHub')
+
+Initialize your bot by starting an instance of the Keybase service and logging in using oneshot mode.
+
+##### Parameters
+
+- `username` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The username of your bot's Keybase account.
+- `paperkey` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The paperkey of your bot's Keybase account.
+- `options` **InitOptions?** The initialization options for your bot.
+
+##### Examples
+
+```javascript
+bot.init('username', 'paperkey')
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
+#### initFromRunningService
+
+[src/index.ts:73-82](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/index.ts#L73-L82 'Source code on GitHub')
+
+Initialize your bot by using an existing running service with a logged in user.
+
+##### Parameters
+
+- `homeDir` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** The home directory of this currently running service. Leave blank to use the default homeDir for your system.
+- `options` **InitOptions?** The initialization options for your bot.
+
+##### Examples
+
+```javascript
+bot.initFromRunningService()
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
+#### myInfo
+
+[src/index.ts:99-101](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/index.ts#L99-L101 'Source code on GitHub')
+
+Get info about your bot!
+
+##### Examples
+
+```javascript
+const info = bot.myInfo()
+```
+
+Returns **(BotInfo | null)** – Useful information like the username, device, and home directory of your bot. If your bot isn't initialized, you'll get `null`.
+
+#### deinit
+
+[src/index.ts:109-124](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/index.ts#L109-L124 'Source code on GitHub')
+
+Deinitializes the bot by logging out, stopping the keybase service, and removing any leftover login files made by the bot. This should be run before your bot ends.
+
+##### Examples
+
+```javascript
+bot.deinit()
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
+#### adminDebugLogInfo
+
+[src/index.ts:133-137](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/index.ts#L133-L137 'Source code on GitHub')
+
+If bot is initialized with an optional directory `adminDebugDirectory`, this will let you write info text into it.
+
+##### Parameters
+
+- `text` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+
+##### Examples
+
+```javascript
+bot.adminDebugLogInfo('My bot is ready to go.')
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
+
+#### adminDebugLogError
+
+[src/index.ts:145-149](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/index.ts#L145-L149 'Source code on GitHub')
+
+If bot is initialized with an optional directory `adminDebugDirectory`, this will let you write error text into it.
+
+##### Parameters
+
+- `text` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+
+##### Examples
+
+```javascript
+bot.adminDebugLogInfo('My bot is ready to go.')
+```
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 ### Bot Types
 
@@ -198,11 +318,15 @@ A collection of types used by the bot.
 
 ### Chat
 
+[src/chat-client/index.ts:111-637](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L111-L637 'Source code on GitHub')
+
 **Extends ClientBase**
 
 The chat module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase chat api`.
 
 #### joinChannel
+
+[src/chat-client/index.ts:198-210](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L198-L210 'Source code on GitHub')
 
 Joins a team conversation.
 
@@ -227,6 +351,8 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### leaveChannel
 
+[src/chat-client/index.ts:225-237](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L225-L237 'Source code on GitHub')
+
 Leaves a team conversation.
 
 ##### Parameters
@@ -250,6 +376,8 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### getUnfurlSettings
 
+[src/chat-client/index.ts:386-393](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L386-L393 'Source code on GitHub')
+
 Gets current unfurling settings
 
 ##### Examples
@@ -261,6 +389,8 @@ bot.chat.getUnfurlSettings().then(mode => console.log(mode))
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;chat1.UnfurlSettings>**
 
 #### setUnfurlSettings
+
+[src/chat-client/index.ts:407-413](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L407-L413 'Source code on GitHub')
 
 Sets the unfurling mode
 In Keybase, unfurling means generating previews for links that you're sending
@@ -286,6 +416,8 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### loadFlip
 
+[src/chat-client/index.ts:424-441](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L424-L441 'Source code on GitHub')
+
 Loads a flip's details
 
 ##### Parameters
@@ -304,6 +436,8 @@ Loads a flip's details
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;chat1.UICoinFlipStatus>**
 
 #### advertiseCommands
+
+[src/chat-client/index.ts:462-468](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L462-L468 'Source code on GitHub')
 
 Publishes a commands advertisement which is shown in the "!" chat autocomplete.
 
@@ -334,6 +468,8 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### clearCommands
 
+[src/chat-client/index.ts:476-482](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L476-L482 'Source code on GitHub')
+
 Clears all published commands advertisements.
 
 ##### Parameters
@@ -349,6 +485,8 @@ await bot.chat.clearCommands()
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### listCommands
+
+[src/chat-client/index.ts:504-511](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L504-L511 'Source code on GitHub')
 
 Lists all commands advertised in a channel.
 
@@ -380,6 +518,8 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### list
 
+[src/chat-client/index.ts:121-128](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L121-L128 'Source code on GitHub')
+
 Lists your chats, with info on which ones have unread messages.
 
 ##### Parameters
@@ -396,6 +536,8 @@ console.log(chatConversations)
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;chat1.ConvSummary>>** An array of chat conversations. If there are no conversations, the array is empty.
 
 #### listChannels
+
+[src/chat-client/index.ts:139-155](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L139-L155 'Source code on GitHub')
 
 Lists conversation channels in a team
 
@@ -414,6 +556,8 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### read
 
+[src/chat-client/index.ts:166-183](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L166-L183 'Source code on GitHub')
+
 Reads the messages in a channel. You can read with or without marking as read.
 
 ##### Parameters
@@ -430,6 +574,8 @@ alice.chat.read(channel).then(messages => console.log(messages))
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;ReadResult>** A summary of data about a message, including who send it, when, the content of the message, etc. If there are no messages in your channel, then an error is thrown.
 
 #### send
+
+[src/chat-client/index.ts:250-268](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L250-L268 'Source code on GitHub')
 
 Send a message to a certain channel.
 
@@ -451,6 +597,8 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### createChannel
 
+[src/chat-client/index.ts:277-290](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L277-L290 'Source code on GitHub')
+
 Creates a new blank conversation.
 
 ##### Parameters
@@ -466,6 +614,8 @@ bot.chat.createChannel(channel).then(() => console.log('conversation created'))
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### attach
+
+[src/chat-client/index.ts:301-309](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L301-L309 'Source code on GitHub')
 
 Send a file to a channel.
 
@@ -485,6 +635,8 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### download
 
+[src/chat-client/index.ts:321-328](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L321-L328 'Source code on GitHub')
+
 Download a file send via Keybase chat.
 
 ##### Parameters
@@ -503,6 +655,8 @@ bot.chat.download(channel, 325, '/Users/nathan/Downloads/file.png')
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### react
+
+[src/chat-client/index.ts:341-355](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L341-L355 'Source code on GitHub')
 
 Reacts to a given message in a channel. Messages have messageId's associated with
 them, which you can learn in `bot.chat.read`.
@@ -524,6 +678,8 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### delete
 
+[src/chat-client/index.ts:368-379](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L368-L379 'Source code on GitHub')
+
 Deletes a message in a channel. Messages have messageId's associated with
 them, which you can learn in `bot.chat.read`. Known bug: the GUI has a cache,
 and deleting from the CLI may not become apparent immediately.
@@ -543,6 +699,8 @@ bot.chat.delete(channel, 314).then(() => console.log('message deleted!'))
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### watchChannelForNewMessages
+
+[src/chat-client/index.ts:530-538](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L530-L538 'Source code on GitHub')
 
 Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel. Note that it receives messages your own bot posts, but from other devices. You can filter out your own messages by looking at a message's sender object.
 Hides exploding messages by default.
@@ -569,6 +727,8 @@ bot.chat.watchChannelForNewMessages(channel, onMessage)
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### watchAllChannelsForNewMessages
+
+[src/chat-client/index.ts:561-564](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L561-L564 'Source code on GitHub')
 
 This function will put your bot into full-read mode, where it reads
 everything it can and every new message it finds it will pass to you, so
@@ -601,68 +761,33 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 A collection of types used by the Chat module.
 
-#### ChatChannel
-
-A Keybase chat channel. This can be a channel in a team, or just an informal channel between two users.
-name: the name of the team or comma-separated list of participants
-
-Type: {name: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), public: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, membersType: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, topicType: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, topicName: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
-
-##### Properties
-
-- `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-- `public` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?**
-- `membersType` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
-- `topicType` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
-- `topicName` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
-
-#### ChatMessage
-
-A chat message. The content goes in the `body` property!
-
-Type: {body: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}
-
-##### Properties
-
-- `body` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-
-#### ConvSummary
-
-A chat conversation. This is essentially a chat channel plus some additional metadata.
-
-Type: {id: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), channel: [ChatChannel](#chatchannel), unread: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean), activeAt: never, activeAtMs: never, memberStatus: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String), resetUsers: ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)?, finalizeInfo: ConversationFinalizeInfo?, supersedes: ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)?, supersededBy: ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)?, error: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
-
-##### Properties
-
-- `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-- `channel` **[ChatChannel](#chatchannel)**
-- `unread` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
-- `activeAt` **never**
-- `activeAtMs` **never**
-- `memberStatus` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
-- `resetUsers` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)?**
-- `finalizeInfo` **ConversationFinalizeInfo?**
-- `supersedes` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)?**
-- `supersededBy` **([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | null)?**
-- `error` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
-
 #### ChatAttachOptions
+
+[src/chat-client/index.ts:54-58](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L54-L58 'Source code on GitHub')
 
 Options for the `attach` method of the chat module.
 
 #### ChatDownloadOptions
 
+[src/chat-client/index.ts:63-67](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L63-L67 'Source code on GitHub')
+
 Options for the `download` method of the chat module.
 
 #### ChatReactOptions
+
+[src/chat-client/index.ts:72-74](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L72-L74 'Source code on GitHub')
 
 Options for the `react` method of the chat module.
 
 #### ChatDeleteOptions
 
+[src/chat-client/index.ts:79-81](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L79-L81 'Source code on GitHub')
+
 Options for the `delete` method of the chat module.
 
 #### OnMessage
+
+[src/chat-client/index.ts:8-8](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L7-L7 'Source code on GitHub')
 
 A function to call when a message is received.
 
@@ -670,11 +795,15 @@ Type: function (message: chat1.MsgSummary): (void | [Promise](https://developer.
 
 #### OnError
 
+[src/chat-client/index.ts:10-10](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L9-L9 'Source code on GitHub')
+
 A function to call when an error occurs.
 
 Type: function (error: [Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error)): (void | [Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>)
 
 #### ListenOptions
+
+[src/chat-client/index.ts:90-93](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L90-L93 'Source code on GitHub')
 
 Options for the methods in the chat module that listen for new messages.
 Local messages are ones sent by your device. Including them in the output is
@@ -684,11 +813,15 @@ the user.
 
 ### Team
 
+[src/team-client/index.ts:20-69](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/team-client/index.ts#L20-L69 'Source code on GitHub')
+
 **Extends ClientBase**
 
 The team module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase team api`.
 
 #### addMembers
+
+[src/team-client/index.ts:29-37](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/team-client/index.ts#L29-L37 'Source code on GitHub')
 
 Add a bunch of people with different privileges to a team
 
@@ -712,6 +845,8 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### removeMember
 
+[src/team-client/index.ts:46-50](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/team-client/index.ts#L46-L50 'Source code on GitHub')
+
 Remove someone from a team.
 
 ##### Parameters
@@ -727,6 +862,8 @@ bot.team.removeMember({team: 'phoenix', username: 'frank'}).then(res => console.
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>**
 
 #### listTeamMemberships
+
+[src/team-client/index.ts:60-68](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/team-client/index.ts#L60-L68 'Source code on GitHub')
 
 List a team's members.
 
@@ -748,11 +885,15 @@ A collection of types used by the Team module.
 
 ### Wallet
 
+[src/wallet-client/index.ts:5-149](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/wallet-client/index.ts#L5-L149 'Source code on GitHub')
+
 **Extends ClientBase**
 
 The wallet module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase wallet api`.
 
 #### balances
+
+[src/wallet-client/index.ts:13-20](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/wallet-client/index.ts#L13-L20 'Source code on GitHub')
 
 Provides a list of all accounts owned by the current Keybase user.
 
@@ -765,6 +906,8 @@ bot.wallet.balances().then(accounts => console.log(accounts))
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;stellar1.OwnAccountCLILocal>>** An array of accounts. If there are no accounts, the array is empty.
 
 #### history
+
+[src/wallet-client/index.ts:30-42](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/wallet-client/index.ts#L30-L42 'Source code on GitHub')
 
 Provides a list of all transactions in a single account.
 
@@ -782,6 +925,8 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### details
 
+[src/wallet-client/index.ts:52-60](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/wallet-client/index.ts#L52-L60 'Source code on GitHub')
+
 Get details about a particular transaction
 
 ##### Parameters
@@ -797,6 +942,8 @@ bot.wallet.details('e5334601b9dc2a24e031ffeec2fce37bb6a8b4b51fc711d16dec04d3e649
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;stellar1.PaymentCLILocal>** An object of details about the transaction specified.
 
 #### lookup
+
+[src/wallet-client/index.ts:74-87](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/wallet-client/index.ts#L74-L87 'Source code on GitHub')
 
 Lookup the primary Stellar account ID of a Keybase user.
 
@@ -817,6 +964,8 @@ _.isEqual(lookup1, lookup2) // => true
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;{accountId: stellar1.AccountID, username: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)}>** An object containing the account ID and Keybase username of the found user.
 
 #### send
+
+[src/wallet-client/index.ts:103-111](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/wallet-client/index.ts#L103-L111 'Source code on GitHub')
 
 Send lumens (XLM) via Keybase with your bot!
 
@@ -840,6 +989,8 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### batch
 
+[src/wallet-client/index.ts:124-132](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/wallet-client/index.ts#L124-L132 'Source code on GitHub')
+
 Send lumens (XLM) via Keybase to more than one user at once. As opposed to the normal bot.wallet.send
 command, this can get multiple transactions into the same 5-second Stellar ledger.
 
@@ -860,6 +1011,8 @@ bot.wallet.batch('airdrop2040', [
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;stellar1.BatchResultLocal>** an object
 
 #### cancel
+
+[src/wallet-client/index.ts:141-148](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/wallet-client/index.ts#L141-L148 'Source code on GitHub')
 
 If you send XLM to a Keybase user who has not established a wallet, you can cancel the payment before the recipient claims it and the XLM will be returned to your account.
 
@@ -883,17 +1036,25 @@ A collection of types used by the Wallet module.
 
 ### ChatListOptions
 
+[src/chat-client/index.ts:15-20](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L15-L20 'Source code on GitHub')
+
 Options for the `list` method of the chat module.
 
 ### ChatListChannelsOptions
+
+[src/chat-client/index.ts:25-28](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L25-L28 'Source code on GitHub')
 
 Options for the `listChannels` method of the chat module.
 
 ### ChatReadOptions
 
+[src/chat-client/index.ts:33-39](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L33-L39 'Source code on GitHub')
+
 Options for the `read` method of the chat module.
 
 ### ChatSendOptions
+
+[src/chat-client/index.ts:44-49](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L44-L49 'Source code on GitHub')
 
 Options for the `send` method of the chat module.
 
