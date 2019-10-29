@@ -6,3 +6,4 @@ export { default as keybaseStatus } from './keybaseStatus';
 export { default as pingKeybaseService } from './pingKeybaseService';
 export { default as whichKeybase } from './whichKeybase';
 export { default as timeout } from './timeout';
+export { default as keybaseBinaryName } from './keybaseBinaryName';

@@ -64,6 +64,8 @@ export declare type Asset = {
     withdrawType: string;
     transferServer: string;
     authEndpoint: string;
+    depositReqAuth: boolean;
+    withdrawReqAuth: boolean;
 };
 export declare type AccountReserve = {
     amount: string;
@@ -561,34 +563,34 @@ export declare type BundleSecretV2 = {
 };
 export declare type AccountBundleSecretVersioned = {
     version: AccountBundleVersion.V1;
-    V1: AccountBundleSecretV1 | null;
+    V1: AccountBundleSecretV1;
 } | {
     version: AccountBundleVersion.V2;
-    V2: AccountBundleSecretUnsupported | null;
+    V2: AccountBundleSecretUnsupported;
 } | {
     version: AccountBundleVersion.V3;
-    V3: AccountBundleSecretUnsupported | null;
+    V3: AccountBundleSecretUnsupported;
 } | {
     version: AccountBundleVersion.V4;
-    V4: AccountBundleSecretUnsupported | null;
+    V4: AccountBundleSecretUnsupported;
 } | {
     version: AccountBundleVersion.V5;
-    V5: AccountBundleSecretUnsupported | null;
+    V5: AccountBundleSecretUnsupported;
 } | {
     version: AccountBundleVersion.V6;
-    V6: AccountBundleSecretUnsupported | null;
+    V6: AccountBundleSecretUnsupported;
 } | {
     version: AccountBundleVersion.V7;
-    V7: AccountBundleSecretUnsupported | null;
+    V7: AccountBundleSecretUnsupported;
 } | {
     version: AccountBundleVersion.V8;
-    V8: AccountBundleSecretUnsupported | null;
+    V8: AccountBundleSecretUnsupported;
 } | {
     version: AccountBundleVersion.V9;
-    V9: AccountBundleSecretUnsupported | null;
+    V9: AccountBundleSecretUnsupported;
 } | {
     version: AccountBundleVersion.V10;
-    V10: AccountBundleSecretUnsupported | null;
+    V10: AccountBundleSecretUnsupported;
 } | {
     version: Exclude<AccountBundleVersion, AccountBundleVersion.V1 | AccountBundleVersion.V2 | AccountBundleVersion.V3 | AccountBundleVersion.V4 | AccountBundleVersion.V5 | AccountBundleVersion.V6 | AccountBundleVersion.V7 | AccountBundleVersion.V8 | AccountBundleVersion.V9 | AccountBundleVersion.V10>;
 };
@@ -831,34 +833,34 @@ export declare type UIPaymentReviewed = {
 };
 export declare type BundleSecretVersioned = {
     version: BundleVersion.V1;
-    V1: BundleSecretUnsupported | null;
+    V1: BundleSecretUnsupported;
 } | {
     version: BundleVersion.V2;
-    V2: BundleSecretV2 | null;
+    V2: BundleSecretV2;
 } | {
     version: BundleVersion.V3;
-    V3: BundleSecretUnsupported | null;
+    V3: BundleSecretUnsupported;
 } | {
     version: BundleVersion.V4;
-    V4: BundleSecretUnsupported | null;
+    V4: BundleSecretUnsupported;
 } | {
     version: BundleVersion.V5;
-    V5: BundleSecretUnsupported | null;
+    V5: BundleSecretUnsupported;
 } | {
     version: BundleVersion.V6;
-    V6: BundleSecretUnsupported | null;
+    V6: BundleSecretUnsupported;
 } | {
     version: BundleVersion.V7;
-    V7: BundleSecretUnsupported | null;
+    V7: BundleSecretUnsupported;
 } | {
     version: BundleVersion.V8;
-    V8: BundleSecretUnsupported | null;
+    V8: BundleSecretUnsupported;
 } | {
     version: BundleVersion.V9;
-    V9: BundleSecretUnsupported | null;
+    V9: BundleSecretUnsupported;
 } | {
     version: BundleVersion.V10;
-    V10: BundleSecretUnsupported | null;
+    V10: BundleSecretUnsupported;
 } | {
     version: Exclude<BundleVersion, BundleVersion.V1 | BundleVersion.V2 | BundleVersion.V3 | BundleVersion.V4 | BundleVersion.V5 | BundleVersion.V6 | BundleVersion.V7 | BundleVersion.V8 | BundleVersion.V9 | BundleVersion.V10>;
 };
@@ -878,13 +880,13 @@ export declare type PaymentMultiPost = {
 };
 export declare type PaymentSummary = {
     typ: PaymentSummaryType.STELLAR;
-    STELLAR: PaymentSummaryStellar | null;
+    STELLAR: PaymentSummaryStellar;
 } | {
     typ: PaymentSummaryType.DIRECT;
-    DIRECT: PaymentSummaryDirect | null;
+    DIRECT: PaymentSummaryDirect;
 } | {
     typ: PaymentSummaryType.RELAY;
-    RELAY: PaymentSummaryRelay | null;
+    RELAY: PaymentSummaryRelay;
 } | {
     typ: Exclude<PaymentSummaryType, PaymentSummaryType.STELLAR | PaymentSummaryType.DIRECT | PaymentSummaryType.RELAY>;
 };

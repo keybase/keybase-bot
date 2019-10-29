@@ -1,7 +1,7 @@
 /// <reference types="node" />
 export declare type ExecOptions = {
     stdinBuffer?: Buffer | string;
-    onStdOut?: ((line: string) => void);
+    onStdOut?: (line: string) => void;
     json?: boolean;
     timeout?: number;
 };
