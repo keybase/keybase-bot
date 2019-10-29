@@ -1,7 +1,7 @@
 /*
  * stellar.1
  *
- * Auto-generated to TypeScript types by avdl-compiler v1.4.2 (https://github.com/keybase/node-avdl-compiler)
+ * Auto-generated to TypeScript types by avdl-compiler v1.4.6 (https://github.com/keybase/node-avdl-compiler)
  * Input files:
  * - ../client/protocol/avdl/stellar1/bundle.avdl
  * - ../client/protocol/avdl/stellar1/common.avdl
@@ -94,6 +94,8 @@ export type Asset = {
   withdrawType: string
   transferServer: string
   authEndpoint: string
+  depositReqAuth: boolean
+  withdrawReqAuth: boolean
 }
 
 export type AccountReserve = {
@@ -670,16 +672,16 @@ export type BundleSecretV2 = {
 }
 
 export type AccountBundleSecretVersioned =
-  | {version: AccountBundleVersion.V1; V1: AccountBundleSecretV1 | null}
-  | {version: AccountBundleVersion.V2; V2: AccountBundleSecretUnsupported | null}
-  | {version: AccountBundleVersion.V3; V3: AccountBundleSecretUnsupported | null}
-  | {version: AccountBundleVersion.V4; V4: AccountBundleSecretUnsupported | null}
-  | {version: AccountBundleVersion.V5; V5: AccountBundleSecretUnsupported | null}
-  | {version: AccountBundleVersion.V6; V6: AccountBundleSecretUnsupported | null}
-  | {version: AccountBundleVersion.V7; V7: AccountBundleSecretUnsupported | null}
-  | {version: AccountBundleVersion.V8; V8: AccountBundleSecretUnsupported | null}
-  | {version: AccountBundleVersion.V9; V9: AccountBundleSecretUnsupported | null}
-  | {version: AccountBundleVersion.V10; V10: AccountBundleSecretUnsupported | null}
+  | {version: AccountBundleVersion.V1; V1: AccountBundleSecretV1}
+  | {version: AccountBundleVersion.V2; V2: AccountBundleSecretUnsupported}
+  | {version: AccountBundleVersion.V3; V3: AccountBundleSecretUnsupported}
+  | {version: AccountBundleVersion.V4; V4: AccountBundleSecretUnsupported}
+  | {version: AccountBundleVersion.V5; V5: AccountBundleSecretUnsupported}
+  | {version: AccountBundleVersion.V6; V6: AccountBundleSecretUnsupported}
+  | {version: AccountBundleVersion.V7; V7: AccountBundleSecretUnsupported}
+  | {version: AccountBundleVersion.V8; V8: AccountBundleSecretUnsupported}
+  | {version: AccountBundleVersion.V9; V9: AccountBundleSecretUnsupported}
+  | {version: AccountBundleVersion.V10; V10: AccountBundleSecretUnsupported}
   | {
       version: Exclude<
         AccountBundleVersion,
@@ -948,16 +950,16 @@ export type UIPaymentReviewed = {
 }
 
 export type BundleSecretVersioned =
-  | {version: BundleVersion.V1; V1: BundleSecretUnsupported | null}
-  | {version: BundleVersion.V2; V2: BundleSecretV2 | null}
-  | {version: BundleVersion.V3; V3: BundleSecretUnsupported | null}
-  | {version: BundleVersion.V4; V4: BundleSecretUnsupported | null}
-  | {version: BundleVersion.V5; V5: BundleSecretUnsupported | null}
-  | {version: BundleVersion.V6; V6: BundleSecretUnsupported | null}
-  | {version: BundleVersion.V7; V7: BundleSecretUnsupported | null}
-  | {version: BundleVersion.V8; V8: BundleSecretUnsupported | null}
-  | {version: BundleVersion.V9; V9: BundleSecretUnsupported | null}
-  | {version: BundleVersion.V10; V10: BundleSecretUnsupported | null}
+  | {version: BundleVersion.V1; V1: BundleSecretUnsupported}
+  | {version: BundleVersion.V2; V2: BundleSecretV2}
+  | {version: BundleVersion.V3; V3: BundleSecretUnsupported}
+  | {version: BundleVersion.V4; V4: BundleSecretUnsupported}
+  | {version: BundleVersion.V5; V5: BundleSecretUnsupported}
+  | {version: BundleVersion.V6; V6: BundleSecretUnsupported}
+  | {version: BundleVersion.V7; V7: BundleSecretUnsupported}
+  | {version: BundleVersion.V8; V8: BundleSecretUnsupported}
+  | {version: BundleVersion.V9; V9: BundleSecretUnsupported}
+  | {version: BundleVersion.V10; V10: BundleSecretUnsupported}
   | {
       version: Exclude<
         BundleVersion,
@@ -992,9 +994,9 @@ export type PaymentMultiPost = {
 }
 
 export type PaymentSummary =
-  | {typ: PaymentSummaryType.STELLAR; STELLAR: PaymentSummaryStellar | null}
-  | {typ: PaymentSummaryType.DIRECT; DIRECT: PaymentSummaryDirect | null}
-  | {typ: PaymentSummaryType.RELAY; RELAY: PaymentSummaryRelay | null}
+  | {typ: PaymentSummaryType.STELLAR; STELLAR: PaymentSummaryStellar}
+  | {typ: PaymentSummaryType.DIRECT; DIRECT: PaymentSummaryDirect}
+  | {typ: PaymentSummaryType.RELAY; RELAY: PaymentSummaryRelay}
   | {typ: Exclude<PaymentSummaryType, PaymentSummaryType.STELLAR | PaymentSummaryType.DIRECT | PaymentSummaryType.RELAY>}
 
 export type PaymentsPageLocal = {
