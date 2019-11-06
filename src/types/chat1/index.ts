@@ -1,7 +1,7 @@
 /*
  * chat.1
  *
- * Auto-generated to TypeScript types by avdl-compiler v1.4.2 (https://github.com/keybase/node-avdl-compiler)
+ * Auto-generated to TypeScript types by avdl-compiler v1.4.6 (https://github.com/keybase/node-avdl-compiler)
  * Input files:
  * - ../client/protocol/avdl/chat1/api.avdl
  * - ../client/protocol/avdl/chat1/chat_ui.avdl
@@ -51,9 +51,21 @@ export type MsgSender = {
   deviceName?: string
 }
 
+export type MsgBotInfo = {
+  botUid: string
+  botUsername?: string
+}
+
 export type ResetConvMemberAPI = {
   conversationId: string
   username: string
+}
+
+export type DeviceInfo = {
+  id: string
+  description: string
+  type: string
+  ctime: number
 }
 
 export type UIPagination = {
@@ -61,6 +73,35 @@ export type UIPagination = {
   previous: string
   num: number
   last: boolean
+}
+
+export type UIInboxSmallTeamRow = {
+  convId: string
+  name: string
+  time: gregor1.Time
+  snippet?: string
+  snippetDecoration?: string
+  draft?: string
+  isMuted: boolean
+  isTeam: boolean
+}
+
+export enum UIInboxBigTeamRowTyp {
+  LABEL = 'label',
+  CHANNEL = 'channel',
+}
+
+export type UIInboxBigTeamChannelRow = {
+  convId: string
+  teamname: string
+  channelname: string
+  draft?: string
+  isMuted: boolean
+}
+
+export type UIInboxReselectInfo = {
+  oldConvId: string
+  newConvId?: string
 }
 
 export type UnverifiedInboxUIItemMetadata = {
@@ -127,6 +168,7 @@ export enum MessageUnboxedState {
   ERROR = 'error',
   OUTBOX = 'outbox',
   PLACEHOLDER = 'placeholder',
+  JOURNEYCARD = 'journeycard',
 }
 
 export type UITeamMention = {
@@ -170,7 +212,7 @@ export enum UIChatThreadStatusTyp {
 export type UIChatThreadStatus =
   | {typ: UIChatThreadStatusTyp.NONE}
   | {typ: UIChatThreadStatusTyp.SERVER}
-  | {typ: UIChatThreadStatusTyp.VALIDATING; VALIDATING: number | null}
+  | {typ: UIChatThreadStatusTyp.VALIDATING; VALIDATING: number}
   | {typ: UIChatThreadStatusTyp.VALIDATED}
   | {
       typ: Exclude<
@@ -605,8 +647,8 @@ export enum TextPaymentResultTyp {
 }
 
 export type TextPaymentResult =
-  | {resultTyp: TextPaymentResultTyp.ERROR; ERROR: string | null}
-  | {resultTyp: TextPaymentResultTyp.SENT; SENT: stellar1.PaymentID | null}
+  | {resultTyp: TextPaymentResultTyp.ERROR; ERROR: string}
+  | {resultTyp: TextPaymentResultTyp.SENT; SENT: stellar1.PaymentID}
   | {resultTyp: Exclude<TextPaymentResultTyp, TextPaymentResultTyp.ERROR | TextPaymentResultTyp.SENT>}
 
 export type KnownUserMention = {
@@ -651,12 +693,15 @@ export enum MessageSystemType {
   CHANGEAVATAR = 'changeavatar',
   CHANGERETENTION = 'changeretention',
   BULKADDTOCONV = 'bulkaddtoconv',
+  SBSRESOLVE = 'sbsresolve',
 }
 
 export type MessageSystemAddedToTeam = {
   team: string
   adder: string
   addee: string
+  role: keybase1.TeamRole
+  bulkAdds: string[] | null
   owners: string[] | null
   admins: string[] | null
   writers: string[] | null
@@ -671,6 +716,7 @@ export type MessageSystemInviteAddedToTeam = {
   invitee: string
   adder: string
   inviteType: keybase1.TeamInviteCategory
+  role: keybase1.TeamRole
 }
 
 export type MessageSystemComplexTeam = {
@@ -699,6 +745,12 @@ export type MessageSystemChangeAvatar = {
 
 export type MessageSystemBulkAddToConv = {
   usernames: string[] | null
+}
+
+export type MessageSystemSbsResolve = {
+  assertionService: string
+  assertionUsername: string
+  prover: string
 }
 
 export type MessageJoin = {
@@ -732,6 +784,8 @@ export enum OutboxErrorType {
   TOOMANYATTEMPTS = 'toomanyattempts',
   ALREADY_DELETED = 'already_deleted',
   UPLOADFAILED = 'uploadfailed',
+  RESTRICTEDBOT = 'restrictedbot',
+  MINWRITER = 'minwriter',
 }
 
 export enum HeaderPlaintextVersion {
@@ -777,6 +831,17 @@ export enum MessageUnboxedErrorType {
   PAIRWISE_MISSING = 'pairwise_missing',
 }
 
+export enum JourneycardType {
+  WELCOME = 'welcome',
+  POPULAR_CHANNELS = 'popular_channels',
+  ADD_PEOPLE = 'add_people',
+  CREATE_CHANNELS = 'create_channels',
+  MSG_ATTENTION = 'msg_attention',
+  USER_AWAY_FOR_LONG = 'user_away_for_long',
+  CHANNEL_INACTIVE = 'channel_inactive',
+  MSG_NO_ANSWER = 'msg_no_answer',
+}
+
 export type UnreadFirstNumLimit = {
   numRead: number
   atLeast: number
@@ -785,6 +850,7 @@ export type UnreadFirstNumLimit = {
 
 export type ConversationLocalParticipant = {
   username: string
+  inConvName: boolean
   fullname?: string
   contactName?: string
 }
@@ -830,6 +896,11 @@ export enum GetThreadNonblockPgMode {
   SERVER = 'server',
 }
 
+export enum InboxLayoutReselectMode {
+  DEFAULT = 'default',
+  FORCE = 'force',
+}
+
 export enum PreviewLocationTyp {
   URL = 'url',
   FILE = 'file',
@@ -837,9 +908,9 @@ export enum PreviewLocationTyp {
 }
 
 export type PreviewLocation =
-  | {ltyp: PreviewLocationTyp.URL; URL: string | null}
-  | {ltyp: PreviewLocationTyp.FILE; FILE: string | null}
-  | {ltyp: PreviewLocationTyp.BYTES; BYTES: Buffer | null}
+  | {ltyp: PreviewLocationTyp.URL; URL: string}
+  | {ltyp: PreviewLocationTyp.FILE; FILE: string}
+  | {ltyp: PreviewLocationTyp.BYTES; BYTES: Buffer}
   | {ltyp: Exclude<PreviewLocationTyp, PreviewLocationTyp.URL | PreviewLocationTyp.FILE | PreviewLocationTyp.BYTES>}
 
 export enum UnfurlPromptAction {
@@ -854,8 +925,8 @@ export type UnfurlPromptResult =
   | {actionType: UnfurlPromptAction.ALWAYS}
   | {actionType: UnfurlPromptAction.NEVER}
   | {actionType: UnfurlPromptAction.NOTNOW}
-  | {actionType: UnfurlPromptAction.ACCEPT; ACCEPT: string | null}
-  | {actionType: UnfurlPromptAction.ONETIME; ONETIME: string | null}
+  | {actionType: UnfurlPromptAction.ACCEPT; ACCEPT: string}
+  | {actionType: UnfurlPromptAction.ONETIME; ONETIME: string}
   | {
       actionType: Exclude<
         UnfurlPromptAction,
@@ -911,7 +982,6 @@ export type TyperInfo = {
 export enum StaleUpdateType {
   CLEAR = 'clear',
   NEWACTIVITY = 'newactivity',
-  CONVUPDATE = 'convupdate',
 }
 
 export enum MessageBoxedVersion {
@@ -954,8 +1024,8 @@ export enum SyncAllNotificationType {
 }
 
 export type SyncAllNotificationRes =
-  | {typ: SyncAllNotificationType.STATE; STATE: gregor1.State | null}
-  | {typ: SyncAllNotificationType.INCREMENTAL; INCREMENTAL: gregor1.SyncResult | null}
+  | {typ: SyncAllNotificationType.STATE; STATE: gregor1.State}
+  | {typ: SyncAllNotificationType.INCREMENTAL; INCREMENTAL: gregor1.SyncResult}
   | {typ: Exclude<SyncAllNotificationType, SyncAllNotificationType.STATE | SyncAllNotificationType.INCREMENTAL>}
 
 export enum ExternalAPIKeyTyp {
@@ -964,8 +1034,8 @@ export enum ExternalAPIKeyTyp {
 }
 
 export type ExternalAPIKey =
-  | {typ: ExternalAPIKeyTyp.GOOGLEMAPS; GOOGLEMAPS: string | null}
-  | {typ: ExternalAPIKeyTyp.GIPHY; GIPHY: string | null}
+  | {typ: ExternalAPIKeyTyp.GOOGLEMAPS; GOOGLEMAPS: string}
+  | {typ: ExternalAPIKeyTyp.GIPHY; GIPHY: string}
   | {typ: Exclude<ExternalAPIKeyTyp, ExternalAPIKeyTyp.GOOGLEMAPS | ExternalAPIKeyTyp.GIPHY>}
 
 export type CommandConvVers = number
@@ -1058,17 +1128,33 @@ export type GetResetConvMembersRes = {
   rateLimits: RateLimitRes[] | null
 }
 
+export type GetDeviceInfoRes = {
+  devices: DeviceInfo[] | null
+}
+
+export type UIInboxBigTeamRow =
+  | {state: UIInboxBigTeamRowTyp.LABEL; LABEL: string}
+  | {state: UIInboxBigTeamRowTyp.CHANNEL; CHANNEL: UIInboxBigTeamChannelRow}
+  | {state: Exclude<UIInboxBigTeamRowTyp, UIInboxBigTeamRowTyp.LABEL | UIInboxBigTeamRowTyp.CHANNEL>}
+
 export type UIParticipant = {
   type: UIParticipantType
   assertion: string
+  inConvName: boolean
   fullName?: string
   contactName?: string
+}
+
+export type UIMessageJourneycard = {
+  ordinal: number
+  cardType: JourneycardType
+  highlightMsgId: MessageID
 }
 
 export type UIMaybeMentionInfo =
   | {status: UIMaybeMentionStatus.UNKNOWN}
   | {status: UIMaybeMentionStatus.USER}
-  | {status: UIMaybeMentionStatus.TEAM; TEAM: UITeamMention | null}
+  | {status: UIMaybeMentionStatus.TEAM; TEAM: UITeamMention}
   | {status: UIMaybeMentionStatus.NOTHING}
   | {
       status: Exclude<
@@ -1100,11 +1186,11 @@ export type UICoinFlipAbsenteeError = {
 }
 
 export type UICoinFlipResult =
-  | {typ: UICoinFlipResultTyp.NUMBER; NUMBER: string | null}
-  | {typ: UICoinFlipResultTyp.SHUFFLE; SHUFFLE: string[] | null}
-  | {typ: UICoinFlipResultTyp.DECK; DECK: number[] | null}
-  | {typ: UICoinFlipResultTyp.HANDS; HANDS: UICoinFlipHand[] | null}
-  | {typ: UICoinFlipResultTyp.COIN; COIN: boolean | null}
+  | {typ: UICoinFlipResultTyp.NUMBER; NUMBER: string}
+  | {typ: UICoinFlipResultTyp.SHUFFLE; SHUFFLE: string[]}
+  | {typ: UICoinFlipResultTyp.DECK; DECK: number[]}
+  | {typ: UICoinFlipResultTyp.HANDS; HANDS: UICoinFlipHand[]}
+  | {typ: UICoinFlipResultTyp.COIN; COIN: boolean}
   | {
       typ: Exclude<
         UICoinFlipResultTyp,
@@ -1178,6 +1264,7 @@ export type ConversationReaderInfo = {
   readMsgid: MessageID
   maxMsgid: MessageID
   status: ConversationMemberStatus
+  untrustedTeamRole: keybase1.TeamRole
 }
 
 export type ConversationSettings = {
@@ -1226,10 +1313,10 @@ export type EphemeralPurgeInfo = {
 }
 
 export type RetentionPolicy =
-  | {typ: RetentionPolicyType.RETAIN; RETAIN: RpRetain | null}
-  | {typ: RetentionPolicyType.EXPIRE; EXPIRE: RpExpire | null}
-  | {typ: RetentionPolicyType.INHERIT; INHERIT: RpInherit | null}
-  | {typ: RetentionPolicyType.EPHEMERAL; EPHEMERAL: RpEphemeral | null}
+  | {typ: RetentionPolicyType.RETAIN; RETAIN: RpRetain}
+  | {typ: RetentionPolicyType.EXPIRE; EXPIRE: RpExpire}
+  | {typ: RetentionPolicyType.INHERIT; INHERIT: RpInherit}
+  | {typ: RetentionPolicyType.EPHEMERAL; EPHEMERAL: RpEphemeral}
   | {
       typ: Exclude<
         RetentionPolicyType,
@@ -1257,9 +1344,9 @@ export type SearchOpts = {
 }
 
 export type AssetMetadata =
-  | {assetType: AssetMetadataType.IMAGE; IMAGE: AssetMetadataImage | null}
-  | {assetType: AssetMetadataType.VIDEO; VIDEO: AssetMetadataVideo | null}
-  | {assetType: AssetMetadataType.AUDIO; AUDIO: AssetMetadataAudio | null}
+  | {assetType: AssetMetadataType.IMAGE; IMAGE: AssetMetadataImage}
+  | {assetType: AssetMetadataType.VIDEO; VIDEO: AssetMetadataVideo}
+  | {assetType: AssetMetadataType.AUDIO; AUDIO: AssetMetadataAudio}
   | {assetType: Exclude<AssetMetadataType, AssetMetadataType.IMAGE | AssetMetadataType.VIDEO | AssetMetadataType.AUDIO>}
 
 export type UnreadUpdate = {
@@ -1285,6 +1372,11 @@ export type RemoteUserTypingUpdate = {
   deviceId: gregor1.DeviceID
   convId: ConversationID
   typing: boolean
+}
+
+export type TeamMemberRoleUpdate = {
+  tlfId: TLFID
+  role: keybase1.TeamRole
 }
 
 export type ConversationUpdate = {
@@ -1383,11 +1475,19 @@ export type MessageUnboxedError = {
   isEphemeral: boolean
   isEphemeralExpired: boolean
   etime: gregor1.Time
+  botUsername: string
 }
 
 export type MessageUnboxedPlaceholder = {
   messageId: MessageID
   hidden: boolean
+}
+
+export type MessageUnboxedJourneycard = {
+  prevId: MessageID
+  ordinal: number
+  cardType: JourneycardType
+  highlightMsgId: MessageID
 }
 
 export type ConversationSettingsLocal = {
@@ -1447,6 +1547,7 @@ export type GetInboxSummaryForCLILocalQuery = {
   before: string
   visibility: keybase1.TLFVisibility
   status: ConversationStatus[] | null
+  convIDs: ConversationID[] | null
   unreadFirst: boolean
   unreadFirstLimit: UnreadFirstNumLimit
   activitySortedLimit: number
@@ -1458,7 +1559,7 @@ export type DownloadAttachmentLocalRes = {
 }
 
 export type DownloadFileAttachmentLocalRes = {
-  filename: string
+  filePath: string
   rateLimits: RateLimit[] | null
   identifyFailures: keybase1.TLFIdentifyFailure[] | null
 }
@@ -1538,6 +1639,11 @@ export type ClearBotCommandsLocalRes = {
 
 export type PinMessageRes = {
   rateLimits: RateLimit[] | null
+}
+
+export type LocalMtimeUpdate = {
+  convId: ConversationID
+  mtime: gregor1.Time
 }
 
 export type SetAppNotificationSettingsInfo = {
@@ -1620,6 +1726,7 @@ export type RemoteBotCommandsAdvertisementTLFID = {
 
 export type BotCommandConv = {
   uid: gregor1.UID
+  untrustedTeamRole: keybase1.TeamRole
   convId: ConversationID
   vers: CommandConvVers
   mtime: gregor1.Time
@@ -1705,14 +1812,21 @@ export type AdvertiseCommandAPIParam = {
   teamName?: string
 }
 
+export type UIInboxLayout = {
+  smallTeams: UIInboxSmallTeamRow[] | null
+  bigTeams: UIInboxBigTeamRow[] | null
+  reselectInfo?: UIInboxReselectInfo
+  widgetList: UIInboxSmallTeamRow[] | null
+}
+
 export type UITextDecoration =
-  | {typ: UITextDecorationTyp.PAYMENT; PAYMENT: TextPayment | null}
-  | {typ: UITextDecorationTyp.ATMENTION; ATMENTION: string | null}
-  | {typ: UITextDecorationTyp.CHANNELNAMEMENTION; CHANNELNAMEMENTION: UIChannelNameMention | null}
-  | {typ: UITextDecorationTyp.MAYBEMENTION; MAYBEMENTION: MaybeMention | null}
-  | {typ: UITextDecorationTyp.LINK; LINK: UILinkDecoration | null}
-  | {typ: UITextDecorationTyp.MAILTO; MAILTO: UILinkDecoration | null}
-  | {typ: UITextDecorationTyp.KBFSPATH; KBFSPATH: KBFSPath | null}
+  | {typ: UITextDecorationTyp.PAYMENT; PAYMENT: TextPayment}
+  | {typ: UITextDecorationTyp.ATMENTION; ATMENTION: string}
+  | {typ: UITextDecorationTyp.CHANNELNAMEMENTION; CHANNELNAMEMENTION: UIChannelNameMention}
+  | {typ: UITextDecorationTyp.MAYBEMENTION; MAYBEMENTION: MaybeMention}
+  | {typ: UITextDecorationTyp.LINK; LINK: UILinkDecoration}
+  | {typ: UITextDecorationTyp.MAILTO; MAILTO: UILinkDecoration}
+  | {typ: UITextDecorationTyp.KBFSPATH; KBFSPATH: KBFSPath}
   | {
       typ: Exclude<
         UITextDecorationTyp,
@@ -1732,14 +1846,14 @@ export type UIChatSearchConvHits = {
 }
 
 export type UICoinFlipError =
-  | {typ: UICoinFlipErrorTyp.GENERIC; GENERIC: string | null}
-  | {typ: UICoinFlipErrorTyp.ABSENTEE; ABSENTEE: UICoinFlipAbsenteeError | null}
+  | {typ: UICoinFlipErrorTyp.GENERIC; GENERIC: string}
+  | {typ: UICoinFlipErrorTyp.ABSENTEE; ABSENTEE: UICoinFlipAbsenteeError}
   | {typ: UICoinFlipErrorTyp.TIMEOUT}
   | {typ: UICoinFlipErrorTyp.ABORTED}
-  | {typ: UICoinFlipErrorTyp.DUPREG; DUPREG: UICoinFlipErrorParticipant | null}
-  | {typ: UICoinFlipErrorTyp.DUPCOMMITCOMPLETE; DUPCOMMITCOMPLETE: UICoinFlipErrorParticipant | null}
-  | {typ: UICoinFlipErrorTyp.DUPREVEAL; DUPREVEAL: UICoinFlipErrorParticipant | null}
-  | {typ: UICoinFlipErrorTyp.COMMITMISMATCH; COMMITMISMATCH: UICoinFlipErrorParticipant | null}
+  | {typ: UICoinFlipErrorTyp.DUPREG; DUPREG: UICoinFlipErrorParticipant}
+  | {typ: UICoinFlipErrorTyp.DUPCOMMITCOMPLETE; DUPCOMMITCOMPLETE: UICoinFlipErrorParticipant}
+  | {typ: UICoinFlipErrorTyp.DUPREVEAL; DUPREVEAL: UICoinFlipErrorParticipant}
+  | {typ: UICoinFlipErrorTyp.COMMITMISMATCH; COMMITMISMATCH: UICoinFlipErrorParticipant}
   | {
       typ: Exclude<
         UICoinFlipErrorTyp,
@@ -1755,8 +1869,8 @@ export type UICoinFlipError =
     }
 
 export type ConversationCommandGroups =
-  | {typ: ConversationCommandGroupsTyp.BUILTIN; BUILTIN: ConversationBuiltinCommandTyp | null}
-  | {typ: ConversationCommandGroupsTyp.CUSTOM; CUSTOM: ConversationCommandGroupsCustom | null}
+  | {typ: ConversationCommandGroupsTyp.BUILTIN; BUILTIN: ConversationBuiltinCommandTyp}
+  | {typ: ConversationCommandGroupsTyp.CUSTOM; CUSTOM: ConversationCommandGroupsCustom}
   | {typ: ConversationCommandGroupsTyp.NONE}
   | {
       typ: Exclude<
@@ -1892,6 +2006,7 @@ export type ExpungePayload = {
 
 export type UpdateConversationMembership = {
   inboxVers: InboxVers
+  teamMemberRoleUpdate?: TeamMemberRoleUpdate
   joined: ConversationMember[] | null
   removed: ConversationMember[] | null
   reset: ConversationMember[] | null
@@ -1942,8 +2057,8 @@ export type MessageSystemChangeRetention = {
 }
 
 export type OutboxState =
-  | {state: OutboxStateType.SENDING; SENDING: number | null}
-  | {state: OutboxStateType.ERROR; ERROR: OutboxStateError | null}
+  | {state: OutboxStateType.SENDING; SENDING: number}
+  | {state: OutboxStateType.ERROR; ERROR: OutboxStateError}
   | {state: Exclude<OutboxStateType, OutboxStateType.SENDING | OutboxStateType.ERROR>}
 
 export type HeaderPlaintextV1 = {
@@ -2049,9 +2164,9 @@ export type SweepRes = {
 }
 
 export type RemoteBotCommandsAdvertisement =
-  | {typ: BotCommandsAdvertisementTyp.PUBLIC; PUBLIC: RemoteBotCommandsAdvertisementPublic | null}
-  | {typ: BotCommandsAdvertisementTyp.TLFID_MEMBERS; TLFID_MEMBERS: RemoteBotCommandsAdvertisementTLFID | null}
-  | {typ: BotCommandsAdvertisementTyp.TLFID_CONVS; TLFID_CONVS: RemoteBotCommandsAdvertisementTLFID | null}
+  | {typ: BotCommandsAdvertisementTyp.PUBLIC; PUBLIC: RemoteBotCommandsAdvertisementPublic}
+  | {typ: BotCommandsAdvertisementTyp.TLFID_MEMBERS; TLFID_MEMBERS: RemoteBotCommandsAdvertisementTLFID}
+  | {typ: BotCommandsAdvertisementTyp.TLFID_CONVS; TLFID_CONVS: RemoteBotCommandsAdvertisementTLFID}
   | {
       typ: Exclude<
         BotCommandsAdvertisementTyp,
@@ -2064,10 +2179,10 @@ export type BotInfo = {
 }
 
 export type UnfurlRaw =
-  | {unfurlType: UnfurlType.GENERIC; GENERIC: UnfurlGenericRaw | null}
-  | {unfurlType: UnfurlType.YOUTUBE; YOUTUBE: UnfurlYoutubeRaw | null}
-  | {unfurlType: UnfurlType.GIPHY; GIPHY: UnfurlGiphyRaw | null}
-  | {unfurlType: UnfurlType.MAPS; MAPS: UnfurlMapsRaw | null}
+  | {unfurlType: UnfurlType.GENERIC; GENERIC: UnfurlGenericRaw}
+  | {unfurlType: UnfurlType.YOUTUBE; YOUTUBE: UnfurlYoutubeRaw}
+  | {unfurlType: UnfurlType.GIPHY; GIPHY: UnfurlGiphyRaw}
+  | {unfurlType: UnfurlType.MAPS; MAPS: UnfurlMapsRaw}
   | {unfurlType: Exclude<UnfurlType, UnfurlType.GENERIC | UnfurlType.YOUTUBE | UnfurlType.GIPHY | UnfurlType.MAPS>}
 
 export type UnfurlGenericDisplay = {
@@ -2094,14 +2209,15 @@ export type UICoinFlipStatus = {
 }
 
 export type MessageSystem =
-  | {systemType: MessageSystemType.ADDEDTOTEAM; ADDEDTOTEAM: MessageSystemAddedToTeam | null}
-  | {systemType: MessageSystemType.INVITEADDEDTOTEAM; INVITEADDEDTOTEAM: MessageSystemInviteAddedToTeam | null}
-  | {systemType: MessageSystemType.COMPLEXTEAM; COMPLEXTEAM: MessageSystemComplexTeam | null}
-  | {systemType: MessageSystemType.CREATETEAM; CREATETEAM: MessageSystemCreateTeam | null}
-  | {systemType: MessageSystemType.GITPUSH; GITPUSH: MessageSystemGitPush | null}
-  | {systemType: MessageSystemType.CHANGEAVATAR; CHANGEAVATAR: MessageSystemChangeAvatar | null}
-  | {systemType: MessageSystemType.CHANGERETENTION; CHANGERETENTION: MessageSystemChangeRetention | null}
-  | {systemType: MessageSystemType.BULKADDTOCONV; BULKADDTOCONV: MessageSystemBulkAddToConv | null}
+  | {systemType: MessageSystemType.ADDEDTOTEAM; ADDEDTOTEAM: MessageSystemAddedToTeam}
+  | {systemType: MessageSystemType.INVITEADDEDTOTEAM; INVITEADDEDTOTEAM: MessageSystemInviteAddedToTeam}
+  | {systemType: MessageSystemType.COMPLEXTEAM; COMPLEXTEAM: MessageSystemComplexTeam}
+  | {systemType: MessageSystemType.CREATETEAM; CREATETEAM: MessageSystemCreateTeam}
+  | {systemType: MessageSystemType.GITPUSH; GITPUSH: MessageSystemGitPush}
+  | {systemType: MessageSystemType.CHANGEAVATAR; CHANGEAVATAR: MessageSystemChangeAvatar}
+  | {systemType: MessageSystemType.CHANGERETENTION; CHANGERETENTION: MessageSystemChangeRetention}
+  | {systemType: MessageSystemType.BULKADDTOCONV; BULKADDTOCONV: MessageSystemBulkAddToConv}
+  | {systemType: MessageSystemType.SBSRESOLVE; SBSRESOLVE: MessageSystemSbsResolve}
   | {
       systemType: Exclude<
         MessageSystemType,
@@ -2113,6 +2229,7 @@ export type MessageSystem =
         | MessageSystemType.CHANGEAVATAR
         | MessageSystemType.CHANGERETENTION
         | MessageSystemType.BULKADDTOCONV
+        | MessageSystemType.SBSRESOLVE
       >
     }
 
@@ -2132,16 +2249,16 @@ export type MessageAttachmentUploaded = {
 }
 
 export type HeaderPlaintext =
-  | {version: HeaderPlaintextVersion.V1; V1: HeaderPlaintextV1 | null}
-  | {version: HeaderPlaintextVersion.V2; V2: HeaderPlaintextUnsupported | null}
-  | {version: HeaderPlaintextVersion.V3; V3: HeaderPlaintextUnsupported | null}
-  | {version: HeaderPlaintextVersion.V4; V4: HeaderPlaintextUnsupported | null}
-  | {version: HeaderPlaintextVersion.V5; V5: HeaderPlaintextUnsupported | null}
-  | {version: HeaderPlaintextVersion.V6; V6: HeaderPlaintextUnsupported | null}
-  | {version: HeaderPlaintextVersion.V7; V7: HeaderPlaintextUnsupported | null}
-  | {version: HeaderPlaintextVersion.V8; V8: HeaderPlaintextUnsupported | null}
-  | {version: HeaderPlaintextVersion.V9; V9: HeaderPlaintextUnsupported | null}
-  | {version: HeaderPlaintextVersion.V10; V10: HeaderPlaintextUnsupported | null}
+  | {version: HeaderPlaintextVersion.V1; V1: HeaderPlaintextV1}
+  | {version: HeaderPlaintextVersion.V2; V2: HeaderPlaintextUnsupported}
+  | {version: HeaderPlaintextVersion.V3; V3: HeaderPlaintextUnsupported}
+  | {version: HeaderPlaintextVersion.V4; V4: HeaderPlaintextUnsupported}
+  | {version: HeaderPlaintextVersion.V5; V5: HeaderPlaintextUnsupported}
+  | {version: HeaderPlaintextVersion.V6; V6: HeaderPlaintextUnsupported}
+  | {version: HeaderPlaintextVersion.V7; V7: HeaderPlaintextUnsupported}
+  | {version: HeaderPlaintextVersion.V8; V8: HeaderPlaintextUnsupported}
+  | {version: HeaderPlaintextVersion.V9; V9: HeaderPlaintextUnsupported}
+  | {version: HeaderPlaintextVersion.V10; V10: HeaderPlaintextUnsupported}
   | {
       version: Exclude<
         HeaderPlaintextVersion,
@@ -2188,7 +2305,7 @@ export type MessageBoxed = {
 
 export type BotInfoResponse =
   | {typ: BotInfoResponseTyp.UPTODATE}
-  | {typ: BotInfoResponseTyp.INFO; INFO: BotInfo | null}
+  | {typ: BotInfoResponseTyp.INFO; INFO: BotInfo}
   | {typ: Exclude<BotInfoResponseTyp, BotInfoResponseTyp.UPTODATE | BotInfoResponseTyp.INFO>}
 
 export type UnfurlGeneric = {
@@ -2209,9 +2326,9 @@ export type UnfurlGiphy = {
 }
 
 export type UnfurlDisplay =
-  | {unfurlType: UnfurlType.GENERIC; GENERIC: UnfurlGenericDisplay | null}
-  | {unfurlType: UnfurlType.YOUTUBE; YOUTUBE: UnfurlYoutubeDisplay | null}
-  | {unfurlType: UnfurlType.GIPHY; GIPHY: UnfurlGiphyDisplay | null}
+  | {unfurlType: UnfurlType.GENERIC; GENERIC: UnfurlGenericDisplay}
+  | {unfurlType: UnfurlType.YOUTUBE; YOUTUBE: UnfurlYoutubeDisplay}
+  | {unfurlType: UnfurlType.GIPHY; GIPHY: UnfurlGiphyDisplay}
   | {unfurlType: Exclude<UnfurlType, UnfurlType.GENERIC | UnfurlType.YOUTUBE | UnfurlType.GIPHY>}
 
 export type UIMessageUnfurlInfo = {
@@ -2228,6 +2345,7 @@ export type NewMessagePayload = {
   inboxVers: InboxVers
   topicType: TopicType
   unreadUpdate?: UnreadUpdate
+  untrustedTeamRole: keybase1.TeamRole
   maxMsgs: MessageSummary[] | null
 }
 
@@ -2259,9 +2377,9 @@ export type GetBotInfoRes = {
 }
 
 export type Unfurl =
-  | {unfurlType: UnfurlType.GENERIC; GENERIC: UnfurlGeneric | null}
-  | {unfurlType: UnfurlType.YOUTUBE; YOUTUBE: UnfurlYoutube | null}
-  | {unfurlType: UnfurlType.GIPHY; GIPHY: UnfurlGiphy | null}
+  | {unfurlType: UnfurlType.GENERIC; GENERIC: UnfurlGeneric}
+  | {unfurlType: UnfurlType.YOUTUBE; YOUTUBE: UnfurlYoutube}
+  | {unfurlType: UnfurlType.GIPHY; GIPHY: UnfurlGiphy}
   | {unfurlType: Exclude<UnfurlType, UnfurlType.GENERIC | UnfurlType.YOUTUBE | UnfurlType.GIPHY>}
 
 export type GetThreadRemoteRes = {
@@ -2299,23 +2417,23 @@ export type MsgContent = {
 }
 
 export type MessageBody =
-  | {messageType: MessageType.TEXT; TEXT: MessageText | null}
-  | {messageType: MessageType.ATTACHMENT; ATTACHMENT: MessageAttachment | null}
-  | {messageType: MessageType.EDIT; EDIT: MessageEdit | null}
-  | {messageType: MessageType.DELETE; DELETE: MessageDelete | null}
-  | {messageType: MessageType.METADATA; METADATA: MessageConversationMetadata | null}
-  | {messageType: MessageType.HEADLINE; HEADLINE: MessageHeadline | null}
-  | {messageType: MessageType.ATTACHMENTUPLOADED; ATTACHMENTUPLOADED: MessageAttachmentUploaded | null}
-  | {messageType: MessageType.JOIN; JOIN: MessageJoin | null}
-  | {messageType: MessageType.LEAVE; LEAVE: MessageLeave | null}
-  | {messageType: MessageType.SYSTEM; SYSTEM: MessageSystem | null}
-  | {messageType: MessageType.DELETEHISTORY; DELETEHISTORY: MessageDeleteHistory | null}
-  | {messageType: MessageType.REACTION; REACTION: MessageReaction | null}
-  | {messageType: MessageType.SENDPAYMENT; SENDPAYMENT: MessageSendPayment | null}
-  | {messageType: MessageType.REQUESTPAYMENT; REQUESTPAYMENT: MessageRequestPayment | null}
-  | {messageType: MessageType.UNFURL; UNFURL: MessageUnfurl | null}
-  | {messageType: MessageType.FLIP; FLIP: MessageFlip | null}
-  | {messageType: MessageType.PIN; PIN: MessagePin | null}
+  | {messageType: MessageType.TEXT; TEXT: MessageText}
+  | {messageType: MessageType.ATTACHMENT; ATTACHMENT: MessageAttachment}
+  | {messageType: MessageType.EDIT; EDIT: MessageEdit}
+  | {messageType: MessageType.DELETE; DELETE: MessageDelete}
+  | {messageType: MessageType.METADATA; METADATA: MessageConversationMetadata}
+  | {messageType: MessageType.HEADLINE; HEADLINE: MessageHeadline}
+  | {messageType: MessageType.ATTACHMENTUPLOADED; ATTACHMENTUPLOADED: MessageAttachmentUploaded}
+  | {messageType: MessageType.JOIN; JOIN: MessageJoin}
+  | {messageType: MessageType.LEAVE; LEAVE: MessageLeave}
+  | {messageType: MessageType.SYSTEM; SYSTEM: MessageSystem}
+  | {messageType: MessageType.DELETEHISTORY; DELETEHISTORY: MessageDeleteHistory}
+  | {messageType: MessageType.REACTION; REACTION: MessageReaction}
+  | {messageType: MessageType.SENDPAYMENT; SENDPAYMENT: MessageSendPayment}
+  | {messageType: MessageType.REQUESTPAYMENT; REQUESTPAYMENT: MessageRequestPayment}
+  | {messageType: MessageType.UNFURL; UNFURL: MessageUnfurl}
+  | {messageType: MessageType.FLIP; FLIP: MessageFlip}
+  | {messageType: MessageType.PIN; PIN: MessagePin}
   | {
       messageType: Exclude<
         MessageType,
@@ -2360,6 +2478,7 @@ export type MsgSummary = {
   atMentionUsernames?: string[] | null
   channelMention?: string
   channelNameMentions?: UIChannelNameMention[] | null
+  botInfo?: MsgBotInfo
 }
 
 export type BodyPlaintextV1 = {
@@ -2391,16 +2510,16 @@ export type MsgNotification = {
 }
 
 export type BodyPlaintext =
-  | {version: BodyPlaintextVersion.V1; V1: BodyPlaintextV1 | null}
-  | {version: BodyPlaintextVersion.V2; V2: BodyPlaintextV2 | null}
-  | {version: BodyPlaintextVersion.V3; V3: BodyPlaintextUnsupported | null}
-  | {version: BodyPlaintextVersion.V4; V4: BodyPlaintextUnsupported | null}
-  | {version: BodyPlaintextVersion.V5; V5: BodyPlaintextUnsupported | null}
-  | {version: BodyPlaintextVersion.V6; V6: BodyPlaintextUnsupported | null}
-  | {version: BodyPlaintextVersion.V7; V7: BodyPlaintextUnsupported | null}
-  | {version: BodyPlaintextVersion.V8; V8: BodyPlaintextUnsupported | null}
-  | {version: BodyPlaintextVersion.V9; V9: BodyPlaintextUnsupported | null}
-  | {version: BodyPlaintextVersion.V10; V10: BodyPlaintextUnsupported | null}
+  | {version: BodyPlaintextVersion.V1; V1: BodyPlaintextV1}
+  | {version: BodyPlaintextVersion.V2; V2: BodyPlaintextV2}
+  | {version: BodyPlaintextVersion.V3; V3: BodyPlaintextUnsupported}
+  | {version: BodyPlaintextVersion.V4; V4: BodyPlaintextUnsupported}
+  | {version: BodyPlaintextVersion.V5; V5: BodyPlaintextUnsupported}
+  | {version: BodyPlaintextVersion.V6; V6: BodyPlaintextUnsupported}
+  | {version: BodyPlaintextVersion.V7; V7: BodyPlaintextUnsupported}
+  | {version: BodyPlaintextVersion.V8; V8: BodyPlaintextUnsupported}
+  | {version: BodyPlaintextVersion.V9; V9: BodyPlaintextUnsupported}
+  | {version: BodyPlaintextVersion.V10; V10: BodyPlaintextUnsupported}
   | {
       version: Exclude<
         BodyPlaintextVersion,

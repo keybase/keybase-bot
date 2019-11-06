@@ -1,9 +1,10 @@
 /*
  * keybase.1
  *
- * Auto-generated to TypeScript types by avdl-compiler v1.4.2 (https://github.com/keybase/node-avdl-compiler)
+ * Auto-generated to TypeScript types by avdl-compiler v1.4.6 (https://github.com/keybase/node-avdl-compiler)
  * Input files:
  * - ../client/protocol/avdl/keybase1/account.avdl
+ * - ../client/protocol/avdl/keybase1/airdrop.avdl
  * - ../client/protocol/avdl/keybase1/apiserver.avdl
  * - ../client/protocol/avdl/keybase1/appstate.avdl
  * - ../client/protocol/avdl/keybase1/audit.avdl
@@ -11,6 +12,7 @@
  * - ../client/protocol/avdl/keybase1/backend_common.avdl
  * - ../client/protocol/avdl/keybase1/badger.avdl
  * - ../client/protocol/avdl/keybase1/block.avdl
+ * - ../client/protocol/avdl/keybase1/bot.avdl
  * - ../client/protocol/avdl/keybase1/btc.avdl
  * - ../client/protocol/avdl/keybase1/common.avdl
  * - ../client/protocol/avdl/keybase1/config.avdl
@@ -48,6 +50,7 @@
  * - ../client/protocol/avdl/keybase1/kex2provisionee.avdl
  * - ../client/protocol/avdl/keybase1/kex2provisionee2.avdl
  * - ../client/protocol/avdl/keybase1/kex2provisioner.avdl
+ * - ../client/protocol/avdl/keybase1/kvstore.avdl
  * - ../client/protocol/avdl/keybase1/log.avdl
  * - ../client/protocol/avdl/keybase1/log_ui.avdl
  * - ../client/protocol/avdl/keybase1/login.avdl
@@ -183,6 +186,8 @@ export enum BlockStatus {
 export type BlockRefNonce = string | null
 export type BlockPingResponse = {}
 
+export type BotToken = string
+
 export type Time = number
 
 export type UnixTime = number
@@ -196,6 +201,8 @@ export type StringKVPair = {
 
 export type UID = string
 
+export type VID = string
+
 export type DeviceID = string
 
 export type SigID = string
@@ -207,8 +214,6 @@ export type KID = string
 export type PhoneNumber = string
 
 export type RawPhoneNumber = string
-
-export type RegionCode = string
 
 export type LinkID = string
 
@@ -432,6 +437,7 @@ export type ConfigValue = {
   isNull: boolean
   b?: boolean
   i?: number
+  f?: number
   s?: string
   o?: string
 }
@@ -498,6 +504,7 @@ export enum StatusCode {
   SCBadEmail = 'scbademail',
   SCRateLimit = 'scratelimit',
   SCBadSignupUsernameTaken = 'scbadsignupusernametaken',
+  SCDuplicate = 'scduplicate',
   SCBadInvitationCode = 'scbadinvitationcode',
   SCBadSignupTeamName = 'scbadsignupteamname',
   SCFeatureFlag = 'scfeatureflag',
@@ -506,6 +513,7 @@ export enum StatusCode {
   SCEmailLimitExceeded = 'scemaillimitexceeded',
   SCEmailCannotDeletePrimary = 'scemailcannotdeleteprimary',
   SCEmailUnknown = 'scemailunknown',
+  SCBotSignupTokenNotFound = 'scbotsignuptokennotfound',
   SCMissingResult = 'scmissingresult',
   SCKeyNotFound = 'sckeynotfound',
   SCKeyCorrupted = 'sckeycorrupted',
@@ -534,6 +542,7 @@ export enum StatusCode {
   SCSigBadTotalOrder = 'scsigbadtotalorder',
   SCBadTrackSession = 'scbadtracksession',
   SCDeviceBadName = 'scdevicebadname',
+  SCDeviceBadStatus = 'scdevicebadstatus',
   SCDeviceNameInUse = 'scdevicenameinuse',
   SCDeviceNotFound = 'scdevicenotfound',
   SCDeviceMismatch = 'scdevicemismatch',
@@ -600,6 +609,7 @@ export enum StatusCode {
   SCTeamWritePermDenied = 'scteamwritepermdenied',
   SCTeamBadGeneration = 'scteambadgeneration',
   SCNoOp = 'scnoop',
+  SCTeamInviteBadCancel = 'scteaminvitebadcancel',
   SCTeamInviteBadToken = 'scteaminvitebadtoken',
   SCTeamTarDuplicate = 'scteamtarduplicate',
   SCTeamTarNotFound = 'scteamtarnotfound',
@@ -633,6 +643,9 @@ export enum StatusCode {
   SCTeamProvisionalCanKey = 'scteamprovisionalcankey',
   SCTeamProvisionalCannotKey = 'scteamprovisionalcannotkey',
   SCTeamFTLOutdated = 'scteamftloutdated',
+  SCTeamStorageWrongRevision = 'scteamstoragewrongrevision',
+  SCTeamStorageBadGeneration = 'scteamstoragebadgeneration',
+  SCTeamStorageNotFound = 'scteamstoragenotfound',
   SCEphemeralKeyBadGeneration = 'scephemeralkeybadgeneration',
   SCEphemeralKeyUnexpectedBox = 'scephemeralkeyunexpectedbox',
   SCEphemeralKeyMissingBox = 'scephemeralkeymissingbox',
@@ -686,6 +699,7 @@ export enum StatusCode {
   SCTeambotKeyGenerationExists = 'scteambotkeygenerationexists',
   SCTeambotKeyOldBoxedGeneration = 'scteambotkeyoldboxedgeneration',
   SCTeambotKeyBadGeneration = 'scteambotkeybadgeneration',
+  SCAirdropRegisterFailedMisc = 'scairdropregisterfailedmisc',
 }
 
 export type ED25519PublicKey = string | null
@@ -714,6 +728,12 @@ export enum DbType {
 }
 
 export type DbValue = Buffer
+
+export enum OnLoginStartupStatus {
+  UNKNOWN = 'unknown',
+  DISABLED = 'disabled',
+  ENABLED = 'enabled',
+}
 
 export type FirstStepResult = {
   valPlusTwo: number
@@ -1027,14 +1047,73 @@ export type CsrfToken = string
 
 export type HelloRes = string
 
+export type KVGetResult = {
+  teamName: string
+  namespace: string
+  entryKey: string
+  entryValue: string
+  revision: number
+}
+
+export type KVPutResult = {
+  teamName: string
+  namespace: string
+  entryKey: string
+  revision: number
+}
+
+export type EncryptedKVEntry = {
+  v: number
+  e: Buffer
+  n: Buffer
+}
+
+export type KVListNamespaceResult = {
+  teamName: string
+  namespaces: string[] | null
+}
+
+export type KVListEntryKey = {
+  entryKey: string
+  revision: number
+}
+
+export type KVDeleteEntryResult = {
+  teamName: string
+  namespace: string
+  entryKey: string
+  revision: number
+}
+
 export enum ResetPromptType {
   COMPLETE = 'complete',
   ENTER_NO_DEVICES = 'enter_no_devices',
   ENTER_FORGOT_PW = 'enter_forgot_pw',
+  ENTER_RESET_PW = 'enter_reset_pw',
+}
+
+export type ResetPromptInfo = {
+  hasWallet: boolean
+}
+
+export enum ResetPromptResponse {
+  NOTHING = 'nothing',
+  CANCEL_RESET = 'cancel_reset',
+  CONFIRM_RESET = 'confirm_reset',
 }
 
 export enum PassphraseRecoveryPromptType {
   ENCRYPTED_PGP_KEYS = 'encrypted_pgp_keys',
+}
+
+export enum ResetMessage {
+  ENTERED_VERIFIED = 'entered_verified',
+  ENTERED_PASSWORDLESS = 'entered_passwordless',
+  REQUEST_VERIFIED = 'request_verified',
+  NOT_COMPLETED = 'not_completed',
+  CANCELED = 'canceled',
+  COMPLETED = 'completed',
+  RESET_LINK_SENT = 'reset_link_sent',
 }
 
 export type KBFSRootHash = Buffer
@@ -1313,6 +1392,7 @@ export type ParamProofUsernameConfig = {
 export type ParamProofLogoConfig = {
   svgBlack: string
   svgFull: string
+  svgWhite: string
 }
 
 export type ServiceDisplayConfig = {
@@ -1446,6 +1526,7 @@ export type SignupRes = {
   passphraseOk: boolean
   postOk: boolean
   writeOk: boolean
+  paperKey: string
 }
 
 export type SigTypes = {
@@ -1520,11 +1601,6 @@ export enum ListFilter {
   FILTER_SYSTEM_HIDDEN = 'filter_system_hidden',
 }
 
-export type SimpleFSGetHTTPAddressAndTokenResponse = {
-  address: string
-  token: string
-}
-
 export type SimpleFSQuotaUsage = {
   usageBytes: number
   archiveBytes: number
@@ -1548,11 +1624,29 @@ export enum SubscriptionTopic {
   FAVORITES = 'favorites',
   JOURNAL_STATUS = 'journal_status',
   ONLINE_STATUS = 'online_status',
+  DOWNLOAD_STATUS = 'download_status',
+  FILES_TAB_BADGE = 'files_tab_badge',
 }
 
 export enum PathSubscriptionTopic {
   CHILDREN = 'children',
   STAT = 'stat',
+}
+
+export enum FilesTabBadge {
+  NONE = 'none',
+  UPLOADING_STUCK = 'uploading_stuck',
+  AWAITING_UPLOAD = 'awaiting_upload',
+  UPLOADING = 'uploading',
+}
+
+export enum GUIViewType {
+  DEFAULT = 'default',
+  TEXT = 'text',
+  IMAGE = 'image',
+  AUDIO = 'audio',
+  VIDEO = 'video',
+  PDF = 'pdf',
 }
 
 export type TeambotKeyGeneration = number
@@ -1574,6 +1668,7 @@ export enum TeamApplication {
   GIT_METADATA = 'git_metadata',
   SEITAN_INVITE_TOKEN = 'seitan_invite_token',
   STELLAR_RELAY = 'stellar_relay',
+  KVSTORE = 'kvstore',
 }
 
 export enum TeamStatus {
@@ -1581,6 +1676,12 @@ export enum TeamStatus {
   LIVE = 'live',
   DELETED = 'deleted',
   ABANDONED = 'abandoned',
+}
+
+export enum AuditMode {
+  STANDARD = 'standard',
+  JUST_CREATED = 'just_created',
+  SKIP = 'skip',
 }
 
 export type PerTeamKeyGeneration = number
@@ -1821,10 +1922,12 @@ export type WebProof = {
 
 export type EmailAddress = string
 
-export type CanLogoutRes = {
-  canLogout: boolean
-  reason: string
-  setPassphrase: boolean
+/**
+ * PassphraseState values are used in .config.json, so should not be changed without a migration strategy
+ */
+export enum PassphraseState {
+  KNOWN = 'known',
+  RANDOM = 'random',
 }
 
 export type APIUserServiceID = string
@@ -1843,6 +1946,14 @@ export type LockdownHistory = {
   ctime: Time
   deviceId: DeviceID
   deviceName: string
+}
+
+export type AirdropDetails = {
+  uid: UID
+  kid: BinaryKID
+  vid: VID
+  vers: string
+  time: Time
 }
 
 export type BoxAuditAttempt = {
@@ -1876,6 +1987,11 @@ export type GetBlockRes = {
   status: BlockStatus
 }
 
+export type BotTokenInfo = {
+  botToken: BotToken
+  ctime: Time
+}
+
 export type Status = {
   code: number
   name: string
@@ -1889,8 +2005,8 @@ export type UserVersion = {
 }
 
 export type CompatibilityTeamID =
-  | {typ: TeamType.LEGACY; LEGACY: TLFID | null}
-  | {typ: TeamType.MODERN; MODERN: TeamID | null}
+  | {typ: TeamType.LEGACY; LEGACY: TLFID}
+  | {typ: TeamType.MODERN; MODERN: TeamID}
   | {typ: Exclude<TeamType, TeamType.LEGACY | TeamType.MODERN>}
 
 export type TeamIDWithVisibility = {
@@ -2029,8 +2145,8 @@ export type UpdateInfo = {
 
 export type UpdateInfo2 =
   | {status: UpdateInfoStatus2.OK}
-  | {status: UpdateInfoStatus2.SUGGESTED; SUGGESTED: UpdateDetails | null}
-  | {status: UpdateInfoStatus2.CRITICAL; CRITICAL: UpdateDetails | null}
+  | {status: UpdateInfoStatus2.SUGGESTED; SUGGESTED: UpdateDetails}
+  | {status: UpdateInfoStatus2.CRITICAL; CRITICAL: UpdateDetails}
   | {status: Exclude<UpdateInfoStatus2, UpdateInfoStatus2.OK | UpdateInfoStatus2.SUGGESTED | UpdateInfoStatus2.CRITICAL>}
 
 export type ProxyData = {
@@ -2192,9 +2308,9 @@ export type HomeScreenAnnouncement = {
  *     introduce more data to the payload.
  */
 export type HomeScreenTodo =
-  | {t: HomeScreenTodoType.VERIFY_ALL_PHONE_NUMBER; VERIFY_ALL_PHONE_NUMBER: PhoneNumber | null}
-  | {t: HomeScreenTodoType.VERIFY_ALL_EMAIL; VERIFY_ALL_EMAIL: EmailAddress | null}
-  | {t: HomeScreenTodoType.LEGACY_EMAIL_VISIBILITY; LEGACY_EMAIL_VISIBILITY: EmailAddress | null}
+  | {t: HomeScreenTodoType.VERIFY_ALL_PHONE_NUMBER; VERIFY_ALL_PHONE_NUMBER: PhoneNumber}
+  | {t: HomeScreenTodoType.VERIFY_ALL_EMAIL; VERIFY_ALL_EMAIL: EmailAddress}
+  | {t: HomeScreenTodoType.LEGACY_EMAIL_VISIBILITY; LEGACY_EMAIL_VISIBILITY: EmailAddress}
   | {
       t: Exclude<
         HomeScreenTodoType,
@@ -2353,12 +2469,26 @@ export type PerUserKeyBox = {
   receiverKid: KID
 }
 
+export type KVEntryID = {
+  teamId: TeamID
+  namespace: string
+  entryKey: string
+}
+
+export type KVListEntryResult = {
+  teamName: string
+  namespace: string
+  entryKeys: KVListEntryKey[] | null
+}
+
 export type ConfiguredAccount = {
   username: string
   fullname: FullName
   hasStoredSecret: boolean
   isCurrent: boolean
 }
+
+export type ResetPrompt = {t: ResetPromptType.COMPLETE; COMPLETE: ResetPromptInfo} | {t: Exclude<ResetPromptType, ResetPromptType.COMPLETE>}
 
 export type KBFSRoot = {
   treeId: MerkleTreeID
@@ -2517,6 +2647,7 @@ export type ParamProofServiceConfig = {
 export type ProveParameters = {
   logoFull: SizedImage[] | null
   logoBlack: SizedImage[] | null
+  logoWhite: SizedImage[] | null
   title: string
   subtext: string
   suffix: string
@@ -2613,10 +2744,10 @@ export type SigListArgs = {
 }
 
 export type KBFSArchivedParam =
-  | {KBFSArchivedType: KBFSArchivedType.REVISION; REVISION: KBFSRevision | null}
-  | {KBFSArchivedType: KBFSArchivedType.TIME; TIME: Time | null}
-  | {KBFSArchivedType: KBFSArchivedType.TIME_STRING; TIME_STRING: string | null}
-  | {KBFSArchivedType: KBFSArchivedType.REL_TIME_STRING; REL_TIME_STRING: string | null}
+  | {KBFSArchivedType: KBFSArchivedType.REVISION; REVISION: KBFSRevision}
+  | {KBFSArchivedType: KBFSArchivedType.TIME; TIME: Time}
+  | {KBFSArchivedType: KBFSArchivedType.TIME_STRING; TIME_STRING: string}
+  | {KBFSArchivedType: KBFSArchivedType.REL_TIME_STRING; REL_TIME_STRING: string}
   | {
       KBFSArchivedType: Exclude<
         KBFSArchivedType,
@@ -2656,6 +2787,22 @@ export type OpProgress = {
 export type FolderSyncConfig = {
   mode: FolderSyncMode
   paths: string[] | null
+}
+
+export type DownloadState = {
+  downloadId: string
+  progress: number
+  endEstimate: Time
+  localPath: string
+  error: string
+  done: boolean
+  canceled: boolean
+}
+
+export type GUIFileContext = {
+  viewType: GUIViewType
+  contentType: string
+  url: string
 }
 
 export type TeambotKeyMetadata = {
@@ -2739,8 +2886,8 @@ export type Probe = {
 }
 
 export type TeamInviteType =
-  | {c: TeamInviteCategory.UNKNOWN; UNKNOWN: string | null}
-  | {c: TeamInviteCategory.SBS; SBS: TeamInviteSocialNetwork | null}
+  | {c: TeamInviteCategory.UNKNOWN; UNKNOWN: string}
+  | {c: TeamInviteCategory.SBS; SBS: TeamInviteSocialNetwork}
   | {c: Exclude<TeamInviteCategory, TeamInviteCategory.UNKNOWN | TeamInviteCategory.SBS>}
 
 export type TeamGetLegacyTLFUpgrade = {
@@ -2812,9 +2959,7 @@ export type TeamAccessRequest = {
   eldestSeqno: Seqno
 }
 
-export type SeitanKeyLabel =
-  | {t: SeitanKeyLabelType.SMS; SMS: SeitanKeyLabelSms | null}
-  | {t: Exclude<SeitanKeyLabelType, SeitanKeyLabelType.SMS>}
+export type SeitanKeyLabel = {t: SeitanKeyLabelType.SMS; SMS: SeitanKeyLabelSms} | {t: Exclude<SeitanKeyLabelType, SeitanKeyLabelType.SMS>}
 
 export type TeamSeitanRequest = {
   inviteId: TeamInviteID
@@ -2905,6 +3050,17 @@ export type InterestingPerson = {
   uid: UID
   username: string
   fullname: string
+  serviceMap: {[key: string]: string}
+}
+
+export type CanLogoutRes = {
+  canLogout: boolean
+  reason: string
+  passphraseState: PassphraseState
+}
+
+export type UserPassphraseStateMsg = {
+  state: PassphraseState
 }
 
 export type APIUserKeybaseResult = {
@@ -3072,7 +3228,7 @@ export type TeambotEk = {
 }
 
 export type GitLocalMetadataVersioned =
-  | {version: GitLocalMetadataVersion.V1; V1: GitLocalMetadataV1 | null}
+  | {version: GitLocalMetadataVersion.V1; V1: GitLocalMetadataV1}
   | {version: Exclude<GitLocalMetadataVersion, GitLocalMetadataVersion.V1>}
 
 export type GitRefMetadata = {
@@ -3083,7 +3239,7 @@ export type GitRefMetadata = {
 }
 
 export type HomeScreenTodoExt =
-  | {t: HomeScreenTodoType.VERIFY_ALL_EMAIL; VERIFY_ALL_EMAIL: VerifyAllEmailTodoExt | null}
+  | {t: HomeScreenTodoType.VERIFY_ALL_EMAIL; VERIFY_ALL_EMAIL: VerifyAllEmailTodoExt}
   | {t: Exclude<HomeScreenTodoType, HomeScreenTodoType.VERIFY_ALL_EMAIL>}
 
 export type HomeScreenPeopleNotificationContactMulti = {
@@ -3099,6 +3255,7 @@ export type Identify3Row = {
   siteUrl: string
   siteIcon: SizedImage[] | null
   siteIconFull: SizedImage[] | null
+  siteIconWhite: SizedImage[] | null
   proofUrl: string
   sigId: SigID
   ctime: Time
@@ -3158,6 +3315,7 @@ export type UserCard = {
   fullName: string
   location: string
   bio: string
+  bioDecorated: string
   website: string
   twitter: string
   youFollowThem: boolean
@@ -3234,9 +3392,9 @@ export type BadgeState = {
   revokedDevices: DeviceID[] | null
   conversations: BadgeConversationInfo[] | null
   newGitRepoGlobalUniqueIDs: string[] | null
-  newTeamNames: string[] | null
+  newTeams: TeamID[] | null
   deletedTeams: DeletedTeamInfo[] | null
-  newTeamAccessRequests: string[] | null
+  newTeamAccessRequests: TeamID[] | null
   teamsWithResetUsers: TeamMemberOutReset[] | null
   unreadWalletAccounts: WalletAccountInfo[] | null
   resetState: ResetState
@@ -3340,6 +3498,19 @@ export type SimpleFSStats = {
   blockCacheDbStats: string[] | null
   syncCacheDbStats: string[] | null
   runtimeDbStats: DbStats[] | null
+}
+
+export type DownloadInfo = {
+  downloadId: string
+  path: KBFSPath
+  filename: string
+  startTime: Time
+  isRegularDownload: boolean
+}
+
+export type DownloadStatus = {
+  regularDownloadIDs: string[] | null
+  states: DownloadState[] | null
 }
 
 export type TeambotKeyBoxed = {
@@ -3632,6 +3803,7 @@ export type ProofSuggestion = {
   belowFold: boolean
   profileText: string
   profileIcon: SizedImage[] | null
+  profileIconWhite: SizedImage[] | null
   pickerText: string
   pickerSubtext: string
   pickerIcon: SizedImage[] | null
@@ -3696,13 +3868,13 @@ export type ExtendedStatus = {
 }
 
 export type TeamEphemeralKey =
-  | {keyType: TeamEphemeralKeyType.TEAM; TEAM: TeamEk | null}
-  | {keyType: TeamEphemeralKeyType.TEAMBOT; TEAMBOT: TeambotEk | null}
+  | {keyType: TeamEphemeralKeyType.TEAM; TEAM: TeamEk}
+  | {keyType: TeamEphemeralKeyType.TEAMBOT; TEAMBOT: TeambotEk}
   | {keyType: Exclude<TeamEphemeralKeyType, TeamEphemeralKeyType.TEAM | TeamEphemeralKeyType.TEAMBOT>}
 
 export type TeamEphemeralKeyBoxed =
-  | {keyType: TeamEphemeralKeyType.TEAM; TEAM: TeamEkBoxed | null}
-  | {keyType: TeamEphemeralKeyType.TEAMBOT; TEAMBOT: TeambotEkBoxed | null}
+  | {keyType: TeamEphemeralKeyType.TEAM; TEAM: TeamEkBoxed}
+  | {keyType: TeamEphemeralKeyType.TEAMBOT; TEAMBOT: TeambotEkBoxed}
   | {keyType: Exclude<TeamEphemeralKeyType, TeamEphemeralKeyType.TEAM | TeamEphemeralKeyType.TEAMBOT>}
 
 export type GitLocalMetadata = {
@@ -3713,7 +3885,7 @@ export type GitLocalMetadata = {
 }
 
 export type HomeScreenItemDataExt =
-  | {t: HomeScreenItemType.TODO; TODO: HomeScreenTodoExt | null}
+  | {t: HomeScreenItemType.TODO; TODO: HomeScreenTodoExt}
   | {t: Exclude<HomeScreenItemType, HomeScreenItemType.TODO>}
 
 export type Identity = {
@@ -3769,9 +3941,9 @@ export type ProblemSet = {
 }
 
 export type Path =
-  | {PathType: PathType.LOCAL; LOCAL: string | null}
-  | {PathType: PathType.KBFS; KBFS: KBFSPath | null}
-  | {PathType: PathType.KBFS_ARCHIVED; KBFS_ARCHIVED: KBFSArchivedPath | null}
+  | {PathType: PathType.LOCAL; LOCAL: string}
+  | {PathType: PathType.KBFS; KBFS: KBFSPath}
+  | {PathType: PathType.KBFS_ARCHIVED; KBFS_ARCHIVED: KBFSArchivedPath}
   | {PathType: Exclude<PathType, PathType.LOCAL | PathType.KBFS | PathType.KBFS_ARCHIVED>}
 
 export type DirentWithRevision = {
@@ -3831,8 +4003,8 @@ export type UserLogPoint = {
 }
 
 export type SeitanKeyAndLabel =
-  | {v: SeitanKeyAndLabelVersion.V1; V1: SeitanKeyAndLabelVersion1 | null}
-  | {v: SeitanKeyAndLabelVersion.V2; V2: SeitanKeyAndLabelVersion2 | null}
+  | {v: SeitanKeyAndLabelVersion.V1; V1: SeitanKeyAndLabelVersion1}
+  | {v: SeitanKeyAndLabelVersion.V2; V2: SeitanKeyAndLabelVersion2}
   | {v: Exclude<SeitanKeyAndLabelVersion, SeitanKeyAndLabelVersion.V1 | SeitanKeyAndLabelVersion.V2>}
 
 export type LoadTeamArg = {
@@ -3846,8 +4018,8 @@ export type LoadTeamArg = {
   forceRepoll: boolean
   staleOk: boolean
   allowNameLookupBurstCache: boolean
-  skipAudit: boolean
   skipNeedHiddenRotateCheck: boolean
+  auditMode: AuditMode
 }
 
 export type TeamList = {
@@ -3923,6 +4095,7 @@ export type NonUserDetails = {
   service?: APIUserServiceResult
   siteIcon: SizedImage[] | null
   siteIconFull: SizedImage[] | null
+  siteIconWhite: SizedImage[] | null
 }
 
 export type DowngradeReferenceRes = {
@@ -4057,6 +4230,7 @@ export type HiddenTeamChain = {
   frozen: boolean
   tombstoned: boolean
   last: Seqno
+  lastFull: Seqno
   latestSeqnoHint: Seqno
   lastPerTeamKeys: {[key: string]: Seqno}
   outer: {[key: string]: LinkID}
@@ -4121,13 +4295,13 @@ export type PublicKeyV2PGPSummary = {
 }
 
 export type ConflictState =
-  | {conflictStateType: ConflictStateType.NormalView; NormalView: FolderNormalView | null}
-  | {conflictStateType: ConflictStateType.ManualResolvingLocalView; ManualResolvingLocalView: FolderConflictManualResolvingLocalView | null}
+  | {conflictStateType: ConflictStateType.NormalView; NormalView: FolderNormalView}
+  | {conflictStateType: ConflictStateType.ManualResolvingLocalView; ManualResolvingLocalView: FolderConflictManualResolvingLocalView}
   | {conflictStateType: Exclude<ConflictStateType, ConflictStateType.NormalView | ConflictStateType.ManualResolvingLocalView>}
 
 export type GitRepoResult =
-  | {state: GitRepoResultState.ERR; ERR: string | null}
-  | {state: GitRepoResultState.OK; OK: GitRepoInfo | null}
+  | {state: GitRepoResultState.ERR; ERR: string}
+  | {state: GitRepoResultState.OK; OK: GitRepoInfo}
   | {state: Exclude<GitRepoResultState, GitRepoResultState.ERR | GitRepoResultState.OK>}
 
 export type HomeScreenPeopleNotificationFollowedMulti = {
@@ -4141,15 +4315,15 @@ export type IdentifyTrackBreaks = {
 }
 
 export type OpDescription =
-  | {asyncOp: AsyncOps.LIST; LIST: ListArgs | null}
-  | {asyncOp: AsyncOps.LIST_RECURSIVE; LIST_RECURSIVE: ListArgs | null}
-  | {asyncOp: AsyncOps.LIST_RECURSIVE_TO_DEPTH; LIST_RECURSIVE_TO_DEPTH: ListToDepthArgs | null}
-  | {asyncOp: AsyncOps.READ; READ: ReadArgs | null}
-  | {asyncOp: AsyncOps.WRITE; WRITE: WriteArgs | null}
-  | {asyncOp: AsyncOps.COPY; COPY: CopyArgs | null}
-  | {asyncOp: AsyncOps.MOVE; MOVE: MoveArgs | null}
-  | {asyncOp: AsyncOps.REMOVE; REMOVE: RemoveArgs | null}
-  | {asyncOp: AsyncOps.GET_REVISIONS; GET_REVISIONS: GetRevisionsArgs | null}
+  | {asyncOp: AsyncOps.LIST; LIST: ListArgs}
+  | {asyncOp: AsyncOps.LIST_RECURSIVE; LIST_RECURSIVE: ListArgs}
+  | {asyncOp: AsyncOps.LIST_RECURSIVE_TO_DEPTH; LIST_RECURSIVE_TO_DEPTH: ListToDepthArgs}
+  | {asyncOp: AsyncOps.READ; READ: ReadArgs}
+  | {asyncOp: AsyncOps.WRITE; WRITE: WriteArgs}
+  | {asyncOp: AsyncOps.COPY; COPY: CopyArgs}
+  | {asyncOp: AsyncOps.MOVE; MOVE: MoveArgs}
+  | {asyncOp: AsyncOps.REMOVE; REMOVE: RemoveArgs}
+  | {asyncOp: AsyncOps.GET_REVISIONS; GET_REVISIONS: GetRevisionsArgs}
   | {
       asyncOp: Exclude<
         AsyncOps,
@@ -4184,8 +4358,8 @@ export type TeamDebugRes = {
 }
 
 export type PublicKeyV2 =
-  | {keyType: KeyType.NACL; NACL: PublicKeyV2NaCl | null}
-  | {keyType: KeyType.PGP; PGP: PublicKeyV2PGPSummary | null}
+  | {keyType: KeyType.NACL; NACL: PublicKeyV2NaCl}
+  | {keyType: KeyType.PGP; PGP: PublicKeyV2PGPSummary}
   | {keyType: Exclude<KeyType, KeyType.NACL | KeyType.PGP>}
 
 export type UserPlusKeysV2 = {
@@ -4229,10 +4403,10 @@ export type Folder = {
 }
 
 export type HomeScreenPeopleNotification =
-  | {t: HomeScreenPeopleNotificationType.FOLLOWED; FOLLOWED: HomeScreenPeopleNotificationFollowed | null}
-  | {t: HomeScreenPeopleNotificationType.FOLLOWED_MULTI; FOLLOWED_MULTI: HomeScreenPeopleNotificationFollowedMulti | null}
-  | {t: HomeScreenPeopleNotificationType.CONTACT; CONTACT: HomeScreenPeopleNotificationContact | null}
-  | {t: HomeScreenPeopleNotificationType.CONTACT_MULTI; CONTACT_MULTI: HomeScreenPeopleNotificationContactMulti | null}
+  | {t: HomeScreenPeopleNotificationType.FOLLOWED; FOLLOWED: HomeScreenPeopleNotificationFollowed}
+  | {t: HomeScreenPeopleNotificationType.FOLLOWED_MULTI; FOLLOWED_MULTI: HomeScreenPeopleNotificationFollowedMulti}
+  | {t: HomeScreenPeopleNotificationType.CONTACT; CONTACT: HomeScreenPeopleNotificationContact}
+  | {t: HomeScreenPeopleNotificationType.CONTACT_MULTI; CONTACT_MULTI: HomeScreenPeopleNotificationContactMulti}
   | {
       t: Exclude<
         HomeScreenPeopleNotificationType,
@@ -4290,9 +4464,9 @@ export type FavoritesResult = {
 }
 
 export type HomeScreenItemData =
-  | {t: HomeScreenItemType.TODO; TODO: HomeScreenTodo | null}
-  | {t: HomeScreenItemType.PEOPLE; PEOPLE: HomeScreenPeopleNotification | null}
-  | {t: HomeScreenItemType.ANNOUNCEMENT; ANNOUNCEMENT: HomeScreenAnnouncement | null}
+  | {t: HomeScreenItemType.TODO; TODO: HomeScreenTodo}
+  | {t: HomeScreenItemType.PEOPLE; PEOPLE: HomeScreenPeopleNotification}
+  | {t: HomeScreenItemType.ANNOUNCEMENT; ANNOUNCEMENT: HomeScreenAnnouncement}
   | {t: Exclude<HomeScreenItemType, HomeScreenItemType.TODO | HomeScreenItemType.PEOPLE | HomeScreenItemType.ANNOUNCEMENT>}
 
 export type Identify2ResUPK2 = {
@@ -4318,6 +4492,13 @@ export type FolderSyncConfigAndStatusWithFolder = {
   status: FolderSyncStatus
 }
 
+export type FolderWithFavFlags = {
+  folder: Folder
+  isFavorite: boolean
+  isIgnored: boolean
+  isNew: boolean
+}
+
 export type TLFBreak = {
   breaks: TLFIdentifyFailure[] | null
 }
@@ -4327,8 +4508,8 @@ export type TLFBreak = {
  *    * in common.avdl. But going forward, we're going to use UserPlusKeysV2AllIncarnations.
  */
 export type UPAKVersioned =
-  | {v: UPAKVersion.V1; V1: UserPlusAllKeys | null}
-  | {v: UPAKVersion.V2; V2: UserPlusKeysV2AllIncarnations | null}
+  | {v: UPAKVersion.V1; V1: UserPlusAllKeys}
+  | {v: UPAKVersion.V2; V2: UserPlusKeysV2AllIncarnations}
   | {v: Exclude<UPAKVersion, UPAKVersion.V1 | UPAKVersion.V2>}
 
 export type HomeScreenItem = {

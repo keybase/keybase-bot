@@ -234,6 +234,15 @@ declare class Chat extends ClientBase {
      */
     setUnfurlSettings(mode: chat1.UnfurlSettings): Promise<void>;
     /**
+     * Gets device information for a given username.
+     * This method allows you to see device name, description, type (desktop
+     * or mobile), and creation time for all active devices of a given username.
+     * @param username - the Keybase username to get devices for
+     * @example
+     * bot.chat.getDeviceInfo(username).then((devices) => console.log(devices))
+     */
+    getDeviceInfo(username: string): Promise<chat1.GetDeviceInfoRes>;
+    /**
      * Loads a flip's details
      * @param conversationID - conversation ID received in API listen.
      * @param flipConversationID - flipConvID from the message summary.

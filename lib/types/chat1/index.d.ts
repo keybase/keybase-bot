@@ -31,15 +31,50 @@ export declare type MsgSender = {
     deviceId: string;
     deviceName?: string;
 };
+export declare type MsgBotInfo = {
+    botUid: string;
+    botUsername?: string;
+};
 export declare type ResetConvMemberAPI = {
     conversationId: string;
     username: string;
+};
+export declare type DeviceInfo = {
+    id: string;
+    description: string;
+    type: string;
+    ctime: number;
 };
 export declare type UIPagination = {
     next: string;
     previous: string;
     num: number;
     last: boolean;
+};
+export declare type UIInboxSmallTeamRow = {
+    convId: string;
+    name: string;
+    time: gregor1.Time;
+    snippet?: string;
+    snippetDecoration?: string;
+    draft?: string;
+    isMuted: boolean;
+    isTeam: boolean;
+};
+export declare enum UIInboxBigTeamRowTyp {
+    LABEL = "label",
+    CHANNEL = "channel"
+}
+export declare type UIInboxBigTeamChannelRow = {
+    convId: string;
+    teamname: string;
+    channelname: string;
+    draft?: string;
+    isMuted: boolean;
+};
+export declare type UIInboxReselectInfo = {
+    oldConvId: string;
+    newConvId?: string;
 };
 export declare type UnverifiedInboxUIItemMetadata = {
     channelName: string;
@@ -98,7 +133,8 @@ export declare enum MessageUnboxedState {
     VALID = "valid",
     ERROR = "error",
     OUTBOX = "outbox",
-    PLACEHOLDER = "placeholder"
+    PLACEHOLDER = "placeholder",
+    JOURNEYCARD = "journeycard"
 }
 export declare type UITeamMention = {
     inTeam: boolean;
@@ -139,7 +175,7 @@ export declare type UIChatThreadStatus = {
     typ: UIChatThreadStatusTyp.SERVER;
 } | {
     typ: UIChatThreadStatusTyp.VALIDATING;
-    VALIDATING: number | null;
+    VALIDATING: number;
 } | {
     typ: UIChatThreadStatusTyp.VALIDATED;
 } | {
@@ -501,10 +537,10 @@ export declare enum TextPaymentResultTyp {
 }
 export declare type TextPaymentResult = {
     resultTyp: TextPaymentResultTyp.ERROR;
-    ERROR: string | null;
+    ERROR: string;
 } | {
     resultTyp: TextPaymentResultTyp.SENT;
-    SENT: stellar1.PaymentID | null;
+    SENT: stellar1.PaymentID;
 } | {
     resultTyp: Exclude<TextPaymentResultTyp, TextPaymentResultTyp.ERROR | TextPaymentResultTyp.SENT>;
 };
@@ -542,12 +578,15 @@ export declare enum MessageSystemType {
     GITPUSH = "gitpush",
     CHANGEAVATAR = "changeavatar",
     CHANGERETENTION = "changeretention",
-    BULKADDTOCONV = "bulkaddtoconv"
+    BULKADDTOCONV = "bulkaddtoconv",
+    SBSRESOLVE = "sbsresolve"
 }
 export declare type MessageSystemAddedToTeam = {
     team: string;
     adder: string;
     addee: string;
+    role: keybase1.TeamRole;
+    bulkAdds: string[] | null;
     owners: string[] | null;
     admins: string[] | null;
     writers: string[] | null;
@@ -561,6 +600,7 @@ export declare type MessageSystemInviteAddedToTeam = {
     invitee: string;
     adder: string;
     inviteType: keybase1.TeamInviteCategory;
+    role: keybase1.TeamRole;
 };
 export declare type MessageSystemComplexTeam = {
     team: string;
@@ -584,6 +624,11 @@ export declare type MessageSystemChangeAvatar = {
 };
 export declare type MessageSystemBulkAddToConv = {
     usernames: string[] | null;
+};
+export declare type MessageSystemSbsResolve = {
+    assertionService: string;
+    assertionUsername: string;
+    prover: string;
 };
 export declare type MessageJoin = {
     joiners: string[] | null;
@@ -610,7 +655,9 @@ export declare enum OutboxErrorType {
     EXPIRED = "expired",
     TOOMANYATTEMPTS = "toomanyattempts",
     ALREADY_DELETED = "already_deleted",
-    UPLOADFAILED = "uploadfailed"
+    UPLOADFAILED = "uploadfailed",
+    RESTRICTEDBOT = "restrictedbot",
+    MINWRITER = "minwriter"
 }
 export declare enum HeaderPlaintextVersion {
     V1 = "v1",
@@ -650,6 +697,16 @@ export declare enum MessageUnboxedErrorType {
     EPHEMERAL = "ephemeral",
     PAIRWISE_MISSING = "pairwise_missing"
 }
+export declare enum JourneycardType {
+    WELCOME = "welcome",
+    POPULAR_CHANNELS = "popular_channels",
+    ADD_PEOPLE = "add_people",
+    CREATE_CHANNELS = "create_channels",
+    MSG_ATTENTION = "msg_attention",
+    USER_AWAY_FOR_LONG = "user_away_for_long",
+    CHANNEL_INACTIVE = "channel_inactive",
+    MSG_NO_ANSWER = "msg_no_answer"
+}
 export declare type UnreadFirstNumLimit = {
     numRead: number;
     atLeast: number;
@@ -657,6 +714,7 @@ export declare type UnreadFirstNumLimit = {
 };
 export declare type ConversationLocalParticipant = {
     username: string;
+    inConvName: boolean;
     fullname?: string;
     contactName?: string;
 };
@@ -695,6 +753,10 @@ export declare enum GetThreadNonblockPgMode {
     DEFAULT = "default",
     SERVER = "server"
 }
+export declare enum InboxLayoutReselectMode {
+    DEFAULT = "default",
+    FORCE = "force"
+}
 export declare enum PreviewLocationTyp {
     URL = "url",
     FILE = "file",
@@ -702,13 +764,13 @@ export declare enum PreviewLocationTyp {
 }
 export declare type PreviewLocation = {
     ltyp: PreviewLocationTyp.URL;
-    URL: string | null;
+    URL: string;
 } | {
     ltyp: PreviewLocationTyp.FILE;
-    FILE: string | null;
+    FILE: string;
 } | {
     ltyp: PreviewLocationTyp.BYTES;
-    BYTES: Buffer | null;
+    BYTES: Buffer;
 } | {
     ltyp: Exclude<PreviewLocationTyp, PreviewLocationTyp.URL | PreviewLocationTyp.FILE | PreviewLocationTyp.BYTES>;
 };
@@ -727,10 +789,10 @@ export declare type UnfurlPromptResult = {
     actionType: UnfurlPromptAction.NOTNOW;
 } | {
     actionType: UnfurlPromptAction.ACCEPT;
-    ACCEPT: string | null;
+    ACCEPT: string;
 } | {
     actionType: UnfurlPromptAction.ONETIME;
-    ONETIME: string | null;
+    ONETIME: string;
 } | {
     actionType: Exclude<UnfurlPromptAction, UnfurlPromptAction.ALWAYS | UnfurlPromptAction.NEVER | UnfurlPromptAction.NOTNOW | UnfurlPromptAction.ACCEPT | UnfurlPromptAction.ONETIME>;
 };
@@ -772,8 +834,7 @@ export declare type TyperInfo = {
 };
 export declare enum StaleUpdateType {
     CLEAR = "clear",
-    NEWACTIVITY = "newactivity",
-    CONVUPDATE = "convupdate"
+    NEWACTIVITY = "newactivity"
 }
 export declare enum MessageBoxedVersion {
     VNONE = "vnone",
@@ -810,10 +871,10 @@ export declare enum SyncAllNotificationType {
 }
 export declare type SyncAllNotificationRes = {
     typ: SyncAllNotificationType.STATE;
-    STATE: gregor1.State | null;
+    STATE: gregor1.State;
 } | {
     typ: SyncAllNotificationType.INCREMENTAL;
-    INCREMENTAL: gregor1.SyncResult | null;
+    INCREMENTAL: gregor1.SyncResult;
 } | {
     typ: Exclude<SyncAllNotificationType, SyncAllNotificationType.STATE | SyncAllNotificationType.INCREMENTAL>;
 };
@@ -823,10 +884,10 @@ export declare enum ExternalAPIKeyTyp {
 }
 export declare type ExternalAPIKey = {
     typ: ExternalAPIKeyTyp.GOOGLEMAPS;
-    GOOGLEMAPS: string | null;
+    GOOGLEMAPS: string;
 } | {
     typ: ExternalAPIKeyTyp.GIPHY;
-    GIPHY: string | null;
+    GIPHY: string;
 } | {
     typ: Exclude<ExternalAPIKeyTyp, ExternalAPIKeyTyp.GOOGLEMAPS | ExternalAPIKeyTyp.GIPHY>;
 };
@@ -904,11 +965,29 @@ export declare type GetResetConvMembersRes = {
     members: ResetConvMemberAPI[] | null;
     rateLimits: RateLimitRes[] | null;
 };
+export declare type GetDeviceInfoRes = {
+    devices: DeviceInfo[] | null;
+};
+export declare type UIInboxBigTeamRow = {
+    state: UIInboxBigTeamRowTyp.LABEL;
+    LABEL: string;
+} | {
+    state: UIInboxBigTeamRowTyp.CHANNEL;
+    CHANNEL: UIInboxBigTeamChannelRow;
+} | {
+    state: Exclude<UIInboxBigTeamRowTyp, UIInboxBigTeamRowTyp.LABEL | UIInboxBigTeamRowTyp.CHANNEL>;
+};
 export declare type UIParticipant = {
     type: UIParticipantType;
     assertion: string;
+    inConvName: boolean;
     fullName?: string;
     contactName?: string;
+};
+export declare type UIMessageJourneycard = {
+    ordinal: number;
+    cardType: JourneycardType;
+    highlightMsgId: MessageID;
 };
 export declare type UIMaybeMentionInfo = {
     status: UIMaybeMentionStatus.UNKNOWN;
@@ -916,7 +995,7 @@ export declare type UIMaybeMentionInfo = {
     status: UIMaybeMentionStatus.USER;
 } | {
     status: UIMaybeMentionStatus.TEAM;
-    TEAM: UITeamMention | null;
+    TEAM: UITeamMention;
 } | {
     status: UIMaybeMentionStatus.NOTHING;
 } | {
@@ -942,19 +1021,19 @@ export declare type UICoinFlipAbsenteeError = {
 };
 export declare type UICoinFlipResult = {
     typ: UICoinFlipResultTyp.NUMBER;
-    NUMBER: string | null;
+    NUMBER: string;
 } | {
     typ: UICoinFlipResultTyp.SHUFFLE;
-    SHUFFLE: string[] | null;
+    SHUFFLE: string[];
 } | {
     typ: UICoinFlipResultTyp.DECK;
-    DECK: number[] | null;
+    DECK: number[];
 } | {
     typ: UICoinFlipResultTyp.HANDS;
-    HANDS: UICoinFlipHand[] | null;
+    HANDS: UICoinFlipHand[];
 } | {
     typ: UICoinFlipResultTyp.COIN;
-    COIN: boolean | null;
+    COIN: boolean;
 } | {
     typ: Exclude<UICoinFlipResultTyp, UICoinFlipResultTyp.NUMBER | UICoinFlipResultTyp.SHUFFLE | UICoinFlipResultTyp.DECK | UICoinFlipResultTyp.HANDS | UICoinFlipResultTyp.COIN>;
 };
@@ -1012,6 +1091,7 @@ export declare type ConversationReaderInfo = {
     readMsgid: MessageID;
     maxMsgid: MessageID;
     status: ConversationMemberStatus;
+    untrustedTeamRole: keybase1.TeamRole;
 };
 export declare type ConversationSettings = {
     mwr?: ConversationMinWriterRoleInfo;
@@ -1053,16 +1133,16 @@ export declare type EphemeralPurgeInfo = {
 };
 export declare type RetentionPolicy = {
     typ: RetentionPolicyType.RETAIN;
-    RETAIN: RpRetain | null;
+    RETAIN: RpRetain;
 } | {
     typ: RetentionPolicyType.EXPIRE;
-    EXPIRE: RpExpire | null;
+    EXPIRE: RpExpire;
 } | {
     typ: RetentionPolicyType.INHERIT;
-    INHERIT: RpInherit | null;
+    INHERIT: RpInherit;
 } | {
     typ: RetentionPolicyType.EPHEMERAL;
-    EPHEMERAL: RpEphemeral | null;
+    EPHEMERAL: RpEphemeral;
 } | {
     typ: Exclude<RetentionPolicyType, RetentionPolicyType.RETAIN | RetentionPolicyType.EXPIRE | RetentionPolicyType.INHERIT | RetentionPolicyType.EPHEMERAL>;
 };
@@ -1086,13 +1166,13 @@ export declare type SearchOpts = {
 };
 export declare type AssetMetadata = {
     assetType: AssetMetadataType.IMAGE;
-    IMAGE: AssetMetadataImage | null;
+    IMAGE: AssetMetadataImage;
 } | {
     assetType: AssetMetadataType.VIDEO;
-    VIDEO: AssetMetadataVideo | null;
+    VIDEO: AssetMetadataVideo;
 } | {
     assetType: AssetMetadataType.AUDIO;
-    AUDIO: AssetMetadataAudio | null;
+    AUDIO: AssetMetadataAudio;
 } | {
     assetType: Exclude<AssetMetadataType, AssetMetadataType.IMAGE | AssetMetadataType.VIDEO | AssetMetadataType.AUDIO>;
 };
@@ -1118,6 +1198,10 @@ export declare type RemoteUserTypingUpdate = {
     deviceId: gregor1.DeviceID;
     convId: ConversationID;
     typing: boolean;
+};
+export declare type TeamMemberRoleUpdate = {
+    tlfId: TLFID;
+    role: keybase1.TeamRole;
 };
 export declare type ConversationUpdate = {
     convId: ConversationID;
@@ -1199,10 +1283,17 @@ export declare type MessageUnboxedError = {
     isEphemeral: boolean;
     isEphemeralExpired: boolean;
     etime: gregor1.Time;
+    botUsername: string;
 };
 export declare type MessageUnboxedPlaceholder = {
     messageId: MessageID;
     hidden: boolean;
+};
+export declare type MessageUnboxedJourneycard = {
+    prevId: MessageID;
+    ordinal: number;
+    cardType: JourneycardType;
+    highlightMsgId: MessageID;
 };
 export declare type ConversationSettingsLocal = {
     minWriterRoleInfo?: ConversationMinWriterRoleInfoLocal;
@@ -1252,6 +1343,7 @@ export declare type GetInboxSummaryForCLILocalQuery = {
     before: string;
     visibility: keybase1.TLFVisibility;
     status: ConversationStatus[] | null;
+    convIDs: ConversationID[] | null;
     unreadFirst: boolean;
     unreadFirstLimit: UnreadFirstNumLimit;
     activitySortedLimit: number;
@@ -1261,7 +1353,7 @@ export declare type DownloadAttachmentLocalRes = {
     identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
 export declare type DownloadFileAttachmentLocalRes = {
-    filename: string;
+    filePath: string;
     rateLimits: RateLimit[] | null;
     identifyFailures: keybase1.TLFIdentifyFailure[] | null;
 };
@@ -1329,6 +1421,10 @@ export declare type ClearBotCommandsLocalRes = {
 export declare type PinMessageRes = {
     rateLimits: RateLimit[] | null;
 };
+export declare type LocalMtimeUpdate = {
+    convId: ConversationID;
+    mtime: gregor1.Time;
+};
 export declare type SetAppNotificationSettingsInfo = {
     convId: ConversationID;
     settings: ConversationNotificationInfo;
@@ -1392,6 +1488,7 @@ export declare type RemoteBotCommandsAdvertisementTLFID = {
 };
 export declare type BotCommandConv = {
     uid: gregor1.UID;
+    untrustedTeamRole: keybase1.TeamRole;
     convId: ConversationID;
     vers: CommandConvVers;
     mtime: gregor1.Time;
@@ -1466,27 +1563,33 @@ export declare type AdvertiseCommandAPIParam = {
     commands: UserBotCommandInput[] | null;
     teamName?: string;
 };
+export declare type UIInboxLayout = {
+    smallTeams: UIInboxSmallTeamRow[] | null;
+    bigTeams: UIInboxBigTeamRow[] | null;
+    reselectInfo?: UIInboxReselectInfo;
+    widgetList: UIInboxSmallTeamRow[] | null;
+};
 export declare type UITextDecoration = {
     typ: UITextDecorationTyp.PAYMENT;
-    PAYMENT: TextPayment | null;
+    PAYMENT: TextPayment;
 } | {
     typ: UITextDecorationTyp.ATMENTION;
-    ATMENTION: string | null;
+    ATMENTION: string;
 } | {
     typ: UITextDecorationTyp.CHANNELNAMEMENTION;
-    CHANNELNAMEMENTION: UIChannelNameMention | null;
+    CHANNELNAMEMENTION: UIChannelNameMention;
 } | {
     typ: UITextDecorationTyp.MAYBEMENTION;
-    MAYBEMENTION: MaybeMention | null;
+    MAYBEMENTION: MaybeMention;
 } | {
     typ: UITextDecorationTyp.LINK;
-    LINK: UILinkDecoration | null;
+    LINK: UILinkDecoration;
 } | {
     typ: UITextDecorationTyp.MAILTO;
-    MAILTO: UILinkDecoration | null;
+    MAILTO: UILinkDecoration;
 } | {
     typ: UITextDecorationTyp.KBFSPATH;
-    KBFSPATH: KBFSPath | null;
+    KBFSPATH: KBFSPath;
 } | {
     typ: Exclude<UITextDecorationTyp, UITextDecorationTyp.PAYMENT | UITextDecorationTyp.ATMENTION | UITextDecorationTyp.CHANNELNAMEMENTION | UITextDecorationTyp.MAYBEMENTION | UITextDecorationTyp.LINK | UITextDecorationTyp.MAILTO | UITextDecorationTyp.KBFSPATH>;
 };
@@ -1496,35 +1599,35 @@ export declare type UIChatSearchConvHits = {
 };
 export declare type UICoinFlipError = {
     typ: UICoinFlipErrorTyp.GENERIC;
-    GENERIC: string | null;
+    GENERIC: string;
 } | {
     typ: UICoinFlipErrorTyp.ABSENTEE;
-    ABSENTEE: UICoinFlipAbsenteeError | null;
+    ABSENTEE: UICoinFlipAbsenteeError;
 } | {
     typ: UICoinFlipErrorTyp.TIMEOUT;
 } | {
     typ: UICoinFlipErrorTyp.ABORTED;
 } | {
     typ: UICoinFlipErrorTyp.DUPREG;
-    DUPREG: UICoinFlipErrorParticipant | null;
+    DUPREG: UICoinFlipErrorParticipant;
 } | {
     typ: UICoinFlipErrorTyp.DUPCOMMITCOMPLETE;
-    DUPCOMMITCOMPLETE: UICoinFlipErrorParticipant | null;
+    DUPCOMMITCOMPLETE: UICoinFlipErrorParticipant;
 } | {
     typ: UICoinFlipErrorTyp.DUPREVEAL;
-    DUPREVEAL: UICoinFlipErrorParticipant | null;
+    DUPREVEAL: UICoinFlipErrorParticipant;
 } | {
     typ: UICoinFlipErrorTyp.COMMITMISMATCH;
-    COMMITMISMATCH: UICoinFlipErrorParticipant | null;
+    COMMITMISMATCH: UICoinFlipErrorParticipant;
 } | {
     typ: Exclude<UICoinFlipErrorTyp, UICoinFlipErrorTyp.GENERIC | UICoinFlipErrorTyp.ABSENTEE | UICoinFlipErrorTyp.TIMEOUT | UICoinFlipErrorTyp.ABORTED | UICoinFlipErrorTyp.DUPREG | UICoinFlipErrorTyp.DUPCOMMITCOMPLETE | UICoinFlipErrorTyp.DUPREVEAL | UICoinFlipErrorTyp.COMMITMISMATCH>;
 };
 export declare type ConversationCommandGroups = {
     typ: ConversationCommandGroupsTyp.BUILTIN;
-    BUILTIN: ConversationBuiltinCommandTyp | null;
+    BUILTIN: ConversationBuiltinCommandTyp;
 } | {
     typ: ConversationCommandGroupsTyp.CUSTOM;
-    CUSTOM: ConversationCommandGroupsCustom | null;
+    CUSTOM: ConversationCommandGroupsCustom;
 } | {
     typ: ConversationCommandGroupsTyp.NONE;
 } | {
@@ -1651,6 +1754,7 @@ export declare type ExpungePayload = {
 };
 export declare type UpdateConversationMembership = {
     inboxVers: InboxVers;
+    teamMemberRoleUpdate?: TeamMemberRoleUpdate;
     joined: ConversationMember[] | null;
     removed: ConversationMember[] | null;
     reset: ConversationMember[] | null;
@@ -1695,10 +1799,10 @@ export declare type MessageSystemChangeRetention = {
 };
 export declare type OutboxState = {
     state: OutboxStateType.SENDING;
-    SENDING: number | null;
+    SENDING: number;
 } | {
     state: OutboxStateType.ERROR;
-    ERROR: OutboxStateError | null;
+    ERROR: OutboxStateError;
 } | {
     state: Exclude<OutboxStateType, OutboxStateType.SENDING | OutboxStateType.ERROR>;
 };
@@ -1793,13 +1897,13 @@ export declare type SweepRes = {
 };
 export declare type RemoteBotCommandsAdvertisement = {
     typ: BotCommandsAdvertisementTyp.PUBLIC;
-    PUBLIC: RemoteBotCommandsAdvertisementPublic | null;
+    PUBLIC: RemoteBotCommandsAdvertisementPublic;
 } | {
     typ: BotCommandsAdvertisementTyp.TLFID_MEMBERS;
-    TLFID_MEMBERS: RemoteBotCommandsAdvertisementTLFID | null;
+    TLFID_MEMBERS: RemoteBotCommandsAdvertisementTLFID;
 } | {
     typ: BotCommandsAdvertisementTyp.TLFID_CONVS;
-    TLFID_CONVS: RemoteBotCommandsAdvertisementTLFID | null;
+    TLFID_CONVS: RemoteBotCommandsAdvertisementTLFID;
 } | {
     typ: Exclude<BotCommandsAdvertisementTyp, BotCommandsAdvertisementTyp.PUBLIC | BotCommandsAdvertisementTyp.TLFID_MEMBERS | BotCommandsAdvertisementTyp.TLFID_CONVS>;
 };
@@ -1808,16 +1912,16 @@ export declare type BotInfo = {
 };
 export declare type UnfurlRaw = {
     unfurlType: UnfurlType.GENERIC;
-    GENERIC: UnfurlGenericRaw | null;
+    GENERIC: UnfurlGenericRaw;
 } | {
     unfurlType: UnfurlType.YOUTUBE;
-    YOUTUBE: UnfurlYoutubeRaw | null;
+    YOUTUBE: UnfurlYoutubeRaw;
 } | {
     unfurlType: UnfurlType.GIPHY;
-    GIPHY: UnfurlGiphyRaw | null;
+    GIPHY: UnfurlGiphyRaw;
 } | {
     unfurlType: UnfurlType.MAPS;
-    MAPS: UnfurlMapsRaw | null;
+    MAPS: UnfurlMapsRaw;
 } | {
     unfurlType: Exclude<UnfurlType, UnfurlType.GENERIC | UnfurlType.YOUTUBE | UnfurlType.GIPHY | UnfurlType.MAPS>;
 };
@@ -1844,30 +1948,33 @@ export declare type UICoinFlipStatus = {
 };
 export declare type MessageSystem = {
     systemType: MessageSystemType.ADDEDTOTEAM;
-    ADDEDTOTEAM: MessageSystemAddedToTeam | null;
+    ADDEDTOTEAM: MessageSystemAddedToTeam;
 } | {
     systemType: MessageSystemType.INVITEADDEDTOTEAM;
-    INVITEADDEDTOTEAM: MessageSystemInviteAddedToTeam | null;
+    INVITEADDEDTOTEAM: MessageSystemInviteAddedToTeam;
 } | {
     systemType: MessageSystemType.COMPLEXTEAM;
-    COMPLEXTEAM: MessageSystemComplexTeam | null;
+    COMPLEXTEAM: MessageSystemComplexTeam;
 } | {
     systemType: MessageSystemType.CREATETEAM;
-    CREATETEAM: MessageSystemCreateTeam | null;
+    CREATETEAM: MessageSystemCreateTeam;
 } | {
     systemType: MessageSystemType.GITPUSH;
-    GITPUSH: MessageSystemGitPush | null;
+    GITPUSH: MessageSystemGitPush;
 } | {
     systemType: MessageSystemType.CHANGEAVATAR;
-    CHANGEAVATAR: MessageSystemChangeAvatar | null;
+    CHANGEAVATAR: MessageSystemChangeAvatar;
 } | {
     systemType: MessageSystemType.CHANGERETENTION;
-    CHANGERETENTION: MessageSystemChangeRetention | null;
+    CHANGERETENTION: MessageSystemChangeRetention;
 } | {
     systemType: MessageSystemType.BULKADDTOCONV;
-    BULKADDTOCONV: MessageSystemBulkAddToConv | null;
+    BULKADDTOCONV: MessageSystemBulkAddToConv;
 } | {
-    systemType: Exclude<MessageSystemType, MessageSystemType.ADDEDTOTEAM | MessageSystemType.INVITEADDEDTOTEAM | MessageSystemType.COMPLEXTEAM | MessageSystemType.CREATETEAM | MessageSystemType.GITPUSH | MessageSystemType.CHANGEAVATAR | MessageSystemType.CHANGERETENTION | MessageSystemType.BULKADDTOCONV>;
+    systemType: MessageSystemType.SBSRESOLVE;
+    SBSRESOLVE: MessageSystemSbsResolve;
+} | {
+    systemType: Exclude<MessageSystemType, MessageSystemType.ADDEDTOTEAM | MessageSystemType.INVITEADDEDTOTEAM | MessageSystemType.COMPLEXTEAM | MessageSystemType.CREATETEAM | MessageSystemType.GITPUSH | MessageSystemType.CHANGEAVATAR | MessageSystemType.CHANGERETENTION | MessageSystemType.BULKADDTOCONV | MessageSystemType.SBSRESOLVE>;
 };
 export declare type MessageAttachment = {
     object: Asset;
@@ -1884,34 +1991,34 @@ export declare type MessageAttachmentUploaded = {
 };
 export declare type HeaderPlaintext = {
     version: HeaderPlaintextVersion.V1;
-    V1: HeaderPlaintextV1 | null;
+    V1: HeaderPlaintextV1;
 } | {
     version: HeaderPlaintextVersion.V2;
-    V2: HeaderPlaintextUnsupported | null;
+    V2: HeaderPlaintextUnsupported;
 } | {
     version: HeaderPlaintextVersion.V3;
-    V3: HeaderPlaintextUnsupported | null;
+    V3: HeaderPlaintextUnsupported;
 } | {
     version: HeaderPlaintextVersion.V4;
-    V4: HeaderPlaintextUnsupported | null;
+    V4: HeaderPlaintextUnsupported;
 } | {
     version: HeaderPlaintextVersion.V5;
-    V5: HeaderPlaintextUnsupported | null;
+    V5: HeaderPlaintextUnsupported;
 } | {
     version: HeaderPlaintextVersion.V6;
-    V6: HeaderPlaintextUnsupported | null;
+    V6: HeaderPlaintextUnsupported;
 } | {
     version: HeaderPlaintextVersion.V7;
-    V7: HeaderPlaintextUnsupported | null;
+    V7: HeaderPlaintextUnsupported;
 } | {
     version: HeaderPlaintextVersion.V8;
-    V8: HeaderPlaintextUnsupported | null;
+    V8: HeaderPlaintextUnsupported;
 } | {
     version: HeaderPlaintextVersion.V9;
-    V9: HeaderPlaintextUnsupported | null;
+    V9: HeaderPlaintextUnsupported;
 } | {
     version: HeaderPlaintextVersion.V10;
-    V10: HeaderPlaintextUnsupported | null;
+    V10: HeaderPlaintextUnsupported;
 } | {
     version: Exclude<HeaderPlaintextVersion, HeaderPlaintextVersion.V1 | HeaderPlaintextVersion.V2 | HeaderPlaintextVersion.V3 | HeaderPlaintextVersion.V4 | HeaderPlaintextVersion.V5 | HeaderPlaintextVersion.V6 | HeaderPlaintextVersion.V7 | HeaderPlaintextVersion.V8 | HeaderPlaintextVersion.V9 | HeaderPlaintextVersion.V10>;
 };
@@ -1944,7 +2051,7 @@ export declare type BotInfoResponse = {
     typ: BotInfoResponseTyp.UPTODATE;
 } | {
     typ: BotInfoResponseTyp.INFO;
-    INFO: BotInfo | null;
+    INFO: BotInfo;
 } | {
     typ: Exclude<BotInfoResponseTyp, BotInfoResponseTyp.UPTODATE | BotInfoResponseTyp.INFO>;
 };
@@ -1965,13 +2072,13 @@ export declare type UnfurlGiphy = {
 };
 export declare type UnfurlDisplay = {
     unfurlType: UnfurlType.GENERIC;
-    GENERIC: UnfurlGenericDisplay | null;
+    GENERIC: UnfurlGenericDisplay;
 } | {
     unfurlType: UnfurlType.YOUTUBE;
-    YOUTUBE: UnfurlYoutubeDisplay | null;
+    YOUTUBE: UnfurlYoutubeDisplay;
 } | {
     unfurlType: UnfurlType.GIPHY;
-    GIPHY: UnfurlGiphyDisplay | null;
+    GIPHY: UnfurlGiphyDisplay;
 } | {
     unfurlType: Exclude<UnfurlType, UnfurlType.GENERIC | UnfurlType.YOUTUBE | UnfurlType.GIPHY>;
 };
@@ -1988,6 +2095,7 @@ export declare type NewMessagePayload = {
     inboxVers: InboxVers;
     topicType: TopicType;
     unreadUpdate?: UnreadUpdate;
+    untrustedTeamRole: keybase1.TeamRole;
     maxMsgs: MessageSummary[] | null;
 };
 export declare type LoadFlipRes = {
@@ -2014,13 +2122,13 @@ export declare type GetBotInfoRes = {
 };
 export declare type Unfurl = {
     unfurlType: UnfurlType.GENERIC;
-    GENERIC: UnfurlGeneric | null;
+    GENERIC: UnfurlGeneric;
 } | {
     unfurlType: UnfurlType.YOUTUBE;
-    YOUTUBE: UnfurlYoutube | null;
+    YOUTUBE: UnfurlYoutube;
 } | {
     unfurlType: UnfurlType.GIPHY;
-    GIPHY: UnfurlGiphy | null;
+    GIPHY: UnfurlGiphy;
 } | {
     unfurlType: Exclude<UnfurlType, UnfurlType.GENERIC | UnfurlType.YOUTUBE | UnfurlType.GIPHY>;
 };
@@ -2056,55 +2164,55 @@ export declare type MsgContent = {
 };
 export declare type MessageBody = {
     messageType: MessageType.TEXT;
-    TEXT: MessageText | null;
+    TEXT: MessageText;
 } | {
     messageType: MessageType.ATTACHMENT;
-    ATTACHMENT: MessageAttachment | null;
+    ATTACHMENT: MessageAttachment;
 } | {
     messageType: MessageType.EDIT;
-    EDIT: MessageEdit | null;
+    EDIT: MessageEdit;
 } | {
     messageType: MessageType.DELETE;
-    DELETE: MessageDelete | null;
+    DELETE: MessageDelete;
 } | {
     messageType: MessageType.METADATA;
-    METADATA: MessageConversationMetadata | null;
+    METADATA: MessageConversationMetadata;
 } | {
     messageType: MessageType.HEADLINE;
-    HEADLINE: MessageHeadline | null;
+    HEADLINE: MessageHeadline;
 } | {
     messageType: MessageType.ATTACHMENTUPLOADED;
-    ATTACHMENTUPLOADED: MessageAttachmentUploaded | null;
+    ATTACHMENTUPLOADED: MessageAttachmentUploaded;
 } | {
     messageType: MessageType.JOIN;
-    JOIN: MessageJoin | null;
+    JOIN: MessageJoin;
 } | {
     messageType: MessageType.LEAVE;
-    LEAVE: MessageLeave | null;
+    LEAVE: MessageLeave;
 } | {
     messageType: MessageType.SYSTEM;
-    SYSTEM: MessageSystem | null;
+    SYSTEM: MessageSystem;
 } | {
     messageType: MessageType.DELETEHISTORY;
-    DELETEHISTORY: MessageDeleteHistory | null;
+    DELETEHISTORY: MessageDeleteHistory;
 } | {
     messageType: MessageType.REACTION;
-    REACTION: MessageReaction | null;
+    REACTION: MessageReaction;
 } | {
     messageType: MessageType.SENDPAYMENT;
-    SENDPAYMENT: MessageSendPayment | null;
+    SENDPAYMENT: MessageSendPayment;
 } | {
     messageType: MessageType.REQUESTPAYMENT;
-    REQUESTPAYMENT: MessageRequestPayment | null;
+    REQUESTPAYMENT: MessageRequestPayment;
 } | {
     messageType: MessageType.UNFURL;
-    UNFURL: MessageUnfurl | null;
+    UNFURL: MessageUnfurl;
 } | {
     messageType: MessageType.FLIP;
-    FLIP: MessageFlip | null;
+    FLIP: MessageFlip;
 } | {
     messageType: MessageType.PIN;
-    PIN: MessagePin | null;
+    PIN: MessagePin;
 } | {
     messageType: Exclude<MessageType, MessageType.TEXT | MessageType.ATTACHMENT | MessageType.EDIT | MessageType.DELETE | MessageType.METADATA | MessageType.HEADLINE | MessageType.ATTACHMENTUPLOADED | MessageType.JOIN | MessageType.LEAVE | MessageType.SYSTEM | MessageType.DELETEHISTORY | MessageType.REACTION | MessageType.SENDPAYMENT | MessageType.REQUESTPAYMENT | MessageType.UNFURL | MessageType.FLIP | MessageType.PIN>;
 };
@@ -2129,6 +2237,7 @@ export declare type MsgSummary = {
     atMentionUsernames?: string[] | null;
     channelMention?: string;
     channelNameMentions?: UIChannelNameMention[] | null;
+    botInfo?: MsgBotInfo;
 };
 export declare type BodyPlaintextV1 = {
     messageBody: MessageBody;
@@ -2155,34 +2264,34 @@ export declare type MsgNotification = {
 };
 export declare type BodyPlaintext = {
     version: BodyPlaintextVersion.V1;
-    V1: BodyPlaintextV1 | null;
+    V1: BodyPlaintextV1;
 } | {
     version: BodyPlaintextVersion.V2;
-    V2: BodyPlaintextV2 | null;
+    V2: BodyPlaintextV2;
 } | {
     version: BodyPlaintextVersion.V3;
-    V3: BodyPlaintextUnsupported | null;
+    V3: BodyPlaintextUnsupported;
 } | {
     version: BodyPlaintextVersion.V4;
-    V4: BodyPlaintextUnsupported | null;
+    V4: BodyPlaintextUnsupported;
 } | {
     version: BodyPlaintextVersion.V5;
-    V5: BodyPlaintextUnsupported | null;
+    V5: BodyPlaintextUnsupported;
 } | {
     version: BodyPlaintextVersion.V6;
-    V6: BodyPlaintextUnsupported | null;
+    V6: BodyPlaintextUnsupported;
 } | {
     version: BodyPlaintextVersion.V7;
-    V7: BodyPlaintextUnsupported | null;
+    V7: BodyPlaintextUnsupported;
 } | {
     version: BodyPlaintextVersion.V8;
-    V8: BodyPlaintextUnsupported | null;
+    V8: BodyPlaintextUnsupported;
 } | {
     version: BodyPlaintextVersion.V9;
-    V9: BodyPlaintextUnsupported | null;
+    V9: BodyPlaintextUnsupported;
 } | {
     version: BodyPlaintextVersion.V10;
-    V10: BodyPlaintextUnsupported | null;
+    V10: BodyPlaintextUnsupported;
 } | {
     version: Exclude<BodyPlaintextVersion, BodyPlaintextVersion.V1 | BodyPlaintextVersion.V2 | BodyPlaintextVersion.V3 | BodyPlaintextVersion.V4 | BodyPlaintextVersion.V5 | BodyPlaintextVersion.V6 | BodyPlaintextVersion.V7 | BodyPlaintextVersion.V8 | BodyPlaintextVersion.V9 | BodyPlaintextVersion.V10>;
 };
