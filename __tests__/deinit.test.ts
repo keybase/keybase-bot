@@ -1,37 +1,9 @@
-import fs from 'fs'
-import {exec} from 'child_process'
-import {promisify} from 'util'
-
 import Bot from '../lib'
 import config from './tests.config'
-import {startServiceManually, stopServiceManually} from './test-utils'
+import {startServiceManually, stopServiceManually, doesFileOrDirectoryExist, countProcessesMentioning} from './test-utils'
 import {randomTempDir, timeout} from '../lib/utils'
 import {MsgSummary} from '../lib/types/chat1'
 import {InitOptions} from '../lib/utils/options'
-
-async function doesFileOrDirectoryExist(fpath: string): Promise<boolean> {
-  try {
-    await promisify(fs.lstat)(fpath)
-    return true
-  } catch (err) {
-    return false
-  }
-}
-
-async function countProcessesMentioning(substr: string): Promise<number> {
-  expect(substr).toMatch(/^[0-9a-z_\- /]+$/i)
-  const aexec = promisify(exec)
-  try {
-    const execRes = await aexec(`ps ax | grep -v 'grep' | grep "${substr}"`)
-    return execRes.stdout.split('\n').length - 1
-  } catch (e) {
-    if (e.code === 1) {
-      return 0
-    } else {
-      throw new Error('Error looking for processes')
-    }
-  }
-}
 
 describe('Keybase bot deinitialization', (): void => {
   it('kills all spawned processes it creates', async (): Promise<any> => {
