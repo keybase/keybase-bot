@@ -312,7 +312,7 @@ describe('Chat Methods', (): void => {
         public: false,
         topicType: 'chat',
         membersType: 'team',
-        topicName: `subchannel-${Date.now()}`,
+        topicName: `sub-${Date.now()}`,
       }
       const generalChannel: ChatChannel = {
         name: config.teams.acme.teamname,
@@ -433,7 +433,7 @@ describe('Chat Methods', (): void => {
       await promisify(fs.unlink)(attachmentLocation)
       await promisify(fs.unlink)(downloadLocation)
     })
-    it('Throws an errow if given an invalid channel', async (): Promise<void> => {
+    it('Throws an error if given an invalid channel', async (): Promise<void> => {
       const result = await alice1.chat.read(channel)
       const attachments = result.messages.filter(message => message.content.type === 'attachment')
       expect(alice1.chat.download(invalidChannel, attachments[0].id, downloadLocation)).rejects.toThrowError()
