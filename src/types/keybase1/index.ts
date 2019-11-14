@@ -81,7 +81,6 @@
  * - ../client/protocol/avdl/keybase1/notify_team.avdl
  * - ../client/protocol/avdl/keybase1/notify_teambot.avdl
  * - ../client/protocol/avdl/keybase1/notify_tracking.avdl
- * - ../client/protocol/avdl/keybase1/notify_unverified_team_list.avdl
  * - ../client/protocol/avdl/keybase1/notify_users.avdl
  * - ../client/protocol/avdl/keybase1/os.avdl
  * - ../client/protocol/avdl/keybase1/paperprovision.avdl
@@ -506,6 +505,7 @@ export enum StatusCode {
   SCBadSignupUsernameTaken = 'scbadsignupusernametaken',
   SCDuplicate = 'scduplicate',
   SCBadInvitationCode = 'scbadinvitationcode',
+  SCBadSignupUsernameReserved = 'scbadsignupusernamereserved',
   SCBadSignupTeamName = 'scbadsignupteamname',
   SCFeatureFlag = 'scfeatureflag',
   SCEmailTaken = 'scemailtaken',
@@ -514,6 +514,7 @@ export enum StatusCode {
   SCEmailCannotDeletePrimary = 'scemailcannotdeleteprimary',
   SCEmailUnknown = 'scemailunknown',
   SCBotSignupTokenNotFound = 'scbotsignuptokennotfound',
+  SCNoUpdate = 'scnoupdate',
   SCMissingResult = 'scmissingresult',
   SCKeyNotFound = 'sckeynotfound',
   SCKeyCorrupted = 'sckeycorrupted',
@@ -1626,6 +1627,7 @@ export enum SubscriptionTopic {
   ONLINE_STATUS = 'online_status',
   DOWNLOAD_STATUS = 'download_status',
   FILES_TAB_BADGE = 'files_tab_badge',
+  OVERALL_SYNC_STATUS = 'overall_sync_status',
 }
 
 export enum PathSubscriptionTopic {
@@ -1849,6 +1851,8 @@ export type MemberUsername = {
   role: string
 }
 
+export type UserTeamVersion = number
+
 /**
  * Result from calling test(..).
  */
@@ -1928,6 +1932,11 @@ export type EmailAddress = string
 export enum PassphraseState {
   KNOWN = 'known',
   RANDOM = 'random',
+}
+
+export type RecordInfoArg = {
+  reportText: string
+  attachMessages: boolean
 }
 
 export type APIUserServiceID = string
@@ -2043,6 +2052,7 @@ export type Device = {
   type: string
   name: string
   deviceId: DeviceID
+  deviceNumberOfType: number
   cTime: Time
   mTime: Time
   lastUsedTime: Time
@@ -2810,6 +2820,7 @@ export type TeambotKeyMetadata = {
   generation: TeambotKeyGeneration
   uid: UID
   pukGeneration: PerUserKeyGeneration
+  application: TeamApplication
 }
 
 export type PerTeamSeedCheck = {
@@ -2933,6 +2944,7 @@ export type TeamChangeRow = {
   membershipChanged: boolean
   latestSeqno: Seqno
   latestHiddenSeqno: Seqno
+  latestOffchainSeqno: Seqno
   implicitTeam: boolean
   misc: boolean
   removedResetUsers: boolean
@@ -3009,6 +3021,15 @@ export type ImplicitTeamConflictInfo = {
   time: Time
 }
 
+export type TeamRolePair = {
+  role: TeamRole
+  implicitRole: TeamRole
+}
+
+export type UserTeamVersionUpdate = {
+  version: UserTeamVersion
+}
+
 export type CryptKey = {
   keyGeneration: number
   key: Bytes32
@@ -3061,6 +3082,21 @@ export type CanLogoutRes = {
 
 export type UserPassphraseStateMsg = {
   state: PassphraseState
+}
+
+export type UserBlock = {
+  username: string
+  chatBlocked: boolean
+  followBlocked: boolean
+  createTime?: Time
+  modifyTime?: Time
+}
+
+export type UserBlockArg = {
+  username: string
+  setChatBlock?: boolean
+  setFollowBlock?: boolean
+  report?: RecordInfoArg
 }
 
 export type APIUserKeybaseResult = {
@@ -3768,6 +3804,11 @@ export type TeamProfileAddEntry = {
   disabledReason: string
 }
 
+export type TeamRoleMapAndVersion = {
+  teams: {[key: string]: TeamRolePair}
+  userTeamVersion: UserTeamVersion
+}
+
 export type MerkleTreeLocation = {
   leaf: UserOrTeamID
   loc: SigChainLocation
@@ -4049,6 +4090,11 @@ export type ImplicitTeamDisplayName = {
   conflictInfo?: ImplicitTeamConflictInfo
 }
 
+export type TeamRoleMapStored = {
+  data: TeamRoleMapAndVersion
+  cachedAt: Time
+}
+
 export type PublicKeyV2Base = {
   kid: KID
   isSibkey: boolean
@@ -4278,6 +4324,19 @@ export type LookupImplicitTeamRes = {
   name: TeamName
   displayName: ImplicitTeamDisplayName
   tlfId: TLFID
+}
+
+export type AnnotatedTeam = {
+  teamId: TeamID
+  name: string
+  transitiveSubteamsUnverified: SubteamListResult
+  members: TeamMemberDetails[] | null
+  invites: AnnotatedTeamInvite[] | null
+  joinRequests: TeamJoinRequest[] | null
+  userIsShowcasing: boolean
+  tarsDisabled: boolean
+  settings: TeamSettings
+  showcase: TeamShowcase
 }
 
 export type PublicKeyV2NaCl = {
