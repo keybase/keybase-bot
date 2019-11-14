@@ -69,7 +69,7 @@ declare class Wallet extends ClientBase {
      * @example
      * bot.wallet.batch("airdrop2040", [{"recipient":"a1","amount": "1.414", "message": "hi a1, yes 1"},{"recipient": "a2", "amount": "3.14159", "message": "hi a2, yes 2"}])
      */
-    batch(batchId: string, payments: stellar1.BatchPaymentArg[]): Promise<stellar1.BatchResultLocal>;
+    batch(batchId: string, payments: stellar1.BatchPaymentArg[], timeoutSec?: number): Promise<stellar1.BatchResultLocal>;
     /**
      * If you send XLM to a Keybase user who has not established a wallet, you can cancel the payment before the recipient claims it and the XLM will be returned to your account.
      * @memberof Wallet

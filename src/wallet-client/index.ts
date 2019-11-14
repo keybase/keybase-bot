@@ -121,9 +121,12 @@ class Wallet extends ClientBase {
    * bot.wallet.batch("airdrop2040", [{"recipient":"a1","amount": "1.414", "message": "hi a1, yes 1"},{"recipient": "a2", "amount": "3.14159", "message": "hi a2, yes 2"}])
    */
 
-  public async batch(batchId: string, payments: stellar1.BatchPaymentArg[]): Promise<stellar1.BatchResultLocal> {
+  public async batch(batchId: string, payments: stellar1.BatchPaymentArg[], timeoutSec?: number): Promise<stellar1.BatchResultLocal> {
     await this._guardInitialized()
-    const options = {batchId, payments}
+    let options: object = {batchId, payments}
+    if (typeof timeoutSec !== 'undefined') {
+      options = {batchId, payments, timeout: timeoutSec}
+    }
     const res = await this._runApiCommand({apiName: 'wallet', method: 'batch', options})
     if (!res) {
       throw new Error('Keybase wallet batch returned nothing.')
