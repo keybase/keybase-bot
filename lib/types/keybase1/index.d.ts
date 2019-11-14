@@ -305,6 +305,7 @@ export declare enum StatusCode {
     SCBadSignupUsernameTaken = "scbadsignupusernametaken",
     SCDuplicate = "scduplicate",
     SCBadInvitationCode = "scbadinvitationcode",
+    SCBadSignupUsernameReserved = "scbadsignupusernamereserved",
     SCBadSignupTeamName = "scbadsignupteamname",
     SCFeatureFlag = "scfeatureflag",
     SCEmailTaken = "scemailtaken",
@@ -313,6 +314,7 @@ export declare enum StatusCode {
     SCEmailCannotDeletePrimary = "scemailcannotdeleteprimary",
     SCEmailUnknown = "scemailunknown",
     SCBotSignupTokenNotFound = "scbotsignuptokennotfound",
+    SCNoUpdate = "scnoupdate",
     SCMissingResult = "scmissingresult",
     SCKeyNotFound = "sckeynotfound",
     SCKeyCorrupted = "sckeycorrupted",
@@ -1289,7 +1291,8 @@ export declare enum SubscriptionTopic {
     JOURNAL_STATUS = "journal_status",
     ONLINE_STATUS = "online_status",
     DOWNLOAD_STATUS = "download_status",
-    FILES_TAB_BADGE = "files_tab_badge"
+    FILES_TAB_BADGE = "files_tab_badge",
+    OVERALL_SYNC_STATUS = "overall_sync_status"
 }
 export declare enum PathSubscriptionTopic {
     CHILDREN = "children",
@@ -1468,6 +1471,7 @@ export declare type MemberUsername = {
     username: string;
     role: string;
 };
+export declare type UserTeamVersion = number;
 /**
  * Result from calling test(..).
  */
@@ -1537,6 +1541,10 @@ export declare enum PassphraseState {
     KNOWN = "known",
     RANDOM = "random"
 }
+export declare type RecordInfoArg = {
+    reportText: string;
+    attachMessages: boolean;
+};
 export declare type APIUserServiceID = string;
 export declare type ImpTofuSearchResult = {
     assertion: string;
@@ -1642,6 +1650,7 @@ export declare type Device = {
     type: string;
     name: string;
     deviceId: DeviceID;
+    deviceNumberOfType: number;
     cTime: Time;
     mTime: Time;
     lastUsedTime: Time;
@@ -2322,6 +2331,7 @@ export declare type TeambotKeyMetadata = {
     generation: TeambotKeyGeneration;
     uid: UID;
     pukGeneration: PerUserKeyGeneration;
+    application: TeamApplication;
 };
 export declare type PerTeamSeedCheck = {
     version: PerTeamSeedCheckVersion;
@@ -2430,6 +2440,7 @@ export declare type TeamChangeRow = {
     membershipChanged: boolean;
     latestSeqno: Seqno;
     latestHiddenSeqno: Seqno;
+    latestOffchainSeqno: Seqno;
     implicitTeam: boolean;
     misc: boolean;
     removedResetUsers: boolean;
@@ -2497,6 +2508,13 @@ export declare type ImplicitTeamConflictInfo = {
     generation: ConflictGeneration;
     time: Time;
 };
+export declare type TeamRolePair = {
+    role: TeamRole;
+    implicitRole: TeamRole;
+};
+export declare type UserTeamVersionUpdate = {
+    version: UserTeamVersion;
+};
 export declare type CryptKey = {
     keyGeneration: number;
     key: Bytes32;
@@ -2543,6 +2561,19 @@ export declare type CanLogoutRes = {
 };
 export declare type UserPassphraseStateMsg = {
     state: PassphraseState;
+};
+export declare type UserBlock = {
+    username: string;
+    chatBlocked: boolean;
+    followBlocked: boolean;
+    createTime?: Time;
+    modifyTime?: Time;
+};
+export declare type UserBlockArg = {
+    username: string;
+    setChatBlock?: boolean;
+    setFollowBlock?: boolean;
+    report?: RecordInfoArg;
 };
 export declare type APIUserKeybaseResult = {
     username: string;
@@ -3189,6 +3220,12 @@ export declare type TeamProfileAddEntry = {
     open: boolean;
     disabledReason: string;
 };
+export declare type TeamRoleMapAndVersion = {
+    teams: {
+        [key: string]: TeamRolePair;
+    };
+    userTeamVersion: UserTeamVersion;
+};
 export declare type MerkleTreeLocation = {
     leaf: UserOrTeamID;
     loc: SigChainLocation;
@@ -3474,6 +3511,10 @@ export declare type ImplicitTeamDisplayName = {
     readers: ImplicitTeamUserSet;
     conflictInfo?: ImplicitTeamConflictInfo;
 };
+export declare type TeamRoleMapStored = {
+    data: TeamRoleMapAndVersion;
+    cachedAt: Time;
+};
 export declare type PublicKeyV2Base = {
     kid: KID;
     isSibkey: boolean;
@@ -3711,6 +3752,18 @@ export declare type LookupImplicitTeamRes = {
     name: TeamName;
     displayName: ImplicitTeamDisplayName;
     tlfId: TLFID;
+};
+export declare type AnnotatedTeam = {
+    teamId: TeamID;
+    name: string;
+    transitiveSubteamsUnverified: SubteamListResult;
+    members: TeamMemberDetails[] | null;
+    invites: AnnotatedTeamInvite[] | null;
+    joinRequests: TeamJoinRequest[] | null;
+    userIsShowcasing: boolean;
+    tarsDisabled: boolean;
+    settings: TeamSettings;
+    showcase: TeamShowcase;
 };
 export declare type PublicKeyV2NaCl = {
     base: PublicKeyV2Base;

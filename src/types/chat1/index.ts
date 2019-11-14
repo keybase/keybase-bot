@@ -200,6 +200,7 @@ export enum UIMaybeMentionStatus {
 export type UILinkDecoration = {
   display: string
   url: string
+  punycode: string
 }
 
 export enum UIChatThreadStatusTyp {
@@ -604,23 +605,20 @@ export type ChatSearchIndexStatus = {
 export type AssetMetadataImage = {
   width: number
   height: number
+  audioAmps: number[] | null
 }
 
 export type AssetMetadataVideo = {
   width: number
   height: number
   durationMs: number
-}
-
-export type AssetMetadataAudio = {
-  durationMs: number
+  isAudio: boolean
 }
 
 export enum AssetMetadataType {
   NONE = 'none',
   IMAGE = 'image',
   VIDEO = 'video',
-  AUDIO = 'audio',
 }
 
 export enum AssetTag {
@@ -1246,6 +1244,7 @@ export type GetInboxQuery = {
   computeActiveList: boolean
   summarizeMaxMsgs: boolean
   skipBgLoads: boolean
+  allowUnseenQuery: boolean
 }
 
 export type ConversationIDTriple = {
@@ -1346,8 +1345,7 @@ export type SearchOpts = {
 export type AssetMetadata =
   | {assetType: AssetMetadataType.IMAGE; IMAGE: AssetMetadataImage}
   | {assetType: AssetMetadataType.VIDEO; VIDEO: AssetMetadataVideo}
-  | {assetType: AssetMetadataType.AUDIO; AUDIO: AssetMetadataAudio}
-  | {assetType: Exclude<AssetMetadataType, AssetMetadataType.IMAGE | AssetMetadataType.VIDEO | AssetMetadataType.AUDIO>}
+  | {assetType: Exclude<AssetMetadataType, AssetMetadataType.IMAGE | AssetMetadataType.VIDEO>}
 
 export type UnreadUpdate = {
   convId: ConversationID

@@ -162,6 +162,7 @@ export declare enum UIMaybeMentionStatus {
 export declare type UILinkDecoration = {
     display: string;
     url: string;
+    punycode: string;
 };
 export declare enum UIChatThreadStatusTyp {
     NONE = "none",
@@ -502,20 +503,18 @@ export declare type ChatSearchIndexStatus = {
 export declare type AssetMetadataImage = {
     width: number;
     height: number;
+    audioAmps: number[] | null;
 };
 export declare type AssetMetadataVideo = {
     width: number;
     height: number;
     durationMs: number;
-};
-export declare type AssetMetadataAudio = {
-    durationMs: number;
+    isAudio: boolean;
 };
 export declare enum AssetMetadataType {
     NONE = "none",
     IMAGE = "image",
-    VIDEO = "video",
-    AUDIO = "audio"
+    VIDEO = "video"
 }
 export declare enum AssetTag {
     PRIMARY = "primary"
@@ -1076,6 +1075,7 @@ export declare type GetInboxQuery = {
     computeActiveList: boolean;
     summarizeMaxMsgs: boolean;
     skipBgLoads: boolean;
+    allowUnseenQuery: boolean;
 };
 export declare type ConversationIDTriple = {
     tlfid: TLFID;
@@ -1171,10 +1171,7 @@ export declare type AssetMetadata = {
     assetType: AssetMetadataType.VIDEO;
     VIDEO: AssetMetadataVideo;
 } | {
-    assetType: AssetMetadataType.AUDIO;
-    AUDIO: AssetMetadataAudio;
-} | {
-    assetType: Exclude<AssetMetadataType, AssetMetadataType.IMAGE | AssetMetadataType.VIDEO | AssetMetadataType.AUDIO>;
+    assetType: Exclude<AssetMetadataType, AssetMetadataType.IMAGE | AssetMetadataType.VIDEO>;
 };
 export declare type UnreadUpdate = {
     convId: ConversationID;
