@@ -20,9 +20,10 @@ class Service {
   public autoLogSendOnCrash: boolean
   private _paperkey: void | string
   private _useDetachedService: boolean
+  private _debugLogging: boolean
   protected _adminDebugLogger: AdminDebugLogger
 
-  public constructor(workingDir: string, adminDebugLogger: AdminDebugLogger) {
+  public constructor(workingDir: string, adminDebugLogger: AdminDebugLogger, debugLogging: boolean) {
     this._adminDebugLogger = adminDebugLogger
     this.workingDir = workingDir
     this.initialized = false
@@ -31,6 +32,7 @@ class Service {
     this.disableTyping = true
     this.autoLogSendOnCrash = false
     this._useDetachedService = false
+    this._debugLogging = debugLogging
   }
 
   public async init(username: string, paperkey: string, options?: InitOptions): Promise<void> {
@@ -49,7 +51,9 @@ class Service {
     }
 
     this.homeDir = this.workingDir
-    this.serviceLogFile = path.join(this.homeDir, 'logs', 'keybase.service.log')
+    if (this._debugLogging) {
+      this.serviceLogFile = path.join(this.homeDir, 'logs', 'keybase.service.log')
+    }
     this.botLite = options ? Boolean(typeof options.botLite !== 'boolean' || options.botLite) : true
     this.disableTyping = options ? Boolean(typeof options.disableTyping !== 'boolean' || options.disableTyping) : true
     this.autoLogSendOnCrash = options ? Boolean(typeof options.autoLogSendOnCrash === 'boolean' && options.autoLogSendOnCrash) : false
@@ -140,6 +144,7 @@ class Service {
         homeDir: this.homeDir ? this.homeDir : undefined,
         botLite: this.botLite,
         disableTyping: this.disableTyping,
+        debugLogging: this._debugLogging,
       }
     }
     return null

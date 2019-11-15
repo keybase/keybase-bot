@@ -4,6 +4,9 @@ import TeamClient from './team-client';
 import HelpersClient from './helpers-client';
 import { BotInfo } from './utils/keybaseStatus';
 import { InitOptions } from './utils/options';
+interface BotConstructorOpts {
+    debugLogging?: boolean;
+}
 /** A Keybase bot. */
 declare class Bot {
     chat: ChatClient;
@@ -21,7 +24,7 @@ declare class Bot {
      * @example
      * const bot = new Bot()
      */
-    constructor();
+    constructor(opts?: BotConstructorOpts);
     /**
      * Initialize your bot by starting an instance of the Keybase service and logging in using oneshot mode.
      * @memberof Bot

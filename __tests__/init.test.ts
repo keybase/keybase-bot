@@ -85,6 +85,23 @@ describe('Keybase bot initialization', (): void => {
     await alice.deinit()
   })
 
+  it('can instantiate with debugLogging options', async (): Promise<void> => {
+    const alice1 = new Bot({debugLogging: true})
+    await alice1.init(config.bots.alice1.username, config.bots.alice1.paperkey)
+    expect(alice1.myInfo().debugLogging).toBe(true)
+    await alice1.deinit()
+
+    const alice2 = new Bot({debugLogging: false})
+    await alice2.init(config.bots.alice1.username, config.bots.alice1.paperkey)
+    expect(alice2.myInfo().debugLogging).toBe(false)
+    await alice2.deinit()
+
+    const alice3 = new Bot({})
+    await alice3.init(config.bots.alice1.username, config.bots.alice1.paperkey)
+    expect(alice3.myInfo().debugLogging).toBe(false)
+    await alice3.deinit()
+  })
+
   it('can config with admin debug mode', async (): Promise<void> => {
     const tmpDir = os.tmpdir()
     const alice = new Bot()

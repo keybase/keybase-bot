@@ -10,6 +10,7 @@ export interface BotInfo {
   homeDir: void | string
   botLite?: boolean
   disableTyping?: boolean
+  debugLogging?: boolean
 }
 
 /**
