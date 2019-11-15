@@ -15,6 +15,14 @@ import {AdminDebugLogger} from './utils/adminDebugLogger'
 import crypto from 'crypto'
 import os from 'os'
 
+interface BotInitOpts {
+  debugLogging?: boolean
+}
+
+const defaultOpts: BotInitOpts = {
+  debugLogging: false,
+}
+
 /** A Keybase bot. */
 class Bot {
   public chat: ChatClient
@@ -33,10 +41,14 @@ class Bot {
    * @example
    * const bot = new Bot()
    */
-  public constructor() {
+  public constructor(opts?: BotInitOpts) {
+    let debugLogging: boolean = defaultOpts.debugLogging
+    if (opts && typeof opts.debugLogging !== 'undefined') {
+      debugLogging = opts.debugLogging
+    }
     this._botId = crypto.randomBytes(16).toString('hex')
     this._workingDir = path.join(os.tmpdir(), `keybase_bot_${this._botId}`)
-    this._service = new Service(this._workingDir, this._adminDebugLogger)
+    this._service = new Service(this._workingDir, this._adminDebugLogger, debugLogging)
     this._adminDebugLogger = new AdminDebugLogger(this._botId)
     this.chat = new ChatClient(this._workingDir, this._adminDebugLogger)
     this.wallet = new WalletClient(this._workingDir, this._adminDebugLogger)
