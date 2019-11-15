@@ -144,6 +144,7 @@ class Service {
         homeDir: this.homeDir ? this.homeDir : undefined,
         botLite: this.botLite,
         disableTyping: this.disableTyping,
+        debugLogging: this._debugLogging,
       }
     }
     return null

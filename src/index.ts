@@ -15,11 +15,11 @@ import {AdminDebugLogger} from './utils/adminDebugLogger'
 import crypto from 'crypto'
 import os from 'os'
 
-interface BotInitOpts {
+interface BotConstructorOpts {
   debugLogging?: boolean
 }
 
-const defaultOpts: BotInitOpts = {
+const defaultOpts: BotConstructorOpts = {
   debugLogging: false,
 }
 
@@ -41,7 +41,7 @@ class Bot {
    * @example
    * const bot = new Bot()
    */
-  public constructor(opts?: BotInitOpts) {
+  public constructor(opts?: BotConstructorOpts) {
     let debugLogging: boolean = defaultOpts.debugLogging
     if (opts && typeof opts.debugLogging !== 'undefined') {
       debugLogging = opts.debugLogging
