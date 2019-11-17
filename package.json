@@ -44,7 +44,7 @@
   "scripts": {
     "modules": "yarn --frozen-lockfile --prefer-offline",
     "modules-prod": "yarn --frozen-lockfile --prefer-offline --prod",
-    "docs": "documentation readme lib/** --config documentation.yml --section=API",
+    "docs": "documentation readme src/{chat-client,wallet-client,team-client,index.ts} --config documentation.yml --require-extension=.ts --parse-extension=.ts --babel=./.babelrc.js --section=API --shallow --github && prettier README.md --write",
     "dev": "tsc --watch",
     "test": "jest --runInBand",
     "release": "standard-version",
@@ -71,6 +71,7 @@
     "@types/which": "1.3.1",
     "@typescript-eslint/eslint-plugin": "2.0.0",
     "@typescript-eslint/parser": "2.0.0",
+    "documentation": "12.1.2",
     "eslint": "6.2.2",
     "eslint-config-prettier": "6.1.0",
     "eslint-config-standard": "14.1.0",

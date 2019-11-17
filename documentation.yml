@@ -16,30 +16,41 @@ toc:
     children:
       - ChatChannel
       - ChatMessage
-      - ChatConversation
-      - MessageSummary
-      - ChatListOptions
-      - ChatListChannelsOptions
-      - ChatReadOptions
-      - ChatSendOptions
-      - ChatReactOptions
+      - Thread
+      - MsgSummary
+      - MsgContent
+      - ConvSummary
+      - SendRes
+      - UICoinFlipStatus
+      - UnfurlSettings
+      - UserBotCommandOutput
       - ChatAttachOptions
       - ChatDownloadOptions
+      - ChatReactOptions
       - ChatDeleteOptions
-      - ListenOptions
+      - Advertisement
+      - AdvertisementsLookup
       - OnMessage
       - OnError
+      - ListenOptions
+  - Team
+  - name: Team Types
+    description: |
+      A collection of types used by the Team module.
+    children:
+      - AddMembersParam
+      - RemoveMemberParam
+      - ListTeamMembershipParam
+      - TeamAddMemberResult
+      - TeamDetails
   - Wallet
   - name: Wallet Types
     description: |
       A collection of types used by the Wallet module.
     children:
-      - Asset
-      - ExchangeRate
-      - Balance
-      - Account
-      - Transaction
-      - PaymentStatus
-      - BatchResult
-      - BatchItemResult
-      - PaymentBatchItem
+      - AccountID
+      - TransactionID
+      - OwnAccountCLILocal
+      - PaymentCLILocal
+      - BatchPaymentArg
+      - BatchResultLocal
