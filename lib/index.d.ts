@@ -74,8 +74,8 @@ declare class Bot {
      * bot.adminDebugLogInfo("My bot is ready to go.")
      */
     adminDebugLogError(text: string): Promise<void>;
-    readonly botId: string;
-    readonly serviceLogLocation: string;
+    get botId(): string;
+    get serviceLogLocation(): string;
     private _prepWorkingDir;
     private _initSubBots;
 }
