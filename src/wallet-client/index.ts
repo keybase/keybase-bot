@@ -93,7 +93,7 @@ class Wallet extends ClientBase {
    * @param amount - The amount of XLM to send.
    * @param [currency] - Adds a currency value to the amount specified. For example, adding 'USD' would send
    * @param [message] - The message for your payment
-   * @returns - The trasaction object of the transaction.
+   * @returns - The transaction object of the transaction.
    * @example
    * bot.wallet.send('nathunsmitty', '3.50') // Send 3.50 XLM to Keybase user `nathunsmitty`
    * bot.wallet.send('nathunsmitty@github', '3.50') // Send 3.50 XLM to GitHub user `nathunsmitty`

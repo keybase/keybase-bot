@@ -44,7 +44,7 @@ declare class KVStore extends ClientBase {
      * @example
      * bot.kvstore.put('phoenix', 'pw-manager', 'geocities', 'hunter2').then(({entryKey, revision}) => console.log({entryKey, revision}))
      */
-    put(team: string, namespace: string, entryKey: string, revision?: number): Promise<keybase1.KVGetResult>;
+    put(team: string, namespace: string, entryKey: string, entryValue: string, revision?: number): Promise<keybase1.KVPutResult>;
     /**
      * Delete a key-value store entry. If you specify a revision number, deletion will fail if that revision is not the latest.
      * @memberof KVStore
@@ -56,7 +56,7 @@ declare class KVStore extends ClientBase {
      * @example
      * bot.kvstore.delete('phoenix', 'pw-manager', 'geocities').then(({entryKey, revision}) => console.log({entryKey, revision}))
      */
-    delete(team: string, namespace: string, entryKey: string, revision?: number): Promise<keybase1.KVGetResult>;
+    delete(team: string, namespace: string, entryKey: string, revision?: number): Promise<keybase1.KVDeleteEntryResult>;
     /**
      * Determine whether the result of a `get()` call describes a deleted key-value store entry.
      * @memberof KVStore
