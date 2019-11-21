@@ -72,9 +72,15 @@ class KVStore extends ClientBase {
    * @example
    * bot.kvstore.put('phoenix', 'pw-manager', 'geocities', 'hunter2').then(({entryKey, revision}) => console.log({entryKey, revision}))
    */
-  public async put(team: string, namespace: string, entryKey: string, revision?: number): Promise<keybase1.KVGetResult> {
+  public async put(
+    team: string,
+    namespace: string,
+    entryKey: string,
+    entryValue: string,
+    revision?: number
+  ): Promise<keybase1.KVPutResult> {
     await this._guardInitialized()
-    const options = {entryKey, namespace, revision, team}
+    const options = {entryKey, entryValue, namespace, revision, team}
     const res = await this._runApiCommand({apiName: 'kvstore', method: 'put', options})
     if (!res) {
       throw new Error('Keybase kvstore put returned nothing.')
@@ -93,7 +99,7 @@ class KVStore extends ClientBase {
    * @example
    * bot.kvstore.delete('phoenix', 'pw-manager', 'geocities').then(({entryKey, revision}) => console.log({entryKey, revision}))
    */
-  public async delete(team: string, namespace: string, entryKey: string, revision?: number): Promise<keybase1.KVGetResult> {
+  public async delete(team: string, namespace: string, entryKey: string, revision?: number): Promise<keybase1.KVDeleteEntryResult> {
     await this._guardInitialized()
     const options = {entryKey, namespace, revision, team}
     const res = await this._runApiCommand({apiName: 'kvstore', method: 'del', options})
