@@ -2,6 +2,7 @@ import ChatClient from './chat-client';
 import WalletClient from './wallet-client';
 import TeamClient from './team-client';
 import HelpersClient from './helpers-client';
+import KVStoreClient from './kvstore-client';
 import { BotInfo } from './utils/keybaseStatus';
 import { InitOptions } from './utils/options';
 interface BotConstructorOpts {
@@ -13,6 +14,7 @@ declare class Bot {
     wallet: WalletClient;
     team: TeamClient;
     helpers: HelpersClient;
+    kvstore: KVStoreClient;
     private _workingDir;
     private _service;
     private _botId;
