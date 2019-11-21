@@ -42,10 +42,7 @@ class Bot {
    * const bot = new Bot()
    */
   public constructor(opts?: BotConstructorOpts) {
-    let debugLogging: boolean = defaultOpts.debugLogging
-    if (opts && typeof opts.debugLogging !== 'undefined') {
-      debugLogging = opts.debugLogging
-    }
+    const debugLogging = opts?.debugLogging ?? defaultOpts.debugLogging
     this._botId = crypto.randomBytes(16).toString('hex')
     this._workingDir = path.join(os.tmpdir(), `keybase_bot_${this._botId}`)
     this._service = new Service(this._workingDir, this._adminDebugLogger, debugLogging)

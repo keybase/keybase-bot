@@ -98,7 +98,8 @@ declare class Chat extends ClientBase {
      * @param options - An object of options that can be passed to the method.
      * @returns - An array of chat conversations. If there are no conversations, the array is empty.
      * @example
-     * bot.chat.list({unreadOnly: true}).then(chatConversations => console.log(chatConversations))
+     * const chatConversations = await bot.chat.list({unreadOnly: true})
+     * console.log(chatConversations)
      */
     list(options?: ChatListOptions): Promise<chat1.ConvSummary[]>;
     /**

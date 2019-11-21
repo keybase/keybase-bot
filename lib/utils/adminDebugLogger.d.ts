@@ -3,8 +3,8 @@ export declare class AdminDebugLogger {
     private _botId;
     private _botServiceLogPath;
     private _deinitYet;
-    readonly directory: string | null;
-    readonly filename: string | null;
+    get directory(): string | null;
+    get filename(): string | null;
     constructor(botId: string);
     init(logDir: string, botServiceLogPath: string): Promise<void>;
     deinit(): void;
