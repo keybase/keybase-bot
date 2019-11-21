@@ -44,7 +44,7 @@
   "scripts": {
     "modules": "yarn --frozen-lockfile --prefer-offline",
     "modules-prod": "yarn --frozen-lockfile --prefer-offline --prod",
-    "docs": "documentation readme src/{chat-client,wallet-client,team-client,index.ts} --config documentation.yml --require-extension=.ts --parse-extension=.ts --babel=./.babelrc.js --section=API --shallow --github && prettier README.md --write",
+    "docs": "documentation readme src/{{chat,wallet,team,kvstore}-client,index.ts} --config documentation.yml --require-extension=.ts --parse-extension=.ts --babel=./.babelrc.js --section=API --shallow --github && prettier README.md --write",
     "dev": "tsc --watch",
     "test": "jest --runInBand",
     "release": "standard-version",
