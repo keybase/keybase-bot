@@ -3,6 +3,7 @@ import ChatClient from './chat-client'
 import WalletClient from './wallet-client'
 import TeamClient from './team-client'
 import HelpersClient from './helpers-client'
+import KVStoreClient from './kvstore-client'
 
 import {BotInfo} from './utils/keybaseStatus'
 import mkdirp from 'mkdirp'
@@ -29,6 +30,7 @@ class Bot {
   public wallet: WalletClient
   public team: TeamClient
   public helpers: HelpersClient
+  public kvstore: KVStoreClient
   private _workingDir: string // where KB binary copied, and homeDir (if not existing svc)
   private _service: Service
   private _botId: string
@@ -51,6 +53,7 @@ class Bot {
     this.wallet = new WalletClient(this._workingDir, this._adminDebugLogger)
     this.team = new TeamClient(this._workingDir, this._adminDebugLogger)
     this.helpers = new HelpersClient(this._workingDir, this._adminDebugLogger)
+    this.kvstore = new KVStoreClient(this._workingDir, this._adminDebugLogger)
     this._initStatus = 'preinit'
   }
 
@@ -189,6 +192,7 @@ class Bot {
       await this.wallet._init(info.homeDir, options)
       await this.team._init(info.homeDir, options)
       await this.helpers._init(info.homeDir, options)
+      await this.kvstore._init(info.homeDir, options)
     } else {
       throw new Error('Issue initializing bot.')
     }
