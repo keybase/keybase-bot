@@ -33,6 +33,16 @@ toc:
       - OnMessage
       - OnError
       - ListenOptions
+  - KVStore
+  - name: KVStore Types
+    description: |
+      A collection of types used by the KVStore module.
+    children:
+      - KVListNamespaceResult
+      - KVListEntryResult
+      - KVGetResult
+      - KVPutResult
+      - KVDeleteEntryResult
   - Team
   - name: Team Types
     description: |
