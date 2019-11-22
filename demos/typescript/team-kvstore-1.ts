@@ -155,6 +155,7 @@ class Runner {
   }
 
   async handleShutdown(message: MsgSummary): Promise<void> {
+    // !storage shutdown
     const sender = message.sender.username
     if (!sender) {
       throw new Error('null username')
