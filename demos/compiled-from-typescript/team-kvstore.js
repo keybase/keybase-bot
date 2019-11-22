@@ -80,7 +80,7 @@ class Runner {
         return this.sendMessage(helpMessage);
     }
     async handleListNamespaces(body) {
-        // !storage list someteam
+        // !storage list team
         try {
             const res = await this.bot.kvstore.listNamespaces(this.teamname);
             const message = res.namespaces.join(', ');
@@ -91,7 +91,7 @@ class Runner {
         }
     }
     async handleListEntryKeys(body) {
-        // !storage list someteam somenamespace
+        // !storage list team namespace
         try {
             const [, , namespace] = body.split(' ');
             const res = await this.bot.kvstore.listEntryKeys(this.teamname, namespace);

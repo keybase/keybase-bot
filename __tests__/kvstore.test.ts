@@ -62,10 +62,9 @@ describe('KVStore Methods', (): void => {
     expect(res.revision).toEqual(rev)
   })
 
-  it('Cannot delete with a stale revision', (): void => {
+  it('Cannot delete with a future revision', (): void => {
     // Increment rev so that later tests always have a usable rev value prepared.
     rev += 1
-
     expect(alice1.kvstore.delete(team, namespace, entryKey, rev + 1)).rejects.toThrowError()
   })
 
