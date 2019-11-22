@@ -18,7 +18,7 @@ declare class KVStore extends ClientBase {
      * @param namespace - The namespace to list entryKeys for.
      * @returns - An array of entryKeys and their revisions.
      * @example
-     * bot.kvstore.listEntryKeys('phoenix', 'pw-manager').then(namespaces => console.log(namespaces))
+     * bot.kvstore.listEntryKeys('phoenix', 'pw-manager').then(entryKeys => console.log(entryKeys))
      */
     listEntryKeys(team: string, namespace: string): Promise<keybase1.KVListEntryResult>;
     /**
@@ -51,7 +51,7 @@ declare class KVStore extends ClientBase {
      * @param team - The teamname to list entryKeys for.
      * @param namespace - The namespace to list entryKeys for.
      * @param entryKey - The entryKey to delete the value for.
-     * @param revision - A revision number (call `get()` to find out the latest)
+     * @param revision - A revision number (call `get()` to find out the latest) for enforcing safe concurrency.
      * @returns - The deleted entryKey and its revision.
      * @example
      * bot.kvstore.delete('phoenix', 'pw-manager', 'geocities').then(({entryKey, revision}) => console.log({entryKey, revision}))
