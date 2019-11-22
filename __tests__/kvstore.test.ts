@@ -16,7 +16,7 @@ describe('KVStore Methods', (): void => {
   const namespace = '_test_namespace1'
   const entryKey = '_test_key1'
   const team = config.teams.acme.teamname
-  let rev = null // Shared between the put/delete tests.
+  let rev: number = null
 
   const getResultMatcher = expect.objectContaining({
     entryKey: expect.any(String),
@@ -42,8 +42,7 @@ describe('KVStore Methods', (): void => {
     const res = await alice1.kvstore.put(team, namespace, entryKey, 'value1')
     rev = res.revision
     expect(rev).toBeGreaterThan(0)
-
-    expect(alice1.kvstore.put(team, namespace, entryKey, 'value2', rev).rejects.toThrowError())
+    expect(alice1.kvstore.put(team, namespace, entryKey, 'value2', rev)).rejects.toThrowError()
   })
 
   it('Lists namespaces', async (): Promise<void> => {
@@ -60,18 +59,22 @@ describe('KVStore Methods', (): void => {
     const res = await alice1.kvstore.get(team, namespace, entryKey)
     expect(res).toEqual(getResultMatcher)
     expect(res.entryValue).toEqual('value1')
+    expect(res.revision).toEqual(rev)
   })
 
   it('Cannot delete with a stale revision', (): void => {
-    expect(alice1.kvstore.delete(team, namespace, entryKey, rev + 2).rejects.toThrowError())
+    // Increment rev so that later tests always have a usable rev value prepared.
+    rev += 1
+
+    expect(alice1.kvstore.delete(team, namespace, entryKey, rev + 1)).rejects.toThrowError()
   })
 
   it('Deletes at the correct revision', async (): Promise<void> => {
-    const res = expect(alice1.kvstore.delete(team, namespace, entryKey, rev + 1))
-    expect(res.revision).toEqual(0)
+    const res = await alice1.kvstore.delete(team, namespace, entryKey, rev)
+    expect(res.revision).toEqual(rev)
   })
 
   it('Cannot delete twice', (): void => {
-    expect(alice1.kvstore.delete(team, namespace, entryKey).rejects.toThrowError())
+    expect(alice1.kvstore.delete(team, namespace, entryKey)).rejects.toThrowError()
   })
 })

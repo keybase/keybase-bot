@@ -70,9 +70,9 @@ declare class KVStore extends ClientBase {
      * Determine whether the result of a `get()` call describes an entryKey that has an existing value.
      * @memberof KVStore
      * @param res - The `get()` result to determine the status of.
-     * @returns - Whether this key's value is deleted.
+     * @returns - Whether this key's value is present.
      * @example
-     * bot.kvstore.isDeleted(res).then(isDeleted => console.log({isDeleted}))
+     * bot.kvstore.isPresent(res).then(isPresent => console.log({isPresent}))
      */
     isPresent(res: keybase1.KVGetResult): boolean;
 }

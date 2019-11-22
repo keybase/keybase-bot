@@ -52,7 +52,7 @@ class KVStore extends ClientBase {
    */
   public async get(team: string, namespace: string, entryKey: string): Promise<keybase1.KVGetResult> {
     await this._guardInitialized()
-    const options = {entryKey, namespace, team}
+    const options = {entrykey: entryKey, namespace, team}
     const res = await this._runApiCommand({apiName: 'kvstore', method: 'get', options})
     if (!res) {
       throw new Error('Keybase kvstore get returned nothing.')
@@ -80,7 +80,7 @@ class KVStore extends ClientBase {
     revision?: number
   ): Promise<keybase1.KVPutResult> {
     await this._guardInitialized()
-    const options = {entryKey, entryValue, namespace, revision, team}
+    const options = {entrykey: entryKey, entryvalue: entryValue, namespace, revision, team}
     const res = await this._runApiCommand({apiName: 'kvstore', method: 'put', options})
     if (!res) {
       throw new Error('Keybase kvstore put returned nothing.')
@@ -101,7 +101,7 @@ class KVStore extends ClientBase {
    */
   public async delete(team: string, namespace: string, entryKey: string, revision?: number): Promise<keybase1.KVDeleteEntryResult> {
     await this._guardInitialized()
-    const options = {entryKey, namespace, revision, team}
+    const options = {entrykey: entryKey, namespace, revision, team}
     const res = await this._runApiCommand({apiName: 'kvstore', method: 'del', options})
     if (!res) {
       throw new Error('Keybase kvstore put returned nothing.')
@@ -125,9 +125,9 @@ class KVStore extends ClientBase {
    * Determine whether the result of a `get()` call describes an entryKey that has an existing value.
    * @memberof KVStore
    * @param res - The `get()` result to determine the status of.
-   * @returns - Whether this key's value is deleted.
+   * @returns - Whether this key's value is present.
    * @example
-   * bot.kvstore.isDeleted(res).then(isDeleted => console.log({isDeleted}))
+   * bot.kvstore.isPresent(res).then(isPresent => console.log({isPresent}))
    */
   public isPresent(res: keybase1.KVGetResult): boolean {
     return res.revision > 0 && res.entryValue !== ''
