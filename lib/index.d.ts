@@ -76,6 +76,10 @@ declare class Bot {
      * bot.adminDebugLogInfo("My bot is ready to go.")
      */
     adminDebugLogError(text: string): Promise<void>;
+    /**
+     * Send a log to Keybase
+     */
+    logSend(): Promise<void>;
     get botId(): string;
     get serviceLogLocation(): string;
     private _prepWorkingDir;
