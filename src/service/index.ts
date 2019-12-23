@@ -18,7 +18,6 @@ class Service {
   public serviceLogFile: void | string
   public workingDir: string
   public autoLogSendOnCrash: boolean
-  public autoLogSendOnExit: boolean
   private _paperkey: void | string
   private _useDetachedService: boolean
   private _debugLogging: boolean
@@ -32,7 +31,6 @@ class Service {
     this.botLite = true
     this.disableTyping = true
     this.autoLogSendOnCrash = false
-    this.autoLogSendOnExit = false
     this._useDetachedService = false
     this._debugLogging = debugLogging
   }
@@ -59,7 +57,6 @@ class Service {
     this.botLite = options ? Boolean(typeof options.botLite !== 'boolean' || options.botLite) : true
     this.disableTyping = options ? Boolean(typeof options.disableTyping !== 'boolean' || options.disableTyping) : true
     this.autoLogSendOnCrash = options ? Boolean(typeof options.autoLogSendOnCrash === 'boolean' && options.autoLogSendOnCrash) : false
-    this.autoLogSendOnExit = options ? Boolean(typeof options.autoLogSendOnExit === 'boolean' && options.autoLogSendOnExit) : false
     // Unlike with clients we don't need to store the service, since it shuts down with ctrl stop
     try {
       await this.startupService()
@@ -180,7 +177,7 @@ class Service {
       'exit',
       async (code): Promise<void> => {
         this.running = false
-        if (this.autoLogSendOnExit || (code !== 0 && this.autoLogSendOnCrash)) {
+        if (code !== 0 && this.autoLogSendOnCrash) {
           await this.logSend()
         }
       }

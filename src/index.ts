@@ -61,7 +61,9 @@ class Bot {
    * Initialize your bot by starting an instance of the Keybase service and logging in using oneshot mode.
    * @memberof Bot
    * @param username - The username of your bot's Keybase account.
-   * @param paperkey - The paperkey of your bot's Keybase account.  @param options - The initialization options for your bot.  @example
+   * @param paperkey - The paperkey of your bot's Keybase account.
+   * @param options - The initialization options for your bot.
+   * @example
    * bot.init('username', 'paperkey')
    */
   public async init(username: string, paperkey: string, options?: InitOptions): Promise<void> {
