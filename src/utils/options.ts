@@ -7,6 +7,8 @@ export interface InitOptions {
   botLite?: boolean
   // Disable sending/receiving typing notifications to reduce bot bandwidth
   disableTyping?: boolean
+  // Automatically send logs on exit despite of exit code
+  autoLogSendOnExit?: boolean
   // Automatically send logs on crash
   autoLogSendOnCrash?: boolean
   // Copies the service log to a dedicated directory so it survives after bot shutdown

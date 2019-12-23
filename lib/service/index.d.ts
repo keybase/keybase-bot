@@ -13,6 +13,7 @@ declare class Service {
     serviceLogFile: void | string;
     workingDir: string;
     autoLogSendOnCrash: boolean;
+    autoLogSendOnExit: boolean;
     private _paperkey;
     private _useDetachedService;
     private _debugLogging;
