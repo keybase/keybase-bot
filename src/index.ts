@@ -164,6 +164,13 @@ class Bot {
     }
   }
 
+  /**
+   * Send a log to Keybase
+   */
+  public async logSend(): Promise<void> {
+    return this._service.logSend()
+  }
+
   public get botId(): string {
     return this._botId
   }
