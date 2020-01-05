@@ -30,6 +30,7 @@ describe('Chat Methods', (): void => {
   const alice1 = new Bot()
   const alice2 = new Bot()
   const bob = new Bot()
+  const charlie1 = new Bot()
   const channel: ChatChannel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
   const teamChannel: ChatChannel = {
     name: config.teams.acme.teamname,
@@ -84,6 +85,28 @@ describe('Chat Methods', (): void => {
       await bob.deinit()
     }
   )
+
+  it('watchForNewConversation', async (): Promise<void> => {
+    try {
+      await alice1.team.removeMember({team: config.teams.alicesPlayground.teamname, username: config.bots.bob1.username})
+    } finally {
+      const toWait = new Promise(async (resolve, reject) => {
+        await bob.chat.watchForNewConversation(
+          conv => {
+            expect(conv.channel.name).toBe(config.teams.alicesPlayground.teamname)
+            expect(conv.channel.topicName).toBe('general')
+            resolve()
+          },
+          err => reject(err)
+        )
+      })
+      await alice1.team.addMembers({
+        team: config.teams.alicesPlayground.teamname,
+        usernames: [{username: config.bots.bob1.username, role: 'writer'}],
+      })
+      await toWait
+    }
+  })
 
   describe('Chat list', (): void => {
     it('Returns all chat conversations in an array', async (): Promise<void> => {

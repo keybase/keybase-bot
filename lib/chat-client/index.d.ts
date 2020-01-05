@@ -4,6 +4,8 @@ import * as chat1 from '../types/chat1';
 export declare type OnMessage = (message: chat1.MsgSummary) => void | Promise<void>;
 /** A function to call when an error occurs. */
 export declare type OnError = (error: Error) => void | Promise<void>;
+/** A function to call when the bot is added to a new conversation. */
+export declare type OnConv = (channel: chat1.ConvSummary) => void | Promise<void>;
 /**
  * Options for the `list` method of the chat module.
  */
@@ -72,7 +74,7 @@ export interface ChatDeleteOptions {
  * Local messages are ones sent by your device. Including them in the output is
  * useful for applications such as logging conversations, monitoring own flips
  * and building tools that seamlessly integrate with a running client used by
- * the user.
+ * the user. If onNewConvo is set, it will be called when the bot is added to a new conversation.
  */
 export interface ListenOptions {
     hideExploding: boolean;
@@ -360,6 +362,22 @@ declare class Chat extends ClientBase {
      */
     watchAllChannelsForNewMessages(onMessage: OnMessage, onError?: OnError, options?: ListenOptions): Promise<void>;
     /**
+     * This function watches for new conversations your bot is added into. This gives your bot a chance to say hi when it's added/installed into a conversation.
+     * @param onConv - A callback that is triggered when the bot is added into a conversation.
+     * @param onError - A callback that is triggered on any error that occurs while the method is executing.
+     * @example
+     * // Say hi
+     * const onConv = conv => {
+     *   const channel = conv.channel
+     *   bot.chat.send(channel, {body: 'Hi!'})
+     * }
+     * bot.chat.watchForNewConversation(onConv)
+     *
+     */
+    watchForNewConversation(onConv: OnConv, onError?: OnError): Promise<void>;
+    private _spawnChatListenChild;
+    private _getChatListenArgs;
+    /**
      * Spawns the chat listen process and handles the calling of onMessage, onError, and filtering for a specific channel.
      * @memberof Chat
      * @ignore
@@ -368,8 +386,18 @@ declare class Chat extends ClientBase {
      * @param channel - The chat channel to watch.
      * @param options - Options for the listen method.
      * @example
-     * this._chatListen(onMessage, onError)
+     * this._chatListenMessage(onMessage, onError)
      */
-    private _chatListen;
+    private _chatListenMessage;
+    /**
+     * Spawns the chat listen process for new channels and handles the calling of onConv, and onError.
+     * @memberof Chat
+     * @ignore
+     * @param onConv - A callback that is triggered on every new channel your bot is added to.
+     * @param onError - A callback that is triggered on any error that occurs while the method is executing.
+     * @example
+     * this._chatListenConvs(onConv, onError)
+     */
+    private _chatListenConvs;
 }
 export default Chat;

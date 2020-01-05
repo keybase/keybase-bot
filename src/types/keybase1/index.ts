@@ -27,6 +27,7 @@
  * - ../client/protocol/avdl/keybase1/emails.avdl
  * - ../client/protocol/avdl/keybase1/ephemeral.avdl
  * - ../client/protocol/avdl/keybase1/favorite.avdl
+ * - ../client/protocol/avdl/keybase1/featured_bot.avdl
  * - ../client/protocol/avdl/keybase1/fs.avdl
  * - ../client/protocol/avdl/keybase1/git.avdl
  * - ../client/protocol/avdl/keybase1/gpg_common.avdl
@@ -69,6 +70,7 @@
  * - ../client/protocol/avdl/keybase1/notify_email.avdl
  * - ../client/protocol/avdl/keybase1/notify_ephemeral.avdl
  * - ../client/protocol/avdl/keybase1/notify_favorites.avdl
+ * - ../client/protocol/avdl/keybase1/notify_featuredbots.avdl
  * - ../client/protocol/avdl/keybase1/notify_fs.avdl
  * - ../client/protocol/avdl/keybase1/notify_fs_request.avdl
  * - ../client/protocol/avdl/keybase1/notify_keyfamily.avdl
@@ -647,6 +649,7 @@ export enum StatusCode {
   SCTeamStorageWrongRevision = 'scteamstoragewrongrevision',
   SCTeamStorageBadGeneration = 'scteamstoragebadgeneration',
   SCTeamStorageNotFound = 'scteamstoragenotfound',
+  SCTeamContactSettingsBlock = 'scteamcontactsettingsblock',
   SCEphemeralKeyBadGeneration = 'scephemeralkeybadgeneration',
   SCEphemeralKeyUnexpectedBox = 'scephemeralkeyunexpectedbox',
   SCEphemeralKeyMissingBox = 'scephemeralkeymissingbox',
@@ -764,6 +767,17 @@ export enum FolderConflictType {
 export enum ConflictStateType {
   NormalView = 'normalview',
   ManualResolvingLocalView = 'manualresolvinglocalview',
+}
+
+export type FeaturedBot = {
+  botAlias: string
+  description: string
+  extendedDescription: string
+  botUsername: string
+  ownerTeam?: string
+  ownerUser?: string
+  rank: number
+  isPromoted: boolean
 }
 
 export type File = {
@@ -1187,6 +1201,7 @@ export type NotificationChannels = {
   wallet: boolean
   audit: boolean
   runtimestats: boolean
+  featuredBots: boolean
 }
 
 export enum StatsSeverityLevel {
@@ -1617,6 +1632,12 @@ export enum FolderSyncMode {
   PARTIAL = 'partial',
 }
 
+export enum KbfsOnlineStatus {
+  OFFLINE = 'offline',
+  TRYING = 'trying',
+  ONLINE = 'online',
+}
+
 export type FSSettings = {
   spaceAvailableNotificationThreshold: number
 }
@@ -1717,6 +1738,7 @@ export enum RatchetType {
   MAIN = 'main',
   BLINDED = 'blinded',
   SELF = 'self',
+  UNCOMMITTED = 'uncommitted',
 }
 
 export enum AuditVersion {
@@ -1829,6 +1851,7 @@ export type TeamOperation = {
   deleteOtherMessages: boolean
   deleteTeam: boolean
   pinMessage: boolean
+  manageBots: boolean
 }
 
 export type ProfileTeamLoadRes = {
@@ -1934,9 +1957,15 @@ export enum PassphraseState {
   RANDOM = 'random',
 }
 
-export type RecordInfoArg = {
-  reportText: string
-  attachMessages: boolean
+export enum UserBlockType {
+  CHAT = 'chat',
+  FOLLOW = 'follow',
+}
+
+export type UserBlockArg = {
+  username: string
+  setChatBlock?: boolean
+  setFollowBlock?: boolean
 }
 
 export type APIUserServiceID = string
@@ -1955,6 +1984,11 @@ export type LockdownHistory = {
   ctime: Time
   deviceId: DeviceID
   deviceName: string
+}
+
+export type TeamContactSettings = {
+  teamId: TeamID
+  enabled: boolean
 }
 
 export type AirdropDetails = {
@@ -2257,6 +2291,16 @@ export type FolderHandle = {
   created: boolean
 }
 
+export type FeaturedBotsRes = {
+  bots: FeaturedBot[] | null
+  isLastPage: boolean
+}
+
+export type SearchRes = {
+  bots: FeaturedBot[] | null
+  isLastPage: boolean
+}
+
 export type ListResult = {
   files: File[] | null
 }
@@ -2406,6 +2450,7 @@ export type StellarAccount = {
   accountId: string
   federationAddress: string
   sigId: SigID
+  hidden: boolean
 }
 
 export type UserTeamShowcase = {
@@ -2544,6 +2589,7 @@ export type FindNextMDResponse = {
 }
 
 export type TeamMemberOutReset = {
+  teamId: TeamID
   teamname: string
   username: string
   uid: UID
@@ -3084,6 +3130,18 @@ export type UserPassphraseStateMsg = {
   state: PassphraseState
 }
 
+export type UserBlockedRow = {
+  blockUid: UID
+  blockUsername: string
+  chat?: boolean
+  follow?: boolean
+}
+
+export type UserBlockState = {
+  blockType: UserBlockType
+  blocked: boolean
+}
+
 export type UserBlock = {
   username: string
   chatBlocked: boolean
@@ -3092,11 +3150,9 @@ export type UserBlock = {
   modifyTime?: Time
 }
 
-export type UserBlockArg = {
-  username: string
-  setChatBlock?: boolean
-  setFollowBlock?: boolean
-  report?: RecordInfoArg
+export type TeamBlock = {
+  fqName: string
+  ctime: Time
 }
 
 export type APIUserKeybaseResult = {
@@ -3127,6 +3183,14 @@ export type APIUserServiceSummary = {
 export type GetLockdownResponse = {
   history: LockdownHistory[] | null
   status: boolean
+}
+
+export type ContactSettings = {
+  version?: number
+  allowFolloweeDegrees: number
+  allowGoodTeams: boolean
+  enabled: boolean
+  teams: TeamContactSettings[] | null
 }
 
 export type BlockReference = {
@@ -3358,7 +3422,9 @@ export type UserCard = {
   theyFollowYou: boolean
   teamShowcase: UserTeamShowcase[] | null
   registeredForAirdrop: boolean
+  stellarHidden: boolean
   blocked: boolean
+  hidFromFollowers: boolean
 }
 
 export type ServiceStatus = {
@@ -3527,6 +3593,7 @@ export type Dirent = {
   writable: boolean
   prefetchStatus: PrefetchStatus
   prefetchProgress: PrefetchProgress
+  symlinkTarget: string
 }
 
 export type SimpleFSStats = {
@@ -3676,6 +3743,7 @@ export type TeamCLKRMsg = {
 }
 
 export type TeamMemberOutFromReset = {
+  teamId: TeamID
   teamName: string
   resetUser: TeamResetUser
 }
@@ -3732,6 +3800,7 @@ export type FastTeamLoadArg = {
   keyGenerationsNeeded: PerTeamKeyGeneration[] | null
   needLatestKey: boolean
   forceRefresh: boolean
+  hiddenChainIsOptional: boolean
 }
 
 export type FastTeamLoadRes = {
@@ -3774,8 +3843,11 @@ export type AnnotatedMemberInfo = {
 export type TeamAddMemberResult = {
   invited: boolean
   user?: User
-  emailSent: boolean
   chatSending: boolean
+}
+
+export type TeamAddMembersResult = {
+  notAdded: User[] | null
 }
 
 export type TeamTreeEntry = {
@@ -3785,6 +3857,7 @@ export type TeamTreeEntry = {
 
 export type SubteamListEntry = {
   name: TeamName
+  teamId: TeamID
   memberCount: number
 }
 
@@ -3799,6 +3872,7 @@ export type ImplicitTeamUserSet = {
 }
 
 export type TeamProfileAddEntry = {
+  teamId: TeamID
   teamName: TeamName
   open: boolean
   disabledReason: string
@@ -3855,6 +3929,17 @@ export type NextMerkleRootRes = {
   res?: MerkleRootV2
 }
 
+export type UserBlockedBody = {
+  blocks: UserBlockedRow[] | null
+  blockerUid: UID
+  blockerUsername: string
+}
+
+export type UserBlockedSummary = {
+  blocker: string
+  blocks: {[key: string]: UserBlockState[] | null}
+}
+
 export type BlockReferenceCount = {
   ref: BlockReference
   liveCount: number
@@ -3906,6 +3991,11 @@ export type ExtendedStatus = {
   localSyncCacheDbStats: string[] | null
   cacheDirSizeInfo: DirSizeInfo[] | null
   uiRouterMapping: {[key: string]: number}
+}
+
+export type ContactListResolutionResult = {
+  newlyResolved: ProcessedContact[] | null
+  resolved: ProcessedContact[] | null
 }
 
 export type TeamEphemeralKey =
@@ -4095,6 +4185,11 @@ export type TeamRoleMapStored = {
   cachedAt: Time
 }
 
+export type AnnotatedTeamMemberDetails = {
+  details: TeamMemberDetails
+  role: TeamRole
+}
+
 export type PublicKeyV2Base = {
   kid: KID
   isSibkey: boolean
@@ -4278,6 +4373,8 @@ export type HiddenTeamChain = {
   last: Seqno
   lastFull: Seqno
   latestSeqnoHint: Seqno
+  lastCommittedSeqno: Seqno
+  linkReceiptTimes: {[key: string]: Time}
   lastPerTeamKeys: {[key: string]: Seqno}
   outer: {[key: string]: LinkID}
   inner: {[key: string]: HiddenTeamChainLink}
@@ -4330,7 +4427,7 @@ export type AnnotatedTeam = {
   teamId: TeamID
   name: string
   transitiveSubteamsUnverified: SubteamListResult
-  members: TeamMemberDetails[] | null
+  members: AnnotatedTeamMemberDetails[] | null
   invites: AnnotatedTeamInvite[] | null
   joinRequests: TeamJoinRequest[] | null
   userIsShowcasing: boolean

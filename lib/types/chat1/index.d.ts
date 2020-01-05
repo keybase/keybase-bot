@@ -51,16 +51,6 @@ export declare type UIPagination = {
     num: number;
     last: boolean;
 };
-export declare type UIInboxSmallTeamRow = {
-    convId: string;
-    name: string;
-    time: gregor1.Time;
-    snippet?: string;
-    snippetDecoration?: string;
-    draft?: string;
-    isMuted: boolean;
-    isTeam: boolean;
-};
 export declare enum UIInboxBigTeamRowTyp {
     LABEL = "label",
     CHANNEL = "channel"
@@ -72,18 +62,13 @@ export declare type UIInboxBigTeamChannelRow = {
     draft?: string;
     isMuted: boolean;
 };
+export declare type UIInboxBigTeamLabelRow = {
+    name: string;
+    id: string;
+};
 export declare type UIInboxReselectInfo = {
     oldConvId: string;
     newConvId?: string;
-};
-export declare type UnverifiedInboxUIItemMetadata = {
-    channelName: string;
-    headline: string;
-    headlineDecorated: string;
-    snippet: string;
-    snippetDecoration: string;
-    writerNames: string[] | null;
-    resetParticipants: string[] | null;
 };
 export declare enum UIParticipantType {
     NONE = "none",
@@ -407,6 +392,9 @@ export declare type ConversationNotificationInfo = {
         };
     };
 };
+export declare type ConversationJourneycardInfo = {
+    w: boolean;
+};
 export declare type ConversationCreatorInfo = {
     ctime: gregor1.Time;
     uid: gregor1.UID;
@@ -702,7 +690,7 @@ export declare enum JourneycardType {
     ADD_PEOPLE = "add_people",
     CREATE_CHANNELS = "create_channels",
     MSG_ATTENTION = "msg_attention",
-    USER_AWAY_FOR_LONG = "user_away_for_long",
+    UNUSED = "unused",
     CHANNEL_INACTIVE = "channel_inactive",
     MSG_NO_ANSWER = "msg_no_answer"
 }
@@ -805,6 +793,20 @@ export declare type UserBotExtendedDescription = {
     desktopBody: string;
     mobileBody: string;
 };
+export declare enum SnippetDecoration {
+    NONE = "none",
+    PENDING_MESSAGE = "pending_message",
+    FAILED_PENDING_MESSAGE = "failed_pending_message",
+    EXPLODING_MESSAGE = "exploding_message",
+    EXPLODED_MESSAGE = "exploded_message",
+    AUDIO_ATTACHMENT = "audio_attachment",
+    VIDEO_ATTACHMENT = "video_attachment",
+    PHOTO_ATTACHMENT = "photo_attachment",
+    FILE_ATTACHMENT = "file_attachment",
+    STELLAR_RECEIVED = "stellar_received",
+    STELLAR_SENT = "stellar_sent",
+    PINNED_MESSAGE = "pinned_message"
+}
 export declare enum ChatActivitySource {
     LOCAL = "local",
     REMOTE = "remote"
@@ -890,6 +892,7 @@ export declare type ExternalAPIKey = {
 } | {
     typ: Exclude<ExternalAPIKeyTyp, ExternalAPIKeyTyp.GOOGLEMAPS | ExternalAPIKeyTyp.GIPHY>;
 };
+export declare type BotInfoHashVers = number;
 export declare type CommandConvVers = number;
 export declare enum BotInfoResponseTyp {
     UPTODATE = "uptodate",
@@ -967,14 +970,33 @@ export declare type GetResetConvMembersRes = {
 export declare type GetDeviceInfoRes = {
     devices: DeviceInfo[] | null;
 };
+export declare type UIInboxSmallTeamRow = {
+    convId: string;
+    name: string;
+    time: gregor1.Time;
+    snippet?: string;
+    snippetDecoration: SnippetDecoration;
+    draft?: string;
+    isMuted: boolean;
+    isTeam: boolean;
+};
 export declare type UIInboxBigTeamRow = {
     state: UIInboxBigTeamRowTyp.LABEL;
-    LABEL: string;
+    LABEL: UIInboxBigTeamLabelRow;
 } | {
     state: UIInboxBigTeamRowTyp.CHANNEL;
     CHANNEL: UIInboxBigTeamChannelRow;
 } | {
     state: Exclude<UIInboxBigTeamRowTyp, UIInboxBigTeamRowTyp.LABEL | UIInboxBigTeamRowTyp.CHANNEL>;
+};
+export declare type UnverifiedInboxUIItemMetadata = {
+    channelName: string;
+    headline: string;
+    headlineDecorated: string;
+    snippet: string;
+    snippetDecoration: SnippetDecoration;
+    writerNames: string[] | null;
+    resetParticipants: string[] | null;
 };
 export declare type UIParticipant = {
     type: UIParticipantType;
@@ -987,6 +1009,7 @@ export declare type UIMessageJourneycard = {
     ordinal: number;
     cardType: JourneycardType;
     highlightMsgId: MessageID;
+    openTeam: boolean;
 };
 export declare type UIMaybeMentionInfo = {
     status: UIMaybeMentionStatus.UNKNOWN;
@@ -1092,6 +1115,7 @@ export declare type ConversationReaderInfo = {
     maxMsgid: MessageID;
     status: ConversationMemberStatus;
     untrustedTeamRole: keybase1.TeamRole;
+    jc?: ConversationJourneycardInfo;
 };
 export declare type ConversationSettings = {
     mwr?: ConversationMinWriterRoleInfo;
@@ -1195,6 +1219,7 @@ export declare type RemoteUserTypingUpdate = {
     deviceId: gregor1.DeviceID;
     convId: ConversationID;
     typing: boolean;
+    teamType: TeamType;
 };
 export declare type TeamMemberRoleUpdate = {
     tlfId: TLFID;
@@ -1291,6 +1316,7 @@ export declare type MessageUnboxedJourneycard = {
     ordinal: number;
     cardType: JourneycardType;
     highlightMsgId: MessageID;
+    openTeam: boolean;
 };
 export declare type ConversationSettingsLocal = {
     minWriterRoleInfo?: ConversationMinWriterRoleInfoLocal;
@@ -1548,12 +1574,16 @@ export declare type ChatList = {
     conversations: ConvSummary[] | null;
     offline: boolean;
     identifyFailures?: keybase1.TLFIdentifyFailure[] | null;
-    pagination?: Pagination;
     ratelimits?: RateLimitRes[] | null;
 };
 export declare type ListCommandsRes = {
     commands: UserBotCommandOutput[] | null;
     ratelimits?: RateLimitRes[] | null;
+};
+export declare type ConvNotification = {
+    type: string;
+    conv?: ConvSummary;
+    error?: string;
 };
 export declare type AdvertiseCommandAPIParam = {
     type: string;
@@ -1561,6 +1591,7 @@ export declare type AdvertiseCommandAPIParam = {
     teamName?: string;
 };
 export declare type UIInboxLayout = {
+    totalSmallTeams: number;
     smallTeams: UIInboxSmallTeamRow[] | null;
     bigTeams: UIInboxBigTeamRow[] | null;
     reselectInfo?: UIInboxReselectInfo;
@@ -1905,6 +1936,8 @@ export declare type RemoteBotCommandsAdvertisement = {
     typ: Exclude<BotCommandsAdvertisementTyp, BotCommandsAdvertisementTyp.PUBLIC | BotCommandsAdvertisementTyp.TLFID_MEMBERS | BotCommandsAdvertisementTyp.TLFID_CONVS>;
 };
 export declare type BotInfo = {
+    serverHashVers: BotInfoHashVers;
+    clientHashVers: BotInfoHashVers;
     commandConvs: BotCommandConv[] | null;
 };
 export declare type UnfurlRaw = {
