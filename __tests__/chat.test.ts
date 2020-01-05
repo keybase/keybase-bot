@@ -30,7 +30,6 @@ describe('Chat Methods', (): void => {
   const alice1 = new Bot()
   const alice2 = new Bot()
   const bob = new Bot()
-  const charlie1 = new Bot()
   const channel: ChatChannel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
   const teamChannel: ChatChannel = {
     name: config.teams.acme.teamname,
