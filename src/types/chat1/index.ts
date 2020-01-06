@@ -4,6 +4,7 @@
  * Auto-generated to TypeScript types by avdl-compiler v1.4.6 (https://github.com/keybase/node-avdl-compiler)
  * Input files:
  * - ../client/protocol/avdl/chat1/api.avdl
+ * - ../client/protocol/avdl/chat1/blocking.avdl
  * - ../client/protocol/avdl/chat1/chat_ui.avdl
  * - ../client/protocol/avdl/chat1/commands.avdl
  * - ../client/protocol/avdl/chat1/common.avdl
@@ -75,17 +76,6 @@ export type UIPagination = {
   last: boolean
 }
 
-export type UIInboxSmallTeamRow = {
-  convId: string
-  name: string
-  time: gregor1.Time
-  snippet?: string
-  snippetDecoration?: string
-  draft?: string
-  isMuted: boolean
-  isTeam: boolean
-}
-
 export enum UIInboxBigTeamRowTyp {
   LABEL = 'label',
   CHANNEL = 'channel',
@@ -99,19 +89,14 @@ export type UIInboxBigTeamChannelRow = {
   isMuted: boolean
 }
 
+export type UIInboxBigTeamLabelRow = {
+  name: string
+  id: string
+}
+
 export type UIInboxReselectInfo = {
   oldConvId: string
   newConvId?: string
-}
-
-export type UnverifiedInboxUIItemMetadata = {
-  channelName: string
-  headline: string
-  headlineDecorated: string
-  snippet: string
-  snippetDecoration: string
-  writerNames: string[] | null
-  resetParticipants: string[] | null
 }
 
 export enum UIParticipantType {
@@ -488,6 +473,10 @@ export type ConversationNotificationInfo = {
   settings: {[key: string]: {[key: string]: boolean}}
 }
 
+export type ConversationJourneycardInfo = {
+  w: boolean
+}
+
 export type ConversationCreatorInfo = {
   ctime: gregor1.Time
   uid: gregor1.UID
@@ -835,7 +824,7 @@ export enum JourneycardType {
   ADD_PEOPLE = 'add_people',
   CREATE_CHANNELS = 'create_channels',
   MSG_ATTENTION = 'msg_attention',
-  USER_AWAY_FOR_LONG = 'user_away_for_long',
+  UNUSED = 'unused',
   CHANNEL_INACTIVE = 'channel_inactive',
   MSG_NO_ANSWER = 'msg_no_answer',
 }
@@ -948,6 +937,21 @@ export type UserBotExtendedDescription = {
   mobileBody: string
 }
 
+export enum SnippetDecoration {
+  NONE = 'none',
+  PENDING_MESSAGE = 'pending_message',
+  FAILED_PENDING_MESSAGE = 'failed_pending_message',
+  EXPLODING_MESSAGE = 'exploding_message',
+  EXPLODED_MESSAGE = 'exploded_message',
+  AUDIO_ATTACHMENT = 'audio_attachment',
+  VIDEO_ATTACHMENT = 'video_attachment',
+  PHOTO_ATTACHMENT = 'photo_attachment',
+  FILE_ATTACHMENT = 'file_attachment',
+  STELLAR_RECEIVED = 'stellar_received',
+  STELLAR_SENT = 'stellar_sent',
+  PINNED_MESSAGE = 'pinned_message',
+}
+
 export enum ChatActivitySource {
   LOCAL = 'local',
   REMOTE = 'remote',
@@ -1035,6 +1039,8 @@ export type ExternalAPIKey =
   | {typ: ExternalAPIKeyTyp.GOOGLEMAPS; GOOGLEMAPS: string}
   | {typ: ExternalAPIKeyTyp.GIPHY; GIPHY: string}
   | {typ: Exclude<ExternalAPIKeyTyp, ExternalAPIKeyTyp.GOOGLEMAPS | ExternalAPIKeyTyp.GIPHY>}
+
+export type BotInfoHashVers = number
 
 export type CommandConvVers = number
 
@@ -1130,10 +1136,31 @@ export type GetDeviceInfoRes = {
   devices: DeviceInfo[] | null
 }
 
+export type UIInboxSmallTeamRow = {
+  convId: string
+  name: string
+  time: gregor1.Time
+  snippet?: string
+  snippetDecoration: SnippetDecoration
+  draft?: string
+  isMuted: boolean
+  isTeam: boolean
+}
+
 export type UIInboxBigTeamRow =
-  | {state: UIInboxBigTeamRowTyp.LABEL; LABEL: string}
+  | {state: UIInboxBigTeamRowTyp.LABEL; LABEL: UIInboxBigTeamLabelRow}
   | {state: UIInboxBigTeamRowTyp.CHANNEL; CHANNEL: UIInboxBigTeamChannelRow}
   | {state: Exclude<UIInboxBigTeamRowTyp, UIInboxBigTeamRowTyp.LABEL | UIInboxBigTeamRowTyp.CHANNEL>}
+
+export type UnverifiedInboxUIItemMetadata = {
+  channelName: string
+  headline: string
+  headlineDecorated: string
+  snippet: string
+  snippetDecoration: SnippetDecoration
+  writerNames: string[] | null
+  resetParticipants: string[] | null
+}
 
 export type UIParticipant = {
   type: UIParticipantType
@@ -1147,6 +1174,7 @@ export type UIMessageJourneycard = {
   ordinal: number
   cardType: JourneycardType
   highlightMsgId: MessageID
+  openTeam: boolean
 }
 
 export type UIMaybeMentionInfo =
@@ -1264,6 +1292,7 @@ export type ConversationReaderInfo = {
   maxMsgid: MessageID
   status: ConversationMemberStatus
   untrustedTeamRole: keybase1.TeamRole
+  jc?: ConversationJourneycardInfo
 }
 
 export type ConversationSettings = {
@@ -1370,6 +1399,7 @@ export type RemoteUserTypingUpdate = {
   deviceId: gregor1.DeviceID
   convId: ConversationID
   typing: boolean
+  teamType: TeamType
 }
 
 export type TeamMemberRoleUpdate = {
@@ -1486,6 +1516,7 @@ export type MessageUnboxedJourneycard = {
   ordinal: number
   cardType: JourneycardType
   highlightMsgId: MessageID
+  openTeam: boolean
 }
 
 export type ConversationSettingsLocal = {
@@ -1795,13 +1826,18 @@ export type ChatList = {
   conversations: ConvSummary[] | null
   offline: boolean
   identifyFailures?: keybase1.TLFIdentifyFailure[] | null
-  pagination?: Pagination
   ratelimits?: RateLimitRes[] | null
 }
 
 export type ListCommandsRes = {
   commands: UserBotCommandOutput[] | null
   ratelimits?: RateLimitRes[] | null
+}
+
+export type ConvNotification = {
+  type: string
+  conv?: ConvSummary
+  error?: string
 }
 
 export type AdvertiseCommandAPIParam = {
@@ -1811,6 +1847,7 @@ export type AdvertiseCommandAPIParam = {
 }
 
 export type UIInboxLayout = {
+  totalSmallTeams: number
   smallTeams: UIInboxSmallTeamRow[] | null
   bigTeams: UIInboxBigTeamRow[] | null
   reselectInfo?: UIInboxReselectInfo
@@ -2173,6 +2210,8 @@ export type RemoteBotCommandsAdvertisement =
     }
 
 export type BotInfo = {
+  serverHashVers: BotInfoHashVers
+  clientHashVers: BotInfoHashVers
   commandConvs: BotCommandConv[] | null
 }
 

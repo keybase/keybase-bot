@@ -230,6 +230,7 @@ export type PartnerUrl = {
   description: string
   iconFilename: string
   adminOnly: boolean
+  canPurchase: boolean
   extra: string
 }
 

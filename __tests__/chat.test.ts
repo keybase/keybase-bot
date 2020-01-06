@@ -85,6 +85,28 @@ describe('Chat Methods', (): void => {
     }
   )
 
+  it('watchForNewConversation', async (): Promise<void> => {
+    try {
+      await alice1.team.removeMember({team: config.teams.alicesPlayground.teamname, username: config.bots.bob1.username})
+    } finally {
+      const toWait = new Promise(async (resolve, reject) => {
+        await bob.chat.watchForNewConversation(
+          conv => {
+            expect(conv.channel.name).toBe(config.teams.alicesPlayground.teamname)
+            expect(conv.channel.topicName).toBe('general')
+            resolve()
+          },
+          err => reject(err)
+        )
+      })
+      await alice1.team.addMembers({
+        team: config.teams.alicesPlayground.teamname,
+        usernames: [{username: config.bots.bob1.username, role: 'writer'}],
+      })
+      await toWait
+    }
+  })
+
   describe('Chat list', (): void => {
     it('Returns all chat conversations in an array', async (): Promise<void> => {
       const conversations = await alice1.chat.list()

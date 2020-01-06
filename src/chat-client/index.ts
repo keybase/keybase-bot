@@ -9,6 +9,9 @@ export type OnMessage = (message: chat1.MsgSummary) => void | Promise<void>
 /** A function to call when an error occurs. */
 export type OnError = (error: Error) => void | Promise<void>
 
+/** A function to call when the bot is added to a new conversation. */
+export type OnConv = (channel: chat1.ConvSummary) => void | Promise<void>
+
 /**
  * Options for the `list` method of the chat module.
  */
@@ -85,7 +88,7 @@ export interface ChatDeleteOptions {
  * Local messages are ones sent by your device. Including them in the output is
  * useful for applications such as logging conversations, monitoring own flips
  * and building tools that seamlessly integrate with a running client used by
- * the user.
+ * the user. If onNewConvo is set, it will be called when the bot is added to a new conversation.
  */
 export interface ListenOptions {
   hideExploding: boolean
@@ -585,7 +588,7 @@ class Chat extends ClientBase {
     options?: ListenOptions
   ): Promise<void> {
     await this._guardInitialized()
-    this._chatListen(onMessage, onError, channel, options)
+    this._chatListenMessage(onMessage, onError, channel, options)
   }
 
   /**
@@ -611,38 +614,32 @@ class Chat extends ClientBase {
    */
   public async watchAllChannelsForNewMessages(onMessage: OnMessage, onError?: OnError, options?: ListenOptions): Promise<void> {
     await this._guardInitialized()
-    this._chatListen(onMessage, onError, undefined, options)
+    this._chatListenMessage(onMessage, onError, undefined, options)
   }
 
   /**
-   * Spawns the chat listen process and handles the calling of onMessage, onError, and filtering for a specific channel.
-   * @memberof Chat
-   * @ignore
-   * @param onMessage - A callback that is triggered on every message your bot receives.
+   * This function watches for new conversations your bot is added into. This gives your bot a chance to say hi when it's added/installed into a conversation.
+   * @param onConv - A callback that is triggered when the bot is added into a conversation.
    * @param onError - A callback that is triggered on any error that occurs while the method is executing.
-   * @param channel - The chat channel to watch.
-   * @param options - Options for the listen method.
    * @example
-   * this._chatListen(onMessage, onError)
+   * // Say hi
+   * const onConv = conv => {
+   *   const channel = conv.channel
+   *   bot.chat.send(channel, {body: 'Hi!'})
+   * }
+   * bot.chat.watchForNewConversation(onConv)
+   *
    */
-  private _chatListen(onMessage: OnMessage, onError?: OnError, channel?: chat1.ChatChannel, options?: ListenOptions): void {
-    const args = ['chat', 'api-listen']
-    if (this.homeDir) {
-      args.unshift('--home', this.homeDir)
-    }
-    if (!options || (options && options.hideExploding !== false)) {
-      args.push('--hide-exploding')
-    }
-    if (options && options.showLocal === true) {
-      args.push('--local')
-    }
-    if (channel) {
-      args.push('--filter-channel', JSON.stringify(formatAPIObjectInput(channel, 'chat')))
-    }
+  public async watchForNewConversation(onConv: OnConv, onError?: OnError): Promise<void> {
+    await this._guardInitialized()
+    this._chatListenConvs(onConv, onError)
+  }
+
+  private _spawnChatListenChild(args: Array<string>, onLine: (line: string) => void): void {
     const child = spawn(this._pathToKeybaseBinary(), args)
     this._spawnedProcesses.push(child)
     const cmdSample = this._pathToKeybaseBinary() + ' ' + args.join(' ')
-    this._adminDebugLogger.info(`beginning listen on channel=${JSON.stringify(channel || 'ALL')} using ${cmdSample}`)
+    this._adminDebugLogger.info(`beginning listen using ${cmdSample}`)
     child.on('error', (err: Error): void => {
       this._adminDebugLogger.error(`got listen error ${err.message}`)
     })
@@ -661,21 +658,60 @@ class Chat extends ClientBase {
     })
 
     const lineReaderStdout = readline.createInterface({input: child.stdout})
+    lineReaderStdout.on('line', onLine)
+  }
+
+  private _getChatListenArgs(channel?: chat1.ChatChannel, options?: ListenOptions): Array<string> {
+    const args = ['chat', 'api-listen']
+    if (this.homeDir) {
+      args.unshift('--home', this.homeDir)
+    }
+    if (!options || (options && options.hideExploding !== false)) {
+      args.push('--hide-exploding')
+    }
+    if (options && options.showLocal === true) {
+      args.push('--local')
+    }
+    if (channel) {
+      args.push('--filter-channel', JSON.stringify(formatAPIObjectInput(channel, 'chat')))
+    }
+    return args
+  }
+
+  /**
+   * Spawns the chat listen process and handles the calling of onMessage, onError, and filtering for a specific channel.
+   * @memberof Chat
+   * @ignore
+   * @param onMessage - A callback that is triggered on every message your bot receives.
+   * @param onError - A callback that is triggered on any error that occurs while the method is executing.
+   * @param channel - The chat channel to watch.
+   * @param options - Options for the listen method.
+   * @example
+   * this._chatListenMessage(onMessage, onError)
+   */
+  private _chatListenMessage(onMessage: OnMessage, onError?: OnError, channel?: chat1.ChatChannel, options?: ListenOptions): void {
+    const args = this._getChatListenArgs(channel, options)
     const onLine = (line: string): void => {
       this._adminDebugLogger.info(`stdout from listener: ${line}`)
       try {
-        const messageObject: chat1.MsgNotification = formatAPIObjectOutput(JSON.parse(line))
+        const messageObject = formatAPIObjectOutput(JSON.parse(line))
         if (messageObject.hasOwnProperty('error')) {
           throw new Error(messageObject.error)
-        } else if (
+        }
+        if (messageObject.type !== 'chat' || !messageObject.msg) {
+          return
+        }
+        const msgNotification: chat1.MsgNotification = messageObject
+        if (
           // fire onMessage if it was from a different sender or at least a different device
           // from this sender. Bots can filter out their own messages from other devices.
           (options && options.showLocal) ||
           (this.username &&
             this.devicename &&
-            (messageObject.msg.sender.username !== this.username.toLowerCase() || messageObject.msg.sender.deviceName !== this.devicename))
+            (msgNotification.msg.sender.username !== this.username.toLowerCase() ||
+              msgNotification.msg.sender.deviceName !== this.devicename))
         ) {
-          onMessage(messageObject.msg)
+          onMessage(msgNotification.msg)
         }
       } catch (error) {
         if (onError) {
@@ -683,7 +719,41 @@ class Chat extends ClientBase {
         }
       }
     }
-    lineReaderStdout.on('line', onLine)
+    this._adminDebugLogger.info(`spawningChatListenChild on channel=${JSON.stringify(channel || 'ALL')}`)
+    this._spawnChatListenChild(args, onLine)
+  }
+
+  /**
+   * Spawns the chat listen process for new channels and handles the calling of onConv, and onError.
+   * @memberof Chat
+   * @ignore
+   * @param onConv - A callback that is triggered on every new channel your bot is added to.
+   * @param onError - A callback that is triggered on any error that occurs while the method is executing.
+   * @example
+   * this._chatListenConvs(onConv, onError)
+   */
+  private _chatListenConvs(onConv: OnConv, onError?: OnError): void {
+    const args = this._getChatListenArgs()
+    args.push('--convs')
+    this._adminDebugLogger.info(`spawningChatListenChild for convs`)
+    this._spawnChatListenChild(args, (line: string) => {
+      this._adminDebugLogger.info(`stdout from listener: ${line}`)
+      try {
+        const messageObject = formatAPIObjectOutput(JSON.parse(line))
+        if (messageObject.hasOwnProperty('error')) {
+          throw new Error(messageObject.error)
+        }
+        if (messageObject.type !== 'chat_conv' || !messageObject.conv) {
+          return
+        }
+        const convNotification: chat1.ConvNotification = messageObject
+        convNotification.conv && onConv(convNotification.conv)
+      } catch (error) {
+        if (onError) {
+          onError(error)
+        }
+      }
+    })
   }
 }
 

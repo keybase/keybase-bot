@@ -176,6 +176,7 @@ export declare type PartnerUrl = {
     description: string;
     iconFilename: string;
     adminOnly: boolean;
+    canPurchase: boolean;
     extra: string;
 };
 export declare type StaticConfig = {
