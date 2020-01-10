@@ -65,7 +65,7 @@ class Service {
       })
 
       // Set the typing notification settings for the bot
-      await keybaseExec(this.workingDir, this.homeDir, ['chat', 'notification-settings', 'disable-typing', this.disableTyping.toString()])
+      await keybaseExec(this.workingDir, this.homeDir, ['chat', 'notification-settings', '--disable-typing', this.disableTyping.toString()])
 
       const currentInfo = await keybaseStatus(this.workingDir, this.homeDir)
 
