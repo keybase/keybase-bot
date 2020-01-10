@@ -213,6 +213,14 @@ export type AssetActionResultLocal = {
   messageFromAnchor?: string
 }
 
+export enum PublicNoteType {
+  NONE = 'none',
+  TEXT = 'text',
+  ID = 'id',
+  HASH = 'hash',
+  RETURN = 'return',
+}
+
 export type BatchPaymentError = {
   message: string
   code: number

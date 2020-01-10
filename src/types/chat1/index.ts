@@ -19,6 +19,10 @@ import * as gregor1 from '../gregor1'
 import * as keybase1 from '../keybase1'
 import * as stellar1 from '../stellar1'
 
+export type APIConvID = string
+
+export type APIGameID = string
+
 export type RateLimitRes = {
   tank: string
   capacity: number
@@ -46,24 +50,19 @@ export type ChatMessage = {
 }
 
 export type MsgSender = {
-  uid: string
+  uid: keybase1.UID
   username?: string
-  deviceId: string
+  deviceId: keybase1.DeviceID
   deviceName?: string
 }
 
 export type MsgBotInfo = {
-  botUid: string
+  botUid: keybase1.UID
   botUsername?: string
 }
 
-export type ResetConvMemberAPI = {
-  conversationId: string
-  username: string
-}
-
 export type DeviceInfo = {
-  id: string
+  id: keybase1.DeviceID
   description: string
   type: string
   ctime: number
@@ -1086,8 +1085,8 @@ export enum UnfurlMode {
 
 export type MsgFlipContent = {
   text: string
-  gameId: string
-  flipConvId: string
+  gameId: APIGameID
+  flipConvId: APIConvID
   userMentions: KnownUserMention[] | null
   teamMentions: KnownTeamMention[] | null
 }
@@ -1096,8 +1095,9 @@ export type MsgFlipContent = {
  * A chat conversation. This is essentially a chat channel plus some additional metadata.
  */
 export type ConvSummary = {
-  id: string
+  id: APIConvID
   channel: ChatChannel
+  isDefaultConv: boolean
   unread: boolean
   activeAt: number
   activeAtMs: number
@@ -1118,7 +1118,7 @@ export type SendRes = {
 }
 
 export type NewConvRes = {
-  id: string
+  id: APIConvID
   identifyFailures?: keybase1.TLFIdentifyFailure[] | null
   ratelimits?: RateLimitRes[] | null
 }
@@ -1127,9 +1127,9 @@ export type EmptyRes = {
   ratelimits?: RateLimitRes[] | null
 }
 
-export type GetResetConvMembersRes = {
-  members: ResetConvMemberAPI[] | null
-  rateLimits: RateLimitRes[] | null
+export type ResetConvMemberAPI = {
+  conversationId: APIConvID
+  username: string
 }
 
 export type GetDeviceInfoRes = {
@@ -1501,7 +1501,7 @@ export type MessageUnboxedError = {
   messageType: MessageType
   ctime: gregor1.Time
   isEphemeral: boolean
-  isEphemeralExpired: boolean
+  explodedBy?: string
   etime: gregor1.Time
   botUsername: string
 }
@@ -1844,6 +1844,11 @@ export type AdvertiseCommandAPIParam = {
   type: string
   commands: UserBotCommandInput[] | null
   teamName?: string
+}
+
+export type GetResetConvMembersRes = {
+  members: ResetConvMemberAPI[] | null
+  rateLimits: RateLimitRes[] | null
 }
 
 export type UIInboxLayout = {
@@ -2496,7 +2501,7 @@ export type MessageBody =
 
 export type MsgSummary = {
   id: MessageID
-  conversationId: string
+  conversationId: APIConvID
   channel: ChatChannel
   sender: MsgSender
   sentAt: number

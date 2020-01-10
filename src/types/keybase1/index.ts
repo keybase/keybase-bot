@@ -1507,6 +1507,12 @@ export type SaltpackVerifyOptions = {
   signature: Buffer
 }
 
+export type SaltpackFrontendEncryptOptions = {
+  recipients: string[] | null
+  signed: boolean
+  includeSelf: boolean
+}
+
 export enum SaltpackSenderType {
   NOT_TRACKED = 'not_tracked',
   UNKNOWN = 'unknown',
@@ -3578,6 +3584,12 @@ export type SaltpackEncryptedMessageInfo = {
   sender: SaltpackSender
 }
 
+export type SaltpackVerifyResult = {
+  signingKid: KID
+  sender: SaltpackSender
+  plaintext: string
+}
+
 export type KBFSArchivedPath = {
   path: string
   archivedParam: KBFSArchivedParam
@@ -4069,6 +4081,11 @@ export type ProblemSet = {
   user: User
   kid: KID
   tlfs: ProblemTLF[] | null
+}
+
+export type SaltpackPlaintextResult = {
+  info: SaltpackEncryptedMessageInfo
+  plaintext: string
 }
 
 export type Path =
