@@ -161,6 +161,13 @@ export declare type AssetActionResultLocal = {
     externalUrl?: string;
     messageFromAnchor?: string;
 };
+export declare enum PublicNoteType {
+    NONE = "none",
+    TEXT = "text",
+    ID = "id",
+    HASH = "hash",
+    RETURN = "return"
+}
 export declare type BatchPaymentError = {
     message: string;
     code: number;

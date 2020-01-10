@@ -2,6 +2,8 @@
 import * as gregor1 from '../gregor1';
 import * as keybase1 from '../keybase1';
 import * as stellar1 from '../stellar1';
+export declare type APIConvID = string;
+export declare type APIGameID = string;
 export declare type RateLimitRes = {
     tank: string;
     capacity: number;
@@ -26,21 +28,17 @@ export declare type ChatMessage = {
     body: string;
 };
 export declare type MsgSender = {
-    uid: string;
+    uid: keybase1.UID;
     username?: string;
-    deviceId: string;
+    deviceId: keybase1.DeviceID;
     deviceName?: string;
 };
 export declare type MsgBotInfo = {
-    botUid: string;
+    botUid: keybase1.UID;
     botUsername?: string;
 };
-export declare type ResetConvMemberAPI = {
-    conversationId: string;
-    username: string;
-};
 export declare type DeviceInfo = {
-    id: string;
+    id: keybase1.DeviceID;
     description: string;
     type: string;
     ctime: number;
@@ -927,8 +925,8 @@ export declare enum UnfurlMode {
 }
 export declare type MsgFlipContent = {
     text: string;
-    gameId: string;
-    flipConvId: string;
+    gameId: APIGameID;
+    flipConvId: APIConvID;
     userMentions: KnownUserMention[] | null;
     teamMentions: KnownTeamMention[] | null;
 };
@@ -936,8 +934,9 @@ export declare type MsgFlipContent = {
  * A chat conversation. This is essentially a chat channel plus some additional metadata.
  */
 export declare type ConvSummary = {
-    id: string;
+    id: APIConvID;
     channel: ChatChannel;
+    isDefaultConv: boolean;
     unread: boolean;
     activeAt: number;
     activeAtMs: number;
@@ -956,16 +955,16 @@ export declare type SendRes = {
     ratelimits?: RateLimitRes[] | null;
 };
 export declare type NewConvRes = {
-    id: string;
+    id: APIConvID;
     identifyFailures?: keybase1.TLFIdentifyFailure[] | null;
     ratelimits?: RateLimitRes[] | null;
 };
 export declare type EmptyRes = {
     ratelimits?: RateLimitRes[] | null;
 };
-export declare type GetResetConvMembersRes = {
-    members: ResetConvMemberAPI[] | null;
-    rateLimits: RateLimitRes[] | null;
+export declare type ResetConvMemberAPI = {
+    conversationId: APIConvID;
+    username: string;
 };
 export declare type GetDeviceInfoRes = {
     devices: DeviceInfo[] | null;
@@ -1303,7 +1302,7 @@ export declare type MessageUnboxedError = {
     messageType: MessageType;
     ctime: gregor1.Time;
     isEphemeral: boolean;
-    isEphemeralExpired: boolean;
+    explodedBy?: string;
     etime: gregor1.Time;
     botUsername: string;
 };
@@ -1589,6 +1588,10 @@ export declare type AdvertiseCommandAPIParam = {
     type: string;
     commands: UserBotCommandInput[] | null;
     teamName?: string;
+};
+export declare type GetResetConvMembersRes = {
+    members: ResetConvMemberAPI[] | null;
+    rateLimits: RateLimitRes[] | null;
 };
 export declare type UIInboxLayout = {
     totalSmallTeams: number;
@@ -2248,7 +2251,7 @@ export declare type MessageBody = {
 };
 export declare type MsgSummary = {
     id: MessageID;
-    conversationId: string;
+    conversationId: APIConvID;
     channel: ChatChannel;
     sender: MsgSender;
     sentAt: number;
