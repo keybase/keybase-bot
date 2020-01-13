@@ -19,9 +19,11 @@ import * as gregor1 from '../gregor1'
 import * as keybase1 from '../keybase1'
 import * as stellar1 from '../stellar1'
 
-export type APIConvID = string
+export type ConvIDStr = string
 
-export type APIGameID = string
+export type TLFIDStr = string
+
+export type GameIDStr = string
 
 export type RateLimitRes = {
   tank: string
@@ -80,22 +82,9 @@ export enum UIInboxBigTeamRowTyp {
   CHANNEL = 'channel',
 }
 
-export type UIInboxBigTeamChannelRow = {
-  convId: string
-  teamname: string
-  channelname: string
-  draft?: string
-  isMuted: boolean
-}
-
 export type UIInboxBigTeamLabelRow = {
   name: string
   id: string
-}
-
-export type UIInboxReselectInfo = {
-  oldConvId: string
-  newConvId?: string
 }
 
 export enum UIParticipantType {
@@ -103,11 +92,6 @@ export enum UIParticipantType {
   USER = 'user',
   PHONENO = 'phoneno',
   EMAIL = 'email',
-}
-
-export type UIChannelNameMention = {
-  name: string
-  convId: string
 }
 
 export type UIAssetUrlInfo = {
@@ -153,15 +137,6 @@ export enum MessageUnboxedState {
   OUTBOX = 'outbox',
   PLACEHOLDER = 'placeholder',
   JOURNEYCARD = 'journeycard',
-}
-
-export type UITeamMention = {
-  inTeam: boolean
-  open: boolean
-  description?: string
-  numMembers?: number
-  publicAdmins: string[] | null
-  convId?: string
 }
 
 export enum UITextDecorationTyp {
@@ -1085,8 +1060,8 @@ export enum UnfurlMode {
 
 export type MsgFlipContent = {
   text: string
-  gameId: APIGameID
-  flipConvId: APIConvID
+  gameId: GameIDStr
+  flipConvId: ConvIDStr
   userMentions: KnownUserMention[] | null
   teamMentions: KnownTeamMention[] | null
 }
@@ -1095,7 +1070,7 @@ export type MsgFlipContent = {
  * A chat conversation. This is essentially a chat channel plus some additional metadata.
  */
 export type ConvSummary = {
-  id: APIConvID
+  id: ConvIDStr
   channel: ChatChannel
   isDefaultConv: boolean
   unread: boolean
@@ -1118,7 +1093,7 @@ export type SendRes = {
 }
 
 export type NewConvRes = {
-  id: APIConvID
+  id: ConvIDStr
   identifyFailures?: keybase1.TLFIdentifyFailure[] | null
   ratelimits?: RateLimitRes[] | null
 }
@@ -1128,7 +1103,7 @@ export type EmptyRes = {
 }
 
 export type ResetConvMemberAPI = {
-  conversationId: APIConvID
+  conversationId: ConvIDStr
   username: string
 }
 
@@ -1137,7 +1112,7 @@ export type GetDeviceInfoRes = {
 }
 
 export type UIInboxSmallTeamRow = {
-  convId: string
+  convId: ConvIDStr
   name: string
   time: gregor1.Time
   snippet?: string
@@ -1147,10 +1122,18 @@ export type UIInboxSmallTeamRow = {
   isTeam: boolean
 }
 
-export type UIInboxBigTeamRow =
-  | {state: UIInboxBigTeamRowTyp.LABEL; LABEL: UIInboxBigTeamLabelRow}
-  | {state: UIInboxBigTeamRowTyp.CHANNEL; CHANNEL: UIInboxBigTeamChannelRow}
-  | {state: Exclude<UIInboxBigTeamRowTyp, UIInboxBigTeamRowTyp.LABEL | UIInboxBigTeamRowTyp.CHANNEL>}
+export type UIInboxBigTeamChannelRow = {
+  convId: ConvIDStr
+  teamname: string
+  channelname: string
+  draft?: string
+  isMuted: boolean
+}
+
+export type UIInboxReselectInfo = {
+  oldConvId: ConvIDStr
+  newConvId?: ConvIDStr
+}
 
 export type UnverifiedInboxUIItemMetadata = {
   channelName: string
@@ -1170,6 +1153,11 @@ export type UIParticipant = {
   contactName?: string
 }
 
+export type UIChannelNameMention = {
+  name: string
+  convId: ConvIDStr
+}
+
 export type UIMessageJourneycard = {
   ordinal: number
   cardType: JourneycardType
@@ -1177,20 +1165,17 @@ export type UIMessageJourneycard = {
   openTeam: boolean
 }
 
-export type UIMaybeMentionInfo =
-  | {status: UIMaybeMentionStatus.UNKNOWN}
-  | {status: UIMaybeMentionStatus.USER}
-  | {status: UIMaybeMentionStatus.TEAM; TEAM: UITeamMention}
-  | {status: UIMaybeMentionStatus.NOTHING}
-  | {
-      status: Exclude<
-        UIMaybeMentionStatus,
-        UIMaybeMentionStatus.UNKNOWN | UIMaybeMentionStatus.USER | UIMaybeMentionStatus.TEAM | UIMaybeMentionStatus.NOTHING
-      >
-    }
+export type UITeamMention = {
+  inTeam: boolean
+  open: boolean
+  description?: string
+  numMembers?: number
+  publicAdmins: string[] | null
+  convId?: ConvIDStr
+}
 
 export type UIChatSearchConvHit = {
-  convId: string
+  convId: ConvIDStr
   teamType: TeamType
   name: string
   mtime: gregor1.Time
@@ -1670,6 +1655,13 @@ export type PinMessageRes = {
   rateLimits: RateLimit[] | null
 }
 
+export type AddBotConvSearchHit = {
+  name: string
+  convId: ConversationID
+  isTeam: boolean
+  parts: string[] | null
+}
+
 export type LocalMtimeUpdate = {
   convId: ConversationID
   mtime: gregor1.Time
@@ -1851,13 +1843,22 @@ export type GetResetConvMembersRes = {
   rateLimits: RateLimitRes[] | null
 }
 
-export type UIInboxLayout = {
-  totalSmallTeams: number
-  smallTeams: UIInboxSmallTeamRow[] | null
-  bigTeams: UIInboxBigTeamRow[] | null
-  reselectInfo?: UIInboxReselectInfo
-  widgetList: UIInboxSmallTeamRow[] | null
-}
+export type UIInboxBigTeamRow =
+  | {state: UIInboxBigTeamRowTyp.LABEL; LABEL: UIInboxBigTeamLabelRow}
+  | {state: UIInboxBigTeamRowTyp.CHANNEL; CHANNEL: UIInboxBigTeamChannelRow}
+  | {state: Exclude<UIInboxBigTeamRowTyp, UIInboxBigTeamRowTyp.LABEL | UIInboxBigTeamRowTyp.CHANNEL>}
+
+export type UIMaybeMentionInfo =
+  | {status: UIMaybeMentionStatus.UNKNOWN}
+  | {status: UIMaybeMentionStatus.USER}
+  | {status: UIMaybeMentionStatus.TEAM; TEAM: UITeamMention}
+  | {status: UIMaybeMentionStatus.NOTHING}
+  | {
+      status: Exclude<
+        UIMaybeMentionStatus,
+        UIMaybeMentionStatus.UNKNOWN | UIMaybeMentionStatus.USER | UIMaybeMentionStatus.TEAM | UIMaybeMentionStatus.NOTHING
+      >
+    }
 
 export type UITextDecoration =
   | {typ: UITextDecorationTyp.PAYMENT; PAYMENT: TextPayment}
@@ -2238,8 +2239,16 @@ export type UnfurlGenericDisplay = {
   mapInfo?: UnfurlGenericMapInfo
 }
 
+export type UIInboxLayout = {
+  totalSmallTeams: number
+  smallTeams: UIInboxSmallTeamRow[] | null
+  bigTeams: UIInboxBigTeamRow[] | null
+  reselectInfo?: UIInboxReselectInfo
+  widgetList: UIInboxSmallTeamRow[] | null
+}
+
 export type UICoinFlipStatus = {
-  gameId: string
+  gameId: GameIDStr
   phase: UICoinFlipPhase
   progressText: string
   resultText: string
@@ -2501,7 +2510,7 @@ export type MessageBody =
 
 export type MsgSummary = {
   id: MessageID
-  conversationId: APIConvID
+  conversationId: ConvIDStr
   channel: ChatChannel
   sender: MsgSender
   sentAt: number
