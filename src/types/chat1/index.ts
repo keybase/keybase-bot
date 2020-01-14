@@ -23,7 +23,7 @@ export type ConvIDStr = string
 
 export type TLFIDStr = string
 
-export type GameIDStr = string
+export type FlipGameIDStr = string
 
 export type RateLimitRes = {
   tank: string
@@ -80,11 +80,6 @@ export type UIPagination = {
 export enum UIInboxBigTeamRowTyp {
   LABEL = 'label',
   CHANNEL = 'channel',
-}
-
-export type UIInboxBigTeamLabelRow = {
-  name: string
-  id: string
 }
 
 export enum UIParticipantType {
@@ -1060,7 +1055,7 @@ export enum UnfurlMode {
 
 export type MsgFlipContent = {
   text: string
-  gameId: GameIDStr
+  gameId: FlipGameIDStr
   flipConvId: ConvIDStr
   userMentions: KnownUserMention[] | null
   teamMentions: KnownTeamMention[] | null
@@ -1079,8 +1074,8 @@ export type ConvSummary = {
   memberStatus: string
   resetUsers?: string[] | null
   finalizeInfo?: ConversationFinalizeInfo
-  supersedes?: string[] | null
-  supersededBy?: string[] | null
+  supersedes?: ConvIDStr[] | null
+  supersededBy?: ConvIDStr[] | null
   error?: string
 }
 
@@ -1128,6 +1123,11 @@ export type UIInboxBigTeamChannelRow = {
   channelname: string
   draft?: string
   isMuted: boolean
+}
+
+export type UIInboxBigTeamLabelRow = {
+  name: string
+  id: TLFIDStr
 }
 
 export type UIInboxReselectInfo = {
@@ -2248,7 +2248,7 @@ export type UIInboxLayout = {
 }
 
 export type UICoinFlipStatus = {
-  gameId: GameIDStr
+  gameId: FlipGameIDStr
   phase: UICoinFlipPhase
   progressText: string
   resultText: string
