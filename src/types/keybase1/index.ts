@@ -1711,6 +1711,7 @@ export enum AuditMode {
   STANDARD = 'standard',
   JUST_CREATED = 'just_created',
   SKIP = 'skip',
+  STANDARD_NO_HIDDEN = 'standard_no_hidden',
 }
 
 export type PerTeamKeyGeneration = number
@@ -1752,6 +1753,7 @@ export enum AuditVersion {
   V1 = 'v1',
   V2 = 'v2',
   V3 = 'v3',
+  V4 = 'v4',
 }
 
 export enum TeamInviteCategory {
@@ -2940,12 +2942,14 @@ export type Audit = {
   time: Time
   mms: Seqno
   mcs: Seqno
+  mhs: Seqno
   mmp: Seqno
 }
 
 export type Probe = {
   i: number
   t: Seqno
+  h: Seqno
 }
 
 export type TeamInviteType =
@@ -3588,6 +3592,14 @@ export type SaltpackVerifyResult = {
   signingKid: KID
   sender: SaltpackSender
   plaintext: string
+  verified: boolean
+}
+
+export type SaltpackVerifyFileResult = {
+  signingKid: KID
+  sender: SaltpackSender
+  verifiedFilename: string
+  verified: boolean
 }
 
 export type KBFSArchivedPath = {
@@ -3719,6 +3731,7 @@ export type AuditHistory = {
   preProbes: {[key: string]: Probe}
   postProbes: {[key: string]: Probe}
   tails: {[key: string]: LinkID}
+  hiddenTails: {[key: string]: LinkID}
   skipUntil: Time
 }
 
@@ -4086,6 +4099,13 @@ export type ProblemSet = {
 export type SaltpackPlaintextResult = {
   info: SaltpackEncryptedMessageInfo
   plaintext: string
+  signed: boolean
+}
+
+export type SaltpackFileResult = {
+  info: SaltpackEncryptedMessageInfo
+  decryptedFilename: string
+  signed: boolean
 }
 
 export type Path =

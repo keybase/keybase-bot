@@ -2,8 +2,8 @@
 import * as gregor1 from '../gregor1';
 import * as keybase1 from '../keybase1';
 import * as stellar1 from '../stellar1';
-export declare type APIConvID = string;
-export declare type APIGameID = string;
+export declare type ConvIDStr = string;
+export declare type GameIDStr = string;
 export declare type RateLimitRes = {
     tank: string;
     capacity: number;
@@ -925,8 +925,8 @@ export declare enum UnfurlMode {
 }
 export declare type MsgFlipContent = {
     text: string;
-    gameId: APIGameID;
-    flipConvId: APIConvID;
+    gameId: GameIDStr;
+    flipConvId: ConvIDStr;
     userMentions: KnownUserMention[] | null;
     teamMentions: KnownTeamMention[] | null;
 };
@@ -934,7 +934,7 @@ export declare type MsgFlipContent = {
  * A chat conversation. This is essentially a chat channel plus some additional metadata.
  */
 export declare type ConvSummary = {
-    id: APIConvID;
+    id: ConvIDStr;
     channel: ChatChannel;
     isDefaultConv: boolean;
     unread: boolean;
@@ -955,7 +955,7 @@ export declare type SendRes = {
     ratelimits?: RateLimitRes[] | null;
 };
 export declare type NewConvRes = {
-    id: APIConvID;
+    id: ConvIDStr;
     identifyFailures?: keybase1.TLFIdentifyFailure[] | null;
     ratelimits?: RateLimitRes[] | null;
 };
@@ -963,7 +963,7 @@ export declare type EmptyRes = {
     ratelimits?: RateLimitRes[] | null;
 };
 export declare type ResetConvMemberAPI = {
-    conversationId: APIConvID;
+    conversationId: ConvIDStr;
     username: string;
 };
 export declare type GetDeviceInfoRes = {
@@ -2251,7 +2251,7 @@ export declare type MessageBody = {
 };
 export declare type MsgSummary = {
     id: MessageID;
-    conversationId: APIConvID;
+    conversationId: ConvIDStr;
     channel: ChatChannel;
     sender: MsgSender;
     sentAt: number;
