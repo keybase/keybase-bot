@@ -3,7 +3,8 @@ import * as gregor1 from '../gregor1';
 import * as keybase1 from '../keybase1';
 import * as stellar1 from '../stellar1';
 export declare type ConvIDStr = string;
-export declare type GameIDStr = string;
+export declare type TLFIDStr = string;
+export declare type FlipGameIDStr = string;
 export declare type RateLimitRes = {
     tank: string;
     capacity: number;
@@ -53,31 +54,12 @@ export declare enum UIInboxBigTeamRowTyp {
     LABEL = "label",
     CHANNEL = "channel"
 }
-export declare type UIInboxBigTeamChannelRow = {
-    convId: string;
-    teamname: string;
-    channelname: string;
-    draft?: string;
-    isMuted: boolean;
-};
-export declare type UIInboxBigTeamLabelRow = {
-    name: string;
-    id: string;
-};
-export declare type UIInboxReselectInfo = {
-    oldConvId: string;
-    newConvId?: string;
-};
 export declare enum UIParticipantType {
     NONE = "none",
     USER = "user",
     PHONENO = "phoneno",
     EMAIL = "email"
 }
-export declare type UIChannelNameMention = {
-    name: string;
-    convId: string;
-};
 export declare type UIAssetUrlInfo = {
     previewUrl: string;
     fullUrl: string;
@@ -119,14 +101,6 @@ export declare enum MessageUnboxedState {
     PLACEHOLDER = "placeholder",
     JOURNEYCARD = "journeycard"
 }
-export declare type UITeamMention = {
-    inTeam: boolean;
-    open: boolean;
-    description?: string;
-    numMembers?: number;
-    publicAdmins: string[] | null;
-    convId?: string;
-};
 export declare enum UITextDecorationTyp {
     PAYMENT = "payment",
     ATMENTION = "atmention",
@@ -925,7 +899,7 @@ export declare enum UnfurlMode {
 }
 export declare type MsgFlipContent = {
     text: string;
-    gameId: GameIDStr;
+    gameId: FlipGameIDStr;
     flipConvId: ConvIDStr;
     userMentions: KnownUserMention[] | null;
     teamMentions: KnownTeamMention[] | null;
@@ -943,8 +917,8 @@ export declare type ConvSummary = {
     memberStatus: string;
     resetUsers?: string[] | null;
     finalizeInfo?: ConversationFinalizeInfo;
-    supersedes?: string[] | null;
-    supersededBy?: string[] | null;
+    supersedes?: ConvIDStr[] | null;
+    supersededBy?: ConvIDStr[] | null;
     error?: string;
 };
 export declare type SendRes = {
@@ -970,7 +944,7 @@ export declare type GetDeviceInfoRes = {
     devices: DeviceInfo[] | null;
 };
 export declare type UIInboxSmallTeamRow = {
-    convId: string;
+    convId: ConvIDStr;
     name: string;
     time: gregor1.Time;
     snippet?: string;
@@ -979,14 +953,20 @@ export declare type UIInboxSmallTeamRow = {
     isMuted: boolean;
     isTeam: boolean;
 };
-export declare type UIInboxBigTeamRow = {
-    state: UIInboxBigTeamRowTyp.LABEL;
-    LABEL: UIInboxBigTeamLabelRow;
-} | {
-    state: UIInboxBigTeamRowTyp.CHANNEL;
-    CHANNEL: UIInboxBigTeamChannelRow;
-} | {
-    state: Exclude<UIInboxBigTeamRowTyp, UIInboxBigTeamRowTyp.LABEL | UIInboxBigTeamRowTyp.CHANNEL>;
+export declare type UIInboxBigTeamChannelRow = {
+    convId: ConvIDStr;
+    teamname: string;
+    channelname: string;
+    draft?: string;
+    isMuted: boolean;
+};
+export declare type UIInboxBigTeamLabelRow = {
+    name: string;
+    id: TLFIDStr;
+};
+export declare type UIInboxReselectInfo = {
+    oldConvId: ConvIDStr;
+    newConvId?: ConvIDStr;
 };
 export declare type UnverifiedInboxUIItemMetadata = {
     channelName: string;
@@ -1004,26 +984,26 @@ export declare type UIParticipant = {
     fullName?: string;
     contactName?: string;
 };
+export declare type UIChannelNameMention = {
+    name: string;
+    convId: ConvIDStr;
+};
 export declare type UIMessageJourneycard = {
     ordinal: number;
     cardType: JourneycardType;
     highlightMsgId: MessageID;
     openTeam: boolean;
 };
-export declare type UIMaybeMentionInfo = {
-    status: UIMaybeMentionStatus.UNKNOWN;
-} | {
-    status: UIMaybeMentionStatus.USER;
-} | {
-    status: UIMaybeMentionStatus.TEAM;
-    TEAM: UITeamMention;
-} | {
-    status: UIMaybeMentionStatus.NOTHING;
-} | {
-    status: Exclude<UIMaybeMentionStatus, UIMaybeMentionStatus.UNKNOWN | UIMaybeMentionStatus.USER | UIMaybeMentionStatus.TEAM | UIMaybeMentionStatus.NOTHING>;
+export declare type UITeamMention = {
+    inTeam: boolean;
+    open: boolean;
+    description?: string;
+    numMembers?: number;
+    publicAdmins: string[] | null;
+    convId?: ConvIDStr;
 };
 export declare type UIChatSearchConvHit = {
-    convId: string;
+    convId: ConvIDStr;
     teamType: TeamType;
     name: string;
     mtime: gregor1.Time;
@@ -1443,6 +1423,12 @@ export declare type ClearBotCommandsLocalRes = {
 export declare type PinMessageRes = {
     rateLimits: RateLimit[] | null;
 };
+export declare type AddBotConvSearchHit = {
+    name: string;
+    convId: ConversationID;
+    isTeam: boolean;
+    parts: string[] | null;
+};
 export declare type LocalMtimeUpdate = {
     convId: ConversationID;
     mtime: gregor1.Time;
@@ -1593,12 +1579,26 @@ export declare type GetResetConvMembersRes = {
     members: ResetConvMemberAPI[] | null;
     rateLimits: RateLimitRes[] | null;
 };
-export declare type UIInboxLayout = {
-    totalSmallTeams: number;
-    smallTeams: UIInboxSmallTeamRow[] | null;
-    bigTeams: UIInboxBigTeamRow[] | null;
-    reselectInfo?: UIInboxReselectInfo;
-    widgetList: UIInboxSmallTeamRow[] | null;
+export declare type UIInboxBigTeamRow = {
+    state: UIInboxBigTeamRowTyp.LABEL;
+    LABEL: UIInboxBigTeamLabelRow;
+} | {
+    state: UIInboxBigTeamRowTyp.CHANNEL;
+    CHANNEL: UIInboxBigTeamChannelRow;
+} | {
+    state: Exclude<UIInboxBigTeamRowTyp, UIInboxBigTeamRowTyp.LABEL | UIInboxBigTeamRowTyp.CHANNEL>;
+};
+export declare type UIMaybeMentionInfo = {
+    status: UIMaybeMentionStatus.UNKNOWN;
+} | {
+    status: UIMaybeMentionStatus.USER;
+} | {
+    status: UIMaybeMentionStatus.TEAM;
+    TEAM: UITeamMention;
+} | {
+    status: UIMaybeMentionStatus.NOTHING;
+} | {
+    status: Exclude<UIMaybeMentionStatus, UIMaybeMentionStatus.UNKNOWN | UIMaybeMentionStatus.USER | UIMaybeMentionStatus.TEAM | UIMaybeMentionStatus.NOTHING>;
 };
 export declare type UITextDecoration = {
     typ: UITextDecorationTyp.PAYMENT;
@@ -1968,8 +1968,15 @@ export declare type UnfurlGenericDisplay = {
     description?: string;
     mapInfo?: UnfurlGenericMapInfo;
 };
+export declare type UIInboxLayout = {
+    totalSmallTeams: number;
+    smallTeams: UIInboxSmallTeamRow[] | null;
+    bigTeams: UIInboxBigTeamRow[] | null;
+    reselectInfo?: UIInboxReselectInfo;
+    widgetList: UIInboxSmallTeamRow[] | null;
+};
 export declare type UICoinFlipStatus = {
-    gameId: string;
+    gameId: FlipGameIDStr;
     phase: UICoinFlipPhase;
     progressText: string;
     resultText: string;
