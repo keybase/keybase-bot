@@ -1362,7 +1362,8 @@ export declare enum TeamStatus {
 export declare enum AuditMode {
     STANDARD = "standard",
     JUST_CREATED = "just_created",
-    SKIP = "skip"
+    SKIP = "skip",
+    STANDARD_NO_HIDDEN = "standard_no_hidden"
 }
 export declare type PerTeamKeyGeneration = number;
 export declare enum PTKType {
@@ -1392,7 +1393,8 @@ export declare enum AuditVersion {
     V0 = "v0",
     V1 = "v1",
     V2 = "v2",
-    V3 = "v3"
+    V3 = "v3",
+    V4 = "v4"
 }
 export declare enum TeamInviteCategory {
     NONE = "none",
@@ -2431,11 +2433,13 @@ export declare type Audit = {
     time: Time;
     mms: Seqno;
     mcs: Seqno;
+    mhs: Seqno;
     mmp: Seqno;
 };
 export declare type Probe = {
     i: number;
     t: Seqno;
+    h: Seqno;
 };
 export declare type TeamInviteType = {
     c: TeamInviteCategory.UNKNOWN;
@@ -3006,6 +3010,13 @@ export declare type SaltpackVerifyResult = {
     signingKid: KID;
     sender: SaltpackSender;
     plaintext: string;
+    verified: boolean;
+};
+export declare type SaltpackVerifyFileResult = {
+    signingKid: KID;
+    sender: SaltpackSender;
+    verifiedFilename: string;
+    verified: boolean;
 };
 export declare type KBFSArchivedPath = {
     path: string;
@@ -3139,6 +3150,9 @@ export declare type AuditHistory = {
         [key: string]: Probe;
     };
     tails: {
+        [key: string]: LinkID;
+    };
+    hiddenTails: {
         [key: string]: LinkID;
     };
     skipUntil: Time;
@@ -3482,6 +3496,12 @@ export declare type ProblemSet = {
 export declare type SaltpackPlaintextResult = {
     info: SaltpackEncryptedMessageInfo;
     plaintext: string;
+    signed: boolean;
+};
+export declare type SaltpackFileResult = {
+    info: SaltpackEncryptedMessageInfo;
+    decryptedFilename: string;
+    signed: boolean;
 };
 export declare type Path = {
     PathType: PathType.LOCAL;
