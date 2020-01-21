@@ -152,7 +152,6 @@ export enum UIMaybeMentionStatus {
 }
 
 export type UILinkDecoration = {
-  display: string
   url: string
   punycode: string
 }
@@ -259,11 +258,15 @@ export enum UICommandStatusActionTyp {
   APPSETTINGS = 'appsettings',
 }
 
-export enum UIBotCommandsUpdateStatus {
+export enum UIBotCommandsUpdateStatusTyp {
   UPTODATE = 'uptodate',
   UPDATING = 'updating',
   FAILED = 'failed',
   BLANK = 'blank',
+}
+
+export type UIBotCommandsUpdateSettings = {
+  settings: {[key: string]: keybase1.TeamBotSettings}
 }
 
 export type ConversationCommand = {
@@ -1074,8 +1077,8 @@ export type ConvSummary = {
   memberStatus: string
   resetUsers?: string[] | null
   finalizeInfo?: ConversationFinalizeInfo
-  supersedes?: ConvIDStr[] | null
-  supersededBy?: ConvIDStr[] | null
+  supersedes?: string[] | null
+  supersededBy?: string[] | null
   error?: string
 }
 
@@ -1210,6 +1213,21 @@ export type UICoinFlipResult =
         | UICoinFlipResultTyp.DECK
         | UICoinFlipResultTyp.HANDS
         | UICoinFlipResultTyp.COIN
+      >
+    }
+
+export type UIBotCommandsUpdateStatus =
+  | {typ: UIBotCommandsUpdateStatusTyp.UPTODATE; UPTODATE: UIBotCommandsUpdateSettings}
+  | {typ: UIBotCommandsUpdateStatusTyp.UPDATING}
+  | {typ: UIBotCommandsUpdateStatusTyp.FAILED}
+  | {typ: UIBotCommandsUpdateStatusTyp.BLANK}
+  | {
+      typ: Exclude<
+        UIBotCommandsUpdateStatusTyp,
+        | UIBotCommandsUpdateStatusTyp.UPTODATE
+        | UIBotCommandsUpdateStatusTyp.UPDATING
+        | UIBotCommandsUpdateStatusTyp.FAILED
+        | UIBotCommandsUpdateStatusTyp.BLANK
       >
     }
 

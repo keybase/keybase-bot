@@ -117,7 +117,6 @@ export declare enum UIMaybeMentionStatus {
     NOTHING = "nothing"
 }
 export declare type UILinkDecoration = {
-    display: string;
     url: string;
     punycode: string;
 };
@@ -209,12 +208,17 @@ export declare enum UICommandStatusDisplayTyp {
 export declare enum UICommandStatusActionTyp {
     APPSETTINGS = "appsettings"
 }
-export declare enum UIBotCommandsUpdateStatus {
+export declare enum UIBotCommandsUpdateStatusTyp {
     UPTODATE = "uptodate",
     UPDATING = "updating",
     FAILED = "failed",
     BLANK = "blank"
 }
+export declare type UIBotCommandsUpdateSettings = {
+    settings: {
+        [key: string]: keybase1.TeamBotSettings;
+    };
+};
 export declare type ConversationCommand = {
     description: string;
     name: string;
@@ -917,8 +921,8 @@ export declare type ConvSummary = {
     memberStatus: string;
     resetUsers?: string[] | null;
     finalizeInfo?: ConversationFinalizeInfo;
-    supersedes?: ConvIDStr[] | null;
-    supersededBy?: ConvIDStr[] | null;
+    supersedes?: string[] | null;
+    supersededBy?: string[] | null;
     error?: string;
 };
 export declare type SendRes = {
@@ -1037,6 +1041,18 @@ export declare type UICoinFlipResult = {
     COIN: boolean;
 } | {
     typ: Exclude<UICoinFlipResultTyp, UICoinFlipResultTyp.NUMBER | UICoinFlipResultTyp.SHUFFLE | UICoinFlipResultTyp.DECK | UICoinFlipResultTyp.HANDS | UICoinFlipResultTyp.COIN>;
+};
+export declare type UIBotCommandsUpdateStatus = {
+    typ: UIBotCommandsUpdateStatusTyp.UPTODATE;
+    UPTODATE: UIBotCommandsUpdateSettings;
+} | {
+    typ: UIBotCommandsUpdateStatusTyp.UPDATING;
+} | {
+    typ: UIBotCommandsUpdateStatusTyp.FAILED;
+} | {
+    typ: UIBotCommandsUpdateStatusTyp.BLANK;
+} | {
+    typ: Exclude<UIBotCommandsUpdateStatusTyp, UIBotCommandsUpdateStatusTyp.UPTODATE | UIBotCommandsUpdateStatusTyp.UPDATING | UIBotCommandsUpdateStatusTyp.FAILED | UIBotCommandsUpdateStatusTyp.BLANK>;
 };
 export declare type ConversationCommandGroupsCustom = {
     commands: ConversationCommand[] | null;
