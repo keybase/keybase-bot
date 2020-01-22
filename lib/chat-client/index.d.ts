@@ -26,7 +26,6 @@ export interface ChatListChannelsOptions {
  * Options for the `read` method of the chat module.
  */
 export interface ChatReadOptions {
-    conversationId?: string;
     failOffline?: boolean;
     pagination?: chat1.Pagination;
     peek?: boolean;
@@ -36,7 +35,6 @@ export interface ChatReadOptions {
  * Options for the `send` method of the chat module.
  */
 export interface ChatSendOptions {
-    conversationId?: string;
     nonblock?: boolean;
     membersType?: chat1.ConversationMembersType;
     confirmLumenSend?: boolean;
@@ -45,7 +43,6 @@ export interface ChatSendOptions {
  * Options for the `attach` method of the chat module.
  */
 export interface ChatAttachOptions {
-    conversationId?: string;
     title?: string;
     preview?: string;
 }
@@ -53,21 +50,8 @@ export interface ChatAttachOptions {
  * Options for the `download` method of the chat module.
  */
 export interface ChatDownloadOptions {
-    conversationId?: string;
     preview?: string;
     noStream?: boolean;
-}
-/**
- * Options for the `react` method of the chat module.
- */
-export interface ChatReactOptions {
-    conversationId?: string;
-}
-/**
- * Options for the `delete` method of the chat module.
- */
-export interface ChatDeleteOptions {
-    conversationId?: string;
 }
 /**
  * Options for the methods in the chat module that listen for new messages.
@@ -114,6 +98,7 @@ declare class Chat extends ClientBase {
      * bot.chat.listChannels('team_name').then(chatConversations => console.log(chatConversations))
      */
     listChannels(name: string, options?: ChatListChannelsOptions): Promise<chat1.ConvSummary[]>;
+    private getChannelOrConversationId;
     /**
      * Reads the messages in a channel. You can read with or without marking as read.
      * @memberof Chat
@@ -123,7 +108,7 @@ declare class Chat extends ClientBase {
      * @example
      * alice.chat.read(channel).then(messages => console.log(messages))
      */
-    read(channel: chat1.ChatChannel, options?: ChatReadOptions): Promise<ReadResult>;
+    read(channelOrConversationId: chat1.ChatChannel | chat1.ConvIDStr, options?: ChatReadOptions): Promise<ReadResult>;
     /**
      * Joins a team conversation.
      * @param channel - The team chat channel to join.
@@ -163,7 +148,7 @@ declare class Chat extends ClientBase {
      * const message = {body: 'Hello kbot!'}
      * bot.chat.send(channel, message).then(() => console.log('message sent!'))
      */
-    send(channel: chat1.ChatChannel, message: chat1.ChatMessage, options?: ChatSendOptions): Promise<chat1.SendRes>;
+    send(channelOrConversationId: chat1.ChatChannel | chat1.ConvIDStr, message: chat1.ChatMessage, options?: ChatSendOptions): Promise<chat1.SendRes>;
     /**
      * Creates a new blank conversation.
      * @memberof Chat
@@ -181,7 +166,7 @@ declare class Chat extends ClientBase {
      * @example
      * bot.chat.attach(channel, '/Users/nathan/my_picture.png').then(() => console.log('Sent a picture!'))
      */
-    attach(channel: chat1.ChatChannel, filename: string, options?: ChatAttachOptions): Promise<chat1.SendRes>;
+    attach(channelOrConversationId: chat1.ChatChannel | chat1.ConvIDStr, filename: string, options?: ChatAttachOptions): Promise<chat1.SendRes>;
     /**
      * Download a file send via Keybase chat.
      * @memberof Chat
@@ -192,7 +177,7 @@ declare class Chat extends ClientBase {
      * @example
      * bot.chat.download(channel, 325, '/Users/nathan/Downloads/file.png')
      */
-    download(channel: chat1.ChatChannel, messageId: number, output: string, options?: ChatDownloadOptions): Promise<void>;
+    download(channelOrConversationId: chat1.ChatChannel | chat1.ConvIDStr, messageId: number, output: string, options?: ChatDownloadOptions): Promise<void>;
     /**
      * Reacts to a given message in a channel. Messages have messageId's associated with
      * them, which you can learn in `bot.chat.read`.
@@ -204,7 +189,7 @@ declare class Chat extends ClientBase {
      * @example
      * bot.chat.react(channel, 314, ':+1:').then(() => console.log('Thumbs up!'))
      */
-    react(channel: chat1.ChatChannel, messageId: number, reaction: string, options?: ChatReactOptions): Promise<chat1.SendRes>;
+    react(channelOrConversationId: chat1.ChatChannel | chat1.ConvIDStr, messageId: number, reaction: string): Promise<chat1.SendRes>;
     /**
      * Deletes a message in a channel. Messages have messageId's associated with
      * them, which you can learn in `bot.chat.read`. Known bug: the GUI has a cache,
@@ -216,7 +201,7 @@ declare class Chat extends ClientBase {
      * @example
      * bot.chat.delete(channel, 314).then(() => console.log('message deleted!'))
      */
-    delete(channel: chat1.ChatChannel, messageId: number, options?: ChatDeleteOptions): Promise<void>;
+    delete(channelOrConversationId: chat1.ChatChannel | chat1.ConvIDStr, messageId: number): Promise<void>;
     /**
      * Gets current unfurling settings
      * @example

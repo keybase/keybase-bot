@@ -78,6 +78,7 @@
  * - ../client/protocol/avdl/keybase1/notify_pgp.avdl
  * - ../client/protocol/avdl/keybase1/notify_phone.avdl
  * - ../client/protocol/avdl/keybase1/notify_runtimestats.avdl
+ * - ../client/protocol/avdl/keybase1/notify_saltpack.avdl
  * - ../client/protocol/avdl/keybase1/notify_service.avdl
  * - ../client/protocol/avdl/keybase1/notify_session.avdl
  * - ../client/protocol/avdl/keybase1/notify_team.avdl
@@ -1202,6 +1203,7 @@ export type NotificationChannels = {
   audit: boolean
   runtimestats: boolean
   featuredBots: boolean
+  saltpack: boolean
 }
 
 export enum StatsSeverityLevel {
@@ -1213,6 +1215,13 @@ export enum StatsSeverityLevel {
 export enum ProcessType {
   MAIN = 'main',
   KBFS = 'kbfs',
+}
+
+export enum SaltpackOperationType {
+  ENCRYPT = 'encrypt',
+  DECRYPT = 'decrypt',
+  SIGN = 'sign',
+  VERIFY = 'verify',
 }
 
 export type HttpSrvInfo = {
@@ -1507,10 +1516,27 @@ export type SaltpackVerifyOptions = {
   signature: Buffer
 }
 
+export type SaltpackEncryptResult = {
+  usedUnresolvedSbs: boolean
+  unresolvedSbsAssertion: string
+}
+
 export type SaltpackFrontendEncryptOptions = {
   recipients: string[] | null
   signed: boolean
   includeSelf: boolean
+}
+
+export type SaltpackEncryptStringResult = {
+  usedUnresolvedSbs: boolean
+  unresolvedSbsAssertion: string
+  ciphertext: string
+}
+
+export type SaltpackEncryptFileResult = {
+  usedUnresolvedSbs: boolean
+  unresolvedSbsAssertion: string
+  filename: string
 }
 
 export enum SaltpackSenderType {
@@ -1646,6 +1672,7 @@ export enum KbfsOnlineStatus {
 
 export type FSSettings = {
   spaceAvailableNotificationThreshold: number
+  sfmiBannerDismissed: boolean
 }
 
 export enum SubscriptionTopic {
@@ -1655,6 +1682,7 @@ export enum SubscriptionTopic {
   DOWNLOAD_STATUS = 'download_status',
   FILES_TAB_BADGE = 'files_tab_badge',
   OVERALL_SYNC_STATUS = 'overall_sync_status',
+  SETTINGS = 'settings',
 }
 
 export enum PathSubscriptionTopic {
@@ -2911,6 +2939,7 @@ export type TeamMember = {
   role: TeamRole
   eldestSeqno: Seqno
   status: TeamMemberStatus
+  botSettings?: TeamBotSettings
 }
 
 export type LinkTriple = {
@@ -4394,6 +4423,7 @@ export type GetRevisionsResult = {
 }
 
 export type TeamDetails = {
+  name: string
   members: TeamMembersDetails
   keyGeneration: PerTeamKeyGeneration
   annotatedActiveInvites: {[key: string]: AnnotatedTeamInvite}

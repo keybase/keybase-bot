@@ -922,6 +922,7 @@ export declare type NotificationChannels = {
     audit: boolean;
     runtimestats: boolean;
     featuredBots: boolean;
+    saltpack: boolean;
 };
 export declare enum StatsSeverityLevel {
     NORMAL = "normal",
@@ -931,6 +932,12 @@ export declare enum StatsSeverityLevel {
 export declare enum ProcessType {
     MAIN = "main",
     KBFS = "kbfs"
+}
+export declare enum SaltpackOperationType {
+    ENCRYPT = "encrypt",
+    DECRYPT = "decrypt",
+    SIGN = "sign",
+    VERIFY = "verify"
 }
 export declare type HttpSrvInfo = {
     address: string;
@@ -1188,10 +1195,24 @@ export declare type SaltpackVerifyOptions = {
     signedBy: string;
     signature: Buffer;
 };
+export declare type SaltpackEncryptResult = {
+    usedUnresolvedSbs: boolean;
+    unresolvedSbsAssertion: string;
+};
 export declare type SaltpackFrontendEncryptOptions = {
     recipients: string[] | null;
     signed: boolean;
     includeSelf: boolean;
+};
+export declare type SaltpackEncryptStringResult = {
+    usedUnresolvedSbs: boolean;
+    unresolvedSbsAssertion: string;
+    ciphertext: string;
+};
+export declare type SaltpackEncryptFileResult = {
+    usedUnresolvedSbs: boolean;
+    unresolvedSbsAssertion: string;
+    filename: string;
 };
 export declare enum SaltpackSenderType {
     NOT_TRACKED = "not_tracked",
@@ -1307,6 +1328,7 @@ export declare enum KbfsOnlineStatus {
 }
 export declare type FSSettings = {
     spaceAvailableNotificationThreshold: number;
+    sfmiBannerDismissed: boolean;
 };
 export declare enum SubscriptionTopic {
     FAVORITES = "favorites",
@@ -1314,7 +1336,8 @@ export declare enum SubscriptionTopic {
     ONLINE_STATUS = "online_status",
     DOWNLOAD_STATUS = "download_status",
     FILES_TAB_BADGE = "files_tab_badge",
-    OVERALL_SYNC_STATUS = "overall_sync_status"
+    OVERALL_SYNC_STATUS = "overall_sync_status",
+    SETTINGS = "settings"
 }
 export declare enum PathSubscriptionTopic {
     CHILDREN = "children",
@@ -2407,6 +2430,7 @@ export declare type TeamMember = {
     role: TeamRole;
     eldestSeqno: Seqno;
     status: TeamMemberStatus;
+    botSettings?: TeamBotSettings;
 };
 export declare type LinkTriple = {
     seqno: Seqno;
@@ -3776,6 +3800,7 @@ export declare type GetRevisionsResult = {
     progress: Progress;
 };
 export declare type TeamDetails = {
+    name: string;
     members: TeamMembersDetails;
     keyGeneration: PerTeamKeyGeneration;
     annotatedActiveInvites: {
