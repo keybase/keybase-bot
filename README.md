@@ -5,7 +5,7 @@ Keybase bot-scripting for Node.js - now written all in TypeScript! Send encrypte
 [![npm](https://img.shields.io/npm/v/keybase-bot.svg)](https://www.npmjs.com/package/keybase-bot)
 [![Travis CI](https://travis-ci.org/keybase/keybase-bot.svg?branch=master)](https://travis-ci.org/keybase/keybase-bot)
 
-This module is a side-project/work in progress and may change or have crashes, but feel free to play with it. As long as you have a Keybase account, you can use this module to script basic Keybase commands such as sending and reading messages and attachments, managing teams, and even sending Lumens on the Stellar network.
+You can use this module to script basic Keybase commands such as sending and reading messages and attachments, managing teams, and even sending Lumens on the Stellar network.
 
 - [Installation](#installation)
 - [Hello World](#hello-world)
