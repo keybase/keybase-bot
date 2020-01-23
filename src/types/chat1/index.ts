@@ -1080,6 +1080,7 @@ export type ConvSummary = {
   supersedes?: string[] | null
   supersededBy?: string[] | null
   error?: string
+  creatorInfo?: ConversationCreatorInfoLocal
 }
 
 export type SendRes = {
