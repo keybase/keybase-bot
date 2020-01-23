@@ -359,6 +359,7 @@ export declare enum StatusCode {
     SCStreamNotFound = "scstreamnotfound",
     SCStreamWrongKind = "scstreamwrongkind",
     SCStreamEOF = "scstreameof",
+    SCStreamUnknown = "scstreamunknown",
     SCGenericAPIError = "scgenericapierror",
     SCAPINetworkError = "scapinetworkerror",
     SCTimeout = "sctimeout",

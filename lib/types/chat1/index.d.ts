@@ -924,6 +924,7 @@ export declare type ConvSummary = {
     supersedes?: string[] | null;
     supersededBy?: string[] | null;
     error?: string;
+    creatorInfo?: ConversationCreatorInfoLocal;
 };
 export declare type SendRes = {
     message: string;
