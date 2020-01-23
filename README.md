@@ -34,34 +34,28 @@ We recommend either creating a dedicated Keybase account for the bot, or if you 
 ```javascript
 const Bot = require('keybase-bot')
 
-const bot = new Bot()
-const username = 'your username'
-const paperkey = 'your paperkey'
-bot
-  .init(username, paperkey, {verbose: false})
-  .then(() => {
+async function main() {
+  const bot = new Bot()
+  try {
+    const username = "some_username"
+    const paperkey = "foo bar car zar..."
+    await bot.init(username, paperkey, {verbose: false})
     console.log(`Your bot is initialized. It is logged in as ${bot.myInfo().username}`)
-
-    const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topicType: 'chat'}
+    const channel = {name: 'kbot'}
     const message = {
       body: `Hello kbot! This is ${bot.myInfo().username} saying hello from my device ${bot.myInfo().devicename}`,
     }
-
-    bot.chat
-      .send(channel, message)
-      .then(() => {
-        console.log('Message sent!')
-        bot.deinit()
-      })
-      .catch(error => {
-        console.error(error)
-        bot.deinit()
-      })
-  })
-  .catch(error => {
+    await bot.chat.send(channel, message)
+    console.log('Message sent!')
+  } catch (error) {
     console.error(error)
-    bot.deinit()
-  })
+  } finally {
+    await bot.deinit()
+  }
+}
+
+main()
+
 ```
 
 To run the above bot, you want to save that code into a file and run it with node:
@@ -70,7 +64,7 @@ To run the above bot, you want to save that code into a file and run it with nod
 node <my-awesome-file-name>.js
 ```
 
-This code is also in [`demos/hello-world.js`](demos/hello-world.js), if you want to take a look in there. There are also some other cool bots in the demos directory, including a bot that tells you how many unread messages you have and a bot that does math for you and your friends. You can write a bot in any language that can compile to JavaScript and run on Node.js. We have some ES7+ (with `async/await`) demos in [`demos/ES7`](demos/es7) and even a bot in [Iced CoffeeScript](http://maxtaco.github.io/coffee-script/)! (in [`demos/iced`](demos/iced))
+This non-ES7 version (which looks a bit less pretty without await) is also in [`demos/hello-world.js`](demos/hello-world.js), if you want to take a look in there. There are also some other cool bots in the demos directories, including a bot that tells you how many unread messages you have and a bot that does math for you and your friends.
 
 ## Docker usage
 
