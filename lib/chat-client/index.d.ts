@@ -307,6 +307,12 @@ declare class Chat extends ClientBase {
         commands: chat1.UserBotCommandOutput[];
     }>;
     /**
+     * Crashes the app
+     * @example
+     * await bot.chat.crash()
+     */
+    crash(): Promise<void>;
+    /**
      * Listens for new chat messages on a specified channel. The `onMessage` function is called for every message your bot receives. This is pretty similar to `watchAllChannelsForNewMessages`, except it specifically checks one channel. Note that it receives messages your own bot posts, but from other devices. You can filter out your own messages by looking at a message's sender object.
      * Hides exploding messages by default.
      * @memberof Chat
