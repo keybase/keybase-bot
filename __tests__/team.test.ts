@@ -41,6 +41,17 @@ describe('Team Methods', (): void => {
     async (): Promise<void> => {
       await alice1.init(config.bots.alice1.username, config.bots.alice1.paperkey)
       await bob1.init(config.bots.bob1.username, config.bots.bob1.paperkey)
+      // As a cleanup operation, we need to make sure bob isn't left in a team with alice from a previous
+      // failure.
+      try {
+        await alice1.team.removeMember({
+          team: config.teams.alicesPlayground.teamname,
+          username: config.bots.bob1.username,
+        })
+        console.log("Had to remove bob from alice's playground - left from previous test?")
+      } catch (err) {
+        /* no-op */
+      }
     }
   )
   afterAll(
