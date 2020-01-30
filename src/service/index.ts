@@ -51,9 +51,7 @@ class Service {
     }
 
     this.homeDir = this.workingDir
-    if (this._debugLogging) {
-      this.serviceLogFile = path.join(this.homeDir, 'logs', 'keybase.service.log')
-    }
+    this.serviceLogFile = path.join(this.homeDir, 'logs', 'keybase.service.log')
     this.botLite = options ? Boolean(typeof options.botLite !== 'boolean' || options.botLite) : true
     this.disableTyping = options ? Boolean(typeof options.disableTyping !== 'boolean' || options.disableTyping) : true
     this.autoLogSendOnCrash = options ? Boolean(typeof options.autoLogSendOnCrash === 'boolean' && options.autoLogSendOnCrash) : false
