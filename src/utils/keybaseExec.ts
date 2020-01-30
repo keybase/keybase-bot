@@ -66,6 +66,7 @@ const keybaseExec = (
         return reject(new Error(errorMessage))
       } else {
         const stdout = Buffer.concat(stdOutBuffer).toString('utf8')
+        console.log(stdout)
 
         try {
           finalStdOut = options.json ? JSON.parse(stdout) : stdout

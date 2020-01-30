@@ -41,8 +41,9 @@ export class AdminDebugLogger {
     await this._logIt(text, 'I')
   }
   private async _logIt(text: string, code: 'E' | 'I'): Promise<void> {
+    const line = `${new Date().toISOString()} [${code}] ${text}${os.EOL}`
+    console.log(line)
     if (this.directory) {
-      const line = `${new Date().toISOString()} [${code}] ${text}${os.EOL}`
       await promisify(appendFile)(this.filename, line, 'utf-8')
     }
   }
