@@ -47,6 +47,7 @@ export interface ChatSendOptions {
   nonblock?: boolean
   membersType?: chat1.ConversationMembersType
   confirmLumenSend?: boolean
+  replyTo?: chat1.MessageID
 }
 
 /**
