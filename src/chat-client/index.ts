@@ -603,7 +603,7 @@ class Chat extends ClientBase {
     options?: ListenOptions
   ): Promise<void> {
     await this._guardInitialized()
-    this._chatListenMessage(onMessage, onError, channel, options)
+    return this._chatListenMessage(onMessage, onError, channel, options)
   }
 
   /**
@@ -629,7 +629,7 @@ class Chat extends ClientBase {
    */
   public async watchAllChannelsForNewMessages(onMessage: OnMessage, onError?: OnError, options?: ListenOptions): Promise<void> {
     await this._guardInitialized()
-    this._chatListenMessage(onMessage, onError, undefined, options)
+    return this._chatListenMessage(onMessage, onError, undefined, options)
   }
 
   /**
@@ -650,30 +650,38 @@ class Chat extends ClientBase {
     this._chatListenConvs(onConv, onError)
   }
 
-  private _spawnChatListenChild(args: Array<string>, onLine: (line: string) => void): void {
-    const child = spawn(this._pathToKeybaseBinary(), args)
-    this._spawnedProcesses.push(child)
-    const cmdSample = this._pathToKeybaseBinary() + ' ' + args.join(' ')
-    this._adminDebugLogger.info(`beginning listen using ${cmdSample}`)
-    child.on('error', (err: Error): void => {
-      this._adminDebugLogger.error(`got listen error ${err.message}`)
-    })
-    child.on('exit', (): void => {
-      this._adminDebugLogger.info(`got listen exit`)
-    })
-    child.on('close', (): void => {
-      this._adminDebugLogger.info(`got listen close`)
-    })
-    child.on('disconnect', (): void => {
-      this._adminDebugLogger.info(`got listen disconnect`)
-    })
-    const lineReaderStderr = readline.createInterface({input: child.stderr})
-    lineReaderStderr.on('line', (line: string): void => {
-      this._adminDebugLogger.error(`stderr from listener: ${line}`)
-    })
+  private _spawnChatListenChild(args: Array<string>, onLine: (line: string) => void): Promise<void> {
+    return new Promise((resolve, reject): void => {
+      const child = spawn(this._pathToKeybaseBinary(), args)
+      this._spawnedProcesses.push(child)
+      const cmdSample = this._pathToKeybaseBinary() + ' ' + args.join(' ')
+      this._adminDebugLogger.info(`beginning listen using ${cmdSample}`)
+      const lineReaderStderr = readline.createInterface({input: child.stderr})
+      const stdErrBuffer: string[] = []
+      child.on('error', (err: Error): void => {
+        this._adminDebugLogger.error(`got listen error ${err.message}`)
+      })
+      child.on('exit', (): void => {
+        this._adminDebugLogger.info(`got listen exit`)
+      })
+      child.on('close', (code: number): void => {
+        this._adminDebugLogger.info(`got listen close, code ${code}`)
+        if (code) {
+          return reject(new Error(stdErrBuffer.join('\n')))
+        }
+        resolve()
+      })
+      child.on('disconnect', (): void => {
+        this._adminDebugLogger.info(`got listen disconnect`)
+      })
+      lineReaderStderr.on('line', (line: string): void => {
+        stdErrBuffer.push(line)
+        this._adminDebugLogger.error(`stderr from listener: ${line}`)
+      })
 
-    const lineReaderStdout = readline.createInterface({input: child.stdout})
-    lineReaderStdout.on('line', onLine)
+      const lineReaderStdout = readline.createInterface({input: child.stdout})
+      lineReaderStdout.on('line', onLine)
+    })
   }
 
   private _getChatListenArgs(channel?: chat1.ChatChannel, options?: ListenOptions): Array<string> {
@@ -704,7 +712,7 @@ class Chat extends ClientBase {
    * @example
    * this._chatListenMessage(onMessage, onError)
    */
-  private _chatListenMessage(onMessage: OnMessage, onError?: OnError, channel?: chat1.ChatChannel, options?: ListenOptions): void {
+  private _chatListenMessage(onMessage: OnMessage, onError?: OnError, channel?: chat1.ChatChannel, options?: ListenOptions): Promise<void> {
     const args = this._getChatListenArgs(channel, options)
     const onLine = (line: string): void => {
       this._adminDebugLogger.info(`stdout from listener: ${line}`)
@@ -735,7 +743,7 @@ class Chat extends ClientBase {
       }
     }
     this._adminDebugLogger.info(`spawningChatListenChild on channel=${JSON.stringify(channel || 'ALL')}`)
-    this._spawnChatListenChild(args, onLine)
+    return this._spawnChatListenChild(args, onLine)
   }
 
   /**
