@@ -63,7 +63,7 @@ const keybaseExec = (
       // Pass back
       if (code) {
         const errorMessage = Buffer.concat(stdErrBuffer).toString('utf8')
-        reject(new Error(errorMessage))
+        return reject(new Error(errorMessage))
       } else {
         const stdout = Buffer.concat(stdOutBuffer).toString('utf8')
         console.log(stdout)
@@ -71,10 +71,10 @@ const keybaseExec = (
         try {
           finalStdOut = options.json ? JSON.parse(stdout) : stdout
         } catch (e) {
-          reject(e)
+          return reject(e)
         }
       }
-      resolve(finalStdOut)
+      return resolve(finalStdOut)
     })
   })
 }
