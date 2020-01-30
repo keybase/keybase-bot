@@ -5,7 +5,7 @@ Keybase bot-scripting for Node.js - now written all in TypeScript! Send encrypte
 [![npm](https://img.shields.io/npm/v/keybase-bot.svg)](https://www.npmjs.com/package/keybase-bot)
 [![Travis CI](https://travis-ci.org/keybase/keybase-bot.svg?branch=master)](https://travis-ci.org/keybase/keybase-bot)
 
-You can use this module to script basic Keybase commands such as sending and reading messages and attachments, managing teams, and even sending Lumens on the Stellar network.
+You can use this module to script basic Keybase commands such as sending and reading messages and attachments, and managing teams.
 
 - [Installation](#installation)
 - [Hello World](#hello-world)
@@ -14,7 +14,7 @@ You can use this module to script basic Keybase commands such as sending and rea
 
 ## Installation
 
-1.  Install Node.js 8 or above.
+1.  Install Node.js 12 or above.
 2.  Make sure that you have Keybase [installed](https://keybase.io/download) and running.
 3.  Install `keybase-bot`.
     ```bash
@@ -23,13 +23,43 @@ You can use this module to script basic Keybase commands such as sending and rea
     yarn add keybase-bot
     ```
 
-You're ready to make your first Keybase bot!
+You're ready to make your first Keybase bot.
 
-## Hello world via your Keybase bot
+## Step 1. Initializing your bot
+
+If your bot is going to do things in the background for an extended period, we recommend starting it up with a username and paper key:
+
+```javascript
+// A simple nodeJS bot that doesn't care who else is logged in on this machine
+const Bot = require('keybase-bot')
+async function main() {
+   const bot = new Bot()
+   await bot.init('usernameX', 'some paper key...')
+   /* now you can do things with the bot */
+   await bot.deinit() // when done
+}
+main()
+```
+
+This method means it's running as itself and won't care about Keybase generally running on your computer - say, if you're also logging into Keybase in the Keybase app on the same computer.
+
+If, however, you'd like the bot just to _act as you_ for a quick and easy operation, you can initialize it against your running keybase service:
+
+```javascript
+// Make sure you're logged into the Keybase app first!
+const Bot = require('keybase-bot')
+async function main() {
+   const bot = new Bot()
+   await bot.initFromRunningService() // no credentials needed
+   /* now you can do things with the bot, talking to your local Keybase app */
+   await bot.deinit() // when done
+}
+main()
+```
+
+## Putting it together...a hello world
 
 Let's make a bot that says hello to the Keybase user [kbot](https://keybase.io/kbot).
-
-We recommend either creating a dedicated Keybase account for the bot, or if you decide to reuse your own account at the very least create a dedicated paperkey so you can revoke it later when the machines rise up.
 
 ```javascript
 const Bot = require('keybase-bot')
@@ -37,8 +67,8 @@ const Bot = require('keybase-bot')
 async function main() {
   const bot = new Bot()
   try {
-    const username = "some_username"
-    const paperkey = "foo bar car zar..."
+    const username = "some_username"      // put a real username here
+    const paperkey = "foo bar car zar..." // put a real paperkey here
     await bot.init(username, paperkey, {verbose: false})
     console.log(`Your bot is initialized. It is logged in as ${bot.myInfo().username}`)
     const channel = {name: 'kbot'}
@@ -64,7 +94,27 @@ To run the above bot, you want to save that code into a file and run it with nod
 node <my-awesome-file-name>.js
 ```
 
-This non-ES7 version (which looks a bit less pretty without await) is also in [`demos/hello-world.js`](demos/hello-world.js), if you want to take a look in there. There are also some other cool bots in the demos directories, including a bot that tells you how many unread messages you have and a bot that does math for you and your friends.
+## Hard-coding paper key into bot isn't a great idea
+
+You can read it from a secret config file, or pass it as an environment variable - whatever you think is best. For example, you could change the above initialization code to:
+
+```javascript
+const username = process.env.KB_USERNAME
+const paperkey = process.env.KB_PAPERKEY
+await bot.init(username, paperkey)
+```
+
+And run your program like so:
+
+```
+KB_USERNAME=foo KB_PAPERKEY="foo bar car" node my-awesome-program.js
+```
+
+## How to write a bot that listens and replies to messages
+
+For a short but full-featured answer, check out [`demos/es7/advertisted-echo.js`](demos/es7/advertisted-echo.js).
+
+That bot doesn't just reply to every message; it also announces itself as handling `!echo` so you'll see an autocomplete suggestion in the GUI when you talk to it. It's a great template for writing a bot that does things in response to messages you or your teammates send it.
 
 ## Docker usage
 
