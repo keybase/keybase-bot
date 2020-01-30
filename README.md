@@ -41,17 +41,19 @@ async function main() {
 main()
 ```
 
-This method means it's running as itself and won't care about Keybase generally running on your computer - say, if you're also logging into Keybase in the Keybase app on the same computer.
+This method means it's running as itself and won't care about Keybase generally running on your computer. It doesn't care if you're logged into Keybase in the GUI app on the same machine. It also doesn't care if you upgrade Keybase while it's running, since it won't restart its copy of Keybase during an update.
 
-If, however, you'd like the bot just to _act as you_ for a quick and easy operation, you can initialize it against your running keybase service:
+If, however, you'd like the bot just to _act as you_ for a quick and easy operation, you can make your bot talk to the same service that the Keybase app is talking to. It will be logged in as whoever's logged into the Keybase app:
 
 ```javascript
-// Make sure you're logged into the Keybase app first!
+
 const Bot = require('keybase-bot')
 async function main() {
    const bot = new Bot()
-   await bot.initFromRunningService() // no credentials needed
-   /* now you can do things with the bot, talking to your local Keybase app */
+   // Make sure you're logged into the Keybase app first!
+   // No credentials neeeded:
+   await bot.initFromRunningService()
+   /* now you can do things with the bot */
    await bot.deinit() // when done
 }
 main()
@@ -112,9 +114,9 @@ KB_USERNAME=foo KB_PAPERKEY="foo bar car" node my-awesome-program.js
 
 ## How to write a bot that listens and replies to messages
 
-For a short but full-featured answer, check out [`demos/es7/advertisted-echo.js`](demos/es7/advertisted-echo.js).
+If you'd like to write a bot that listens to your messages (or your team's) and does something, check out [`demos/es7/advertisted-echo.js`](demos/es7/advertisted-echo.js).
 
-That bot doesn't just reply to every message; it also announces itself as handling `!echo` so you'll see an autocomplete suggestion in the GUI when you talk to it. It's a great template for writing a bot that does things in response to messages you or your teammates send it.
+That demo bot announces itself as handling `!echo`,  which means it gives autocomplete suggestions in the GUI when you talk to it.
 
 ## Docker usage
 
