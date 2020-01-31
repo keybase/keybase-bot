@@ -1,5 +1,14 @@
-import ClientBase from '../client-base';
+import { ErrorWithCode, default as ClientBase } from '../client-base';
 import * as keybase1 from '../types/keybase1';
+export declare enum KVStoreErrorType {
+    Other = 0,
+    WrongRevision = 2760,
+    BadGeneration = 2761,
+    NotFound = 2762
+}
+export declare const ErrorIsWrongRevision: (error: ErrorWithCode) => boolean;
+export declare const ErrorIsBadGeneration: (error: ErrorWithCode) => boolean;
+export declare const ErrorIsNotFound: (error: ErrorWithCode) => boolean;
 /** The kvstore module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase kvstore help api`. */
 declare class KVStore extends ClientBase {
     /**

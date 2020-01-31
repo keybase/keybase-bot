@@ -14,6 +14,14 @@ export interface ApiCommandArg {
   timeout?: number
 }
 
+export class ErrorWithCode extends Error {
+  code: number
+  constructor(code: number, message: string) {
+    super(message)
+    this.code = code
+  }
+}
+
 /**
  * A Client base.
  * @ignore
@@ -72,7 +80,7 @@ class ClientBase {
       timeout: arg.timeout,
     })
     if (output.hasOwnProperty('error')) {
-      throw new Error(output.error.message)
+      throw new ErrorWithCode(output.error.code, output.error.message)
     }
     const res = formatAPIObjectOutput(output.result, {
       apiName: arg.apiName,
