@@ -114,7 +114,7 @@ KB_USERNAME=foo KB_PAPERKEY="foo bar car" node my-awesome-program.js
 
 ## How to write a bot that listens and replies to messages
 
-If you'd like to write a bot that listens to your messages (or your team's) and does something, check out [`demos/es7/advertisted-echo.js`](demos/es7/advertisted-echo.js).
+If you'd like to write a bot that listens to your messages (or your team's) and does something, check out [`demos/es7/advertised-echo.js`](demos/es7/advertised-echo.js).
 
 That demo bot announces itself as handling `!echo`,  which means it gives autocomplete suggestions in the GUI when you talk to it.
 
