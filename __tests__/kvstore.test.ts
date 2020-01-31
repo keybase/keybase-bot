@@ -52,7 +52,6 @@ describe('KVStore Methods', (): void => {
     rev = res.revision
     expect(rev).toBeGreaterThan(0)
     return expectThrowCode(alice1.kvstore.put(team, namespace, entryKey, 'value2', rev), KVStoreClient.ErrorIsWrongRevision)
-    //expect(alice1.kvstore.put(team, namespace, entryKey, 'value2', rev)).rejects.toThrowError()
   })
 
   it('Lists namespaces', async (): Promise<void> => {
@@ -76,7 +75,6 @@ describe('KVStore Methods', (): void => {
     // Increment rev so that later tests always have a usable rev value prepared.
     rev += 1
     return expectThrowCode(alice1.kvstore.delete(team, namespace, entryKey, rev + 1), KVStoreClient.ErrorIsWrongRevision)
-    //expect(alice1.kvstore.delete(team, namespace, entryKey, rev + 1)).rejects.toThrowError()
   })
 
   it('Deletes at the correct revision', async (): Promise<void> => {
@@ -86,6 +84,15 @@ describe('KVStore Methods', (): void => {
 
   it('Cannot delete twice', (): Promise<void> => {
     return expectThrowCode(alice1.kvstore.delete(team, namespace, entryKey), KVStoreClient.ErrorIsNotFound)
-    //expect(alice1.kvstore.delete(team, namespace, entryKey)).rejects.toThrowError()
+  })
+
+  it('optional teamname', async (): Promise<void> => {
+    const v = 'optional teamname'
+    try {
+      await alice1.kvstore.delete(config.bots.alice1.username, namespace, entryKey)
+    } catch {}
+    await alice1.kvstore.put(undefined, namespace, entryKey, v)
+    const res = await alice1.kvstore.get(`${config.bots.alice1.username},${config.bots.alice1.username}`, namespace, entryKey)
+    expect(res.entryValue).toEqual(v)
   })
 })
