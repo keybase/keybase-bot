@@ -9,6 +9,10 @@ export interface ApiCommandArg {
     options?: object;
     timeout?: number;
 }
+export declare class ErrorWithCode extends Error {
+    code: number;
+    constructor(code: number, message: string);
+}
 /**
  * A Client base.
  * @ignore

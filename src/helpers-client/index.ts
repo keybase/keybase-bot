@@ -32,6 +32,19 @@ class Helpers extends ClientBase {
     const output = await keybaseExec(this._workingDir, this.homeDir, args, {json: true})
     return output
   }
+
+  /**
+   * Ping keybase server. The returned promise resolves the keybase daemon is
+   * up and server is reachable.
+   * @memberof Helpers
+   * @returns -
+   * @example
+   * bot.helpers.ping()
+   */
+  public async ping(): Promise<any> {
+    await this._guardInitialized()
+    return await keybaseExec(this._workingDir, this.homeDir, ['ping'])
+  }
 }
 
 export default Helpers
