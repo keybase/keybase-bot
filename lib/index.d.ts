@@ -77,9 +77,15 @@ declare class Bot {
      */
     adminDebugLogError(text: string): Promise<void>;
     /**
-     * Send a log to Keybase
+     * Send Keybase service daemon logs to Keybase.
      */
     logSend(): Promise<void>;
+    /**
+     * Run pprof on the Keybase service daemon and store the result in temporary
+     * file. After it's done, the promise resolves with the path to the temporary
+     * file.
+     */
+    pprof(pprofType: 'trace' | 'cpu' | 'heap', duration?: number): Promise<string>;
     get botId(): string;
     get serviceLogLocation(): string;
     private _prepWorkingDir;
