@@ -34,6 +34,7 @@ class ClientBase {
   public verbose: boolean
   protected _spawnedProcesses: ChildProcess[]
   protected _workingDir: string
+  protected _deinitializing: boolean
   private _initializedWithOptions: InitOptions
   protected _adminDebugLogger: AdminDebugLogger
 
@@ -43,6 +44,7 @@ class ClientBase {
     this.initialized = false
     this.verbose = false
     this._spawnedProcesses = []
+    this._deinitializing = false
   }
 
   public async _init(homeDir: void | string, options?: InitOptions): Promise<void> {
@@ -58,6 +60,7 @@ class ClientBase {
   }
 
   public async _deinit(): Promise<void> {
+    this._deinitializing = true
     for (const child of this._spawnedProcesses) {
       child.kill()
     }
