@@ -13,7 +13,7 @@ import {copyFile} from 'fs'
 import path from 'path'
 import {InitOptions} from './utils/options'
 import {AdminDebugLogger} from './utils/adminDebugLogger'
-import {keybaseExec} from './utils'
+import * as Utils from './utils'
 import crypto from 'crypto'
 import os from 'os'
 
@@ -180,14 +180,14 @@ class Bot {
   public async pprof(pprofType: 'trace' | 'cpu' | 'heap', duration?: number): Promise<string> {
     const outputPath = path.join(this._workingDir, `pprof-${pprofType}-${new Date().toISOString()}`)
     const sec = Math.round((duration || 5000) / 1000)
-    await keybaseExec(this._workingDir, this.myInfo().homeDir, [
+    await Utils.keybaseExec(this._workingDir, this.myInfo().homeDir, [
       'pprof',
       pprofType,
       ...(pprofType === 'heap' ? [] : ['-d', `${sec}s`]),
       outputPath,
     ])
     // The call above is asynchronous. So jsut wait for 2 more seconds.
-    await new Promise(resolve => setTimeout(() => resolve(), sec * 1000 + 2000))
+    await Utils.timeout(sec * 1000 + 2000)
     return outputPath
   }
 
