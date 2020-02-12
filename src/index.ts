@@ -13,6 +13,7 @@ import {copyFile} from 'fs'
 import path from 'path'
 import {InitOptions} from './utils/options'
 import {AdminDebugLogger} from './utils/adminDebugLogger'
+import * as Utils from './utils'
 import crypto from 'crypto'
 import os from 'os'
 
@@ -165,10 +166,29 @@ class Bot {
   }
 
   /**
-   * Send a log to Keybase
+   * Send Keybase service daemon logs to Keybase.
    */
   public async logSend(): Promise<void> {
     return this._service.logSend()
+  }
+
+  /**
+   * Run pprof on the Keybase service daemon and store the result in temporary
+   * file. After it's done, the promise resolves with the path to the temporary
+   * file.
+   */
+  public async pprof(pprofType: 'trace' | 'cpu' | 'heap', duration?: number): Promise<string> {
+    const outputPath = path.join(this._workingDir, `pprof-${pprofType}-${new Date().toISOString()}`)
+    const sec = Math.round((duration || 5000) / 1000)
+    await Utils.keybaseExec(this._workingDir, this.myInfo().homeDir, [
+      'pprof',
+      pprofType,
+      ...(pprofType === 'heap' ? [] : ['-d', `${sec}s`]),
+      outputPath,
+    ])
+    // The call above is asynchronous. So jsut wait for 2 more seconds.
+    await Utils.timeout(sec * 1000 + 2000)
+    return outputPath
   }
 
   public get botId(): string {
