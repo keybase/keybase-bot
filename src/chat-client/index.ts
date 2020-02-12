@@ -648,7 +648,7 @@ class Chat extends ClientBase {
    */
   public async watchForNewConversation(onConv: OnConv, onError?: OnError): Promise<void> {
     await this._guardInitialized()
-    this._chatListenConvs(onConv, onError)
+    return this._chatListenConvs(onConv, onError)
   }
 
   private _spawnChatListenChild(args: Array<string>, onLine: (line: string) => void): Promise<void> {
@@ -668,7 +668,7 @@ class Chat extends ClientBase {
       child.on('close', (code: number): void => {
         this._adminDebugLogger.info(`got listen close, code ${code}`)
         if (code) {
-          return reject(new Error(stdErrBuffer.join('\n')))
+          return this._deinitializing ? resolve() : reject(new Error(stdErrBuffer.join('\n')))
         }
         resolve()
       })
@@ -756,11 +756,11 @@ class Chat extends ClientBase {
    * @example
    * this._chatListenConvs(onConv, onError)
    */
-  private _chatListenConvs(onConv: OnConv, onError?: OnError): void {
+  private _chatListenConvs(onConv: OnConv, onError?: OnError): Promise<void> {
     const args = this._getChatListenArgs()
     args.push('--convs')
     this._adminDebugLogger.info(`spawningChatListenChild for convs`)
-    this._spawnChatListenChild(args, (line: string) => {
+    return this._spawnChatListenChild(args, (line: string) => {
       this._adminDebugLogger.info(`stdout from listener: ${line}`)
       try {
         const messageObject = formatAPIObjectOutput(JSON.parse(line))

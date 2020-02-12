@@ -25,6 +25,7 @@ declare class ClientBase {
     verbose: boolean;
     protected _spawnedProcesses: ChildProcess[];
     protected _workingDir: string;
+    protected _deinitializing: boolean;
     private _initializedWithOptions;
     protected _adminDebugLogger: AdminDebugLogger;
     constructor(workingDir: string, adminDebugLogger: AdminDebugLogger);
