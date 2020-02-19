@@ -48,6 +48,7 @@ export interface ChatSendOptions {
   membersType?: chat1.ConversationMembersType
   confirmLumenSend?: boolean
   replyTo?: chat1.MessageID
+  explodingLifetime?: string
 }
 
 /**
@@ -56,6 +57,7 @@ export interface ChatSendOptions {
 export interface ChatAttachOptions {
   title?: string
   preview?: string
+  explodingLifetime?: string
 }
 
 /**
