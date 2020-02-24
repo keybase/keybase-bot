@@ -20,6 +20,10 @@ export function formatAPIObjectInput(obj: any, apiType: API_TYPES): any {
     return obj.map(item => formatAPIObjectInput(item, apiType))
   } else {
     return Object.keys(obj).reduce((newObj, key) => {
+      if (key === 'explodingLifetime') {
+        obj[key] = `${key}ms`
+      }
+
       // TODO: hopefully we standardize how the Keybase API handles input keys
       let formattedKey
       if (apiType === 'wallet') {
@@ -65,11 +69,7 @@ export type FormatAPIObjectOutputContext = {
  * @returns - Whether the context is blacklisted from being formatted.
  */
 function matchBlacklist(context: FormatAPIObjectOutputContext | null): boolean {
-  if (
-    !context ||
-    !transformsBlacklist[context.apiName] ||
-    !transformsBlacklist[context.apiName][context.method]
-  ) {
+  if (!context || !transformsBlacklist[context.apiName] || !transformsBlacklist[context.apiName][context.method]) {
     return false
   }
 
@@ -107,10 +107,7 @@ function matchBlacklist(context: FormatAPIObjectOutputContext | null): boolean {
  * @param key - The key to apprent to the parent array.
  * @returns - A new context.
  */
-function buildContext(
-  context: FormatAPIObjectOutputContext | null,
-  key: any
-): FormatAPIObjectOutputContext | null {
+function buildContext(context: FormatAPIObjectOutputContext | null, key: any): FormatAPIObjectOutputContext | null {
   if (!context) {
     return context
   }
