@@ -14,7 +14,7 @@ export interface BotInfo {
 }
 
 /**
- * Returns { username, devicename, homeDir } from `keybase status --json`.
+ * Returns { username, devicename, homeDir } from `keybase whoami --json`.
  * @ignore
  * @param workingDir - the directory containing the binary, according to top level Bot
  * @param homeDir - The home directory of the service you want to fetch the status from.
@@ -22,11 +22,11 @@ export interface BotInfo {
  * keybaseStatus('/my/dir').then(status => console.log(status.username))
  */
 async function keybaseStatus(workingDir: string, homeDir: void | string): Promise<BotInfo> {
-  const status = await keybaseExec(workingDir, homeDir, ['status', '--json'], {json: true})
-  if (status && status.Username && status.Device && status.Device.name) {
+  const whoami = await keybaseExec(workingDir, homeDir, ['whoami', '--json'], {json: true})
+  if (whoami && whoami.loggedIn && whoami.user && whoami.user.username && whoami.deviceName) {
     return {
-      username: status.Username,
-      devicename: status.Device.name,
+      username: whoami.user.username,
+      devicename: whoami.deviceName,
       homeDir,
     }
   } else {
