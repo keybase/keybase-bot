@@ -20,8 +20,8 @@ export function formatAPIObjectInput(obj: any, apiType: API_TYPES): any {
     return obj.map(item => formatAPIObjectInput(item, apiType))
   } else {
     return Object.keys(obj).reduce((newObj, key) => {
-      if (key === 'explodingLifetime') {
-        obj[key] = `${key}ms`
+      if (key === 'explodingLifetimeMs') {
+        obj[key] = `${obj[key]}ms`
       }
 
       // TODO: hopefully we standardize how the Keybase API handles input keys
