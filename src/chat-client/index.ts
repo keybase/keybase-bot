@@ -257,6 +257,7 @@ class Chat extends ClientBase {
     const conv = this.getChannelOrConversationId(channelOrConversationId)
     const args = {
       ...options,
+      explodingLifetime: options.explodingLifetime ? `${options.explodingLifetime}ms` : null,
       ...conv,
       message,
     }
@@ -311,7 +312,12 @@ class Chat extends ClientBase {
   ): Promise<chat1.SendRes> {
     await this._guardInitialized()
     const conv = this.getChannelOrConversationId(channelOrConversationId)
-    const args = {...options, ...conv, filename}
+    const args = {
+      ...options,
+      explodingLifetime: options.explodingLifetime ? `${options.explodingLifetime}ms` : null,
+      ...conv,
+      filename,
+    }
     const res = await this._runApiCommand({apiName: 'chat', method: 'attach', options: args})
     if (!res) {
       throw new Error('Keybase chat attach returned nothing')
