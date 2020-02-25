@@ -65,7 +65,11 @@ export type FormatAPIObjectOutputContext = {
  * @returns - Whether the context is blacklisted from being formatted.
  */
 function matchBlacklist(context: FormatAPIObjectOutputContext | null): boolean {
-  if (!context || !transformsBlacklist[context.apiName] || !transformsBlacklist[context.apiName][context.method]) {
+  if (
+    !context ||
+    !transformsBlacklist[context.apiName] ||
+    !transformsBlacklist[context.apiName][context.method]
+  ) {
     return false
   }
 
@@ -103,7 +107,10 @@ function matchBlacklist(context: FormatAPIObjectOutputContext | null): boolean {
  * @param key - The key to apprent to the parent array.
  * @returns - A new context.
  */
-function buildContext(context: FormatAPIObjectOutputContext | null, key: any): FormatAPIObjectOutputContext | null {
+function buildContext(
+  context: FormatAPIObjectOutputContext | null,
+  key: any
+): FormatAPIObjectOutputContext | null {
   if (!context) {
     return context
   }
