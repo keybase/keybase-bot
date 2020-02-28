@@ -18,8 +18,10 @@ function pluralizeRole(r: TeamRole): 'owners' | 'admins' | 'readers' | 'writers'
       return 'readers'
     case TeamRole.WRITER:
       return 'writers'
-    default:
-      throw new Error('unknown role: ' + r.toString())
+    case TeamRole.NONE:
+    case TeamRole.BOT:
+    case TeamRole.RESTRICTEDBOT:
+      throw new Error('role not expected in tests: ' + r.toString())
   }
 }
 

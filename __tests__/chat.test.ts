@@ -129,23 +129,14 @@ describe('Chat Methods', (): void => {
       }
     })
 
-    /*
-     * THIS TEST IS TEMP FAILING DUE TO A BUG IN THE CLIENT
-     * WHERE AN UNREAD "x left this channel" or similar is causing the
-     * convo to be included in the list, even though we don't
-     * want it to be.
-     *
-     * Internal ticket track: TRIAGE-1866
-     *
     it('Lists only unread conversations if given the option', async (): Promise<void> => {
       await bob.chat.send(channel, message)
       await timeout(500)
       const conversations = await alice1.chat.list({unreadOnly: true})
       for (const conversation of conversations) {
-        console.log('test 1', JSON.stringify(conversation))
         expect(conversation).toHaveProperty('unread', true)
       }
-    })*/
+    })
 
     it('Shows only messages of a specific topic type if given the option', async (): Promise<void> => {
       const conversations = await alice1.chat.list({topicType: TopicType.DEV})
