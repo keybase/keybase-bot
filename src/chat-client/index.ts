@@ -257,7 +257,7 @@ class Chat extends ClientBase {
     const conv = this.getChannelOrConversationId(channelOrConversationId)
     const args = {
       ...options,
-      explodingLifetime: options.explodingLifetime ? `${options.explodingLifetime}ms` : undefined,
+      explodingLifetime: options?.explodingLifetime ? `${options?.explodingLifetime}ms` : undefined,
       ...conv,
       message,
     }
@@ -314,7 +314,7 @@ class Chat extends ClientBase {
     const conv = this.getChannelOrConversationId(channelOrConversationId)
     const args = {
       ...options,
-      explodingLifetime: options.explodingLifetime ? `${options.explodingLifetime}ms` : undefined,
+      explodingLifetime: options?.explodingLifetime ? `${options?.explodingLifetime}ms` : undefined,
       ...conv,
       filename,
     }
