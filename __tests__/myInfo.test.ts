@@ -6,7 +6,7 @@ describe('bot.myInfo()', () => {
   it('returns a username, devicename, homeDir, and service config options when the bot is initialized', async () => {
     const alice = new Bot()
     await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
-    const aliceInfo = alice.myInfo()
+    const aliceInfo = alice.myInfo()!
     expect(aliceInfo).not.toBeNull()
     expect(aliceInfo.username).toBe(config.bots.alice1.username)
     expect(aliceInfo.devicename).toBe(publicPaperkeyLabel(config.bots.alice1.paperkey))

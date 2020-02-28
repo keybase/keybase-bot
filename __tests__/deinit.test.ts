@@ -9,7 +9,7 @@ describe('Keybase bot deinitialization', (): void => {
   it('kills all spawned processes it creates', async (): Promise<any> => {
     const alice = new Bot()
     await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
-    const aliceHomeDir = alice.myInfo().homeDir || ''
+    const aliceHomeDir = alice.myInfo()!.homeDir || ''
 
     // make sure our bot can return a home directory
     expect(aliceHomeDir.indexOf('keybase_bot_')).toBeGreaterThanOrEqual(0)
@@ -57,7 +57,7 @@ describe('Keybase bot deinitialization', (): void => {
     const initOptions: InitOptions = {useDetachedService: true}
     const alice = new Bot()
     await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey, initOptions)
-    const aliceHomeDir = alice.myInfo().homeDir || ''
+    const aliceHomeDir = alice.myInfo()!.homeDir ?? ''
     expect(aliceHomeDir.indexOf('keybase_bot_')).toBeGreaterThanOrEqual(0)
     expect(await doesFileOrDirectoryExist(aliceHomeDir)).toBe(true)
     expect(await countProcessesMentioning(aliceHomeDir)).toBe(1)
@@ -69,7 +69,7 @@ describe('Keybase bot deinitialization', (): void => {
   it('removes its home directory if initialized with a paperkey', async (): Promise<void> => {
     const alice = new Bot()
     await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
-    const homeDir = alice.myInfo().homeDir || '--nonsense-dir-'
+    const homeDir = alice.myInfo()!.homeDir ?? '--nonsense-dir-'
     expect(await doesFileOrDirectoryExist(homeDir)).toBe(true)
     await alice.deinit()
     expect(await doesFileOrDirectoryExist(homeDir)).toBe(false)
@@ -78,7 +78,7 @@ describe('Keybase bot deinitialization', (): void => {
   it('handles double deinits gracefully', async (): Promise<void> => {
     const alice = new Bot()
     await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
-    const homeDir = alice.myInfo().homeDir || '--nonsense-dir-'
+    const homeDir = alice.myInfo()!.homeDir ?? '--nonsense-dir-'
     await alice.deinit()
     await alice.deinit()
     expect(await doesFileOrDirectoryExist(homeDir)).toBe(false)
