@@ -25,7 +25,7 @@ describe('KVStore Methods', (): void => {
   const namespace = '_test_namespace1'
   const entryKey = '_test_key1'
   const team = config.teams.acme.teamname
-  let rev: number = null
+  let rev: number | null = null
 
   const getResultMatcher = expect.objectContaining({
     entryKey: expect.any(String),
@@ -56,12 +56,12 @@ describe('KVStore Methods', (): void => {
 
   it('Lists namespaces', async (): Promise<void> => {
     const res = await alice1.kvstore.listNamespaces(team)
-    expect(res.namespaces.length).toBeGreaterThan(0)
+    expect(res?.namespaces?.length).toBeGreaterThan(0)
   })
 
   it('Lists entryKeys', async (): Promise<void> => {
     const res = await alice1.kvstore.listEntryKeys(team, namespace)
-    expect(res.entryKeys.length).toBeGreaterThan(0)
+    expect(res?.entryKeys?.length).toBeGreaterThan(0)
   })
 
   it('Gets values', async (): Promise<void> => {
@@ -73,11 +73,13 @@ describe('KVStore Methods', (): void => {
 
   it('Cannot delete with a future revision', (): Promise<void> => {
     // Increment rev so that later tests always have a usable rev value prepared.
+    if (rev === null) throw new Error('rev should be a number by now')
     rev += 1
     return expectThrowCode(alice1.kvstore.delete(team, namespace, entryKey, rev + 1), KVStoreClient.ErrorIsWrongRevision)
   })
 
   it('Deletes at the correct revision', async (): Promise<void> => {
+    if (rev === null) throw new Error('rev should be a number by now')
     const res = await alice1.kvstore.delete(team, namespace, entryKey, rev)
     expect(res.revision).toEqual(rev)
   })

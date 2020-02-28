@@ -179,7 +179,7 @@ class Chat extends ClientBase {
     // Pagination gets passed as-is, while the messages get cleaned up
     return {
       pagination: res.pagination,
-      messages: res.messages.map((message: chat1.MsgNotification): chat1.MsgSummary => message.msg),
+      messages: res.messages.map((message: chat1.MsgNotification): chat1.MsgSummary => message.msg!),
     }
   }
 
@@ -242,7 +242,6 @@ class Chat extends ClientBase {
    * @memberof Chat
    * @param channel - The chat channel to send the message in.
    * @param message - The chat message to send.
-   * @param options - An object of options that can be passed to the method.
    * @example
    * const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topicType: 'chat'}
    * const message = {body: 'Hello kbot!'}
@@ -726,7 +725,7 @@ class Chat extends ClientBase {
     const onLine = (line: string): void => {
       this._adminDebugLogger.info(`stdout from listener: ${line}`)
       try {
-        const messageObject = formatAPIObjectOutput(JSON.parse(line))
+        const messageObject = formatAPIObjectOutput(JSON.parse(line), null)
         if (messageObject.hasOwnProperty('error')) {
           throw new Error(messageObject.error)
         }
@@ -734,16 +733,18 @@ class Chat extends ClientBase {
           return
         }
         const msgNotification: chat1.MsgNotification = messageObject
-        if (
-          // fire onMessage if it was from a different sender or at least a different device
-          // from this sender. Bots can filter out their own messages from other devices.
-          (options && options.showLocal) ||
-          (this.username &&
-            this.devicename &&
-            (msgNotification.msg.sender.username !== this.username.toLowerCase() ||
-              msgNotification.msg.sender.deviceName !== this.devicename))
-        ) {
-          onMessage(msgNotification.msg)
+        if (msgNotification.msg) {
+          if (
+            // fire onMessage if it was from a different sender or at least a different device
+            // from this sender. Bots can filter out their own messages from other devices.
+            (options && options.showLocal) ||
+            (this.username &&
+              this.devicename &&
+              (msgNotification.msg.sender.username !== this.username.toLowerCase() ||
+                msgNotification.msg.sender.deviceName !== this.devicename))
+          ) {
+            onMessage(msgNotification.msg)
+          }
         }
       } catch (error) {
         if (onError) {
@@ -771,7 +772,7 @@ class Chat extends ClientBase {
     return this._spawnChatListenChild(args, (line: string) => {
       this._adminDebugLogger.info(`stdout from listener: ${line}`)
       try {
-        const messageObject = formatAPIObjectOutput(JSON.parse(line))
+        const messageObject = formatAPIObjectOutput(JSON.parse(line), null)
         if (messageObject.hasOwnProperty('error')) {
           throw new Error(messageObject.error)
         }

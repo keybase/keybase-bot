@@ -5,7 +5,7 @@
 export interface BotInfo {
     username: string;
     devicename: string;
-    homeDir: void | string;
+    homeDir?: string;
     botLite?: boolean;
     disableTyping?: boolean;
     debugLogging?: boolean;
@@ -18,5 +18,5 @@ export interface BotInfo {
  * @example
  * keybaseStatus('/my/dir').then(status => console.log(status.username))
  */
-declare function keybaseStatus(workingDir: string, homeDir: void | string): Promise<BotInfo>;
+declare function keybaseStatus(workingDir: string, homeDir?: string): Promise<BotInfo>;
 export default keybaseStatus;

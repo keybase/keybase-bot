@@ -37,7 +37,7 @@ class Wallet extends ClientBase {
       throw new Error('Keybase wallet history returned nothing.')
     }
     // Removes a single object with property `payment`
-    const cleanedRes = res.map((historyItem: stellar1.PaymentOrErrorCLILocal): stellar1.PaymentCLILocal => historyItem.payment)
+    const cleanedRes = res.map((historyItem: stellar1.PaymentOrErrorCLILocal): stellar1.PaymentCLILocal => historyItem?.payment!)
     return cleanedRes
   }
 

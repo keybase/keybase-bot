@@ -18,13 +18,15 @@ function pluralizeRole(r: TeamRole): 'owners' | 'admins' | 'readers' | 'writers'
       return 'readers'
     case TeamRole.WRITER:
       return 'writers'
+    default:
+      throw new Error('unknown role: ' + r.toString())
   }
 }
 
 function checkMembershipLevel(username: string, teamListResult: TeamDetails): TeamRole | null {
   const possibleRoles: TeamRole[] = [TeamRole.OWNER, TeamRole.ADMIN, TeamRole.WRITER, TeamRole.READER]
   for (const role of possibleRoles) {
-    for (const user of teamListResult.members[pluralizeRole(role)]) {
+    for (const user of teamListResult.members[pluralizeRole(role)] ?? []) {
       if (user.username === username) {
         return role
       }

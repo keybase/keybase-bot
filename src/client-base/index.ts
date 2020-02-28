@@ -28,14 +28,13 @@ export class ErrorWithCode extends Error {
  */
 class ClientBase {
   public initialized: boolean
-  public username: void | string
-  public devicename: void | string
-  public homeDir: void | string
+  public username?: string
+  public devicename?: string
+  public homeDir?: string
   public verbose: boolean
   protected _spawnedProcesses: ChildProcess[]
   protected _workingDir: string
   protected _deinitializing: boolean
-  private _initializedWithOptions: InitOptions
   protected _adminDebugLogger: AdminDebugLogger
 
   public constructor(workingDir: string, adminDebugLogger: AdminDebugLogger) {
@@ -47,16 +46,13 @@ class ClientBase {
     this._deinitializing = false
   }
 
-  public async _init(homeDir: void | string, options?: InitOptions): Promise<void> {
+  public async _init(homeDir?: string): Promise<void> {
     const initBotInfo = await keybaseStatus(this._workingDir, homeDir)
     this._adminDebugLogger.info(`My workingDir=${this._workingDir} and my homeDir=${this.homeDir}`)
     this.homeDir = homeDir
     this.username = initBotInfo.username
     this.devicename = initBotInfo.devicename
     this.initialized = true
-    if (options) {
-      this._initializedWithOptions = options
-    }
   }
 
   public async _deinit(): Promise<void> {

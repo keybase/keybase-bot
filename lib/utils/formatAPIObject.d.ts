@@ -29,4 +29,4 @@ export declare type FormatAPIObjectOutputContext = {
   * const outputRes = formatAPIObject({unread_only: true})
   * console.log(outputRes) // {unreadOnly: true}
  */
-export declare function formatAPIObjectOutput(obj: any, context?: FormatAPIObjectOutputContext | null): any;
+export declare function formatAPIObjectOutput(obj: any, context: FormatAPIObjectOutputContext | null): any;

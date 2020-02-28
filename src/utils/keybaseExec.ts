@@ -59,7 +59,7 @@ const keybaseExec = (
     child.on('close', code => {
       done = true
 
-      let finalStdOut: void | string = null
+      let finalStdOut: string | null = null
       // Pass back
       if (code) {
         const errorMessage = Buffer.concat(stdErrBuffer).toString('utf8')

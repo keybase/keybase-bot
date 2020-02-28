@@ -4,13 +4,13 @@ import { AdminDebugLogger } from '../utils/adminDebugLogger';
 declare class Service {
     initialized: false | 'paperkey' | 'runningService';
     running: boolean;
-    username: void | string;
-    devicename: void | string;
-    homeDir: void | string;
+    username: undefined | string;
+    devicename: undefined | string;
+    homeDir: undefined | string;
     verbose: boolean;
     botLite: boolean;
     disableTyping: boolean;
-    serviceLogFile: void | string;
+    serviceLogFile: undefined | string;
     workingDir: string;
     autoLogSendOnCrash: boolean;
     private _paperkey;
@@ -22,7 +22,7 @@ declare class Service {
     initFromRunningService(homeDir?: string, options?: InitOptions): Promise<void>;
     private _killCustomService;
     deinit(): Promise<void>;
-    myInfo(): BotInfo | null;
+    myInfo(): BotInfo | undefined;
     /**
      *
      * @ignore

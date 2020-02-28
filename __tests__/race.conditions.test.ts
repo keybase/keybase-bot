@@ -16,7 +16,7 @@ describe('init/chat/deinit checking', (): void => {
     await bob.init(config.bots.bob1.username, config.bots.bob1.paperkey)
     await bob.chat.read({name: config.bots.alice1.username})
     const read1 = await bob.chat.read(channel, {pagination: {num: 1}})
-    expect(read1.messages[0].content.text.body).toContain(`race-${loop}-${code}`)
+    expect(read1.messages[0].content?.text?.body).toContain(`race-${loop}-${code}`)
     await bob.deinit()
   })
 })

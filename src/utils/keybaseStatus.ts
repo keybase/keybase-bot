@@ -7,7 +7,7 @@ import keybaseExec from '../utils/keybaseExec'
 export interface BotInfo {
   username: string
   devicename: string
-  homeDir: void | string
+  homeDir?: string
   botLite?: boolean
   disableTyping?: boolean
   debugLogging?: boolean
@@ -21,7 +21,7 @@ export interface BotInfo {
  * @example
  * keybaseStatus('/my/dir').then(status => console.log(status.username))
  */
-async function keybaseStatus(workingDir: string, homeDir: void | string): Promise<BotInfo> {
+async function keybaseStatus(workingDir: string, homeDir?: string): Promise<BotInfo> {
   const status = await keybaseExec(workingDir, homeDir, ['status', '--json'], {json: true})
   if (status && status.Username && status.Device && status.Device.name) {
     return {

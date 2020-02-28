@@ -64,12 +64,8 @@ export type FormatAPIObjectOutputContext = {
  * @param context - The context to match.
  * @returns - Whether the context is blacklisted from being formatted.
  */
-function matchBlacklist(context: FormatAPIObjectOutputContext | null): boolean {
-  if (
-    !context ||
-    !transformsBlacklist[context.apiName] ||
-    !transformsBlacklist[context.apiName][context.method]
-  ) {
+function matchBlacklist(context?: FormatAPIObjectOutputContext | null): boolean {
+  if (!context || !transformsBlacklist[context.apiName] || !transformsBlacklist[context.apiName][context.method]) {
     return false
   }
 
@@ -107,12 +103,9 @@ function matchBlacklist(context: FormatAPIObjectOutputContext | null): boolean {
  * @param key - The key to apprent to the parent array.
  * @returns - A new context.
  */
-function buildContext(
-  context: FormatAPIObjectOutputContext | null,
-  key: any
-): FormatAPIObjectOutputContext | null {
+function buildContext(context: FormatAPIObjectOutputContext | null, key: any): FormatAPIObjectOutputContext | null {
   if (!context) {
-    return context
+    return context ?? null
   }
 
   const copiedContext: FormatAPIObjectOutputContext = {...context}
@@ -136,7 +129,7 @@ function buildContext(
   * const outputRes = formatAPIObject({unread_only: true})
   * console.log(outputRes) // {unreadOnly: true}
  */
-export function formatAPIObjectOutput(obj: any, context?: FormatAPIObjectOutputContext | null): any {
+export function formatAPIObjectOutput(obj: any, context: FormatAPIObjectOutputContext | null): any {
   if (obj == null || typeof obj !== 'object') {
     return obj
   } else if (Array.isArray(obj)) {

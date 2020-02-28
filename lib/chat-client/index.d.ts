@@ -145,7 +145,6 @@ declare class Chat extends ClientBase {
      * @memberof Chat
      * @param channel - The chat channel to send the message in.
      * @param message - The chat message to send.
-     * @param options - An object of options that can be passed to the method.
      * @example
      * const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topicType: 'chat'}
      * const message = {body: 'Hello kbot!'}

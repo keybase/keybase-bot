@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import {formatAPIObjectInput, formatAPIObjectOutput} from './formatAPIObject'
 
 describe('formatAPIObjectInput', () => {
@@ -41,7 +42,7 @@ describe('formatAPIObjectOutput', () => {
         member_ids: [1, 2, 3, 4, 5],
       },
     }
-    const formattedOutput = formatAPIObjectOutput(output)
+    const formattedOutput = formatAPIObjectOutput(output, null)
     expect(formattedOutput).toEqual({
       conversationId: 'blah',
       nonblock: false,
