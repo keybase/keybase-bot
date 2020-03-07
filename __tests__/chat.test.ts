@@ -8,6 +8,12 @@ import {promisify} from 'util'
 import {TopicType, ChatChannel, MsgSummary, BotCommandsAdvertisementTyp} from '../lib/types/chat1'
 import {OnMessage, ReadResult} from '../lib/chat-client'
 
+// HACK:
+// typescript does not believe certain scenarios could be mutated
+// see for example: https://github.com/Microsoft/TypeScript/issues/12176
+// This is easy solution for the timeout check
+const coerceMsgSummary = (m: MsgSummary | null): MsgSummary => (m as unknown) as MsgSummary
+
 test('Chat methods with an uninitialized bot', (): void => {
   const alice1 = new Bot()
   const channel = {name: `${config.bots.alice1.username},${config.bots.bob1.username}`}
@@ -123,23 +129,14 @@ describe('Chat Methods', (): void => {
       }
     })
 
-    /*
-     * THIS TEST IS TEMP FAILING DUE TO A BUG IN THE CLIENT
-     * WHERE AN UNREAD "x left this channel" or similar is causing the
-     * convo to be included in the list, even though we don't
-     * want it to be.
-     *
-     * Internal ticket track: TRIAGE-1866
-     *
     it('Lists only unread conversations if given the option', async (): Promise<void> => {
       await bob.chat.send(channel, message)
       await timeout(500)
       const conversations = await alice1.chat.list({unreadOnly: true})
       for (const conversation of conversations) {
-        console.log('test 1', JSON.stringify(conversation))
         expect(conversation).toHaveProperty('unread', true)
       }
-    })*/
+    })
 
     it('Shows only messages of a specific topic type if given the option', async (): Promise<void> => {
       const conversations = await alice1.chat.list({topicType: TopicType.DEV})
@@ -171,7 +168,6 @@ describe('Chat Methods', (): void => {
       // No peeking: message should be unread on first read, and read on subsequent reads
       let result = await alice1.chat.read(channel)
       await bob.chat.send(channel, message)
-      await timeout(500)
       result = await alice1.chat.read(channel)
       expect(result.messages[0]).toHaveProperty('unread', true)
       result = await alice1.chat.read(channel)
@@ -179,7 +175,6 @@ describe('Chat Methods', (): void => {
 
       // Now let's peek. Messages should remain unread on subsequent reads.
       await bob.chat.send(channel, message)
-      await timeout(500)
       result = await alice1.chat.read(channel, {peek: true})
       expect(result.messages[0]).toHaveProperty('unread', true)
       result = await alice1.chat.read(channel)
@@ -228,9 +223,9 @@ describe('Chat Methods', (): void => {
       await alice1.chat.send(channel, message)
 
       const result = await alice1.chat.read(channel, {peek: true})
-      expect(result.messages[0].sender.username).toEqual(alice1.myInfo().username)
+      expect(result.messages[0].sender.username).toEqual(alice1.myInfo()?.username)
       if (result.messages[0].content.type === 'text') {
-        expect(result.messages[0].content.text.body).toEqual(message.body)
+        expect(result.messages[0].content.text?.body).toEqual(message.body)
       } else {
         expect(false).toBe(true)
       }
@@ -280,7 +275,7 @@ describe('Chat Methods', (): void => {
           if (message.content.type !== 'text') {
             throw new Error('Expected text type')
           }
-          if (message.content.text.body === `c${i} test`) {
+          if (message.content.text?.body === `c${i} test`) {
             if (okChecks[i]) {
               throw new Error('Uh oh, duplicate! ' + JSON.stringify(message))
             }
@@ -306,7 +301,7 @@ describe('Chat Methods', (): void => {
       const channelAlice = {name: config.bots.bob1.username}
       const channelBob = {name: config.bots.alice1.username}
       const body = 'Dearest Bob, how are you?'
-      let incoming: MsgSummary = null
+      let incoming: MsgSummary | null = null
       const watcher: OnMessage = (message: MsgSummary): void => {
         incoming = message
       }
@@ -314,10 +309,12 @@ describe('Chat Methods', (): void => {
       await timeout(500)
       await alice1.chat.send(channelAlice, {body})
       await timeout(500)
-      if (incoming.content.type !== 'text') {
+
+      const inc = coerceMsgSummary(incoming)
+      if (inc.content?.type !== 'text') {
         throw new Error('got a bad message')
       } else {
-        expect(incoming.content.text.body).toBe(body)
+        expect(inc.content?.text?.body).toBe(body)
       }
     })
     it(`Can read and post with usernames in any order`, async (): Promise<void> => {
@@ -327,7 +324,7 @@ describe('Chat Methods', (): void => {
       const body = 'Total protonic reversal. That would be bad.'
       let receipts = 0
       const bobOnMessage = (message: MsgSummary): void => {
-        if (message.content.type === 'text' && message.content.text.body === body) {
+        if (message.content.type === 'text' && message.content.text?.body === body) {
           receipts++
         }
       }
@@ -416,7 +413,7 @@ describe('Chat Methods', (): void => {
       const reaction = result.messages[0]
       expect(reaction.id).toBe(messageToReactTo.id + 1)
       expect(reaction.content.type).toBe('reaction')
-      expect(result.messages[1].reactions.reactions.poop).toHaveProperty(config.bots.bob1.username)
+      expect(result.messages[1]?.reactions?.reactions.poop).toHaveProperty(config.bots.bob1.username)
     })
 
     // it('Throws an error if given an invalid emoji', async () => {
@@ -444,7 +441,7 @@ describe('Chat Methods', (): void => {
     it('Attaches and sends a file on the filesystem', async (): Promise<void> => {
       await alice1.chat.attach(channel, attachmentLocation)
       const result = await alice1.chat.read(channel)
-      expect(result.messages[0].sender.username).toEqual(alice1.myInfo().username)
+      expect(result.messages[0].sender.username).toEqual(alice1.myInfo()?.username)
       expect(result.messages[0].content.type).toBe('attachment')
       expect(result.messages[0].content).toHaveProperty('attachment')
     })
@@ -495,11 +492,11 @@ describe('Chat Methods', (): void => {
       const result = await alice1.chat.read(channel, {
         peek: true,
       })
-      expect(result.messages[0].sender.username).toEqual(alice1.myInfo().username)
+      expect(result.messages[0].sender.username).toEqual(alice1.myInfo()?.username)
       if (result.messages[0].content.type !== 'text') {
         throw new Error('Expected text type but got something else')
       } else {
-        expect(result.messages[0].content.text.body).toEqual(message.body)
+        expect(result.messages[0].content.text?.body).toEqual(message.body)
       }
 
       const {id} = result.messages[0]
@@ -513,8 +510,8 @@ describe('Chat Methods', (): void => {
       if (newResult.messages[0].content.type !== 'delete') {
         throw new Error('expected delete message type')
       } else {
-        expect(newResult.messages[0].content.delete.messageIDs).toContain(id)
-        expect(newResult.messages[0].content.delete.messageIDs).toHaveLength(1)
+        expect(newResult.messages[0].content.delete?.messageIDs).toContain(id)
+        expect(newResult.messages[0].content.delete?.messageIDs).toHaveLength(1)
       }
       expect(newResult.messages[1].id).toEqual(id - 1)
     })
@@ -574,7 +571,7 @@ describe('Chat Methods', (): void => {
         name: '!helloworld',
         description: 'sample description',
         usage: 'test',
-        username: alice1.myInfo().username,
+        username: alice1.myInfo()?.username,
       })
 
       await alice1.chat.clearCommands()
@@ -591,12 +588,12 @@ describe('Chat Methods', (): void => {
       let BOB_IS_SATISFIED = false
 
       alice1.chat.watchChannelForNewMessages(teamChannel, (message): void => {
-        if (message.content.type === 'text' && message.content.text.body === 'hello alice1') {
+        if (message.content.type === 'text' && message.content.text?.body === 'hello alice1') {
           ALICE_IS_SATISFIED = true
         }
       })
       bob.chat.watchChannelForNewMessages(teamChannel, (message): void => {
-        if (message.content.type === 'text' && message.content.text.body === 'hello bob') {
+        if (message.content.type === 'text' && message.content.text?.body === 'hello bob') {
           BOB_IS_SATISFIED = true
         }
       })
@@ -612,7 +609,7 @@ describe('Chat Methods', (): void => {
       const messageText = 'Ever thus to deadbeats, Lebowski'
       let noticedMessages = 0
       alice1.chat.watchChannelForNewMessages(teamChannel, (message): void => {
-        if (message.content.type === 'text' && message.content.text.body === messageText) {
+        if (message.content.type === 'text' && message.content.text?.body === messageText) {
           noticedMessages++
         }
       })
@@ -626,13 +623,13 @@ describe('Chat Methods', (): void => {
     const testTwoBotsCounting = async (bot1: Bot, bot2: Bot): Promise<void> => {
       const stopAt = 10
       const convoCode = crypto.randomBytes(8).toString('hex')
-      const directChannel = {name: `${bot1.myInfo().username},${bot2.myInfo().username}`}
+      const directChannel = {name: `${bot1.myInfo()?.username},${bot2.myInfo()?.username}`}
       let totalMessagesSeen = 0
       let highestReached = 0
       const onMessageForBot = (bot: Bot): OnMessage => {
         const onMessage = async (message: MsgSummary): Promise<void> => {
           if (message.content.type === 'text') {
-            const body = message.content.text.body
+            const body = message.content.text?.body ?? ''
             if (body.indexOf(convoCode) !== -1) {
               totalMessagesSeen++
               const num = parseInt(body.replace(convoCode, '').trim())

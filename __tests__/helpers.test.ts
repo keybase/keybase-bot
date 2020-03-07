@@ -18,7 +18,7 @@ describe('Chat Methods', (): void => {
   it('works', async (): Promise<void> => {
     // check that sessions work
     const meRes = await alice.helpers.rawApiCall({endpoint: 'me'})
-    expect(meRes.me.basics.username).toBe(alice.myInfo().username)
+    expect(meRes.me.basics.username).toBe(alice.myInfo()?.username)
 
     // check a GET request
     const searchRes = await alice.helpers.rawApiCall({

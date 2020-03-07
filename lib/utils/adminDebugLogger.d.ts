@@ -1,7 +1,7 @@
 export declare class AdminDebugLogger {
     private _logDir?;
     private _botId;
-    private _botServiceLogPath;
+    private _botServiceLogPath?;
     private _deinitYet;
     get directory(): string | null;
     get filename(): string | null;

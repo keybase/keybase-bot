@@ -9,16 +9,16 @@ import {AdminDebugLogger} from '../utils/adminDebugLogger'
 class Service {
   public initialized: false | 'paperkey' | 'runningService'
   public running: boolean
-  public username: void | string
-  public devicename: void | string
-  public homeDir: void | string
+  public username: undefined | string
+  public devicename: undefined | string
+  public homeDir: undefined | string
   public verbose: boolean
   public botLite: boolean
   public disableTyping: boolean
-  public serviceLogFile: void | string
+  public serviceLogFile: undefined | string
   public workingDir: string
   public autoLogSendOnCrash: boolean
-  private _paperkey: void | string
+  private _paperkey: undefined | string
   private _useDetachedService: boolean
   private _debugLogging: boolean
   protected _adminDebugLogger: AdminDebugLogger
@@ -33,6 +33,7 @@ class Service {
     this.autoLogSendOnCrash = false
     this._useDetachedService = false
     this._debugLogging = debugLogging
+    this.running = false
   }
 
   public async init(username: string, paperkey: string, options?: InitOptions): Promise<void> {
@@ -138,18 +139,18 @@ class Service {
     this.initialized = false
   }
 
-  public myInfo(): BotInfo | null {
+  public myInfo(): BotInfo | undefined {
     if (this.username && this.devicename) {
       return {
         username: this.username,
         devicename: this.devicename,
-        homeDir: this.homeDir ? this.homeDir : undefined,
+        homeDir: this.homeDir ?? undefined,
         botLite: this.botLite,
         disableTyping: this.disableTyping,
         debugLogging: this._debugLogging,
       }
     }
-    return null
+    return undefined
   }
 
   /**

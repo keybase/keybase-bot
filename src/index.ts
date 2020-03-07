@@ -48,8 +48,8 @@ class Bot {
     const debugLogging = opts?.debugLogging ?? defaultOpts.debugLogging
     this._botId = crypto.randomBytes(16).toString('hex')
     this._workingDir = path.join(os.tmpdir(), `keybase_bot_${this._botId}`)
-    this._service = new Service(this._workingDir, this._adminDebugLogger, debugLogging)
     this._adminDebugLogger = new AdminDebugLogger(this._botId)
+    this._service = new Service(this._workingDir, this._adminDebugLogger, debugLogging ?? false)
     this.chat = new ChatClient(this._workingDir, this._adminDebugLogger)
     this.wallet = new WalletClient(this._workingDir, this._adminDebugLogger)
     this.team = new TeamClient(this._workingDir, this._adminDebugLogger)
@@ -71,12 +71,12 @@ class Bot {
     this._beginInitState()
     await this._prepWorkingDir(options ? options.keybaseBinaryLocation : undefined)
     await this._service.init(username, paperkey, options)
-    await this._initSubBots(options)
+    await this._initSubBots()
     if (options && options.adminDebugDirectory && this._service.serviceLogFile) {
-      await this._adminDebugLogger.init(options.adminDebugDirectory, this._service.serviceLogFile)
+      await this._adminDebugLogger?.init(options.adminDebugDirectory, this._service.serviceLogFile)
     }
     this._initStatus = 'initialized'
-    this._adminDebugLogger.info('initialized')
+    this._adminDebugLogger?.info('initialized')
   }
 
   /**
@@ -91,11 +91,11 @@ class Bot {
     this._beginInitState()
     await this._prepWorkingDir(options ? options.keybaseBinaryLocation : undefined)
     if (options && options.adminDebugDirectory && this._service.serviceLogFile) {
-      await this._adminDebugLogger.init(options.adminDebugDirectory, this._service.serviceLogFile)
+      await this._adminDebugLogger?.init(options.adminDebugDirectory, this._service.serviceLogFile)
     }
     await this._service.initFromRunningService(homeDir, options)
-    await this._initSubBots(options)
-    this._adminDebugLogger.info('initialized')
+    await this._initSubBots()
+    this._adminDebugLogger?.info('initialized')
   }
 
   private _beginInitState(): void {
@@ -103,7 +103,7 @@ class Bot {
       throw new Error(`tried to init, but state is already ${this._initStatus}`)
     }
     this._initStatus = 'initializing'
-    this._adminDebugLogger.info('beginning initialization')
+    this._adminDebugLogger?.info('beginning initialization')
   }
 
   /**
@@ -114,7 +114,7 @@ class Bot {
    * const info = bot.myInfo()
    */
   public myInfo(): BotInfo | null {
-    return this._service.myInfo()
+    return this._service.myInfo() ?? null
   }
 
   /**
@@ -127,15 +127,15 @@ class Bot {
     // Stop the clients first, so that they aren't trying to
     // talk to a deinit'ed service
     if (this._initStatus === 'deinitializing' || this._initStatus === 'deinitialized') {
-      this._adminDebugLogger.info('Trying to deinitialize, but already called')
+      this._adminDebugLogger?.info('Trying to deinitialize, but already called')
     } else {
       this._initStatus = 'deinitializing'
-      this._adminDebugLogger.info('beginning deinit')
+      this._adminDebugLogger?.info('beginning deinit')
       await this.chat._deinit()
       await this._service.deinit()
       await rmdirRecursive(this._workingDir)
-      this._adminDebugLogger.info('finished deinit')
-      this._adminDebugLogger.deinit()
+      this._adminDebugLogger?.info('finished deinit')
+      this._adminDebugLogger?.deinit()
       this._initStatus = 'deinitialized'
     }
   }
@@ -180,7 +180,9 @@ class Bot {
   public async pprof(pprofType: 'trace' | 'cpu' | 'heap', duration?: number): Promise<string> {
     const outputPath = path.join(this._workingDir, `pprof-${pprofType}-${new Date().toISOString()}`)
     const sec = Math.round((duration || 5000) / 1000)
-    await Utils.keybaseExec(this._workingDir, this.myInfo().homeDir, [
+    const myInfo = this.myInfo()
+    if (!myInfo) throw new Error("can't run pprof without a homedir")
+    await Utils.keybaseExec(this._workingDir, myInfo.homeDir, [
       'pprof',
       pprofType,
       ...(pprofType === 'heap' ? [] : ['-d', `${sec}s`]),
@@ -212,14 +214,14 @@ class Bot {
     await promisify(copyFile)(keybaseBinaryLocation, destination)
   }
 
-  private async _initSubBots(options?: InitOptions): Promise<void> {
+  private async _initSubBots(): Promise<void> {
     const info = this.myInfo()
     if (info) {
-      await this.chat._init(info.homeDir, options)
-      await this.wallet._init(info.homeDir, options)
-      await this.team._init(info.homeDir, options)
-      await this.helpers._init(info.homeDir, options)
-      await this.kvstore._init(info.homeDir, options)
+      await this.chat._init(info.homeDir)
+      await this.wallet._init(info.homeDir)
+      await this.team._init(info.homeDir)
+      await this.helpers._init(info.homeDir)
+      await this.kvstore._init(info.homeDir)
     } else {
       throw new Error('Issue initializing bot.')
     }

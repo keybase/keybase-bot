@@ -9,7 +9,7 @@ describe('Keybase bot initialization', (): void => {
   it('can init with a username and paperkey', async (): Promise<void> => {
     const alice = new Bot()
     await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
-    expect(alice.myInfo().username).toBe(config.bots.alice1.username)
+    expect(alice.myInfo()!.username).toBe(config.bots.alice1.username)
     // also check a double-init causes error
     await expect(alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)).rejects.toThrowError()
     await alice.deinit()
@@ -35,7 +35,7 @@ describe('Keybase bot initialization', (): void => {
     await startServiceManually(homeDir, config.bots.alice1.username, config.bots.alice1.paperkey)
     const alice = new Bot()
     await alice.initFromRunningService(homeDir)
-    expect(alice.myInfo().username).toBe(config.bots.alice1.username)
+    expect(alice.myInfo()!.username).toBe(config.bots.alice1.username)
     await alice.deinit()
     await stopServiceManually(homeDir)
   })
@@ -61,8 +61,8 @@ describe('Keybase bot initialization', (): void => {
   it('can init with botLite/disableTyping enabled by default', async (): Promise<void> => {
     const alice = new Bot()
     await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey)
-    expect(alice.myInfo().botLite).toBe(true)
-    expect(alice.myInfo().disableTyping).toBe(true)
+    expect(alice.myInfo()!.botLite).toBe(true)
+    expect(alice.myInfo()!.disableTyping).toBe(true)
     await alice.deinit()
   })
 
@@ -72,33 +72,33 @@ describe('Keybase bot initialization', (): void => {
       botLite: false,
       disableTyping: false,
     })
-    expect(alice.myInfo().botLite).toBe(false)
-    expect(alice.myInfo().disableTyping).toBe(false)
+    expect(alice.myInfo()!.botLite).toBe(false)
+    expect(alice.myInfo()!.disableTyping).toBe(false)
     await alice.deinit()
   })
 
   it('can config without botLite or disableTyping', async (): Promise<void> => {
     const alice = new Bot()
     await alice.init(config.bots.alice1.username, config.bots.alice1.paperkey, {verbose: true})
-    expect(alice.myInfo().botLite).toBe(true)
-    expect(alice.myInfo().disableTyping).toBe(true)
+    expect(alice.myInfo()!.botLite).toBe(true)
+    expect(alice.myInfo()!.disableTyping).toBe(true)
     await alice.deinit()
   })
 
   it('can instantiate with debugLogging options', async (): Promise<void> => {
     const alice1 = new Bot({debugLogging: true})
     await alice1.init(config.bots.alice1.username, config.bots.alice1.paperkey)
-    expect(alice1.myInfo().debugLogging).toBe(true)
+    expect(alice1.myInfo()!.debugLogging).toBe(true)
     await alice1.deinit()
 
     const alice2 = new Bot({debugLogging: false})
     await alice2.init(config.bots.alice1.username, config.bots.alice1.paperkey)
-    expect(alice2.myInfo().debugLogging).toBe(false)
+    expect(alice2.myInfo()!.debugLogging).toBe(false)
     await alice2.deinit()
 
     const alice3 = new Bot({})
     await alice3.init(config.bots.alice1.username, config.bots.alice1.paperkey)
-    expect(alice3.myInfo().debugLogging).toBe(false)
+    expect(alice3.myInfo()!.debugLogging).toBe(false)
     await alice3.deinit()
   })
 
