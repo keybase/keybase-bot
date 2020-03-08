@@ -23,8 +23,7 @@ const msgReply = s => {
     a2 = Math.floor(Math.random() * 10)
     b2 = Math.floor(Math.random() * 10)
     eqn = '(' + a1 + ' + ' + b1 + 'i) * (' + a2 + ' + ' + b2 + 'i)'
-    ans =
-      "Sorry, I can't do that math. Did you know " + eqn + ' = ' + mathjs['eval'](eqn).toString() + '? True.'
+    ans = "Sorry, I can't do that math. Did you know " + eqn + ' = ' + mathjs['eval'](eqn).toString() + '? True.'
   }
   return ans
 }
@@ -43,7 +42,7 @@ async function main() {
         const prefix = message.content.text.body.slice(0, 6)
         if (prefix === '/math ') {
           const reply = {body: msgReply(message.content.text.body.slice(6))}
-          await bot.chat.send(message.channel, reply)
+          await bot.chat.send(message.conversationId, reply)
         }
       }
     }

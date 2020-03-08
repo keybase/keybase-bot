@@ -41,7 +41,7 @@ async function main() {
                   resolved = true
 
                   if (flip.resultInfo.typ !== 3 || !flip.resultInfo.hands.find(x => x.target === 'me')) {
-                    await bot.chat.send(msg.channel, {
+                    await bot.chat.send(msg.conversationId, {
                       body: `Invalid flip type! Please do a /flip cards 5 me instead.`,
                     })
                     return
@@ -49,7 +49,7 @@ async function main() {
 
                   const myHand = flip.resultInfo.hands.find(x => x.target === 'me')
                   const hand = Hand.solve(myHand.hand.map(card => deckI2S[card]))
-                  await bot.chat.send(msg.channel, {
+                  await bot.chat.send(msg.conversationId, {
                     body: `You got ${hand.descr}.`,
                   })
                 }
@@ -60,7 +60,7 @@ async function main() {
             return
           }
 
-          await bot.chat.send(msg.channel, {
+          await bot.chat.send(msg.conversationId, {
             body: `Hi ${msg.sender.username}! Do a /flip cards 5 me and I'll tell what's in your poker hand!`,
           })
         } catch (err) {

@@ -82,7 +82,7 @@ main = ->
         senderName = message.sender.username
         reply = {body: msgCheckAndReply(body, senderName)}
         console.log "#{senderName} guessed `#{body}`. Reply = `#{reply.body}`"
-        bot.chat.send message.channel, reply
+        bot.chat.send message.conversationId, reply
 
 shutDown = ->
   bot.deinit().then ->

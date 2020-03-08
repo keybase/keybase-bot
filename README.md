@@ -33,10 +33,10 @@ If your bot is going to do things in the background for an extended period, we r
 // A simple nodeJS bot that doesn't care who else is logged in on this machine
 const Bot = require('keybase-bot')
 async function main() {
-   const bot = new Bot()
-   await bot.init('usernameX', 'some paper key...')
-   /* now you can do things with the bot */
-   await bot.deinit() // when done
+  const bot = new Bot()
+  await bot.init('usernameX', 'some paper key...')
+  /* now you can do things with the bot */
+  await bot.deinit() // when done
 }
 main()
 ```
@@ -46,15 +46,14 @@ This method means it's running as itself and won't care about Keybase generally 
 If, however, you'd like the bot just to _act as you_ for a quick and easy operation, you can make your bot talk to the same service that the Keybase app is talking to. It will be logged in as whoever's logged into the Keybase app:
 
 ```javascript
-
 const Bot = require('keybase-bot')
 async function main() {
-   const bot = new Bot()
-   // Make sure you're logged into the Keybase app first!
-   // No credentials neeeded:
-   await bot.initFromRunningService()
-   /* now you can do things with the bot */
-   await bot.deinit() // when done
+  const bot = new Bot()
+  // Make sure you're logged into the Keybase app first!
+  // No credentials neeeded:
+  await bot.initFromRunningService()
+  /* now you can do things with the bot */
+  await bot.deinit() // when done
 }
 main()
 ```
@@ -69,8 +68,8 @@ const Bot = require('keybase-bot')
 async function main() {
   const bot = new Bot()
   try {
-    const username = "some_username"      // put a real username here
-    const paperkey = "foo bar car zar..." // put a real paperkey here
+    const username = 'some_username' // put a real username here
+    const paperkey = 'foo bar car zar...' // put a real paperkey here
     await bot.init(username, paperkey, {verbose: false})
     console.log(`Your bot is initialized. It is logged in as ${bot.myInfo().username}`)
     const channel = {name: 'kbot'}
@@ -87,7 +86,6 @@ async function main() {
 }
 
 main()
-
 ```
 
 To run the above bot, you want to save that code into a file and run it with node:
@@ -116,7 +114,7 @@ KB_USERNAME=foo KB_PAPERKEY="foo bar car" node my-awesome-program.js
 
 If you'd like to write a bot that listens to your messages (or your team's) and does something, check out [`demos/es7/advertised-echo.js`](demos/es7/advertised-echo.js).
 
-That demo bot announces itself as handling `!echo`,  which means it gives autocomplete suggestions in the GUI when you talk to it.
+That demo bot announces itself as handling `!echo`, which means it gives autocomplete suggestions in the GUI when you talk to it.
 
 ## Docker usage
 
@@ -682,11 +680,12 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 [src/chat-client/index.ts:166-183](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L166-L183 'Source code on GitHub')
 
-Reads the messages in a channel. You can read with or without marking as read.
+Reads the messages in a conversatioin. You can read with or without marking as
+read.
 
 ##### Parameters
 
-- `channel` **chat1.ChatChannel** The chat channel to read messages in.
+- `channelOrConversationId` **chat1.ChatChannel** or **chat1.ConvIDStr** The chat conversation to send the message in.
 - `options` **[ChatReadOptions](#chatreadoptions)?** An object of options that can be passed to the method.
 
 ##### Examples
@@ -701,11 +700,11 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 [src/chat-client/index.ts:250-268](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L250-L268 'Source code on GitHub')
 
-Send a message to a certain channel.
+Send a message to a certain conversation.
 
 ##### Parameters
 
-- `channel` **chat1.ChatChannel** The chat channel to send the message in.
+- `channelOrConversationId` **chat1.ChatChannel** or **chat1.ConvIDStr** The chat conversation to send the message in.
 - `message` **chat1.ChatMessage** The chat message to send.
 - `options` **[ChatSendOptions](#chatsendoptions)?** An object of options that can be passed to the method.
 
@@ -715,6 +714,15 @@ Send a message to a certain channel.
 const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topicType: 'chat'}
 const message = {body: 'Hello kbot!'}
 bot.chat.send(channel, message).then(() => console.log('message sent!'))
+```
+
+```javascript
+const onMessage = async message => {
+  bot.chat.send(message.conversationId, {
+    body: 'hello!',
+  })
+}
+await bot.chat.watchAllChannelsForNewMessages(onMessage, onError)
 ```
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;chat1.SendRes>**
@@ -741,11 +749,11 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 [src/chat-client/index.ts:301-309](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L301-L309 'Source code on GitHub')
 
-Send a file to a channel.
+Send a file to a conversation.
 
 ##### Parameters
 
-- `channel` **chat1.ChatChannel** The chat channel to send the message in.
+- `channelOrConversationId` **chat1.ChatChannel** or **chat1.ConvIDStr** The chat conversation to send the message in.
 - `filename` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The absolute path of the file to send.
 - `options` **[ChatAttachOptions](#chatattachoptions)?** An object of options that can be passed to the method.
 
@@ -765,7 +773,7 @@ Download a file send via Keybase chat.
 
 ##### Parameters
 
-- `channel` **chat1.ChatChannel** The chat channel that the desired attacment to download is in.
+- `channelOrConversationId` **chat1.ChatChannel** or **chat1.ConvIDStr** The chat conversation to send the message in.
 - `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The message id of the attached file.
 - `output` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The absolute path of where the file should be downloaded to.
 - `options` **[ChatDownloadOptions](#chatdownloadoptions)?** An object of options that can be passed to the method
@@ -782,12 +790,12 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 [src/chat-client/index.ts:341-355](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L341-L355 'Source code on GitHub')
 
-Reacts to a given message in a channel. Messages have messageId's associated with
-them, which you can learn in `bot.chat.read`.
+Reacts to a given message in a conversation. Messages have messageId's
+associated with them, which you can learn in `bot.chat.read`.
 
 ##### Parameters
 
-- `channel` **chat1.ChatChannel** The chat channel to send the message in.
+- `channelOrConversationId` **chat1.ChatChannel** or **chat1.ConvIDStr** The chat conversation to send the message in.
 - `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The id of the message to react to.
 - `reaction` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The reaction emoji, in colon form.
 - `options` **[ChatReactOptions](#chatreactoptions)?** An object of options that can be passed to the method.
@@ -804,13 +812,13 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 [src/chat-client/index.ts:368-379](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L368-L379 'Source code on GitHub')
 
-Deletes a message in a channel. Messages have messageId's associated with
+Deletes a message in a conversation. Messages have messageId's associated with
 them, which you can learn in `bot.chat.read`. Known bug: the GUI has a cache,
 and deleting from the CLI may not become apparent immediately.
 
 ##### Parameters
 
-- `channel` **chat1.ChatChannel** The chat channel to send the message in.
+- `channelOrConversationId` **chat1.ChatChannel** or **chat1.ConvIDStr** The chat conversation to send the message in.
 - `messageId` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The id of the message to delete.
 - `options` **[ChatDeleteOptions](#chatdeleteoptions)?** An object of options that can be passed to the method.
 
@@ -842,8 +850,8 @@ Hides exploding messages by default.
 // Reply to all messages between you and `kbot` with 'thanks!'
 const channel = {name: 'kbot,' + bot.myInfo().username, public: false, topicType: 'chat'}
 const onMessage = message => {
-  const channel = message.channel
-  bot.chat.send(channel, {body: 'thanks!!!'})
+  const conversationId = message.conversationId
+  bot.chat.send(conversationId, {body: 'thanks!!!'})
 }
 bot.chat.watchChannelForNewMessages(channel, onMessage)
 ```
@@ -862,6 +870,10 @@ function to use. Note that it receives messages your own bot posts, but from oth
 You can filter out your own messages by looking at a message's sender object.
 Hides exploding messages by default.
 
+Note that if your bot was added into a channel as a restricted bot, it won't
+have access to channel names. So you should be using `conversationId` when
+responding in the same conversation.
+
 ##### Parameters
 
 - `onMessage` **[OnMessage](#onmessage)** A callback that is triggered on every message your bot receives.
@@ -873,8 +885,8 @@ Hides exploding messages by default.
 ```javascript
 // Reply to incoming traffic on all channels with 'thanks!'
 const onMessage = message => {
-  const channel = message.channel
-  bot.chat.send(channel, {body: 'thanks!!!'})
+  const conversationId = message.conversationId
+  bot.chat.send(conversationId, {body: 'thanks!!!'})
 }
 bot.chat.watchAllChannelsForNewMessages(onMessage)
 ```
@@ -959,8 +971,14 @@ Add a bunch of people with different privileges to a team
 bot.team
   .addMembers({
     team: 'phoenix',
-    emails: [{email: 'alice@keybase.io', role: 'writer'}, {email: 'cleo@keybase.io', role: 'admin'}],
-    usernames: [{username: 'frank', role: 'reader'}, {username: 'keybaseio@twitter', role: 'writer'}],
+    emails: [
+      {email: 'alice@keybase.io', role: 'writer'},
+      {email: 'cleo@keybase.io', role: 'admin'},
+    ],
+    usernames: [
+      {username: 'frank', role: 'reader'},
+      {username: 'keybaseio@twitter', role: 'writer'},
+    ],
   })
   .then(res => console.log(res))
 ```
