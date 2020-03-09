@@ -22,8 +22,8 @@ async function main() {
               description: 'Sends out your message to the current channel.',
               usage: '[your text]',
             },
-          ]
-        }
+          ],
+        },
       ],
     })
 
@@ -36,8 +36,8 @@ async function main() {
         return
       }
 
-      bot.chat.send(message.channel, {
-        body: message.content.text.body.substr(6)
+      bot.chat.send(message.conversationId, {
+        body: message.content.text.body.substr(6),
       })
     }
 

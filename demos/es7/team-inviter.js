@@ -30,13 +30,13 @@ async function main() {
               team: teamName,
               usernames: [{username: msg.sender.username, role: 'reader'}],
             })
-            await bot.chat.send(msg.channel, {
+            await bot.chat.send(msg.conversationId, {
               body: `There you go! Welcome to ${teamName}!`,
             })
             return
           }
 
-          await bot.chat.send(msg.channel, {
+          await bot.chat.send(msg.conversationId, {
             body: `Hi ${msg.sender.username}! I'm a proof of concept of a bot that invites users into an open team - in this case ${teamName}. Reply with "invite me" and I'll add you there!`,
           })
         } catch (err) {

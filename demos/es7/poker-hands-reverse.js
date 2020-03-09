@@ -60,7 +60,7 @@ async function main() {
                   resolved = true
 
                   if (flip.resultInfo.typ !== 3 || !flip.resultInfo.hands.find(x => x.target === 'hand')) {
-                    await bot.chat.send(msg.channel, {
+                    await bot.chat.send(msg.conversationId, {
                       body: `Invalid flip type! Expected /flip cards 5 hand.`,
                     })
                     return
@@ -68,7 +68,7 @@ async function main() {
 
                   const myHand = flip.resultInfo.hands.find(x => x.target === 'hand')
                   const hand = Hand.solve(myHand.hand.map(card => deckI2S[card]))
-                  await bot.chat.send(msg.channel, {
+                  await bot.chat.send(msg.conversationId, {
                     body: `You got ${hand.descr}!`,
                   })
                   return
@@ -82,13 +82,13 @@ async function main() {
 
           if (msg.content.type === 'text' && msg.content.text.body.toLowerCase().includes('hand')) {
             // Perform the flip
-            await bot.chat.send(msg.channel, {
+            await bot.chat.send(msg.conversationId, {
               body: `/flip cards 5 hand`,
             })
             return
           }
 
-          await bot.chat.send(msg.channel, {
+          await bot.chat.send(msg.conversationId, {
             body: `Hi ${msg.sender.username}! Send "hand" to me and I'll flip and tell you what's in your hand!`,
           })
         } catch (err) {
