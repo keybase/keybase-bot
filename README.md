@@ -680,7 +680,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 [src/chat-client/index.ts:166-183](https://github.com/keybase/keybase-bot/blob/3681b8fe4b463f932a06c37043cc33133d79c272/src/chat-client/index.ts#L166-L183 'Source code on GitHub')
 
-Reads the messages in a conversatioin. You can read with or without marking as
+Reads the messages in a conversation. You can read with or without marking as
 read.
 
 ##### Parameters
