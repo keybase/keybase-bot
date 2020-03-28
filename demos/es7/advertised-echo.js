@@ -18,7 +18,7 @@ async function main() {
           type: 'public',
           commands: [
             {
-              name: '!echo',
+              name: 'echo',
               description: 'Sends out your message to the current channel.',
               usage: '[your text]',
             },
