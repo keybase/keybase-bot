@@ -170,9 +170,10 @@ main()
 
 ```dockerfile
 FROM keybaseio/client:nightly-node
-WORKDIR /app
-COPY . /app
+WORKDIR /home/keybase
+COPY package*.json ./
 RUN npm install # or use yarn
+COPY . .
 CMD node /app/index.js
 ```
 
