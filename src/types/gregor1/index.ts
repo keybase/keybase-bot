@@ -1,7 +1,7 @@
 /*
  * gregor.1
  *
- * Auto-generated to TypeScript types by avdl-compiler v1.4.6 (https://github.com/keybase/node-avdl-compiler)
+ * Auto-generated to TypeScript types by avdl-compiler v1.4.8 (https://github.com/keybase/node-avdl-compiler)
  * Input files:
  * - ../client/protocol/avdl/gregor1/auth.avdl
  * - ../client/protocol/avdl/gregor1/auth_internal.avdl
