@@ -68,7 +68,7 @@ class KVStore extends ClientBase {
    * @param entryKey - The entryKey to get the value for.
    * @returns - An entryKey with its value. If this key does not exist, the revision will be 0.
    * @example
-   * bot.kvstore.get('phoenix', 'pw-manager', 'geocities').then(({revision, value}) => console.log({revision, value}))
+   * bot.kvstore.get('phoenix', 'pw-manager', 'geocities').then(({revision, entryValue}) => console.log({revision, entryValue}))
    */
   public async get(team: undefined | string, namespace: string, entryKey: string): Promise<keybase1.KVGetResult> {
     await this._guardInitialized()
