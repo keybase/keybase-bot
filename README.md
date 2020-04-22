@@ -1210,9 +1210,10 @@ Make sure that you have Node, Yarn, and the Keybase application installed. We al
 
 1.  Clone this repo.
 2.  Install dependencies with `yarn`.
-3.  Build the bot in watch mode with `yarn dev`.
-4.  Build the bot for production with `yarn build`.
-5.  Build the docs for the bot with `yarn docs`.
+3.  Make your changes in `src/`.
+4.  Build the bot in watch mode with `yarn dev`.
+5.  Build the bot for production with `yarn build` to update `lib/`.
+6.  Build the docs for the bot with `yarn docs`.
 
 That's it. We accept changes via Pull Requests; please make sure that any changes you make build successfully and pass Flow, Prettier, and ESLint checks. We'd also really appreciate it if your PR could follow the [Conventional Commit](https://www.conventionalcommits.org) specification. If you're adding a new feature, please add/update tests, demos, documentation, and whatever else makes sense to go with it. If you have any questions about contributing, please feel free to ask a maintainer!
 
