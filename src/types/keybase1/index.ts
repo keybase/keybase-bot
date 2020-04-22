@@ -1144,7 +1144,7 @@ export type KVGetResult = {
   teamName: string
   namespace: string
   entryKey: string
-  entryValue: string
+  entryValue?: string | null
   revision: number
 }
 

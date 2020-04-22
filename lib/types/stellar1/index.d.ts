@@ -66,6 +66,7 @@ export declare type Asset = {
     authEndpoint: string;
     depositReqAuth: boolean;
     withdrawReqAuth: boolean;
+    useSep24: boolean;
 };
 export declare type AccountReserve = {
     amount: string;
