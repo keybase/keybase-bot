@@ -413,7 +413,7 @@ describe('Chat Methods', (): void => {
       const reaction = result.messages[0]
       expect(reaction.id).toBe(messageToReactTo.id + 1)
       expect(reaction.content.type).toBe('reaction')
-      expect(result.messages[1]?.reactions?.reactions.poop).toHaveProperty(config.bots.bob1.username)
+      expect(result.messages[1]?.reactions?.reactions?.poop?.users).toHaveProperty(config.bots.bob1.username)
     })
 
     // it('Throws an error if given an invalid emoji', async () => {
