@@ -28,6 +28,10 @@ toc:
       - ChatDownloadOptions
       - ChatReactOptions
       - ChatDeleteOptions
+      - ChatListOptions
+      - ChatListChannelsOptions
+      - ChatReadOptions
+      - ChatSendOptions
       - Advertisement
       - AdvertisementsLookup
       - OnMessage
