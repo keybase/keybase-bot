@@ -1,11 +1,7 @@
-import crypto from 'crypto'
 import Bot from '../lib'
 import config from './tests.config'
 import * as KVStoreClient from '../lib/kvstore-client'
 import {ErrorWithCode} from '../lib/client-base'
-import {timeout} from '../lib/utils'
-import {ChatChannel} from '../lib/types/chat1'
-import {ChatSendOptions} from '../lib/chat-client'
 
 test('KVStore methods with an uninitialized bot', (): void => {
   const alice1 = new Bot()
@@ -22,8 +18,10 @@ const expectThrowCode = (promise: Promise<any>, checker: (error: ErrorWithCode) 
 
 describe('KVStore Methods', (): void => {
   const alice1 = new Bot()
-  const namespace = '_test_namespace1'
-  const entryKey = '_test_key1'
+  const firstRando = Math.floor(Math.random() * 1000).toString()
+  const secondRando = Math.floor(Math.random() * 1000).toString()
+  const namespace = '_test_namespace' + firstRando
+  const entryKey = '_test_key' + secondRando
   const team = config.teams.acme.teamname
   let rev: number | null = null
 
@@ -47,6 +45,14 @@ describe('KVStore Methods', (): void => {
     }
   )
 
+  it('Getting an unset value', async (): Promise<void> => {
+    const res = await alice1.kvstore.get(team, namespace, entryKey)
+    expect(res.entryValue).toEqual(null)
+    expect(res.revision).toEqual(0)
+    expect(alice1.kvstore.isPresent(res)).toBe(false)
+    expect(alice1.kvstore.isDeleted(res)).toBe(false)
+  })
+
   it('Can put with a default revision, but not a stale one', async (): Promise<void> => {
     const res = await alice1.kvstore.put(team, namespace, entryKey, 'value1')
     rev = res.revision
@@ -69,6 +75,8 @@ describe('KVStore Methods', (): void => {
     expect(res).toEqual(getResultMatcher)
     expect(res.entryValue).toEqual('value1')
     expect(res.revision).toEqual(rev)
+    expect(alice1.kvstore.isPresent(res)).toBe(true)
+    expect(alice1.kvstore.isDeleted(res)).toBe(false)
   })
 
   it('Cannot delete with a future revision', (): Promise<void> => {
@@ -86,6 +94,14 @@ describe('KVStore Methods', (): void => {
 
   it('Cannot delete twice', (): Promise<void> => {
     return expectThrowCode(alice1.kvstore.delete(team, namespace, entryKey), KVStoreClient.ErrorIsNotFound)
+  })
+
+  it('Getting a deleted value', async (): Promise<void> => {
+    const res = await alice1.kvstore.get(team, namespace, entryKey)
+    expect(res.entryValue).toEqual(null)
+    expect(res.revision).toEqual(rev)
+    expect(alice1.kvstore.isPresent(res)).toBe(false)
+    expect(alice1.kvstore.isDeleted(res)).toBe(true)
   })
 
   it('optional teamname', async (): Promise<void> => {

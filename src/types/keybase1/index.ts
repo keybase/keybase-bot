@@ -1,7 +1,7 @@
 /*
  * keybase.1
  *
- * Auto-generated to TypeScript types by avdl-compiler v1.4.6 (https://github.com/keybase/node-avdl-compiler)
+ * Auto-generated to TypeScript types by avdl-compiler v1.4.8 (https://github.com/keybase/node-avdl-compiler)
  * Input files:
  * - ../client/protocol/avdl/keybase1/account.avdl
  * - ../client/protocol/avdl/keybase1/airdrop.avdl
@@ -43,7 +43,9 @@
  * - ../client/protocol/avdl/keybase1/identify_common.avdl
  * - ../client/protocol/avdl/keybase1/identify_ui.avdl
  * - ../client/protocol/avdl/keybase1/implicit_team_migration.avdl
+ * - ../client/protocol/avdl/keybase1/incoming-share.avdl
  * - ../client/protocol/avdl/keybase1/install.avdl
+ * - ../client/protocol/avdl/keybase1/invite_friends.avdl
  * - ../client/protocol/avdl/keybase1/kbfs.avdl
  * - ../client/protocol/avdl/keybase1/kbfs_common.avdl
  * - ../client/protocol/avdl/keybase1/kbfs_git.avdl
@@ -61,6 +63,7 @@
  * - ../client/protocol/avdl/keybase1/merkle_store.avdl
  * - ../client/protocol/avdl/keybase1/metadata.avdl
  * - ../client/protocol/avdl/keybase1/metadata_update.avdl
+ * - ../client/protocol/avdl/keybase1/network_stats.avdl
  * - ../client/protocol/avdl/keybase1/notify_app.avdl
  * - ../client/protocol/avdl/keybase1/notify_audit.avdl
  * - ../client/protocol/avdl/keybase1/notify_badges.avdl
@@ -73,6 +76,7 @@
  * - ../client/protocol/avdl/keybase1/notify_featuredbots.avdl
  * - ../client/protocol/avdl/keybase1/notify_fs.avdl
  * - ../client/protocol/avdl/keybase1/notify_fs_request.avdl
+ * - ../client/protocol/avdl/keybase1/notify_invite_friends.avdl
  * - ../client/protocol/avdl/keybase1/notify_keyfamily.avdl
  * - ../client/protocol/avdl/keybase1/notify_paperkey.avdl
  * - ../client/protocol/avdl/keybase1/notify_pgp.avdl
@@ -117,6 +121,7 @@
  * - ../client/protocol/avdl/keybase1/teambot.avdl
  * - ../client/protocol/avdl/keybase1/teams.avdl
  * - ../client/protocol/avdl/keybase1/teams_ui.avdl
+ * - ../client/protocol/avdl/keybase1/teamsearch.avdl
  * - ../client/protocol/avdl/keybase1/test.avdl
  * - ../client/protocol/avdl/keybase1/tlf.avdl
  * - ../client/protocol/avdl/keybase1/tlf_keys.avdl
@@ -125,6 +130,7 @@
  * - ../client/protocol/avdl/keybase1/upk.avdl
  * - ../client/protocol/avdl/keybase1/user.avdl
  * - ../client/protocol/avdl/keybase1/usersearch.avdl
+ * - ../client/protocol/avdl/keybase1/wot.avdl
  */
 
 import * as gregor1 from '../gregor1'
@@ -188,6 +194,15 @@ export enum BlockStatus {
 export type BlockRefNonce = string | null
 export type BlockPingResponse = {}
 
+export type UsageStatRecord = {
+  write: number
+  archive: number
+  read: number
+  mdWrite: number
+  gitWrite: number
+  gitArchive: number
+}
+
 export type BotToken = string
 
 export type Time = number
@@ -195,6 +210,8 @@ export type Time = number
 export type UnixTime = number
 
 export type DurationSec = number
+
+export type DurationMsec = number
 
 export type StringKVPair = {
   key: string
@@ -272,6 +289,8 @@ export enum DeviceType {
   DESKTOP = 'desktop',
   MOBILE = 'mobile',
 }
+
+export type DeviceTypeV2 = string
 
 export type Stream = {
   fd: number
@@ -352,7 +371,28 @@ export enum OfflineAvailability {
   BEST_EFFORT = 'best_effort',
 }
 
-export type ReacjiSkinTone = number
+export type UserReacji = {
+  name: string
+  customAddr?: string
+  customAddrNoAnim?: string
+}
+
+export enum ReacjiSkinTone {
+  NONE = 'none',
+  SKINTONE1 = 'skintone1',
+  SKINTONE2 = 'skintone2',
+  SKINTONE3 = 'skintone3',
+  SKINTONE4 = 'skintone4',
+  SKINTONE5 = 'skintone5',
+}
+
+export enum WotStatusType {
+  NONE = 'none',
+  PROPOSED = 'proposed',
+  ACCEPTED = 'accepted',
+  REJECTED = 'rejected',
+  REVOKED = 'revoked',
+}
 
 export type SessionStatus = {
   sessionFor: string
@@ -390,6 +430,7 @@ export type KbServiceStatus = {
   pid: string
   log: string
   ekLog: string
+  perfLog: string
 }
 
 export type KBFSStatus = {
@@ -398,6 +439,7 @@ export type KBFSStatus = {
   running: boolean
   pid: string
   log: string
+  perfLog: string
   mount: string
 }
 
@@ -417,6 +459,7 @@ export type StartStatus = {
 
 export type GitStatus = {
   log: string
+  perfLog: string
 }
 
 export type LogSendID = string
@@ -476,6 +519,7 @@ export enum ProxyType {
 export enum StatusCode {
   SCOk = 'scok',
   SCInputError = 'scinputerror',
+  SCAssertionParseError = 'scassertionparseerror',
   SCLoginRequired = 'scloginrequired',
   SCBadSession = 'scbadsession',
   SCBadLoginUserNotFound = 'scbadloginusernotfound',
@@ -498,11 +542,13 @@ export enum StatusCode {
   SCWrongCryptoFormat = 'scwrongcryptoformat',
   SCDecryptionError = 'scdecryptionerror',
   SCInvalidAddress = 'scinvalidaddress',
+  SCWrongCryptoMsgType = 'scwrongcryptomsgtype',
   SCNoSession = 'scnosession',
   SCAccountReset = 'scaccountreset',
   SCIdentifiesFailed = 'scidentifiesfailed',
   SCNoSpaceOnDevice = 'scnospaceondevice',
   SCMerkleClientError = 'scmerkleclienterror',
+  SCMerkleUpdateRoot = 'scmerkleupdateroot',
   SCBadEmail = 'scbademail',
   SCRateLimit = 'scratelimit',
   SCBadSignupUsernameTaken = 'scbadsignupusernametaken',
@@ -533,6 +579,7 @@ export enum StatusCode {
   SCKeyDuplicateUpdate = 'sckeyduplicateupdate',
   SCSibkeyAlreadyExists = 'scsibkeyalreadyexists',
   SCDecryptionKeyNotFound = 'scdecryptionkeynotfound',
+  SCVerificationKeyNotFound = 'scverificationkeynotfound',
   SCKeyNoPGPEncryption = 'sckeynopgpencryption',
   SCKeyNoNaClEncryption = 'sckeynonaclencryption',
   SCKeySyncedPGPNotFound = 'sckeysyncedpgpnotfound',
@@ -566,6 +613,7 @@ export enum StatusCode {
   SCGenericAPIError = 'scgenericapierror',
   SCAPINetworkError = 'scapinetworkerror',
   SCTimeout = 'sctimeout',
+  SCKBFSClientTimeout = 'sckbfsclienttimeout',
   SCProofError = 'scprooferror',
   SCIdentificationExpired = 'scidentificationexpired',
   SCSelfNotFound = 'scselfnotfound',
@@ -606,6 +654,8 @@ export enum StatusCode {
   SCChatNotInTeam = 'scchatnotinteam',
   SCChatStalePreviousState = 'scchatstalepreviousstate',
   SCChatEphemeralRetentionPolicyViolatedError = 'scchatephemeralretentionpolicyviolatederror',
+  SCChatUsersAlreadyInConversationError = 'scchatusersalreadyinconversationerror',
+  SCChatBadConversationError = 'scchatbadconversationerror',
   SCTeamBadMembership = 'scteambadmembership',
   SCTeamSelfNotOwner = 'scteamselfnotowner',
   SCTeamNotFound = 'scteamnotfound',
@@ -616,6 +666,7 @@ export enum StatusCode {
   SCNoOp = 'scnoop',
   SCTeamInviteBadCancel = 'scteaminvitebadcancel',
   SCTeamInviteBadToken = 'scteaminvitebadtoken',
+  SCTeamBadNameReservedDB = 'scteambadnamereserveddb',
   SCTeamTarDuplicate = 'scteamtarduplicate',
   SCTeamTarNotFound = 'scteamtarnotfound',
   SCTeamMemberExists = 'scteammemberexists',
@@ -706,6 +757,10 @@ export enum StatusCode {
   SCTeambotKeyOldBoxedGeneration = 'scteambotkeyoldboxedgeneration',
   SCTeambotKeyBadGeneration = 'scteambotkeybadgeneration',
   SCAirdropRegisterFailedMisc = 'scairdropregisterfailedmisc',
+  SCSimpleFSNameExists = 'scsimplefsnameexists',
+  SCSimpleFSDirNotEmpty = 'scsimplefsdirnotempty',
+  SCSimpleFSNotExist = 'scsimplefsnotexist',
+  SCSimpleFSNoAccess = 'scsimplefsnoaccess',
 }
 
 export type ED25519PublicKey = string | null
@@ -775,6 +830,7 @@ export type FeaturedBot = {
   botAlias: string
   description: string
   extendedDescription: string
+  extendedDescriptionRaw: string
   botUsername: string
   ownerTeam?: string
   ownerUser?: string
@@ -983,6 +1039,13 @@ export enum DismissReasonType {
   HANDLED_ELSEWHERE = 'handled_elsewhere',
 }
 
+export enum IncomingShareType {
+  FILE = 'file',
+  TEXT = 'text',
+  IMAGE = 'image',
+  VIDEO = 'video',
+}
+
 /**
  * Install status describes state of install for a component or service.
  */
@@ -1005,6 +1068,19 @@ export type FuseMountInfo = {
   path: string
   fstype: string
   output: string
+}
+
+export type InviteCounts = {
+  inviteCount: number
+  percentageChange: number
+  showNumInvites: boolean
+  showFire: boolean
+  tooltipMarkdown: string
+}
+
+export type EmailInvites = {
+  commaSeparatedEmailsFromUser?: string
+  emailsFromContacts?: EmailAddress[] | null
 }
 
 export enum FSStatusCode {
@@ -1068,7 +1144,7 @@ export type KVGetResult = {
   teamName: string
   namespace: string
   entryKey: string
-  entryValue: string
+  entryValue?: string | null
   revision: number
 }
 
@@ -1162,6 +1238,11 @@ export type RekeyRequest = {
   revision: number
 }
 
+export enum NetworkSource {
+  LOCAL = 'local',
+  REMOTE = 'remote',
+}
+
 export type ChatConversationID = Buffer
 
 export type DeletedTeamInfo = {
@@ -1198,6 +1279,8 @@ export type NotificationChannels = {
   teambot: boolean
   chatkbfsedits: boolean
   chatdev: boolean
+  chatemoji: boolean
+  chatemojicross: boolean
   deviceclone: boolean
   chatattachments: boolean
   wallet: boolean
@@ -1216,6 +1299,17 @@ export enum StatsSeverityLevel {
 export enum ProcessType {
   MAIN = 'main',
   KBFS = 'kbfs',
+}
+
+export enum PerfEventType {
+  NETWORK = 'network',
+  TEAMBOXAUDIT = 'teamboxaudit',
+  TEAMAUDIT = 'teamaudit',
+  USERCHAIN = 'userchain',
+  TEAMCHAIN = 'teamchain',
+  CLEARCONV = 'clearconv',
+  CLEARINBOX = 'clearinbox',
+  TEAMTREELOAD = 'teamtreeload',
 }
 
 export enum SaltpackOperationType {
@@ -1413,12 +1507,6 @@ export type ParamProofUsernameConfig = {
   re: string
   min: number
   max: number
-}
-
-export type ParamProofLogoConfig = {
-  svgBlack: string
-  svgFull: string
-  svgWhite: string
 }
 
 export type ServiceDisplayConfig = {
@@ -1674,6 +1762,7 @@ export enum KbfsOnlineStatus {
 export type FSSettings = {
   spaceAvailableNotificationThreshold: number
   sfmiBannerDismissed: boolean
+  syncOnCellular: boolean
 }
 
 export enum SubscriptionTopic {
@@ -1684,6 +1773,7 @@ export enum SubscriptionTopic {
   FILES_TAB_BADGE = 'files_tab_badge',
   OVERALL_SYNC_STATUS = 'overall_sync_status',
   SETTINGS = 'settings',
+  UPLOAD_STATUS = 'upload_status',
 }
 
 export enum PathSubscriptionTopic {
@@ -1705,6 +1795,10 @@ export enum GUIViewType {
   AUDIO = 'audio',
   VIDEO = 'video',
   PDF = 'pdf',
+}
+
+export type SimpleFSSearchHit = {
+  path: string
 }
 
 export type TeambotKeyGeneration = number
@@ -1761,6 +1855,8 @@ export type MaskB64 = Buffer
 
 export type TeamInviteID = string
 
+export type TeamInviteMaxUses = number
+
 export type PerTeamKeySeed = string | null
 export enum TeamMemberStatus {
   ACTIVE = 'active',
@@ -1793,11 +1889,14 @@ export enum TeamInviteCategory {
   SBS = 'sbs',
   SEITAN = 'seitan',
   PHONE = 'phone',
+  INVITELINK = 'invitelink',
 }
 
 export type TeamInviteSocialNetwork = string
 
 export type TeamInviteName = string
+
+export type TeamInviteDisplayName = string
 
 export type TeamEncryptedKBFSKeyset = {
   v: number
@@ -1815,6 +1914,8 @@ export type SeitanAKey = string
 
 export type SeitanIKey = string
 
+export type SeitanIKeyInvitelink = string
+
 export type SeitanPubKey = string
 
 export type SeitanIKeyV2 = string
@@ -1822,10 +1923,12 @@ export type SeitanIKeyV2 = string
 export enum SeitanKeyAndLabelVersion {
   V1 = 'v1',
   V2 = 'v2',
+  Invitelink = 'invitelink',
 }
 
 export enum SeitanKeyLabelType {
   SMS = 'sms',
+  GENERIC = 'generic',
 }
 
 export type SeitanKeyLabelSms = {
@@ -1833,9 +1936,8 @@ export type SeitanKeyLabelSms = {
   n: string
 }
 
-export type TeamJoinRequest = {
-  name: string
-  username: string
+export type SeitanKeyLabelGeneric = {
+  l: string
 }
 
 export type TeamBotSettings = {
@@ -1857,8 +1959,6 @@ export type TeamAcceptOrRequestResult = {
 }
 
 export type BulkRes = {
-  invited: string[] | null
-  alreadyInvited: string[] | null
   malformed: string[] | null
 }
 
@@ -1885,10 +1985,12 @@ export type TeamOperation = {
   listFirst: boolean
   changeTarsDisabled: boolean
   deleteChatHistory: boolean
+  deleteOtherEmojis: boolean
   deleteOtherMessages: boolean
   deleteTeam: boolean
   pinMessage: boolean
   manageBots: boolean
+  manageEmojis: boolean
 }
 
 export type ProfileTeamLoadRes = {
@@ -1912,6 +2014,22 @@ export type MemberUsername = {
 }
 
 export type UserTeamVersion = number
+
+export enum TeamTreeMembershipStatus {
+  OK = 'ok',
+  ERROR = 'error',
+  HIDDEN = 'hidden',
+}
+
+export type TeamTreeError = {
+  message: string
+  willSkipSubtree: boolean
+  willSkipAncestors: boolean
+}
+
+export type TeamTreeInitial = {
+  guid: number
+}
 
 /**
  * Result from calling test(..).
@@ -2016,6 +2134,23 @@ export type ImpTofuSearchResult = {
   keybaseUsername: string
 }
 
+export type EmailOrPhoneNumberSearchResult = {
+  input: string
+  assertion: string
+  assertionValue: string
+  assertionKey: string
+  foundUser: boolean
+  username: string
+  fullName: string
+}
+
+export type UsernameVerificationType = string
+
+export enum WotReactionType {
+  ACCEPT = 'accept',
+  REJECT = 'reject',
+}
+
 export type LockdownHistory = {
   status: boolean
   ctime: Time
@@ -2067,6 +2202,17 @@ export type GetBlockRes = {
   status: BlockStatus
 }
 
+export type GetBlockSizesRes = {
+  sizes: number[] | null
+  statuses: BlockStatus[] | null
+}
+
+export type UsageStat = {
+  bytes: UsageStatRecord
+  blocks: UsageStatRecord
+  mtime: Time
+}
+
 export type BotTokenInfo = {
   botToken: BotToken
   ctime: Time
@@ -2103,7 +2249,7 @@ export type PublicKey = {
   parentId: string
   deviceId: DeviceID
   deviceDescription: string
-  deviceType: string
+  deviceType: DeviceTypeV2
   cTime: Time
   eTime: Time
   isRevoked: boolean
@@ -2120,7 +2266,7 @@ export type User = {
 }
 
 export type Device = {
-  type: string
+  type: DeviceTypeV2
   name: string
   deviceId: DeviceID
   deviceNumberOfType: number
@@ -2190,7 +2336,7 @@ export type PhoneLookupResult = {
 }
 
 export type UserReacjis = {
-  topReacjis: string[] | null
+  topReacjis: UserReacji[] | null
   skinTone: ReacjiSkinTone
 }
 
@@ -2433,6 +2579,11 @@ export type Identify3RowMeta = {
   label: string
 }
 
+export type Identify3Summary = {
+  guiId: Identify3GUIID
+  numProofsToCheck: number
+}
+
 export type TrackDiff = {
   type: TrackDiffType
   displayMarkup: string
@@ -2504,6 +2655,16 @@ export type DismissReason = {
   type: DismissReasonType
   reason: string
   resource: string
+}
+
+export type IncomingShareItem = {
+  type: IncomingShareType
+  originalPath: string
+  originalSize: number
+  scaledPath?: string
+  scaledSize?: number
+  thumbnailPath?: string
+  content?: string
 }
 
 export type KBFSTeamSettings = {
@@ -2625,6 +2786,21 @@ export type FindNextMDResponse = {
   rootHash: HashMeta
 }
 
+export type InstrumentationStat = {
+  tag: string
+  numCalls: number
+  ctime: Time
+  mtime: Time
+  avgDur: DurationMsec
+  maxDur: DurationMsec
+  minDur: DurationMsec
+  totalDur: DurationMsec
+  avgSize: number
+  maxSize: number
+  minSize: number
+  totalSize: number
+}
+
 export type TeamMemberOutReset = {
   teamId: TeamID
   teamname: string
@@ -2638,9 +2814,15 @@ export type ResetState = {
   active: boolean
 }
 
+export type WotUpdate = {
+  voucher: string
+  vouchee: string
+  status: WotStatusType
+}
+
 export type BadgeConversationInfo = {
   convId: ChatConversationID
-  badgeCounts: {[key: string]: number}
+  badgeCount: number
   unreadMessages: number
 }
 
@@ -2661,6 +2843,12 @@ export type ProcessRuntimeStats = {
   goreleased: string
   cpuSeverity: StatsSeverityLevel
   residentSeverity: StatsSeverityLevel
+}
+
+export type PerfEvent = {
+  message: string
+  ctime: Time
+  eventType: PerfEventType
 }
 
 export type GUIEntryFeatures = {
@@ -2726,7 +2914,6 @@ export type ParamProofServiceConfig = {
   version: number
   domain: string
   displayName: string
-  logo?: ParamProofLogoConfig
   description: string
   username: ParamProofUsernameConfig
   brandColor: string
@@ -2792,12 +2979,14 @@ export type SaltpackEncryptOptions = {
   noSelfEncrypt: boolean
   binary: boolean
   saltpackVersion: number
+  noForcePoll: boolean
   useKbfsKeysOnlyForTesting: boolean
 }
 
 export type SaltpackSender = {
   uid: UID
   username: string
+  fullname: string
   senderType: SaltpackSenderType
 }
 
@@ -2898,6 +3087,17 @@ export type GUIFileContext = {
   url: string
 }
 
+export type SimpleFSSearchResults = {
+  hits: SimpleFSSearchHit[] | null
+  nextResult: number
+}
+
+export type IndexProgressRecord = {
+  endEstimate: Time
+  bytesTotal: number
+  bytesSoFar: number
+}
+
 export type TeambotKeyMetadata = {
   teambotDhPublic: KID
   generation: TeambotKeyGeneration
@@ -2941,6 +3141,18 @@ export type TeamMember = {
   eldestSeqno: Seqno
   status: TeamMemberStatus
   botSettings?: TeamBotSettings
+}
+
+export type TeamMemberRole = {
+  uid: UID
+  username: string
+  fullName: FullName
+  role: TeamRole
+}
+
+export type TeamUsedInvite = {
+  inviteId: TeamInviteID
+  uv: UserVersionPercentForm
 }
 
 export type LinkTriple = {
@@ -3030,7 +3242,7 @@ export type TeamChangeRow = {
   membershipChanged: boolean
   latestSeqno: Seqno
   latestHiddenSeqno: Seqno
-  latestOffchainSeqno: Seqno
+  latestOffchainVersion: Seqno
   implicitTeam: boolean
   misc: boolean
   removedResetUsers: boolean
@@ -3057,7 +3269,10 @@ export type TeamAccessRequest = {
   eldestSeqno: Seqno
 }
 
-export type SeitanKeyLabel = {t: SeitanKeyLabelType.SMS; SMS: SeitanKeyLabelSms} | {t: Exclude<SeitanKeyLabelType, SeitanKeyLabelType.SMS>}
+export type SeitanKeyLabel =
+  | {t: SeitanKeyLabelType.SMS; SMS: SeitanKeyLabelSms}
+  | {t: SeitanKeyLabelType.GENERIC; GENERIC: SeitanKeyLabelGeneric}
+  | {t: Exclude<SeitanKeyLabelType, SeitanKeyLabelType.SMS | SeitanKeyLabelType.GENERIC>}
 
 export type TeamSeitanRequest = {
   inviteId: TeamInviteID
@@ -3076,6 +3291,13 @@ export type TeamKBFSKeyRefresher = {
 export type ImplicitRole = {
   role: TeamRole
   ancestor: TeamID
+}
+
+export type TeamJoinRequest = {
+  name: string
+  username: string
+  fullName: FullName
+  ctime: UnixTime
 }
 
 export type TeamCreateResult = {
@@ -3097,9 +3319,26 @@ export type TeamShowcase = {
 }
 
 export type UserRolePair = {
-  assertionOrEmail: string
+  assertion: string
   role: TeamRole
   botSettings?: TeamBotSettings
+}
+
+export type TeamMemberToRemove = {
+  username: string
+  email: string
+  inviteId: TeamInviteID
+  allowInaction: boolean
+}
+
+export type UntrustedTeamExistsResult = {
+  exists: boolean
+  status: StatusCode
+}
+
+export type Invitelink = {
+  ikey: SeitanIKeyInvitelink
+  url: string
 }
 
 export type ImplicitTeamConflictInfo = {
@@ -3114,6 +3353,29 @@ export type TeamRolePair = {
 
 export type UserTeamVersionUpdate = {
   version: UserTeamVersion
+}
+
+export type TeamTreeMembershipValue = {
+  role: TeamRole
+  joinTime?: Time
+  teamId: TeamID
+}
+
+export type TeamTreeMembershipsDoneResult = {
+  expectedCount: number
+  targetTeamId: TeamID
+  targetUsername: string
+  guid: number
+}
+
+export type TeamSearchItem = {
+  id: TeamID
+  name: string
+  description?: string
+  memberCount: number
+  lastActive: Time
+  isDemoted: boolean
+  inTeam: boolean
 }
 
 export type CryptKey = {
@@ -3136,21 +3398,19 @@ export type SigChainLocation = {
   seqType: SeqType
 }
 
+export type UserSummary = {
+  uid: UID
+  username: string
+  fullName: string
+  linkId?: LinkID
+}
+
 export type Email = {
   email: EmailAddress
   isVerified: boolean
   isPrimary: boolean
   visibility: IdentityVisibility
   lastVerifyEmailDate: UnixTime
-}
-
-export type UserSummary2 = {
-  uid: UID
-  username: string
-  thumbnail: string
-  fullName: string
-  isFollower: boolean
-  isFollowee: boolean
 }
 
 export type InterestingPerson = {
@@ -3220,6 +3480,15 @@ export type APIUserServiceSummary = {
   username: string
 }
 
+export type WotProof = {
+  proofType: ProofType
+  nameOmitempty: string
+  usernameOmitempty: string
+  protocolOmitempty: string
+  hostnameOmitempty: string
+  domainOmitempty: string
+}
+
 export type GetLockdownResponse = {
   history: LockdownHistory[] | null
   status: boolean
@@ -3244,6 +3513,11 @@ export type BlockIdCount = {
   liveCount: number
 }
 
+export type FolderUsageStat = {
+  folderId: string
+  stats: UsageStat
+}
+
 export type TeamIDAndName = {
   id: TeamID
   name: TeamName
@@ -3261,6 +3535,7 @@ export type CurrentStatus = {
   loggedIn: boolean
   sessionIsValid: boolean
   user?: User
+  deviceName: string
 }
 
 export type ClientStatus = {
@@ -3382,6 +3657,12 @@ export type HomeScreenTodoExt =
   | {t: HomeScreenTodoType.VERIFY_ALL_EMAIL; VERIFY_ALL_EMAIL: VerifyAllEmailTodoExt}
   | {t: Exclude<HomeScreenTodoType, HomeScreenTodoType.VERIFY_ALL_EMAIL>}
 
+export type HomeScreenPeopleNotificationFollowed = {
+  followTime: Time
+  followedBack: boolean
+  user: UserSummary
+}
+
 export type HomeScreenPeopleNotificationContactMulti = {
   contacts: HomeScreenPeopleNotificationContact[] | null
   numOthers: number
@@ -3394,8 +3675,9 @@ export type Identify3Row = {
   priority: number
   siteUrl: string
   siteIcon: SizedImage[] | null
+  siteIconDarkmode: SizedImage[] | null
   siteIconFull: SizedImage[] | null
-  siteIconWhite: SizedImage[] | null
+  siteIconFullDarkmode: SizedImage[] | null
   proofUrl: string
   sigId: SigID
   ctime: Time
@@ -3449,8 +3731,8 @@ export type CheckResult = {
 }
 
 export type UserCard = {
-  following: number
-  followers: number
+  unverifiedNumFollowing: number
+  unverifiedNumFollowers: number
   uid: UID
   fullName: string
   location: string
@@ -3458,8 +3740,6 @@ export type UserCard = {
   bioDecorated: string
   website: string
   twitter: string
-  youFollowThem: boolean
-  theyFollowYou: boolean
   teamShowcase: UserTeamShowcase[] | null
   registeredForAirdrop: boolean
   stellarHidden: boolean
@@ -3530,21 +3810,25 @@ export type BadgeState = {
   homeTodoItems: number
   unverifiedEmails: number
   unverifiedPhones: number
+  smallTeamBadgeCount: number
+  bigTeamBadgeCount: number
+  newTeamAccessRequestCount: number
   newDevices: DeviceID[] | null
   revokedDevices: DeviceID[] | null
   conversations: BadgeConversationInfo[] | null
   newGitRepoGlobalUniqueIDs: string[] | null
   newTeams: TeamID[] | null
   deletedTeams: DeletedTeamInfo[] | null
-  newTeamAccessRequests: TeamID[] | null
   teamsWithResetUsers: TeamMemberOutReset[] | null
   unreadWalletAccounts: WalletAccountInfo[] | null
+  wotUpdates: {[key: string]: WotUpdate}
   resetState: ResetState
 }
 
 export type RuntimeStats = {
   processStats: ProcessRuntimeStats[] | null
   dbStats: DbStats[] | null
+  perfEvents: PerfEvent[] | null
   convLoaderActive: boolean
   selectiveSyncActive: boolean
 }
@@ -3570,6 +3854,7 @@ export type PGPSigVerification = {
   verified: boolean
   signer: User
   signKey: PublicKey
+  warnings: string[] | null
 }
 
 export type Process = {
@@ -3670,6 +3955,13 @@ export type DownloadStatus = {
   states: DownloadState[] | null
 }
 
+export type UploadState = {
+  uploadId: string
+  targetPath: KBFSPath
+  error?: string
+  canceled: boolean
+}
+
 export type TeambotKeyBoxed = {
   box: string
   metadata: TeambotKeyMetadata
@@ -3707,6 +3999,17 @@ export type TeamMemberDetails = {
   fullName: FullName
   needsPuk: boolean
   status: TeamMemberStatus
+  joinTime?: Time
+}
+
+export type UntrustedTeamInfo = {
+  name: TeamName
+  inTeam: boolean
+  open: boolean
+  description: string
+  publicAdmins: string[] | null
+  numMembers: number
+  publicMembers: TeamMemberRole[] | null
 }
 
 export type TeamChangeReq = {
@@ -3718,6 +4021,7 @@ export type TeamChangeReq = {
   restrictedBots: {[key: string]: TeamBotSettings}
   none: UserVersion[] | null
   completedInvites: {[key: string]: UserVersionPercentForm}
+  usedInvites: TeamUsedInvite[] | null
 }
 
 export type TeamPlusApplicationKeys = {
@@ -3762,6 +4066,8 @@ export type AuditHistory = {
   postProbes: {[key: string]: Probe}
   tails: {[key: string]: LinkID}
   hiddenTails: {[key: string]: LinkID}
+  preProbesToRetry: Seqno[] | null
+  postProbesToRetry: Seqno[] | null
   skipUntil: Time
 }
 
@@ -3771,18 +4077,13 @@ export type TeamInvite = {
   type: TeamInviteType
   name: TeamInviteName
   inviter: UserVersion
+  maxUses?: TeamInviteMaxUses
+  etime?: UnixTime
 }
 
-export type AnnotatedTeamInvite = {
-  role: TeamRole
-  id: TeamInviteID
-  type: TeamInviteType
-  name: TeamInviteName
+export type TeamUsedInviteLogPoint = {
   uv: UserVersion
-  inviter: UserVersion
-  inviterUsername: string
-  teamName: string
-  status: TeamMemberStatus
+  logPoint: number
 }
 
 export type SubteamLogPoint = {
@@ -3821,6 +4122,11 @@ export type SeitanKeyAndLabelVersion1 = {
 
 export type SeitanKeyAndLabelVersion2 = {
   k: SeitanPubKey
+  l: SeitanKeyLabel
+}
+
+export type SeitanKeyAndLabelInvitelink = {
+  i: SeitanIKeyInvitelink
   l: SeitanKeyLabel
 }
 
@@ -3921,6 +4227,27 @@ export type TeamAndMemberShowcase = {
   isMemberShowcased: boolean
 }
 
+export type TeamRemoveMembersResult = {
+  failures: TeamMemberToRemove[] | null
+}
+
+export type TeamEditMembersResult = {
+  failures: UserRolePair[] | null
+}
+
+export type InviteLinkDetails = {
+  inviteId: TeamInviteID
+  inviterUid: UID
+  inviterUsername: string
+  inviterResetOrDel: boolean
+  teamIsOpen: boolean
+  teamId: TeamID
+  teamDesc: string
+  teamName: TeamName
+  teamNumMembers: number
+  teamAvatars: {[key: string]: AvatarUrl}
+}
+
 export type ImplicitTeamUserSet = {
   keybaseUsers: string[] | null
   unresolvedUsers: SocialAssertion[] | null
@@ -3936,6 +4263,21 @@ export type TeamProfileAddEntry = {
 export type TeamRoleMapAndVersion = {
   teams: {[key: string]: TeamRolePair}
   userTeamVersion: UserTeamVersion
+}
+
+export type TeamTreeMembershipResult =
+  | {s: TeamTreeMembershipStatus.OK; OK: TeamTreeMembershipValue}
+  | {s: TeamTreeMembershipStatus.ERROR; ERROR: TeamTreeError}
+  | {s: TeamTreeMembershipStatus.HIDDEN}
+  | {s: Exclude<TeamTreeMembershipStatus, TeamTreeMembershipStatus.OK | TeamTreeMembershipStatus.ERROR | TeamTreeMembershipStatus.HIDDEN>}
+
+export type TeamSearchExport = {
+  items: {[key: string]: TeamSearchItem}
+  suggested: TeamID[] | null
+}
+
+export type TeamSearchRes = {
+  results: TeamSearchItem[] | null
 }
 
 export type MerkleTreeLocation = {
@@ -3957,15 +4299,15 @@ export type Proofs = {
   publicKeys: PublicKey[] | null
 }
 
+export type UserSummarySet = {
+  users: UserSummary[] | null
+  time: Time
+  version: number
+}
+
 export type UserSettings = {
   emails: Email[] | null
   phoneNumbers: UserPhoneNumber[] | null
-}
-
-export type UserSummary2Set = {
-  users: UserSummary2[] | null
-  time: Time
-  version: number
 }
 
 export type ProofSuggestion = {
@@ -3973,10 +4315,11 @@ export type ProofSuggestion = {
   belowFold: boolean
   profileText: string
   profileIcon: SizedImage[] | null
-  profileIconWhite: SizedImage[] | null
+  profileIconDarkmode: SizedImage[] | null
   pickerText: string
   pickerSubtext: string
   pickerIcon: SizedImage[] | null
+  pickerIconDarkmode: SizedImage[] | null
   metas: Identify3RowMeta[] | null
 }
 
@@ -3995,6 +4338,12 @@ export type UserBlockedSummary = {
   blocks: {[key: string]: UserBlockState[] | null}
 }
 
+export type Confidence = {
+  usernameVerifiedViaOmitempty: UsernameVerificationType
+  proofsOmitempty: WotProof[] | null
+  otherOmitempty: string
+}
+
 export type BlockReferenceCount = {
   ref: BlockReference
   liveCount: number
@@ -4002,6 +4351,13 @@ export type BlockReferenceCount = {
 
 export type ReferenceCountRes = {
   counts: BlockIdCount[] | null
+}
+
+export type BlockQuotaInfo = {
+  folders: FolderUsageStat[] | null
+  total: UsageStat
+  limit: number
+  gitLimit: number
 }
 
 export type UserPlusKeys = {
@@ -4073,6 +4429,11 @@ export type GitLocalMetadata = {
 export type HomeScreenItemDataExt =
   | {t: HomeScreenItemType.TODO; TODO: HomeScreenTodoExt}
   | {t: Exclude<HomeScreenItemType, HomeScreenItemType.TODO>}
+
+export type HomeScreenPeopleNotificationFollowedMulti = {
+  followers: HomeScreenPeopleNotificationFollowed[] | null
+  numOthers: number
+}
 
 export type Identity = {
   status?: Status
@@ -4200,10 +4561,16 @@ export type UserLogPoint = {
   sigMeta: SignatureMetadata
 }
 
+export type AnnotatedTeamUsedInviteLogPoint = {
+  username: string
+  teamUsedInviteLogPoint: TeamUsedInviteLogPoint
+}
+
 export type SeitanKeyAndLabel =
   | {v: SeitanKeyAndLabelVersion.V1; V1: SeitanKeyAndLabelVersion1}
   | {v: SeitanKeyAndLabelVersion.V2; V2: SeitanKeyAndLabelVersion2}
-  | {v: Exclude<SeitanKeyAndLabelVersion, SeitanKeyAndLabelVersion.V1 | SeitanKeyAndLabelVersion.V2>}
+  | {v: SeitanKeyAndLabelVersion.Invitelink; Invitelink: SeitanKeyAndLabelInvitelink}
+  | {v: Exclude<SeitanKeyAndLabelVersion, SeitanKeyAndLabelVersion.V1 | SeitanKeyAndLabelVersion.V2 | SeitanKeyAndLabelVersion.Invitelink>}
 
 export type LoadTeamArg = {
   id: TeamID
@@ -4222,11 +4589,6 @@ export type LoadTeamArg = {
 
 export type TeamList = {
   teams: MemberInfo[] | null
-}
-
-export type AnnotatedTeamList = {
-  teams: AnnotatedMemberInfo[] | null
-  annotatedActiveInvites: {[key: string]: AnnotatedTeamInvite}
 }
 
 export type TeamTreeResult = {
@@ -4257,6 +4619,14 @@ export type AnnotatedTeamMemberDetails = {
   role: TeamRole
 }
 
+export type TeamTreeMembership = {
+  teamName: string
+  result: TeamTreeMembershipResult
+  targetTeamId: TeamID
+  targetUsername: string
+  guid: number
+}
+
 export type PublicKeyV2Base = {
   kid: KID
   isSibkey: boolean
@@ -4265,18 +4635,6 @@ export type PublicKeyV2Base = {
   eTime: Time
   provisioning: SignatureMetadata
   revocation?: SignatureMetadata
-}
-
-export type UserSummary = {
-  uid: UID
-  username: string
-  thumbnail: string
-  idVersion: number
-  fullName: string
-  bio: string
-  proofs: Proofs
-  sigIdDisplay: string
-  trackTime: Time
 }
 
 export type ProofSuggestionsRes = {
@@ -4302,8 +4660,21 @@ export type NonUserDetails = {
   contact?: ProcessedContact
   service?: APIUserServiceResult
   siteIcon: SizedImage[] | null
+  siteIconDarkmode: SizedImage[] | null
   siteIconFull: SizedImage[] | null
-  siteIconWhite: SizedImage[] | null
+  siteIconFullDarkmode: SizedImage[] | null
+}
+
+export type WotVouch = {
+  status: WotStatusType
+  vouchProof: SigID
+  vouchee: UserVersion
+  voucheeUsername: string
+  voucher: UserVersion
+  voucherUsername: string
+  vouchTexts: string[] | null
+  vouchedAt: Time
+  confidence?: Confidence
 }
 
 export type DowngradeReferenceRes = {
@@ -4352,11 +4723,20 @@ export type GitRepoInfo = {
   teamRepoSettings?: GitTeamRepoSettings
 }
 
-export type HomeScreenPeopleNotificationFollowed = {
-  followTime: Time
-  followedBack: boolean
-  user: UserSummary
-}
+export type HomeScreenPeopleNotification =
+  | {t: HomeScreenPeopleNotificationType.FOLLOWED; FOLLOWED: HomeScreenPeopleNotificationFollowed}
+  | {t: HomeScreenPeopleNotificationType.FOLLOWED_MULTI; FOLLOWED_MULTI: HomeScreenPeopleNotificationFollowedMulti}
+  | {t: HomeScreenPeopleNotificationType.CONTACT; CONTACT: HomeScreenPeopleNotificationContact}
+  | {t: HomeScreenPeopleNotificationType.CONTACT_MULTI; CONTACT_MULTI: HomeScreenPeopleNotificationContactMulti}
+  | {
+      t: Exclude<
+        HomeScreenPeopleNotificationType,
+        | HomeScreenPeopleNotificationType.FOLLOWED
+        | HomeScreenPeopleNotificationType.FOLLOWED_MULTI
+        | HomeScreenPeopleNotificationType.CONTACT
+        | HomeScreenPeopleNotificationType.CONTACT_MULTI
+      >
+    }
 
 export type IdentifyProofBreak = {
   remoteProof: RemoteProof
@@ -4404,12 +4784,14 @@ export type CopyArgs = {
   opId: OpID
   src: Path
   dest: Path
+  overwriteExistingFiles: boolean
 }
 
 export type MoveArgs = {
   opId: OpID
   src: Path
   dest: Path
+  overwriteExistingFiles: boolean
 }
 
 export type GetRevisionsArgs = {
@@ -4421,15 +4803,6 @@ export type GetRevisionsArgs = {
 export type GetRevisionsResult = {
   revisions: DirentWithRevision[] | null
   progress: Progress
-}
-
-export type TeamDetails = {
-  name: string
-  members: TeamMembersDetails
-  keyGeneration: PerTeamKeyGeneration
-  annotatedActiveInvites: {[key: string]: AnnotatedTeamInvite}
-  settings: TeamSettings
-  showcase: TeamShowcase
 }
 
 export type HiddenTeamChain = {
@@ -4451,6 +4824,16 @@ export type HiddenTeamChain = {
   cachedAt: Time
   needRotate: boolean
   merkleRoots: {[key: string]: MerkleRootV2}
+}
+
+export type AnnotatedTeamInvite = {
+  invite: TeamInvite
+  displayName: TeamInviteDisplayName
+  inviterUsername: string
+  inviteeUv: UserVersion
+  teamName: string
+  status?: TeamMemberStatus
+  usedInvites: AnnotatedTeamUsedInviteLogPoint[] | null
 }
 
 export type TeamSigChainState = {
@@ -4475,6 +4858,7 @@ export type TeamSigChainState = {
   stubbedLinks: {[key: string]: boolean}
   activeInvites: {[key: string]: TeamInvite}
   obsoleteInvites: {[key: string]: TeamInvite}
+  usedInvites: {[key: string]: TeamUsedInviteLogPoint[] | null}
   open: boolean
   openTeamJoinAs: TeamRole
   bots: {[key: string]: TeamBotSettings}
@@ -4491,25 +4875,12 @@ export type LookupImplicitTeamRes = {
   tlfId: TLFID
 }
 
-export type AnnotatedTeam = {
-  teamId: TeamID
-  name: string
-  transitiveSubteamsUnverified: SubteamListResult
-  members: AnnotatedTeamMemberDetails[] | null
-  invites: AnnotatedTeamInvite[] | null
-  joinRequests: TeamJoinRequest[] | null
-  userIsShowcasing: boolean
-  tarsDisabled: boolean
-  settings: TeamSettings
-  showcase: TeamShowcase
-}
-
 export type PublicKeyV2NaCl = {
   base: PublicKeyV2Base
   parent?: KID
   deviceId: DeviceID
   deviceDescription: string
-  deviceType: string
+  deviceType: DeviceTypeV2
 }
 
 export type PublicKeyV2PGPSummary = {
@@ -4528,10 +4899,11 @@ export type GitRepoResult =
   | {state: GitRepoResultState.OK; OK: GitRepoInfo}
   | {state: Exclude<GitRepoResultState, GitRepoResultState.ERR | GitRepoResultState.OK>}
 
-export type HomeScreenPeopleNotificationFollowedMulti = {
-  followers: HomeScreenPeopleNotificationFollowed[] | null
-  numOthers: number
-}
+export type HomeScreenItemData =
+  | {t: HomeScreenItemType.TODO; TODO: HomeScreenTodo}
+  | {t: HomeScreenItemType.PEOPLE; PEOPLE: HomeScreenPeopleNotification}
+  | {t: HomeScreenItemType.ANNOUNCEMENT; ANNOUNCEMENT: HomeScreenAnnouncement}
+  | {t: Exclude<HomeScreenItemType, HomeScreenItemType.TODO | HomeScreenItemType.PEOPLE | HomeScreenItemType.ANNOUNCEMENT>}
 
 export type IdentifyTrackBreaks = {
   keys: IdentifyKey[] | null
@@ -4563,6 +4935,15 @@ export type OpDescription =
       >
     }
 
+export type TeamDetails = {
+  name: string
+  members: TeamMembersDetails
+  keyGeneration: PerTeamKeyGeneration
+  annotatedActiveInvites: {[key: string]: AnnotatedTeamInvite}
+  settings: TeamSettings
+  showcase: TeamShowcase
+}
+
 export type TeamData = {
   v: number
   frozen: boolean
@@ -4577,8 +4958,25 @@ export type TeamData = {
   tlfCryptKeys: {[key: string]: CryptKey[] | null}
 }
 
+export type AnnotatedTeamList = {
+  teams: AnnotatedMemberInfo[] | null
+  annotatedActiveInvites: {[key: string]: AnnotatedTeamInvite}
+}
+
 export type TeamDebugRes = {
   chain: TeamSigChainState
+}
+
+export type AnnotatedTeam = {
+  teamId: TeamID
+  name: string
+  transitiveSubteamsUnverified: SubteamListResult
+  members: AnnotatedTeamMemberDetails[] | null
+  invites: AnnotatedTeamInvite[] | null
+  joinRequests: TeamJoinRequest[] | null
+  tarsDisabled: boolean
+  settings: TeamSettings
+  showcase: TeamShowcase
 }
 
 export type PublicKeyV2 =
@@ -4626,20 +5024,11 @@ export type Folder = {
   syncConfig?: FolderSyncConfig
 }
 
-export type HomeScreenPeopleNotification =
-  | {t: HomeScreenPeopleNotificationType.FOLLOWED; FOLLOWED: HomeScreenPeopleNotificationFollowed}
-  | {t: HomeScreenPeopleNotificationType.FOLLOWED_MULTI; FOLLOWED_MULTI: HomeScreenPeopleNotificationFollowedMulti}
-  | {t: HomeScreenPeopleNotificationType.CONTACT; CONTACT: HomeScreenPeopleNotificationContact}
-  | {t: HomeScreenPeopleNotificationType.CONTACT_MULTI; CONTACT_MULTI: HomeScreenPeopleNotificationContactMulti}
-  | {
-      t: Exclude<
-        HomeScreenPeopleNotificationType,
-        | HomeScreenPeopleNotificationType.FOLLOWED
-        | HomeScreenPeopleNotificationType.FOLLOWED_MULTI
-        | HomeScreenPeopleNotificationType.CONTACT
-        | HomeScreenPeopleNotificationType.CONTACT_MULTI
-      >
-    }
+export type HomeScreenItem = {
+  badged: boolean
+  data: HomeScreenItemData
+  dataExt: HomeScreenItemDataExt
+}
 
 export type Identify2Res = {
   upk: UserPlusKeys
@@ -4687,11 +5076,14 @@ export type FavoritesResult = {
   newFolders: Folder[] | null
 }
 
-export type HomeScreenItemData =
-  | {t: HomeScreenItemType.TODO; TODO: HomeScreenTodo}
-  | {t: HomeScreenItemType.PEOPLE; PEOPLE: HomeScreenPeopleNotification}
-  | {t: HomeScreenItemType.ANNOUNCEMENT; ANNOUNCEMENT: HomeScreenAnnouncement}
-  | {t: Exclude<HomeScreenItemType, HomeScreenItemType.TODO | HomeScreenItemType.PEOPLE | HomeScreenItemType.ANNOUNCEMENT>}
+export type HomeScreen = {
+  lastViewed: Time
+  version: number
+  visits: number
+  items: HomeScreenItem[] | null
+  followSuggestions: HomeUserSummary[] | null
+  announcementsVersion: number
+}
 
 export type Identify2ResUPK2 = {
   upk: UserPlusKeysV2AllIncarnations
@@ -4723,6 +5115,13 @@ export type FolderWithFavFlags = {
   isNew: boolean
 }
 
+export type SimpleFSIndexProgress = {
+  overallProgress: IndexProgressRecord
+  currFolder: Folder
+  currProgress: IndexProgressRecord
+  foldersLeft: Folder[] | null
+}
+
 export type TLFBreak = {
   breaks: TLFIdentifyFailure[] | null
 }
@@ -4736,12 +5135,6 @@ export type UPAKVersioned =
   | {v: UPAKVersion.V2; V2: UserPlusKeysV2AllIncarnations}
   | {v: Exclude<UPAKVersion, UPAKVersion.V1 | UPAKVersion.V2>}
 
-export type HomeScreenItem = {
-  badged: boolean
-  data: HomeScreenItemData
-  dataExt: HomeScreenItemDataExt
-}
-
 export type SyncConfigAndStatusRes = {
   folders: FolderSyncConfigAndStatusWithFolder[] | null
   overallStatus: FolderSyncStatus
@@ -4751,15 +5144,6 @@ export type CanonicalTLFNameAndIDWithBreaks = {
   tlfId: TLFID
   canonicalName: CanonicalTlfName
   breaks: TLFBreak
-}
-
-export type HomeScreen = {
-  lastViewed: Time
-  version: number
-  visits: number
-  items: HomeScreenItem[] | null
-  followSuggestions: HomeUserSummary[] | null
-  announcementsVersion: number
 }
 
 export type GetTLFCryptKeysRes = {

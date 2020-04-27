@@ -1,13 +1,14 @@
 /*
  * chat.1
  *
- * Auto-generated to TypeScript types by avdl-compiler v1.4.6 (https://github.com/keybase/node-avdl-compiler)
+ * Auto-generated to TypeScript types by avdl-compiler v1.4.8 (https://github.com/keybase/node-avdl-compiler)
  * Input files:
  * - ../client/protocol/avdl/chat1/api.avdl
  * - ../client/protocol/avdl/chat1/blocking.avdl
  * - ../client/protocol/avdl/chat1/chat_ui.avdl
  * - ../client/protocol/avdl/chat1/commands.avdl
  * - ../client/protocol/avdl/chat1/common.avdl
+ * - ../client/protocol/avdl/chat1/emoji.avdl
  * - ../client/protocol/avdl/chat1/gregor.avdl
  * - ../client/protocol/avdl/chat1/local.avdl
  * - ../client/protocol/avdl/chat1/notify.avdl
@@ -66,7 +67,7 @@ export type MsgBotInfo = {
 export type DeviceInfo = {
   id: keybase1.DeviceID
   description: string
-  type: string
+  type: keybase1.DeviceTypeV2
   ctime: number
 }
 
@@ -142,6 +143,7 @@ export enum UITextDecorationTyp {
   LINK = 'link',
   MAILTO = 'mailto',
   KBFSPATH = 'kbfspath',
+  EMOJI = 'emoji',
 }
 
 export enum UIMaybeMentionStatus {
@@ -174,6 +176,16 @@ export type UIChatThreadStatus =
         UIChatThreadStatusTyp.NONE | UIChatThreadStatusTyp.SERVER | UIChatThreadStatusTyp.VALIDATING | UIChatThreadStatusTyp.VALIDATED
       >
     }
+
+export type UIChatSearchTeamHits = {
+  hits: keybase1.TeamSearchItem[] | null
+  suggestedMatches: boolean
+}
+
+export type UIChatSearchBotHits = {
+  hits: keybase1.FeaturedBot[] | null
+  suggestedMatches: boolean
+}
 
 export type UIChatPayment = {
   username: string
@@ -364,6 +376,8 @@ export enum TopicType {
   CHAT = 'chat',
   DEV = 'dev',
   KBFSFILEEDIT = 'kbfsfileedit',
+  EMOJI = 'emoji',
+  EMOJICROSS = 'emojicross',
 }
 
 export enum TeamType {
@@ -427,6 +441,11 @@ export type RateLimit = {
   callsRemaining: number
   windowReset: number
   maxCalls: number
+}
+
+export enum InboxParticipantsMode {
+  ALL = 'all',
+  SKIP_TEAMS = 'skip_teams',
 }
 
 export type ConversationFinalizeInfo = {
@@ -536,6 +555,7 @@ export enum GetThreadReason {
   KBFSFILEACTIVITY = 'kbfsfileactivity',
   COINFLIP = 'coinflip',
   BOTCOMMANDS = 'botcommands',
+  EMOJISOURCE = 'emojisource',
 }
 
 export enum ReIndexingMode {
@@ -598,6 +618,44 @@ export type TeamMember = {
   status: keybase1.TeamMemberStatus
 }
 
+export enum LastActiveStatus {
+  NONE = 'none',
+  ACTIVE = 'active',
+  RECENTLY_ACTIVE = 'recently_active',
+}
+
+export type ChatMemberDetails = {
+  uid: keybase1.UID
+  username: string
+  fullName: keybase1.FullName
+}
+
+export enum EmojiLoadSourceTyp {
+  HTTPSRV = 'httpsrv',
+  STR = 'str',
+}
+
+export type EmojiLoadSource =
+  | {typ: EmojiLoadSourceTyp.HTTPSRV; HTTPSRV: string}
+  | {typ: EmojiLoadSourceTyp.STR; STR: string}
+  | {typ: Exclude<EmojiLoadSourceTyp, EmojiLoadSourceTyp.HTTPSRV | EmojiLoadSourceTyp.STR>}
+
+export enum EmojiRemoteSourceTyp {
+  MESSAGE = 'message',
+  STOCKALIAS = 'stockalias',
+}
+
+export type EmojiStockAlias = {
+  text: string
+  username: string
+  time: gregor1.Time
+}
+
+export type EmojiCreationInfo = {
+  username: string
+  time: gregor1.Time
+}
+
 export type VersionKind = string
 
 export enum TextPaymentResultTyp {
@@ -639,10 +697,6 @@ export type MessageConversationMetadata = {
   conversationTitle: string
 }
 
-export type MessageHeadline = {
-  headline: string
-}
-
 export enum MessageSystemType {
   ADDEDTOTEAM = 'addedtoteam',
   INVITEADDEDTOTEAM = 'inviteaddedtoteam',
@@ -653,6 +707,7 @@ export enum MessageSystemType {
   CHANGERETENTION = 'changeretention',
   BULKADDTOCONV = 'bulkaddtoconv',
   SBSRESOLVE = 'sbsresolve',
+  NEWCHANNEL = 'newchannel',
 }
 
 export type MessageSystemAddedToTeam = {
@@ -661,12 +716,6 @@ export type MessageSystemAddedToTeam = {
   addee: string
   role: keybase1.TeamRole
   bulkAdds: string[] | null
-  owners: string[] | null
-  admins: string[] | null
-  writers: string[] | null
-  readers: string[] | null
-  bots: string[] | null
-  restrictedBots: string[] | null
 }
 
 export type MessageSystemInviteAddedToTeam = {
@@ -924,6 +973,33 @@ export enum SnippetDecoration {
   PINNED_MESSAGE = 'pinned_message',
 }
 
+export type WelcomeMessageDisplay = {
+  set: boolean
+  display: string
+  raw: string
+}
+
+export type WelcomeMessage = {
+  set: boolean
+  raw: string
+}
+
+export type LastActiveTimeAll = {
+  teams: {[key: string]: gregor1.Time}
+  channels: {[key: string]: gregor1.Time}
+}
+
+export type EmojiError = {
+  clidisplay: string
+  uidisplay: string
+}
+
+export type EmojiFetchOpts = {
+  getCreationInfo: boolean
+  getAliases: boolean
+  onlyInTeam: boolean
+}
+
 export enum ChatActivitySource {
   LOCAL = 'local',
   REMOTE = 'remote',
@@ -949,8 +1025,6 @@ export type TyperInfo = {
   uid: keybase1.UID
   username: string
   deviceId: keybase1.DeviceID
-  deviceName: string
-  deviceType: string
 }
 
 export enum StaleUpdateType {
@@ -1062,6 +1136,13 @@ export type MsgFlipContent = {
   flipConvId: ConvIDStr
   userMentions: KnownUserMention[] | null
   teamMentions: KnownTeamMention[] | null
+}
+
+export type EmojiContent = {
+  alias: string
+  isCrossTeam: boolean
+  convId?: ConvIDStr
+  messageId?: MessageID
 }
 
 /**
@@ -1275,6 +1356,7 @@ export type GetInboxQuery = {
   readOnly: boolean
   computeActiveList: boolean
   summarizeMaxMsgs: boolean
+  participantsMode: InboxParticipantsMode
   skipBgLoads: boolean
   allowUnseenQuery: boolean
 }
@@ -1296,6 +1378,7 @@ export type ConversationReaderInfo = {
   maxMsgid: MessageID
   status: ConversationMemberStatus
   untrustedTeamRole: keybase1.TeamRole
+  l: gregor1.Time
   jc?: ConversationJourneycardInfo
 }
 
@@ -1373,12 +1456,30 @@ export type SearchOpts = {
   maxConvsHit: number
   convId?: ConversationID
   maxNameConvs: number
+  maxTeams: number
+  maxBots: number
+  skipBotCache: boolean
 }
 
 export type AssetMetadata =
   | {assetType: AssetMetadataType.IMAGE; IMAGE: AssetMetadataImage}
   | {assetType: AssetMetadataType.VIDEO; VIDEO: AssetMetadataVideo}
   | {assetType: Exclude<AssetMetadataType, AssetMetadataType.IMAGE | AssetMetadataType.VIDEO>}
+
+export type ChatMembersDetails = {
+  owners: ChatMemberDetails[] | null
+  admins: ChatMemberDetails[] | null
+  writers: ChatMemberDetails[] | null
+  readers: ChatMemberDetails[] | null
+  bots: ChatMemberDetails[] | null
+  restrictedBots: ChatMemberDetails[] | null
+}
+
+export type EmojiMessage = {
+  convId: ConversationID
+  msgId: MessageID
+  isAlias: boolean
+}
 
 export type UnreadUpdate = {
   convId: ConversationID
@@ -1416,10 +1517,6 @@ export type ConversationUpdate = {
   existence: ConversationExistence
 }
 
-export type TeamChannelUpdate = {
-  teamId: TLFID
-}
-
 export type KBFSImpteamUpgradeUpdate = {
   convId: ConversationID
   inboxVers: InboxVers
@@ -1435,13 +1532,6 @@ export type TextPayment = {
   username: string
   paymentText: string
   result: TextPaymentResult
-}
-
-export type MessageEdit = {
-  messageId: MessageID
-  body: string
-  userMentions: KnownUserMention[] | null
-  teamMentions: KnownTeamMention[] | null
 }
 
 export type MessageDelete = {
@@ -1460,13 +1550,14 @@ export type MessagePin = {
   msgId: MessageID
 }
 
-export type MessageDeleteHistory = {
-  upto: MessageID
+export type MessageSystemNewChannel = {
+  creator: string
+  nameAtCreation: string
+  convId: ConversationID
 }
 
-export type MessageReaction = {
-  m: MessageID
-  b: string
+export type MessageDeleteHistory = {
+  upto: MessageID
 }
 
 export type SenderPrepareOptions = {
@@ -1500,7 +1591,7 @@ export type MessageUnboxedError = {
   isCritical: boolean
   senderUsername: string
   senderDeviceName: string
-  senderDeviceType: string
+  senderDeviceType: keybase1.DeviceTypeV2
   messageId: MessageID
   messageType: MessageType
   ctime: gregor1.Time
@@ -1574,6 +1665,14 @@ export type SetConversationStatusLocalRes = {
   identifyFailures: keybase1.TLFIdentifyFailure[] | null
 }
 
+export type NewConversationLocalArgument = {
+  tlfName: string
+  topicType: TopicType
+  tlfVisibility: keybase1.TLFVisibility
+  topicName?: string
+  membersType: ConversationMembersType
+}
+
 export type GetInboxSummaryForCLILocalQuery = {
   topicType: TopicType
   after: string
@@ -1612,6 +1711,12 @@ export type DeleteConversationLocalRes = {
   rateLimits: RateLimit[] | null
 }
 
+export type GetMutualTeamsLocalRes = {
+  teamIDs: keybase1.TeamID[] | null
+  offline: boolean
+  rateLimits: RateLimit[] | null
+}
+
 export type SetAppNotificationSettingsLocalRes = {
   offline: boolean
   rateLimits: RateLimit[] | null
@@ -1627,6 +1732,14 @@ export type ResetConvMember = {
   username: string
   uid: gregor1.UID
   conv: ConversationID
+}
+
+export type SimpleSearchInboxConvNamesHit = {
+  name: string
+  convId: ConversationID
+  isTeam: boolean
+  parts: string[] | null
+  tlfName: string
 }
 
 export type ProfileSearchConvStats = {
@@ -1684,6 +1797,35 @@ export type AddBotConvSearchHit = {
 export type LocalMtimeUpdate = {
   convId: ConversationID
   mtime: gregor1.Time
+}
+
+export type SetDefaultTeamChannelsLocalRes = {
+  rateLimit?: RateLimit
+}
+
+export type LastActiveStatusAll = {
+  teams: {[key: string]: LastActiveStatus}
+  channels: {[key: string]: LastActiveStatus}
+}
+
+export type AddEmojiRes = {
+  rateLimit?: RateLimit
+  error?: EmojiError
+}
+
+export type AddEmojisRes = {
+  rateLimit?: RateLimit
+  successFilenames: string[] | null
+  failedFilenames: {[key: string]: EmojiError}
+}
+
+export type AddEmojiAliasRes = {
+  rateLimit?: RateLimit
+  error?: EmojiError
+}
+
+export type RemoveEmojiRes = {
+  rateLimit?: RateLimit
 }
 
 export type SetAppNotificationSettingsInfo = {
@@ -1780,6 +1922,37 @@ export type ClearBotCommandsRes = {
   rateLimit?: RateLimit
 }
 
+export type GetDefaultTeamChannelsRes = {
+  convs: ConversationID[] | null
+  rateLimit?: RateLimit
+}
+
+export type SetDefaultTeamChannelsRes = {
+  rateLimit?: RateLimit
+}
+
+export type GetRecentJoinsRes = {
+  numJoins: number
+  rateLimit?: RateLimit
+}
+
+export type RefreshParticipantsRemoteRes = {
+  hashMatch: boolean
+  uids: gregor1.UID[] | null
+  hash: string
+  rateLimit?: RateLimit
+}
+
+export type GetLastActiveAtRes = {
+  lastActiveAt: gregor1.Time
+  rateLimit?: RateLimit
+}
+
+export type ResetConversationMember = {
+  convId: ConversationID
+  uid: gregor1.UID
+}
+
 export type UnfurlGenericRaw = {
   title: string
   url: string
@@ -1833,6 +2006,17 @@ export type UnfurlSettingsDisplay = {
   whitelist: string[] | null
 }
 
+export type MsgTextContent = {
+  body: string
+  payments: TextPayment[] | null
+  replyTo?: MessageID
+  replyToUid?: string
+  userMentions: KnownUserMention[] | null
+  teamMentions: KnownTeamMention[] | null
+  liveLocation?: LiveLocation
+  emojis: EmojiContent[] | null
+}
+
 export type ChatList = {
   conversations: ConvSummary[] | null
   offline: boolean
@@ -1867,6 +2051,11 @@ export type UIInboxBigTeamRow =
   | {state: UIInboxBigTeamRowTyp.CHANNEL; CHANNEL: UIInboxBigTeamChannelRow}
   | {state: Exclude<UIInboxBigTeamRowTyp, UIInboxBigTeamRowTyp.LABEL | UIInboxBigTeamRowTyp.CHANNEL>}
 
+export type UIReactionDesc = {
+  decorated: string
+  users: {[key: string]: Reaction}
+}
+
 export type UIMaybeMentionInfo =
   | {status: UIMaybeMentionStatus.UNKNOWN}
   | {status: UIMaybeMentionStatus.USER}
@@ -1876,27 +2065,6 @@ export type UIMaybeMentionInfo =
       status: Exclude<
         UIMaybeMentionStatus,
         UIMaybeMentionStatus.UNKNOWN | UIMaybeMentionStatus.USER | UIMaybeMentionStatus.TEAM | UIMaybeMentionStatus.NOTHING
-      >
-    }
-
-export type UITextDecoration =
-  | {typ: UITextDecorationTyp.PAYMENT; PAYMENT: TextPayment}
-  | {typ: UITextDecorationTyp.ATMENTION; ATMENTION: string}
-  | {typ: UITextDecorationTyp.CHANNELNAMEMENTION; CHANNELNAMEMENTION: UIChannelNameMention}
-  | {typ: UITextDecorationTyp.MAYBEMENTION; MAYBEMENTION: MaybeMention}
-  | {typ: UITextDecorationTyp.LINK; LINK: UILinkDecoration}
-  | {typ: UITextDecorationTyp.MAILTO; MAILTO: UILinkDecoration}
-  | {typ: UITextDecorationTyp.KBFSPATH; KBFSPATH: KBFSPath}
-  | {
-      typ: Exclude<
-        UITextDecorationTyp,
-        | UITextDecorationTyp.PAYMENT
-        | UITextDecorationTyp.ATMENTION
-        | UITextDecorationTyp.CHANNELNAMEMENTION
-        | UITextDecorationTyp.MAYBEMENTION
-        | UITextDecorationTyp.LINK
-        | UITextDecorationTyp.MAILTO
-        | UITextDecorationTyp.KBFSPATH
       >
     }
 
@@ -1965,6 +2133,7 @@ export type MessageClientHeader = {
   em?: MsgEphemeralMetadata
   pm: {[key: string]: Buffer}
   b?: gregor1.UID
+  t?: stellar1.TransactionID
 }
 
 export type MessageClientHeaderVerified = {
@@ -1994,6 +2163,7 @@ export type Asset = {
   size: number
   mimeType: string
   encHash: Hash
+  ptHash: Hash
   key: Buffer
   verifyKey: Buffer
   title: string
@@ -2001,6 +2171,11 @@ export type Asset = {
   metadata: AssetMetadata
   tag: AssetTag
 }
+
+export type EmojiRemoteSource =
+  | {typ: EmojiRemoteSourceTyp.MESSAGE; MESSAGE: EmojiMessage}
+  | {typ: EmojiRemoteSourceTyp.STOCKALIAS; STOCKALIAS: EmojiStockAlias}
+  | {typ: Exclude<EmojiRemoteSourceTyp, EmojiRemoteSourceTyp.MESSAGE | EmojiRemoteSourceTyp.STOCKALIAS>}
 
 export type GenericPayload = {
   action: string
@@ -2098,16 +2273,6 @@ export type SetConvSettingsUpdate = {
   convSettings?: ConversationSettings
 }
 
-export type MessageText = {
-  body: string
-  payments: TextPayment[] | null
-  replyTo?: MessageID
-  replyToUid?: gregor1.UID
-  userMentions: KnownUserMention[] | null
-  teamMentions: KnownTeamMention[] | null
-  liveLocation?: LiveLocation
-}
-
 export type MessageSystemChangeRetention = {
   isTeam: boolean
   isInherit: boolean
@@ -2172,6 +2337,12 @@ export type MakePreviewRes = {
   location?: PreviewLocation
   metadata?: AssetMetadata
   baseMetadata?: AssetMetadata
+}
+
+export type GetChannelMembershipsLocalRes = {
+  channels: ChannelNameMention[] | null
+  offline: boolean
+  rateLimits: RateLimit[] | null
 }
 
 export type GetAllResetConvMembersRes = {
@@ -2240,6 +2411,11 @@ export type BotInfo = {
   commandConvs: BotCommandConv[] | null
 }
 
+export type GetResetConversationsRes = {
+  resetConvs: ResetConversationMember[] | null
+  rateLimit?: RateLimit
+}
+
 export type UnfurlRaw =
   | {unfurlType: UnfurlType.GENERIC; GENERIC: UnfurlGenericRaw}
   | {unfurlType: UnfurlType.YOUTUBE; YOUTUBE: UnfurlYoutubeRaw}
@@ -2266,6 +2442,10 @@ export type UIInboxLayout = {
   widgetList: UIInboxSmallTeamRow[] | null
 }
 
+export type UIReactionMap = {
+  reactions: {[key: string]: UIReactionDesc}
+}
+
 export type UICoinFlipStatus = {
   gameId: FlipGameIDStr
   phase: UICoinFlipPhase
@@ -2278,6 +2458,30 @@ export type UICoinFlipStatus = {
   resultInfo?: UICoinFlipResult
 }
 
+export type HarvestedEmoji = {
+  alias: string
+  isBig: boolean
+  isCrossTeam: boolean
+  source: EmojiRemoteSource
+}
+
+export type Emoji = {
+  alias: string
+  isBig: boolean
+  isReacji: boolean
+  isCrossTeam: boolean
+  isAlias: boolean
+  source: EmojiLoadSource
+  noAnimSource: EmojiLoadSource
+  remoteSource: EmojiRemoteSource
+  creationInfo?: EmojiCreationInfo
+  teamname?: string
+}
+
+export type EmojiStorage = {
+  mapping: {[key: string]: EmojiRemoteSource}
+}
+
 export type MessageSystem =
   | {systemType: MessageSystemType.ADDEDTOTEAM; ADDEDTOTEAM: MessageSystemAddedToTeam}
   | {systemType: MessageSystemType.INVITEADDEDTOTEAM; INVITEADDEDTOTEAM: MessageSystemInviteAddedToTeam}
@@ -2288,6 +2492,7 @@ export type MessageSystem =
   | {systemType: MessageSystemType.CHANGERETENTION; CHANGERETENTION: MessageSystemChangeRetention}
   | {systemType: MessageSystemType.BULKADDTOCONV; BULKADDTOCONV: MessageSystemBulkAddToConv}
   | {systemType: MessageSystemType.SBSRESOLVE; SBSRESOLVE: MessageSystemSbsResolve}
+  | {systemType: MessageSystemType.NEWCHANNEL; NEWCHANNEL: MessageSystemNewChannel}
   | {
       systemType: Exclude<
         MessageSystemType,
@@ -2300,16 +2505,9 @@ export type MessageSystem =
         | MessageSystemType.CHANGERETENTION
         | MessageSystemType.BULKADDTOCONV
         | MessageSystemType.SBSRESOLVE
+        | MessageSystemType.NEWCHANNEL
       >
     }
-
-export type MessageAttachment = {
-  object: Asset
-  preview?: Asset
-  previews: Asset[] | null
-  metadata: Buffer
-  uploaded: boolean
-}
 
 export type MessageAttachmentUploaded = {
   messageId: MessageID
@@ -2358,11 +2556,6 @@ export type PostFileAttachmentArg = {
   ephemeralLifetime?: gregor1.DurationSec
 }
 
-export type ReactionUpdate = {
-  reactions: ReactionMap
-  targetMsgId: MessageID
-}
-
 export type MessageBoxed = {
   version: MessageBoxedVersion
   serverHeader?: MessageServerHeader
@@ -2408,6 +2601,34 @@ export type UIMessageUnfurlInfo = {
   isCollapsed: boolean
 }
 
+export type UITextDecoration =
+  | {typ: UITextDecorationTyp.PAYMENT; PAYMENT: TextPayment}
+  | {typ: UITextDecorationTyp.ATMENTION; ATMENTION: string}
+  | {typ: UITextDecorationTyp.CHANNELNAMEMENTION; CHANNELNAMEMENTION: UIChannelNameMention}
+  | {typ: UITextDecorationTyp.MAYBEMENTION; MAYBEMENTION: MaybeMention}
+  | {typ: UITextDecorationTyp.LINK; LINK: UILinkDecoration}
+  | {typ: UITextDecorationTyp.MAILTO; MAILTO: UILinkDecoration}
+  | {typ: UITextDecorationTyp.KBFSPATH; KBFSPATH: KBFSPath}
+  | {typ: UITextDecorationTyp.EMOJI; EMOJI: Emoji}
+  | {
+      typ: Exclude<
+        UITextDecorationTyp,
+        | UITextDecorationTyp.PAYMENT
+        | UITextDecorationTyp.ATMENTION
+        | UITextDecorationTyp.CHANNELNAMEMENTION
+        | UITextDecorationTyp.MAYBEMENTION
+        | UITextDecorationTyp.LINK
+        | UITextDecorationTyp.MAILTO
+        | UITextDecorationTyp.KBFSPATH
+        | UITextDecorationTyp.EMOJI
+      >
+    }
+
+export type EmojiGroup = {
+  name: string
+  emojis: Emoji[] | null
+}
+
 export type NewMessagePayload = {
   action: string
   convId: ConversationID
@@ -2419,16 +2640,57 @@ export type NewMessagePayload = {
   maxMsgs: MessageSummary[] | null
 }
 
+export type MessageText = {
+  body: string
+  payments: TextPayment[] | null
+  replyTo?: MessageID
+  replyToUid?: gregor1.UID
+  userMentions: KnownUserMention[] | null
+  teamMentions: KnownTeamMention[] | null
+  liveLocation?: LiveLocation
+  emojis: {[key: string]: HarvestedEmoji}
+}
+
+export type MessageEdit = {
+  messageId: MessageID
+  body: string
+  userMentions: KnownUserMention[] | null
+  teamMentions: KnownTeamMention[] | null
+  emojis: {[key: string]: HarvestedEmoji}
+}
+
+export type MessageHeadline = {
+  headline: string
+  emojis: {[key: string]: HarvestedEmoji}
+}
+
+export type MessageAttachment = {
+  object: Asset
+  preview?: Asset
+  previews: Asset[] | null
+  metadata: Buffer
+  uploaded: boolean
+  userMentions: KnownUserMention[] | null
+  teamMentions: KnownTeamMention[] | null
+  emojis: {[key: string]: HarvestedEmoji}
+}
+
+export type MessageReaction = {
+  m: MessageID
+  b: string
+  t?: gregor1.UID
+  e: {[key: string]: HarvestedEmoji}
+}
+
 export type LoadFlipRes = {
   status: UICoinFlipStatus
   rateLimits: RateLimit[] | null
   identifyFailures: keybase1.TLFIdentifyFailure[] | null
 }
 
-export type ReactionUpdateNotif = {
-  convId: ConversationID
-  userReacjis: keybase1.UserReacjis
-  reactionUpdates: ReactionUpdate[] | null
+export type ReactionUpdate = {
+  reactions: UIReactionMap
+  targetMsgId: MessageID
 }
 
 export type ThreadViewBoxed = {
@@ -2438,6 +2700,8 @@ export type ThreadViewBoxed = {
 
 export type GetMessagesRemoteRes = {
   msgs: MessageBoxed[] | null
+  membersType: ConversationMembersType
+  visibility: keybase1.TLFVisibility
   rateLimit?: RateLimit
 }
 
@@ -2451,6 +2715,16 @@ export type Unfurl =
   | {unfurlType: UnfurlType.YOUTUBE; YOUTUBE: UnfurlYoutube}
   | {unfurlType: UnfurlType.GIPHY; GIPHY: UnfurlGiphy}
   | {unfurlType: Exclude<UnfurlType, UnfurlType.GENERIC | UnfurlType.YOUTUBE | UnfurlType.GIPHY>}
+
+export type UserEmojis = {
+  emojis: EmojiGroup[] | null
+}
+
+export type ReactionUpdateNotif = {
+  convId: ConversationID
+  userReacjis: keybase1.UserReacjis
+  reactionUpdates: ReactionUpdate[] | null
+}
 
 export type GetThreadRemoteRes = {
   thread: ThreadViewBoxed
@@ -2469,9 +2743,14 @@ export type MessageUnfurl = {
   messageId: MessageID
 }
 
+export type UserEmojiRes = {
+  emojis: UserEmojis
+  rateLimit?: RateLimit
+}
+
 export type MsgContent = {
   type: string
-  text?: MessageText
+  text?: MsgTextContent
   attachment?: MessageAttachment
   edit?: MessageEdit
   reaction?: MessageReaction
@@ -2543,7 +2822,7 @@ export type MsgSummary = {
   isEphemeral?: boolean
   isEphemeralExpired?: boolean
   eTime?: gregor1.Time
-  reactions?: ReactionMap
+  reactions?: UIReactionMap
   hasPairwiseMacs?: boolean
   atMentionUsernames?: string[] | null
   channelMention?: string
@@ -2564,6 +2843,7 @@ export type MessagePlaintext = {
   clientHeader: MessageClientHeader
   messageBody: MessageBody
   supersedesOutboxId?: OutboxID
+  emojis: HarvestedEmoji[] | null
 }
 
 export type Message = {

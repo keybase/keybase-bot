@@ -12,6 +12,9 @@ export const ErrorIsWrongRevision = (error: ErrorWithCode): boolean => error.cod
 export const ErrorIsBadGeneration = (error: ErrorWithCode): boolean => error.code === KVStoreErrorType.BadGeneration
 export const ErrorIsNotFound = (error: ErrorWithCode): boolean => error.code === KVStoreErrorType.NotFound
 
+const entryValueIsSet = (entryValue: string | null | undefined): boolean =>
+  entryValue !== '' && entryValue !== null && entryValue !== undefined
+
 /** The kvstore module of your Keybase bot. For more info about the API this module uses, you may want to check out `keybase kvstore help api`. */
 class KVStore extends ClientBase {
   private normalizeTeam(team: undefined | string): string {
@@ -143,7 +146,7 @@ class KVStore extends ClientBase {
    * bot.kvstore.isDeleted(res).then(isDeleted => console.log({isDeleted}))
    */
   public isDeleted(res: keybase1.KVGetResult): boolean {
-    return res.revision > 0 && res.entryValue === ''
+    return res.revision > 0 && !entryValueIsSet(res.entryValue)
   }
 
   /**
@@ -155,7 +158,7 @@ class KVStore extends ClientBase {
    * bot.kvstore.isPresent(res).then(isPresent => console.log({isPresent}))
    */
   public isPresent(res: keybase1.KVGetResult): boolean {
-    return res.revision > 0 && res.entryValue !== ''
+    return res.revision > 0 && entryValueIsSet(res.entryValue)
   }
 }
 
