@@ -7,10 +7,28 @@ Keybase bot-scripting for Node.js - now written all in TypeScript! Send encrypte
 
 You can use this module to script basic Keybase commands such as sending and reading messages and attachments, and managing teams.
 
+- [Create bot account](#create-bot-account)
 - [Installation](#installation)
 - [Hello World](#hello-world)
 - [API](#api)
 - [Contributions](#contributions)
+
+## Creating the bot account
+If that's not already done, create an account for your new bot.
+
+First create a token:
+```bash
+$ keybase bot token create
+NucJHeRHtzjCRPYprX7PFdRyebcf4Ug9
+```
+
+Then, create your bot with the token and its username, returning its paper key:
+```bash
+$ keybase bot signup -u friendlybot -t NucJHeRHtzjCRPYprX7PFdRyebcf4Ug9
+spider engine secret duck will maybe read secret message ohno act normal screwdriver fridge banana banana
+```
+
+You're all set! For other account commands, run `keybase help bot`.
 
 ## Installation
 
