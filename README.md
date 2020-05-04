@@ -7,7 +7,7 @@ Keybase bot-scripting for Node.js - now written all in TypeScript! Send encrypte
 
 You can use this module to script basic Keybase commands such as sending and reading messages and attachments, and managing teams.
 
-- [Create bot account](#create-bot-account)
+- [Creating the bot account](#creating-the-bot-account)
 - [Installation](#installation)
 - [Hello World](#hello-world)
 - [API](#api)
