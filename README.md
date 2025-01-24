@@ -1264,3 +1264,5 @@ We automatically generate a CHANGELOG and version (using [Semantic Versioning](h
 ## License
 
 BSD-3-Clause
+
+Post issues to: https://github.com/keybase/keybase-issues
